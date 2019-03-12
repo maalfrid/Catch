@@ -6,4 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
+    <Button
+        android:id="@+id/btn-set-background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="164dp"
+        android:layout_marginLeft="164dp"
+        android:layout_marginTop="213dp"
+        android:layout_marginEnd="131dp"
+        android:layout_marginRight="131dp"
+        android:layout_marginBottom="27dp"
+        android:text="@string/background"
+        app:layout_constraintBottom_toTopOf="@+id/btn-set-avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn-set-avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="178dp"
+        android:layout_marginLeft="178dp"
+        android:layout_marginEnd="145dp"
+        android:layout_marginRight="145dp"
+        android:text="@string/avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="288dp" />
+
+    <Switch
+        android:id="@+id/switch-sound-effect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sound_effect"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="371dp" />
+
+    <Switch
+        android:id="@+id/switch-background-music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/background_music"
+        tools:layout_editor_absoluteX="142dp"
+        tools:layout_editor_absoluteY="433dp" />
 </android.support.constraint.ConstraintLayout>
+
