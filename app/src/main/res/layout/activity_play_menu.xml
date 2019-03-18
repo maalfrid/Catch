@@ -4,6 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/menubackground"
     tools:context=".PlayMenuActivity">
+
+    <Button
+        android:id="@+id/btn_single"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="249dp"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/btn_singleplayer"
+        app:layout_constraintBottom_toTopOf="@+id/btn_multi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_multi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="228dp"
+        android:background="@drawable/btn_multiplayer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_single" />
+
+    <fragment
+        android:id="@+id/goBackPlay"
+        android:name="com.tdt4240.catchgame.goBackFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="339dp"
+        android:layout_marginRight="339dp"
+        android:layout_marginBottom="173dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_single"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_go_back" />
 
 </android.support.constraint.ConstraintLayout>
