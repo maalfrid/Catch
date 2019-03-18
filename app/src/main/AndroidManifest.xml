@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MultiPlayerActivity"></activity>
         <activity android:name=".SinglePlayerActivity" />
+        <activity android:name=".SettingsActivity"></activity>
         <activity android:name=".PlayMenuActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
