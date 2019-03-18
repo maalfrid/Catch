@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">CatchGame</string>
+    <string name="highscore">Highscore</string>
+    <string name="settings">Settings</string>
+    <string name="rules">Rules</string>
+    <string name="play">Play</string>
+    <string name="background">Background</string>
+    <string name="background_music">Background music</string>
+    <string name="sound_effect">Sound effect</string>
+    <string name="avatar">Avatar</string>
 </resources>
