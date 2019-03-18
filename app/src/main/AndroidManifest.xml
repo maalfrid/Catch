@@ -12,6 +12,7 @@
         <activity android:name=".SinglePlayerDifficulty"></activity>
         <activity android:name=".MultiPlayerActivity" />
         <activity android:name=".SinglePlayerActivity" />
+        <activity android:name=".SettingsActivity"></activity>
         <activity android:name=".PlayMenuActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
