@@ -1,9 +1,14 @@
 package com.tdt4240.catchgame;
 
+import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
-public class PlayMenuActivity extends AppCompatActivity {
+public class PlayMenuActivity extends AppCompatActivity implements goBackFragment.OnFragmentInteractionListener {
 
     /*
     * TODO @Cathrine @Ingrid:
@@ -25,5 +30,30 @@ public class PlayMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_menu);
+
+        //Buttons and navigation
+        Button singleBtn = findViewById(R.id.btn_single);
+        Button multiBtn = findViewById(R.id.btn_multi);
+
+        singleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), SinglePlayerDifficulty.class));
+            }
+        });
+
+        multiBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), MultiPlayerActivity.class));
+            }
+        });
+
+    }
+
+    //method needed for the fragment, should be empty for now
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
