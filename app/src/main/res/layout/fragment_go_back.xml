@@ -9,6 +9,6 @@
         android:id="@+id/btn_back"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:background="@drawable/btn_back"
+        android:background="@drawable/button_back"
         android:visibility="visible" />
 </FrameLayout>

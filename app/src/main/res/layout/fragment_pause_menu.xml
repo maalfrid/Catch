@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pauseoverlay"
+    android:background="@drawable/bg_pauseoverlay"
     tools:context=".pauseMenuFragment">
 
 
@@ -11,12 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="350dp"
-        android:background="@drawable/btn_quitgame" />
+        android:background="@drawable/button_quitgame" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
-        android:background="@drawable/btn_resume" />
+        android:background="@drawable/button_resume" />
 </FrameLayout>
