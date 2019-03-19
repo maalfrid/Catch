@@ -16,13 +16,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Buttons and navigation
-        Button settingsBtn = findViewById(R.id.btn_settings);
 
+        //Play button
+        Button playBtn = findViewById(R.id.btn_play);
+        playBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {startActivity(new Intent(v.getContext(), PlayMenuActivity.class));
+            }
+        });
+
+        //Settings button
+        Button settingsBtn = findViewById(R.id.btn_settings);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {startActivity(new Intent(v.getContext(), SettingsActivity.class));
             }
         });
+
+        //Score
+        Button scoreBtn = findViewById(R.id.btn_score);
+
+        //Rules
+        Button ruleBtn = findViewById(R.id.btn_rules);
+
+
+
+
+
       
     }
 }
