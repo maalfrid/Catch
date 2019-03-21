@@ -13,7 +13,7 @@ public class SinglePlayerActivity extends AppCompatActivity implements pauseFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_player);
+        setContentView(new GameView(this));
 
         //Buttons and navigation - do not work with fragments yet
        /* Fragment pauseBtn = findViewById(R.id.pauseFragment);
