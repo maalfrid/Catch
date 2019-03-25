@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_menu">
-    <!--tools:context=".MainActivity"-->
 
     <!-- HOME PAGE VIEW -->
     <LinearLayout
@@ -15,23 +14,22 @@
         <!--android:layout_width="@android:dimen/thumbnail_width"-->
 
         <Button
-            android:id="@+id/btn-play"
+            android:id="@+id/btn_play"
             style="@style/MenuButton"
             android:background="@drawable/button_play" />
 
         <Button
-            android:id="@+id/btn-score"
+            android:id="@+id/btn_score"
             style="@style/MenuButton"
-            android:background="@drawable/button_score"
-            app:layout_constraintBottom_toTopOf="@+id/btn-settings" />
+            android:background="@drawable/button_score" />
 
         <Button
-            android:id="@+id/btn-settings"
+            android:id="@+id/btn_settings"
             style="@style/MenuButton"
             android:background="@drawable/button_settings" />
 
         <Button
-            android:id="@+id/btn-rules"
+            android:id="@+id/btn_rules"
             style="@style/MenuButton"
             android:background="@drawable/button_rules" />
 
@@ -44,6 +42,7 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/txt_highscore"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/button_score"/>
@@ -88,6 +87,7 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/txt_rules"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/button_rules"/>
