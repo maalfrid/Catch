@@ -57,6 +57,9 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_play_multi:
                 SwitchScreen(R.id.view_play_multi);
                 break;
+            case R.id.btn_goBack:
+                SwitchScreen(mLastScreen);
+                break;
         }
     }
 
@@ -66,14 +69,16 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     final static int[] SCREENS = {
             R.id.view_main_menu, R.id.view_highscore, R.id.view_play, R.id.view_play_multi,
-            R.id.view_play_single, R.id.view_rules, R.id.view_settings_menu
+            R.id.view_play_single, R.id.view_rules, R.id.view_settings_menu, R.id.btn_goBack
     };
     int mCurScreen = -1;
+    int mLastScreen = -1;
 
     void SwitchScreen(int screenId) {
         for (int id : SCREENS) {
             findViewById(id).setVisibility(screenId == id ? View.VISIBLE : View.GONE);
         }
+        mLastScreen = mCurScreen;
         mCurScreen = screenId;
     }
 
