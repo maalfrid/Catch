@@ -9,4 +9,6 @@
     <string name="sound_effect">Sound effect</string>
     <string name="avatar">Avatar</string>
     <string name="sound">Sound</string>
+    <string name="txt_highscore">TXT_HIGHSCORE</string>
+    <string name="txt_rules">TXT_RULES</string>
 </resources>
