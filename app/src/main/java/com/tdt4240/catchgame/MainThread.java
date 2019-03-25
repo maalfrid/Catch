@@ -6,10 +6,8 @@ import android.view.SurfaceHolder;
 public class MainThread extends Thread {
     private SurfaceHolder surfaceHolder;
     private GameView gameView;
-    private boolean running;
+    private static boolean running;
     public static Canvas canvas;
-    private int targetFPS = 60;
-    private double averageFPS;
 
     public MainThread(SurfaceHolder surfaceHolder, GameView gameView) {
         super();
@@ -40,8 +38,7 @@ public class MainThread extends Thread {
         }
     }
 
-
-    public void setRunning(boolean isRunning) {
+    public static void setRunning(boolean isRunning) {
         running = isRunning;
     }
 }
