@@ -14,35 +14,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SwitchScreen(R.id.view_main_menu);
 
-        //Buttons and navigation
+    }
 
-        //Play button
-        Button playBtn = findViewById(R.id.btn_play);
-        playBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {startActivity(new Intent(v.getContext(), PlayMenuActivity.class));
-            }
-        });
+    /*
+    * Menu views and logic for switching screens
+    */
 
-        //Settings button
-        Button settingsBtn = findViewById(R.id.btn_settings);
-        settingsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {startActivity(new Intent(v.getContext(), SettingsActivity.class));
-            }
-        });
+    final static int[] SCREENS = {
+            R.id.view_main_menu, R.id.view_highscore, R.id.view_play, R.id.view_play_multi,
+            R.id.view_play_single, R.id.view_rules, R.id.view_settings_menu
+    };
+    int mCurScreen = -1;
 
-        //Score
-        Button scoreBtn = findViewById(R.id.btn_score);
-
-        //Rules
-        Button ruleBtn = findViewById(R.id.btn_rules);
-
-
-
-
-
-      
+    void SwitchScreen(int screenId) {
+        for (int id : SCREENS) {
+            findViewById(id).setVisibility(screenId == id ? View.VISIBLE : View.GONE);
+        }
+        mCurScreen = screenId;
     }
 }
