@@ -3,11 +3,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_menu">
+    android:background="@drawable/bg_menu"
+    android:visibility="visible">
 
-    <!-- TODO: Make button visible:@ -->
     <Button
         android:id="@+id/btn_goBack"
         style="@style/BackButton"
@@ -49,12 +50,13 @@
 
         <ImageView
             android:id="@+id/txt_highscore"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/button_score"
             android:contentDescription="@string/txt_highscore" />
 
         <!-- TODO: FILL INN HIGHSCORE INFORMATION -->
+
     </LinearLayout>
 
     <!-- SETTINGS VIEW -->
@@ -78,11 +80,13 @@
 
         <Switch
             android:id="@+id/switch_sound"
+            android:text="@string/sound_on_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <Switch
             android:id="@+id/switch_background_music"
+            android:text="@string/background_sound_on_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -97,12 +101,16 @@
 
         <ImageView
             android:id="@+id/txt_rules"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/button_rules"
             android:contentDescription="@string/txt_rules" />
 
         <!-- TODO: FILL INN RULES INFORMATION -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rules_for_catch_game"/>
 
     </LinearLayout>
 

@@ -28,7 +28,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     final static int[] CLICKABLES = { R.id.btn_play, R.id.btn_rules, R.id.btn_score,
             R.id.btn_settings, R.id.btn_background, R.id.btn_avatar, R.id.switch_sound,
             R.id.switch_background_music, R.id.btn_easy, R.id.btn_medium, R.id.btn_hard,
-            R.id.btn_play_single, R.id.btn_play_multi
+            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack
     };
 
     @Override
@@ -82,6 +82,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         for (int id : SCREENS) {
             findViewById(id).setVisibility(screenId == id ? View.VISIBLE : View.GONE);
         }
+        if(screenId != R.id.view_main_menu) findViewById(R.id.btn_goBack).setVisibility(View.VISIBLE);
+
         mLastScreen = mCurScreen;
         mCurScreen = screenId;
     }
