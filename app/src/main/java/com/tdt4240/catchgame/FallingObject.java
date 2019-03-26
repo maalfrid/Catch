@@ -10,11 +10,11 @@ public class FallingObject {
     private Bitmap characterSpriteImage;
     private int characterPositionX, characterPositionY;
     private int characterWidth, characterHeight;
+    private int speed = 5;
 
-    //private boolean isTouched = false;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-    //Get coordinates and type of object
+
     public FallingObject(Bitmap bmp){
         characterSpriteImage = bmp;
 
@@ -31,33 +31,17 @@ public class FallingObject {
     }
 
     public void update(){
-        //setCharacterPositionX(getCharacterPositionX()+10);
-        setCharacterPositionY(getCharacterPositionY()+10);
-    }
-
-    public int getCharacterPositionX(){
-        return characterPositionX;
+        setCharacterPositionY(getCharacterPositionY() + speed);
     }
 
     public int getCharacterPositionY(){
         return characterPositionY;
     }
 
-    public void setCharacterPositionX(int newPositionX){
-        if (newPositionX > screenWidth - characterSpriteImage.getWidth()) {
-            characterPositionX = screenWidth - characterSpriteImage.getWidth();
-        }
-        else if (newPositionX < 0){
-            characterPositionX = characterSpriteImage.getWidth();
-        }
-        else {
-            characterPositionX = newPositionX;
-        }
-    }
-
     public void setCharacterPositionY(int newPositionY){
-        if (newPositionY > screenHeight - characterSpriteImage.getHeight()) {
-            characterPositionY = screenHeight - characterSpriteImage.getHeight();
+        if (newPositionY > screenHeight) {
+            //End element
+            characterPositionY = screenHeight;
         }
         else if (newPositionY < 0){
             characterPositionY = characterSpriteImage.getHeight();
@@ -66,24 +50,5 @@ public class FallingObject {
             characterPositionY = newPositionY;
         }
     }
-
-    /*public void setTouched(boolean isTouched){
-        this.isTouched = isTouched;
-    }
-
-    public boolean isTouched(){
-        return isTouched;
-    }
-
-    public void isBeingTouched(int eventX, int eventY) {
-        if ((eventX >= (characterPositionX)) && (eventX <= (characterPositionX + characterWidth)) &&
-                (eventY >= (characterPositionY)) &&
-                (eventY <= characterPositionY + characterHeight)) {
-            setTouched(true);
-        }
-        else{
-            setTouched(false);
-        }
-    }*/
 
 }
