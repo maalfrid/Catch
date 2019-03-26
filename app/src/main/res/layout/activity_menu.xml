@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_menu">
+
+    <!-- TODO: Make button visible:@ -->
+    <Button
+        android:id="@+id/btn_goBack"
+        style="@style/BackButton"
+        android:background="@drawable/button_back" />
+
+    <!-- HOME PAGE VIEW -->
+    <LinearLayout
+        android:id="@+id/view_main_menu"
+        style="@style/LLScreen">
+
+        <Button
+            android:id="@+id/btn_play"
+            style="@style/MenuButton"
+            android:background="@drawable/button_play" />
+
+        <Button
+            android:id="@+id/btn_score"
+            style="@style/MenuButton"
+            android:background="@drawable/button_score" />
+
+        <Button
+            android:id="@+id/btn_settings"
+            style="@style/MenuButton"
+            android:background="@drawable/button_settings" />
+
+        <Button
+            android:id="@+id/btn_rules"
+            style="@style/MenuButton"
+            android:background="@drawable/button_rules" />
+
+    </LinearLayout>
+
+    <!-- HIGHSCORE VIEW -->
+    <LinearLayout
+        android:id="@+id/view_highscore"
+        style="@style/LLScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/txt_highscore"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_score"
+            android:contentDescription="@string/txt_highscore" />
+
+        <!-- TODO: FILL INN HIGHSCORE INFORMATION -->
+    </LinearLayout>
+
+    <!-- SETTINGS VIEW -->
+    <LinearLayout
+        android:id="@+id/view_settings_menu"
+        style="@style/LLScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_background"
+            style="@style/MenuButton"
+            android:background="@drawable/txt_background" />
+
+        <Button
+            android:id="@+id/btn_avatar"
+            style="@style/MenuButton"
+            android:background="@drawable/txt_avatar" />
+
+        <!-- TODO: MODIFY SWITCHES, ADD TEXT TO THEM -->
+
+        <Switch
+            android:id="@+id/switch_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Switch
+            android:id="@+id/switch_background_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <!-- RULES VIEW -->
+    <LinearLayout
+        android:id="@+id/view_rules"
+        style="@style/LLScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/txt_rules"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_rules"
+            android:contentDescription="@string/txt_rules" />
+
+        <!-- TODO: FILL INN RULES INFORMATION -->
+
+    </LinearLayout>
+
+    <!-- PLAY GAME VIEW -->
+    <LinearLayout
+        android:id="@+id/view_play"
+        style="@style/LLScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_play_single"
+            style="@style/MenuButton"
+            android:background="@drawable/button_singleplayer" />
+
+        <Button
+            android:id="@+id/btn_play_multi"
+            style="@style/MenuButton"
+            android:background="@drawable/button_multiplayer" />
+
+    </LinearLayout>
+
+    <!-- PLAY SINGLE PLAYER VIEW (EASY, MEDIUM, HARD) -->
+    <LinearLayout
+        android:id="@+id/view_play_single"
+        style="@style/LLScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_easy"
+            style="@style/MenuButton"
+            android:background="@drawable/button_easy" />
+
+        <Button
+            android:id="@+id/btn_medium"
+            style="@style/MenuButton"
+            android:background="@drawable/button_medium" />
+
+        <Button
+            android:id="@+id/btn_hard"
+            style="@style/MenuButton"
+            android:background="@drawable/button_hard" />
+
+    </LinearLayout>
+
+    <!-- PLAY MULTI-PLAYER VIEW (CREATE / JOIN ROOM -->
+    <LinearLayout
+        android:id="@+id/view_play_multi"
+        style="@style/LLScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- TODO: VIEW FOR JOINING ROOM -->
+
+    </LinearLayout>
+
+</FrameLayout>
