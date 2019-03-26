@@ -14,14 +14,13 @@ public class FallingObjectsLogic {
     private CharacterSprite player;
 
 
-    public FallingObjectsLogic(FallingObject object, CharacterSprite player) {
+    public FallingObjectsLogic(FallingObject object) {
 
         x = getRandomXPosition();
-        y = screenHeight - object.getHeight();
+        y = screenHeight;
         this.player = player;
 
     }
-
 
 
     public void update() {
@@ -29,12 +28,14 @@ public class FallingObjectsLogic {
 
         // Loose one life
         if (touchedFloor() ) {
-
+            // TODO: Need method in player state for loosing life
         }
 
         // Method in Scorelogic for gaining or loosing points
-        if(eaten){
+        if(isEaten()){
             //Check if good food, bad food or power up
+            // TODO: Dispose object if eaten
+            object.dispose();
         }
     }
 
@@ -44,35 +45,40 @@ public class FallingObjectsLogic {
     }
 
     public boolean touchedFloor(){
-        while(y > 0){
+        while(y > player.y){
             return false;
-
         }
-        return true;
+        return !isEaten();
     }
 
     public boolean isEaten() {
-        while (y > player.getHeight()){
+        while (object.y - y.HEIGHT > player.y){
             return false;
         }
+        if (object.y - y.HEIGHT == player.y) {
+            touchedRight();
+            touchedLeft();
+            touchedCenter();
+        }
+
         return eaten;
 
     }
 
     public void touchedLeft(){
-        if((player.x < (x+object.getWidth()) < player.x + player.getWidth())){
+        if((player.x < (object.x + object.getWidth()) < (player.x + player.getWidth()))){
             eaten = true;
         }
     }
 
     public void touchedRight(){
-        if((player.x < x) && ((player.x + player.getWidth()) > x + object.getWidth())){
+        if((player.x < object.x < (player.x+player.getWidth()))){
             eaten = true;
         }
     }
 
     public void touchedCenter(){
-        if((player.x < x) && ((player.x + player.getWidth()) > x + object.getWidth())){
+        if((player.x < object.x) && ((player.x + player.getWidth()) > object.x + object.getWidth())){
             eaten = true;
         }
     }
