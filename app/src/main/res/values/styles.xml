@@ -38,6 +38,10 @@
         <item name="android:padding">60dp</item>
     </style>
 
+    <style name="SwitchWrap" >
+        <item name="android:orientation">horizontal</item>
+    </style>
+
     <style name="BackButton" >
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">50dp</item>

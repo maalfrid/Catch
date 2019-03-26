@@ -76,33 +76,19 @@
             style="@style/MenuButton"
             android:background="@drawable/txt_avatar" />
 
-        <!-- TODO: MODIFY SWITCHES, ADD TEXT TO THEM -->
-
-        <LinearLayout
+        <Switch
+            android:id="@+id/switch_sound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@drawable/txt_sound" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxHeight="0.4sp"
-                android:maxWidth="0.4sp"
-                android:background="@drawable/txt_sound"/>
-            <!--android:text="@string/sound_on_off"-->
-
-            <Switch
-                android:id="@+id/switch_sound"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
 
         <Switch
             android:id="@+id/switch_background_music"
-            android:text="@string/background_sound_on_off"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/txt_music"
+            android:textSize="24sp" />
 
     </LinearLayout>
 
