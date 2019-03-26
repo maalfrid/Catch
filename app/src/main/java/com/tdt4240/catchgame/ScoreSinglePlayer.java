@@ -2,11 +2,11 @@ package com.tdt4240.catchgame;
 
 public class ScoreSinglePlayer {
 
-    public CharacterSprite sprite;
+    public CharacterSprite player;
     public int score;
 
-    public ScoreSinglePlayer(CharacterSprite sprite) {
-        this.sprite = sprite;
+    public ScoreSinglePlayer(CharacterSprite player) {
+        this.player = player;
 
     }
 
@@ -16,8 +16,8 @@ public class ScoreSinglePlayer {
 
         //Check if "level up"
         // TODO: Find correct level-variables and methods
-        if (score >= Level.getLevelScore(sprite.getCurrentLevel() + 1)) {
-            sprite.levelUp();
+        if (score >= Level.getLevelScore(player.getCurrentLevel() + 1)) {
+            player.levelUp();
         }
 
     }
@@ -28,12 +28,12 @@ public class ScoreSinglePlayer {
         //Check if "level gameover"
         // TODO: Find correct game-over variables and methods
         if (score < 0) {
-            sprite.gsm.set(new EndStateSingleplayer(sprite.gsm));
+            player.gsm.set(new EndStateSingleplayer(player.gsm));
         }
 
         //Check if "level level down"
-        if (score <= Level.getLevelScore(sprite.getCurrentLevel())) {
-            CharacterSprite.sprite.levelDown();
+        if (score <= Level.getLevelScore(player.getCurrentLevel())) {
+            CharacterSprite.player.levelDown();
         }
 
     }
