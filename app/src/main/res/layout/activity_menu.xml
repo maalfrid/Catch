@@ -17,7 +17,7 @@
     <!-- HOME PAGE VIEW -->
     <LinearLayout
         android:id="@+id/view_main_menu"
-        style="@style/LLScreen">
+        style="@style/CenterScreen">
 
         <Button
             android:id="@+id/btn_play"
@@ -44,7 +44,7 @@
     <!-- HIGHSCORE VIEW -->
     <LinearLayout
         android:id="@+id/view_highscore"
-        style="@style/LLScreen"
+        style="@style/TopScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -62,7 +62,7 @@
     <!-- SETTINGS VIEW -->
     <LinearLayout
         android:id="@+id/view_settings_menu"
-        style="@style/LLScreen"
+        style="@style/CenterScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -78,11 +78,25 @@
 
         <!-- TODO: MODIFY SWITCHES, ADD TEXT TO THEM -->
 
-        <Switch
-            android:id="@+id/switch_sound"
-            android:text="@string/sound_on_off"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="0.4sp"
+                android:maxWidth="0.4sp"
+                android:background="@drawable/txt_sound"/>
+            <!--android:text="@string/sound_on_off"-->
+
+            <Switch
+                android:id="@+id/switch_sound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
         <Switch
             android:id="@+id/switch_background_music"
@@ -95,7 +109,7 @@
     <!-- RULES VIEW -->
     <LinearLayout
         android:id="@+id/view_rules"
-        style="@style/LLScreen"
+        style="@style/TopScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -117,7 +131,7 @@
     <!-- PLAY GAME VIEW -->
     <LinearLayout
         android:id="@+id/view_play"
-        style="@style/LLScreen"
+        style="@style/CenterScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -136,7 +150,7 @@
     <!-- PLAY SINGLE PLAYER VIEW (EASY, MEDIUM, HARD) -->
     <LinearLayout
         android:id="@+id/view_play_single"
-        style="@style/LLScreen"
+        style="@style/CenterScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -160,7 +174,7 @@
     <!-- PLAY MULTI-PLAYER VIEW (CREATE / JOIN ROOM -->
     <LinearLayout
         android:id="@+id/view_play_multi"
-        style="@style/LLScreen"
+        style="@style/CenterScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
