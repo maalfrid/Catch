@@ -12,6 +12,10 @@ import android.widget.Button;
 
 public class SinglePlayerActivity extends AppCompatActivity {
 
+
+    public SinglePlayerActivity() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
