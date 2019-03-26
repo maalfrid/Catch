@@ -1,5 +1,6 @@
 package com.tdt4240.catchgame;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -46,10 +47,13 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 SwitchScreen(R.id.view_settings_menu);
                 break;
             case R.id.btn_easy:
+                startActivity(new Intent(v.getContext(), SinglePlayerActivity.class));
                 break;
             case R.id.btn_medium:
+                startActivity(new Intent(v.getContext(), SinglePlayerActivity.class));
                 break;
             case R.id.btn_hard:
+                startActivity(new Intent(v.getContext(), SinglePlayerActivity.class));
                 break;
             case R.id.btn_play_single:
                 SwitchScreen(R.id.view_play_single);
