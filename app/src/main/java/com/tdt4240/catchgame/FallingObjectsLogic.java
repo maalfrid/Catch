@@ -10,13 +10,15 @@ public class FallingObjectsLogic {
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private boolean hitFloor = false;
     private boolean eaten = false;
-    private CharacterSprite player = SinglePlayerActivity.getPlayer();
+    //private CharacterSprite player = SinglePlayerActivity.getPlayer();
+    private CharacterSprite player;
 
 
-    public FallingObjectsLogic(FallingObject object) {
+    public FallingObjectsLogic(FallingObject object, CharacterSprite player) {
 
         x = getRandomXPosition();
         y = screenHeight - object.getHeight();
+        this.player = player;
 
     }
 
