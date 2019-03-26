@@ -62,6 +62,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 SwitchScreen(R.id.view_play_multi);
                 break;
             case R.id.btn_goBack:
+                if(mCurScreen==R.id.view_play) {
+                    SwitchScreen(R.id.view_main_menu);
+                    break;
+                }
                 SwitchScreen(mLastScreen);
                 break;
         }

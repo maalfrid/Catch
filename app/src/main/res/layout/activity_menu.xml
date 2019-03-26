@@ -9,6 +9,7 @@
     android:background="@drawable/bg_menu"
     android:visibility="visible">
 
+    <!-- GO BACK BUTTON (GLOBAL VIEW) -->
     <Button
         android:id="@+id/btn_goBack"
         style="@style/BackButton"
@@ -82,13 +83,11 @@
             android:layout_height="wrap_content"
             android:background="@drawable/txt_sound" />
 
-
         <Switch
             android:id="@+id/switch_background_music"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/txt_music"
-            android:textSize="24sp" />
+            android:background="@drawable/txt_music" />
 
     </LinearLayout>
 
