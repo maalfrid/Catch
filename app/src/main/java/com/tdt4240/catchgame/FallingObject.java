@@ -1,54 +1,61 @@
 package com.tdt4240.catchgame;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 public class FallingObject {
 
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private Bitmap characterSpriteImage;
-    private int characterPositionX, characterPositionY;
-    private int characterWidth, characterHeight;
-    private int speed = 5;
-
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private Bitmap objectImage;
+    private int objectPositionX, objectPositionY;
+    private int objectWidth, objectHeight;
+    private int score;
 
 
     public FallingObject(Bitmap bmp){
-        characterSpriteImage = bmp;
+        objectImage = bmp;
 
-        characterWidth = characterSpriteImage.getWidth();
-        characterHeight = characterSpriteImage.getHeight();
-
-
-        characterPositionX = (screenWidth - characterWidth) / 2;
-        characterPositionY = 0;
+        objectWidth = objectImage.getWidth();
+        objectHeight = objectImage.getHeight();
+        objectPositionY = 0;
     }
 
     public void draw(Canvas canvas){
-        canvas.drawBitmap(characterSpriteImage, characterPositionX, characterPositionY, null);
+        canvas.drawBitmap(objectImage, objectPositionX, objectPositionY, null);
     }
 
     public void update(){
-        setCharacterPositionY(getCharacterPositionY() + speed);
+
     }
 
-    public int getCharacterPositionY(){
-        return characterPositionY;
+    public int getObjectPositionY(){
+        return objectPositionY;
+    }
+    public int getObjectPositionX(){
+        return objectPositionX;
     }
 
-    public void setCharacterPositionY(int newPositionY){
-        if (newPositionY > screenHeight) {
-            //End element
-            characterPositionY = screenHeight;
-        }
-        else if (newPositionY < 0){
-            characterPositionY = characterSpriteImage.getHeight();
-        }
-        else {
-            characterPositionY = newPositionY;
-        }
+    public void setObjectPositionY(int newPositionY) {
+        this.objectPositionY = newPositionY;
+    }
+
+    public void setObjectPositionX(int newPositionX) {
+        this.objectPositionX = newPositionX;
+    }
+
+    public int getObjectWidth(){
+        return objectWidth;
+    }
+
+    public int getObjectHeight(){
+        return objectHeight;
+    }
+
+    public void setScore(int score){
+        this.score = score;
+    }
+
+    public int getScore(){
+        return this.score;
     }
 
 }
