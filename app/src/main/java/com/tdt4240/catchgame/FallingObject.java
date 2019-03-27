@@ -8,12 +8,14 @@ public class FallingObject {
     private Bitmap objectImage;
     private int objectPositionX, objectPositionY;
     private int objectWidth, objectHeight;
+    private int objectSpeed;
     private int score;
+    private boolean isEaten = false;
+    private boolean touchedFloor = false;
 
 
     public FallingObject(Bitmap bmp){
         objectImage = bmp;
-
         objectWidth = objectImage.getWidth();
         objectHeight = objectImage.getHeight();
         objectPositionY = 0;
@@ -24,7 +26,16 @@ public class FallingObject {
     }
 
     public void update(){
+        objectPositionY += objectSpeed;
 
+        // TODO: Need method in core game to remove object from list when it is eaten/touches floor.
+        if (touchedFloor) {
+            // TODO: Need method in player state for loosing life when object touches floor.
+        }
+        if(isEaten){
+            // TODO: Check if good food, bad food or power up
+            // TODO: method to score points or apply powerup.
+        }
     }
 
     public int getObjectPositionY(){
@@ -50,6 +61,15 @@ public class FallingObject {
         return objectHeight;
     }
 
+    public int getObjectSpeed(){
+        return objectSpeed;
+    }
+
+    public void setObjectSpeed(int objectSpeed) {
+        this.objectSpeed = objectSpeed;
+    }
+
+
     public void setScore(int score){
         this.score = score;
     }
@@ -57,5 +77,13 @@ public class FallingObject {
     public int getScore(){
         return this.score;
     }
+
+    public void wasEaten(){
+        this.isEaten = true;
+    }
+    public void touchedFloor(){
+        this.touchedFloor = true;
+    }
+
 
 }

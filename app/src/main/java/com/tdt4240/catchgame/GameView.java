@@ -10,14 +10,13 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
-import java.util.HashMap;
-
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
+    private CoreGame coreGame;
     private CharacterSprite characterSprite;
-    private FallingObject fallingObject;
     private Bitmap background;
+    private Context context;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
@@ -27,6 +26,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
+        this.context = context;
     }
 
     @Override
@@ -40,8 +40,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.start();
        // this.setBackgroundResource(R.drawable.bg_menu);
         background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
+        coreGame = new CoreGame("easy", context);
         characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.sprites_monkey3),0.2));
-        fallingObject = new FallingObject(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.obj_good_banana),0.2));
     }
 
     @Override
@@ -80,7 +80,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(){
         characterSprite.update();
-        fallingObject.update();
+        coreGame.update();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (canvas != null) {
             canvas.drawBitmap(background, 0,0, null);
             characterSprite.draw(canvas);
-            fallingObject.draw(canvas);
+            coreGame.draw(canvas);
         }
     }
 
@@ -128,8 +128,5 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         bmp.recycle();
         return resizedBitmap;
     }
-
-
-
 
 }
