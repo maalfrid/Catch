@@ -38,10 +38,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
-       // this.setBackgroundResource(R.drawable.bg_menu);
         background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
-        coreGame = new CoreGame("easy", context);
-        characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.sprites_monkey3),0.2));
+        coreGame = new CoreGame("medium", context, this);
+        characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.sprites_monkey3),0.25));
     }
 
     @Override
@@ -91,6 +90,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             characterSprite.draw(canvas);
             coreGame.draw(canvas);
         }
+    }
+
+    public CharacterSprite getCharacterSprite(){
+        return characterSprite;
     }
 
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {

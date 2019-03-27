@@ -16,9 +16,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     }
 
-
- 
-
     @Override
     protected void onPause(){
         MainThread.setRunning(false);

@@ -1,5 +1,6 @@
 package com.tdt4240.catchgame;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -12,6 +13,7 @@ public class FallingObject {
     private int score;
     private boolean isEaten = false;
     private boolean touchedFloor = false;
+    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
 
     public FallingObject(Bitmap bmp){
@@ -85,5 +87,21 @@ public class FallingObject {
         this.touchedFloor = true;
     }
 
+    public void detectCollision(CharacterSprite characterSprite) {
+        int objectTopLeft = this.getObjectPositionX();
+        int objectTopRight = this.getObjectPositionX() + this.getObjectWidth();
+        int objectBottom = this.getObjectPositionY() + this.getObjectHeight();
+        int characterBottom = characterSprite.getCharacterPositionY() + characterSprite.getCharacterHeight();
+        int characterTopLeft = characterSprite.getCharacterPositionX();
+        int characterTopRight = characterSprite.getCharacterPositionX() + characterSprite.getCharacterWidth();
 
+        if (objectBottom >= characterBottom) {
+            this.touchedFloor();
+        }
+        if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
+                || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
+                || (objectTopLeft >= characterTopLeft && objectTopRight >= characterTopRight)) {
+            this.wasEaten();
+        }
+    }
 }

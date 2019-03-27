@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
@@ -21,12 +20,12 @@ public class CoreGame{
     private int baseSpeed;
     private Context context;
 
-    public CoreGame(String difficulty, Context context){
+    public CoreGame(String difficulty, Context context, GameView gameview){
         this.context = context;
         this.objectsOnScreen = new ArrayList<>();
         this.gameTime = 0;
         this.setDifficulty(difficulty);
-
+        this.characterSprite = gameview.getCharacterSprite();
     }
 
     public void draw(Canvas canvas){
@@ -38,16 +37,18 @@ public class CoreGame{
     public void update(){
         gameTime++;
         for(int i=0; i < objectsOnScreen.size(); i++){
-            objectsOnScreen.get(i).update();
+            FallingObject currentObject = objectsOnScreen.get(i);
+            currentObject.update();
         }
-        if (gameTime == 10 || gameTime == 100){
+        // TODO: Find a way to spawn the objects based on the gameloop-time and baseFrequency.
+        if (gameTime == 10 ||gameTime % 50 == 0){
             spawnObject(createObject());
         }
     }
 
     public FallingObject createObject(){
         // TODO: Method that calls the factory to create object of given type and returns it.
-        return new FallingObject(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.obj_good_banana),0.2));
+        return new FallingObject(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.obj_good_banana),0.15));
     }
 
     public void spawnObject(FallingObject fallingObject){
@@ -56,12 +57,16 @@ public class CoreGame{
         objectsOnScreen.add(fallingObject);
     }
 
+    public void removeObject(FallingObject fallingObject){
+        objectsOnScreen.remove(fallingObject);
+    }
+
     public int getRandomXPosition(FallingObject fallingObject){
-        return (int)(Math.random() * screenWidth - fallingObject.getObjectWidth());
+        return (int)(Math.random() * (screenWidth - fallingObject.getObjectWidth()));
     }
 
     public int getRandomSpeed(){
-        return (int)(Math.random() * baseSpeed);
+        return (int)((Math.random() + 1) * baseSpeed);
     }
 
     public int getRandomFrequency(){
@@ -102,25 +107,8 @@ public class CoreGame{
         return resizedBitmap;
     }
 
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN:
-                characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (characterSprite.isTouched()) {
-                    characterSprite.setCharacterPositionX((int) motionEvent.getX());
-                }
-                break;
 
-            case MotionEvent.ACTION_UP:
-                if (characterSprite.isTouched()) {
-                    characterSprite.setTouched(false);
-                }
-                break;
-        }
-        return true;
-    }
+    // loop list and get coordinates of objects, compare with coordinates of player and floor.
 
 
     //Check if object has changed status to eaten or hit ground.
