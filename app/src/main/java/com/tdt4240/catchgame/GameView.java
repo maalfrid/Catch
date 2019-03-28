@@ -16,12 +16,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private CoreGame coreGame;
     private Bitmap background;
     private Context context;
+    private SinglePlayerActivity singlePlayerActivity;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
 
-    public GameView(Context context) {
+    public GameView(Context context, SinglePlayerActivity singlePlayerActivity) {
         super(context);
+        this.singlePlayerActivity = singlePlayerActivity;
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -38,7 +40,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(true);
         thread.start();
         background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
-        coreGame = new CoreGame("medium", context, this);
+        coreGame = new CoreGame(singlePlayerActivity.getDifficulty(), context, this);
     }
 
     @Override
