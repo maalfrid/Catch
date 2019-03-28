@@ -9,4 +9,11 @@
     <string name="sound_effect">Sound effect</string>
     <string name="avatar">Avatar</string>
     <string name="sound">Sound</string>
+    <string name="txt_highscore">TXT_HIGHSCORE</string>
+    <string name="txt_rules">TXT_RULES</string>
+    <string name="button">Button</string>
+    <string name="rules_text">Rules_Text</string>
+    <string name="background_sound_on_off">Background sound on/off</string>
+    <string name="rules_for_catch_game">Rules for Catch game</string>
+    <string name="sound_on_off">Sound on/off</string>
 </resources>
