@@ -13,13 +13,7 @@ import android.view.SurfaceHolder;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
-<<<<<<< HEAD
-    protected CharacterSprite characterSprite;
-    private FallingObject fallingObject;
-    private FallingObjectsLogic fallingObjectsLogic;
-=======
     private CoreGame coreGame;
->>>>>>> c4e896039e71aaba740429af528462e207041ee9
     private Bitmap background;
     private Context context;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -44,14 +38,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(true);
         thread.start();
         background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
-<<<<<<< HEAD
-        characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.sprites_monkey3),0.2));
-        fallingObject = new FallingObject(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.obj_good_banana),0.2));
-        fallingObjectsLogic = new FallingObjectsLogic(fallingObject,characterSprite);
-        System.out.println("surface created");
-=======
         coreGame = new CoreGame("medium", context, this);
->>>>>>> c4e896039e71aaba740429af528462e207041ee9
     }
 
     @Override
@@ -74,28 +61,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update(){
-<<<<<<< HEAD
-
-        if (characterSprite != null && fallingObject !=null && fallingObjectsLogic != null) {
-
-            characterSprite.update();
-
-            fallingObject.update();
-            fallingObjectsLogic.update();
-            System.out.println("update");
-
-        }
-        else{
-            System.out.println("character " + characterSprite == null);
-            System.out.println("logic " + fallingObjectsLogic == null);
-            System.out.println("fallingobject " + fallingObject == null);
-
-
-        }
-
-=======
         coreGame.update();
->>>>>>> c4e896039e71aaba740429af528462e207041ee9
     }
 
     @Override
