@@ -164,14 +164,15 @@
         android:layout_height="match_parent">
 
         <!-- TODO: VIEW FOR JOINING ROOM -->
-
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/button_sign_in"
+            style="@style/SignInButton" />
     </LinearLayout>
 
     <!-- Sign In screen -->
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.google.android.gms.common.SignInButton android:id="@+id/button_sign_in"
-            style="@style/SignInButton" />
-    </LinearLayout>
+
+    </LinearLayout>-->
 </FrameLayout>

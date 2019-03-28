@@ -36,7 +36,7 @@ public class MultiPlayerActivity extends Activity implements
         switch (v.getId()){
             case R.id.button_sign_in:
                 // start the sign-in flow
-                Log.d(TAG, "------------------Sign-in button clicked");
+                Log.d(TAG, "------Sign-in button clicked");
                 //startSignInIntent();
         }
     }
