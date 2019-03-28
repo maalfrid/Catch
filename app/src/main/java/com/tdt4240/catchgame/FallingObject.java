@@ -100,7 +100,7 @@ public class FallingObject {
           }
           else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
                   || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
-                  || (objectTopLeft >= characterTopLeft && objectTopRight >= characterTopRight)) {
+                  || (objectTopLeft >= characterTopLeft && objectTopRight <= characterTopRight)) {
               this.wasEaten();
           }
       }
