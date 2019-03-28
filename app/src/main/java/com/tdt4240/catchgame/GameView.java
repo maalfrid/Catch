@@ -10,14 +10,12 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
-import java.util.HashMap;
-
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
-    private CharacterSprite characterSprite;
-    private FallingObject fallingObject;
+    private CoreGame coreGame;
     private Bitmap background;
+    private Context context;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
@@ -27,6 +25,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
+        this.context = context;
     }
 
     @Override
@@ -38,10 +37,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
-       // this.setBackgroundResource(R.drawable.bg_menu);
         background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
-        characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.sprites_monkey3),0.2));
-        fallingObject = new FallingObject(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.obj_good_banana),0.2));
+        coreGame = new CoreGame("medium", context, this);
     }
 
     @Override
@@ -59,28 +56,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN:
-                characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (characterSprite.isTouched()) {
-                    characterSprite.setCharacterPositionX((int) motionEvent.getX());
-                }
-                break;
-
-            case MotionEvent.ACTION_UP:
-                if (characterSprite.isTouched()) {
-                    characterSprite.setTouched(false);
-                }
-                break;
-        }
+        coreGame.onTouch(this, motionEvent);
         return true;
     }
 
     public void update(){
-        characterSprite.update();
-        fallingObject.update();
+        coreGame.update();
     }
 
     @Override
@@ -88,26 +69,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         if (canvas != null) {
             canvas.drawBitmap(background, 0,0, null);
-            characterSprite.draw(canvas);
-            fallingObject.draw(canvas);
+            coreGame.draw(canvas);
         }
-    }
-
-    public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
-        int width = bmp.getWidth();
-        int height = bmp.getHeight();
-        double newWidth = screenWidth * scaleFactorWidth;
-        float scale = ((float) newWidth) / width;
-        // CREATE A MATRIX FOR THE MANIPULATION
-        Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scale, scale);
-
-        // "RECREATE" THE NEW BITMAP
-        Bitmap resizedBitmap =
-                Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
-        bmp.recycle();
-        return resizedBitmap;
     }
 
     public Bitmap getResizedBitmapBG(Bitmap bmp, double scaleFactorWidth, double scaleFactorHeight) {
@@ -128,8 +91,5 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         bmp.recycle();
         return resizedBitmap;
     }
-
-
-
 
 }
