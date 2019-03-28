@@ -59,7 +59,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 SwitchScreen(R.id.view_play_single);
                 break;
             case R.id.btn_play_multi:
-                SwitchScreen(R.id.view_play_multi);
+                startActivity(new Intent(v.getContext(), MultiPlayerActivity.class));
                 break;
             case R.id.btn_goBack:
                 if(mCurScreen==R.id.view_play) {
