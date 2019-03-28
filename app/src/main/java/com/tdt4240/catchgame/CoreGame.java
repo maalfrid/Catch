@@ -14,8 +14,9 @@ public class CoreGame{
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private CharacterSprite characterSprite;
+    public CharacterSprite characterSprite;
     private ArrayList<FallingObject> objectsOnScreen;
+    public ScoreSinglePlayer scoreSinglePlayer;
     private int gameTime;
     private int baseFrequency;
     private int baseSpeed;
@@ -27,6 +28,7 @@ public class CoreGame{
         this.gameTime = 0;
         this.setDifficulty(difficulty);
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
+        scoreSinglePlayer = new ScoreSinglePlayer(this);
     }
 
     public void draw(Canvas canvas){
@@ -55,7 +57,7 @@ public class CoreGame{
 
     public FallingObject createObject(){
         // TODO: Method that calls the factory to create object of given type and returns it.
-        return new FallingObject(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.obj_good_banana),0.15));
+        return new FallingObject(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.obj_good_banana),0.15), this);
     }
 
     public void spawnObject(FallingObject fallingObject){

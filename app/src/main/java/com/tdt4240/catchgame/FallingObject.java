@@ -9,39 +9,44 @@ public class FallingObject {
     private int objectPositionX, objectPositionY;
     private int objectWidth, objectHeight;
     private int objectSpeed;
-    private int score;
+    private int score = 7;
     private boolean isEaten = false;
     private boolean touchedFloor = false;
+    private ScoreSinglePlayer scoreSinglePlayer;
+    public CoreGame coreGame;
 
 
-    public FallingObject(Bitmap bmp){
+    public FallingObject(Bitmap bmp, CoreGame coreGame) {
         objectImage = bmp;
         objectWidth = objectImage.getWidth();
         objectHeight = objectImage.getHeight();
         objectPositionY = 0;
+        this.coreGame = coreGame;
+        scoreSinglePlayer = coreGame.scoreSinglePlayer;
     }
 
-    public void draw(Canvas canvas){
+    public void draw(Canvas canvas) {
         canvas.drawBitmap(objectImage, objectPositionX, objectPositionY, null);
     }
 
-    public void update(){
+    public void update() {
         objectPositionY += objectSpeed;
 
         // TODO: Move this logic to CoreGame to be able to call it on a sprite.
         if (touchedFloor) {
             // TODO: Need method in CharacterSprite for loosing life when object touches floor.
         }
-        if(isEaten){
+        if (isEaten) {
             // TODO: Check if good food, bad food or power up
             // TODO: method to score points or apply powerup.
         }
     }
 
-    public int getObjectPositionY(){
+    public int getObjectPositionY() {
         return objectPositionY;
     }
-    public int getObjectPositionX(){
+
+    public int getObjectPositionX() {
         return objectPositionX;
     }
 
@@ -53,15 +58,15 @@ public class FallingObject {
         this.objectPositionX = newPositionX;
     }
 
-    public int getObjectWidth(){
+    public int getObjectWidth() {
         return objectWidth;
     }
 
-    public int getObjectHeight(){
+    public int getObjectHeight() {
         return objectHeight;
     }
 
-    public int getObjectSpeed(){
+    public int getObjectSpeed() {
         return objectSpeed;
     }
 
@@ -70,42 +75,45 @@ public class FallingObject {
     }
 
 
-    public void setScore(int score){
+    public void setScore(int score) {
         this.score = score;
     }
 
-    public int getScore(){
+    public int getScore() {
         return this.score;
     }
 
-    public void wasEaten(){
+    public void wasEaten() {
+        System.out.println("was eaten");
+        System.out.println("get score " + this.getScore());
+        coreGame.scoreSinglePlayer.caughtObject(this.score);
         this.isEaten = true;
     }
-    public void touchedFloor(){
+
+    public void touchedFloor() {
         this.touchedFloor = true;
     }
 
     public void detectCollision(CharacterSprite characterSprite) {
-      int objectTopLeft = objectPositionX;
-      int objectTopRight = objectPositionX + objectWidth;
-      int objectBottom = objectPositionY + objectHeight;
-      int characterBottom = characterSprite.getCharacterPositionY() + characterSprite.getCharacterHeight();
-      int characterTopLeft = characterSprite.getCharacterPositionX();
-      int characterTopRight = characterSprite.getCharacterPositionX() + characterSprite.getCharacterWidth();
+        int objectTopLeft = objectPositionX;
+        int objectTopRight = objectPositionX + objectWidth;
+        int objectBottom = objectPositionY + objectHeight;
+        int characterBottom = characterSprite.getCharacterPositionY() + characterSprite.getCharacterHeight();
+        int characterTopLeft = characterSprite.getCharacterPositionX();
+        int characterTopRight = characterSprite.getCharacterPositionX() + characterSprite.getCharacterWidth();
 
-      if (objectBottom >= characterSprite.getCharacterPositionY()) {
-          if (objectBottom >= characterBottom) {
-              this.touchedFloor();
-          }
-          else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
-                  || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
-                  || (objectTopLeft >= characterTopLeft && objectTopRight <= characterTopRight)) {
-              this.wasEaten();
-          }
-      }
+        if (objectBottom >= characterSprite.getCharacterPositionY()) {
+            if (objectBottom >= characterBottom) {
+                this.touchedFloor();
+            } else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
+                    || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
+                    || (objectTopLeft >= characterTopLeft && objectTopRight <= characterTopRight)) {
+                this.wasEaten();
+            }
+        }
     }
 
-    public boolean collisionDetected(){
+    public boolean collisionDetected() {
         return (isEaten || touchedFloor);
     }
 

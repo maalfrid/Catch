@@ -16,9 +16,9 @@ public class ScoreMultiPlayer {
 
         //Check if "level up"
         // TODO: Find correct level-variables and methods
-        if (score >= Level.getLevelScore(sprite.getCurrentLevel() + 1)) {
+       /* if (score >= Level.getLevelScore(sprite.getCurrentLevel() + 1)) {
             sprite.levelUp();
-        }
+        }*/
 
     }
 
@@ -30,7 +30,7 @@ public class ScoreMultiPlayer {
         if (score < 0) {
 
             //TODO: Find right input, need to know which player that get game-over
-            sprite.gsm.set(new EndStateMultiplayer());
+            //sprite.gsm.set(new EndStateMultiplayer());
 
         }
     }
