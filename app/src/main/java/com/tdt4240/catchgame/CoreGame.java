@@ -6,9 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.view.MotionEvent;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class CoreGame{
 
@@ -26,10 +26,11 @@ public class CoreGame{
         this.objectsOnScreen = new ArrayList<>();
         this.gameTime = 0;
         this.setDifficulty(difficulty);
-        this.characterSprite = gameview.getCharacterSprite();
+        this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
     }
 
     public void draw(Canvas canvas){
+        characterSprite.draw(canvas);
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
         }
@@ -37,15 +38,14 @@ public class CoreGame{
 
     public void update(){
         gameTime++;
+        characterSprite.update();
         for(int i=0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
             currentObject.update();
-           // if (currentObject.getObjectPositionY() + currentObject.getObjectHeight() >= characterSprite.getCharacterPositionY()) {
-             //   currentObject.detectCollision(characterSprite);
-               // if (currentObject.collisionDetected()) {
-                 //   removeObject(currentObject);
-               // }
-            //}
+            currentObject.detectCollision(characterSprite);
+            if (currentObject.collisionDetected()) {
+                removeObject(currentObject);
+            }
         }
         // TODO: Find a way to spawn the objects based on the gameloop-time and baseFrequency.
         if (gameTime == 10 ||gameTime % 50 == 0){
@@ -94,6 +94,26 @@ public class CoreGame{
             this.baseFrequency = 3;
             this.baseSpeed = 15;
         }
+    }
+
+    public boolean onTouch(GameView gameView,MotionEvent motionEvent) {
+        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (characterSprite.isTouched()) {
+                    characterSprite.setCharacterPositionX((int) motionEvent.getX());
+                }
+                break;
+
+            case MotionEvent.ACTION_UP:
+                if (characterSprite.isTouched()) {
+                    characterSprite.setTouched(false);
+                }
+                break;
+        }
+        return true;
     }
 
     // Wanted to make this a static method in a separate class

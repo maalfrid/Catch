@@ -14,7 +14,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
     private CoreGame coreGame;
-    private CharacterSprite characterSprite;
     private Bitmap background;
     private Context context;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -40,7 +39,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.start();
         background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
         coreGame = new CoreGame("medium", context, this);
-        characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.sprites_monkey3),0.25));
     }
 
     @Override
@@ -58,27 +56,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN:
-                characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (characterSprite.isTouched()) {
-                    characterSprite.setCharacterPositionX((int) motionEvent.getX());
-                }
-                break;
-
-            case MotionEvent.ACTION_UP:
-                if (characterSprite.isTouched()) {
-                    characterSprite.setTouched(false);
-                }
-                break;
-        }
+        coreGame.onTouch(this, motionEvent);
         return true;
     }
 
     public void update(){
-        characterSprite.update();
         coreGame.update();
     }
 
@@ -87,30 +69,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         if (canvas != null) {
             canvas.drawBitmap(background, 0,0, null);
-            characterSprite.draw(canvas);
             coreGame.draw(canvas);
         }
-    }
-
-    public CharacterSprite getCharacterSprite(){
-        return characterSprite;
-    }
-
-    public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
-        int width = bmp.getWidth();
-        int height = bmp.getHeight();
-        double newWidth = screenWidth * scaleFactorWidth;
-        float scale = ((float) newWidth) / width;
-        // CREATE A MATRIX FOR THE MANIPULATION
-        Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scale, scale);
-
-        // "RECREATE" THE NEW BITMAP
-        Bitmap resizedBitmap =
-                Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
-        bmp.recycle();
-        return resizedBitmap;
     }
 
     public Bitmap getResizedBitmapBG(Bitmap bmp, double scaleFactorWidth, double scaleFactorHeight) {

@@ -87,21 +87,23 @@ public class FallingObject {
     }
 
     public void detectCollision(CharacterSprite characterSprite) {
-        int objectTopLeft = this.getObjectPositionX();
-        int objectTopRight = this.getObjectPositionX() + this.getObjectWidth();
-        int objectBottom = this.getObjectPositionY() + this.getObjectHeight();
-        int characterBottom = characterSprite.getCharacterPositionY() + characterSprite.getCharacterHeight();
-        int characterTopLeft = characterSprite.getCharacterPositionX();
-        int characterTopRight = characterSprite.getCharacterPositionX() + characterSprite.getCharacterWidth();
+      int objectTopLeft = objectPositionX;
+      int objectTopRight = objectPositionX + objectWidth;
+      int objectBottom = objectPositionY + objectHeight;
+      int characterBottom = characterSprite.getCharacterPositionY() + characterSprite.getCharacterHeight();
+      int characterTopLeft = characterSprite.getCharacterPositionX();
+      int characterTopRight = characterSprite.getCharacterPositionX() + characterSprite.getCharacterWidth();
 
-        if (objectBottom >= characterBottom) {
-            this.touchedFloor();
-        }
-        else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
-                || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
-                || (objectTopLeft >= characterTopLeft && objectTopRight >= characterTopRight)) {
-            this.wasEaten();
-        }
+      if (objectBottom >= characterSprite.getCharacterPositionY()) {
+          if (objectBottom >= characterBottom) {
+              this.touchedFloor();
+          }
+          else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
+                  || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
+                  || (objectTopLeft >= characterTopLeft && objectTopRight >= characterTopRight)) {
+              this.wasEaten();
+          }
+      }
     }
 
     public boolean collisionDetected(){
