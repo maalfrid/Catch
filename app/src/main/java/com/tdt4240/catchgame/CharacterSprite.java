@@ -32,9 +32,17 @@ public class CharacterSprite {
 
     }
 
+    public int getCharacterWidth(){
+        return characterWidth;
+    }
+    public int getCharacterHeight(){
+        return characterHeight;
+    }
+
     public int getCharacterPositionX(){
         return characterPositionX;
     }
+    public int getCharacterPositionY() { return characterPositionY; }
 
     public void setCharacterPositionX(int newPositionX){
         if (newPositionX > screenWidth - characterSpriteImage.getWidth()) {
