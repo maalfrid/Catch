@@ -56,7 +56,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        coreGame.onTouch(this, motionEvent);
+        coreGame.onTouch(motionEvent);
         return true;
     }
 
@@ -84,7 +84,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         Matrix matrix = new Matrix();
         // RESIZE THE BIT MAP
         matrix.postScale(scaleWidth, scaleHeight);
-
         // "RECREATE" THE NEW BITMAP
         Bitmap resizedBitmap =
                 Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
