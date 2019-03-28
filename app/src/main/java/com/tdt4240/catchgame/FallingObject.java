@@ -13,7 +13,6 @@ public class FallingObject {
     private int score;
     private boolean isEaten = false;
     private boolean touchedFloor = false;
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
 
     public FallingObject(Bitmap bmp){
@@ -98,10 +97,15 @@ public class FallingObject {
         if (objectBottom >= characterBottom) {
             this.touchedFloor();
         }
-        if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
+        else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
                 || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
                 || (objectTopLeft >= characterTopLeft && objectTopRight >= characterTopRight)) {
             this.wasEaten();
         }
     }
+
+    public boolean collisionDetected(){
+        return (isEaten || touchedFloor);
+    }
+
 }

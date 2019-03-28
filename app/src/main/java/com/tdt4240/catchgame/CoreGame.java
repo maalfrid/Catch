@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class CoreGame{
 
@@ -36,9 +37,15 @@ public class CoreGame{
 
     public void update(){
         gameTime++;
-        for(int i=0; i < objectsOnScreen.size(); i++){
+        for(int i=0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
             currentObject.update();
+           // if (currentObject.getObjectPositionY() + currentObject.getObjectHeight() >= characterSprite.getCharacterPositionY()) {
+             //   currentObject.detectCollision(characterSprite);
+               // if (currentObject.collisionDetected()) {
+                 //   removeObject(currentObject);
+               // }
+            //}
         }
         // TODO: Find a way to spawn the objects based on the gameloop-time and baseFrequency.
         if (gameTime == 10 ||gameTime % 50 == 0){
@@ -109,8 +116,6 @@ public class CoreGame{
 
 
     // loop list and get coordinates of objects, compare with coordinates of player and floor.
-
-
     //Check if object has changed status to eaten or hit ground.
     //Remove object from list.
     //IF object has status as eaten, increase/decrease score, apply powerup.
