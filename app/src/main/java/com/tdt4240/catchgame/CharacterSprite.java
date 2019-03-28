@@ -33,6 +33,7 @@ public class CharacterSprite {
     }
 
     public int getCharacterPositionX(){
+
         return characterPositionX;
     }
 
@@ -65,6 +66,14 @@ public class CharacterSprite {
         else{
             setTouched(false);
             }
+    }
+
+    public int getCharacterHeight(){
+        return characterHeight;
+    }
+
+    public int getCharacterWidth(){
+        return characterWidth;
     }
 
 }
