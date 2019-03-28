@@ -11,20 +11,23 @@ public class FallingObjectsLogic {
     private boolean hitFloor = false;
     private boolean eaten = false;
     //private CharacterSprite player = SinglePlayerActivity.getPlayer();
-    private CharacterSprite player;
+    private CharacterSprite character;
+    private FallingObject object;
+    private GameView gameView;
 
 
-    public FallingObjectsLogic(FallingObject object) {
-
-        x = getRandomXPosition();
-        y = screenHeight;
-        this.player = player;
+    public FallingObjectsLogic(FallingObject object, CharacterSprite character) {
+        this.object = object;
+        //character = gameView.characterSprite;
+        this.character=character;
+        object.setObjectPositionX(getRandomXPosition());
+        x = object.getObjectPositionX();
+        y = object.getObjectPositionY();
 
     }
 
-
     public void update() {
-        y += yVelocity;
+        object.setObjectPositionY(object.getObjectPositionY() + yVelocity);
 
         // Loose one life
         if (touchedFloor() ) {
@@ -35,50 +38,51 @@ public class FallingObjectsLogic {
         if(isEaten()){
             //Check if good food, bad food or power up
             // TODO: Dispose object if eaten
-            object.dispose();
+            //object.dispose();
         }
     }
 
     public int getRandomXPosition(){
-        int random = (int)(Math.random() * screenWidth - object.getWidth());
+        int random = (int)(Math.random() * screenWidth - object.getObjectWidth());
         return random;
     }
 
     public boolean touchedFloor(){
-        while(y > player.y){
+        while(object.getObjectPositionY() > character.getCharacterHeight()){
             return false;
         }
         return !isEaten();
     }
 
     public boolean isEaten() {
-        while (object.y - y.HEIGHT > player.y){
+        while (object.getObjectPositionY() - object.getObjectHeight() > character.getCharacterWidth()){
             return false;
         }
-        if (object.y - y.HEIGHT == player.y) {
+        if (object.getObjectPositionY() - object.getObjectHeight() == character.getCharacterHeight()) {
             touchedRight();
             touchedLeft();
             touchedCenter();
         }
-
         return eaten;
 
     }
 
     public void touchedLeft(){
-        if((player.x < (object.x + object.getWidth()) < (player.x + player.getWidth()))){
+        if((character.getCharacterPositionX()) < (object.getObjectPositionX() + object.getObjectWidth())
+                && (object.getObjectPositionX() + object.getObjectWidth()) < (character.getCharacterPositionX() + character.getCharacterWidth())){
             eaten = true;
         }
     }
 
     public void touchedRight(){
-        if((player.x < object.x < (player.x+player.getWidth()))){
+        if(((character.getCharacterPositionX() < object.getObjectPositionX()) &&
+                object.getObjectPositionX() < (character.getCharacterPositionX() + character.getCharacterWidth()))){
             eaten = true;
         }
     }
 
     public void touchedCenter(){
-        if((player.x < object.x) && ((player.x + player.getWidth()) > object.x + object.getWidth())){
+        if((character.getCharacterPositionX() < object.getObjectPositionX()) && ((character.getCharacterPositionX() + character.getCharacterWidth()) > object.getObjectPositionX() + object.getObjectWidth())){
             eaten = true;
         }
     }

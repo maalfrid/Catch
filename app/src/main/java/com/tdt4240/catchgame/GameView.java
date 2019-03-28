@@ -15,8 +15,9 @@ import java.util.HashMap;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
-    private CharacterSprite characterSprite;
+    protected CharacterSprite characterSprite;
     private FallingObject fallingObject;
+    private FallingObjectsLogic fallingObjectsLogic;
     private Bitmap background;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -42,6 +43,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
         characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.sprites_monkey3),0.2));
         fallingObject = new FallingObject(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.obj_good_banana),0.2));
+        fallingObjectsLogic = new FallingObjectsLogic(fallingObject,characterSprite);
+        System.out.println("surface created");
     }
 
     @Override
@@ -79,8 +82,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update(){
-        characterSprite.update();
-        fallingObject.update();
+
+        if (characterSprite != null && fallingObject !=null && fallingObjectsLogic != null) {
+
+            characterSprite.update();
+
+            fallingObject.update();
+            fallingObjectsLogic.update();
+            System.out.println("update");
+
+        }
+        else{
+            System.out.println("character " + characterSprite == null);
+            System.out.println("logic " + fallingObjectsLogic == null);
+            System.out.println("fallingobject " + fallingObject == null);
+
+
+        }
+
     }
 
     @Override
