@@ -19,7 +19,9 @@ public class CoreGame{
     private int gameTime;
     private int baseFrequency;
     private int baseSpeed;
-    private Context context;
+    protected static Context context;
+
+    FallingObjectFactory fallingObjectFactory;
 
     public CoreGame(String difficulty, Context context, GameView gameview){
         this.context = context;
@@ -27,6 +29,8 @@ public class CoreGame{
         this.gameTime = 0;
         this.setDifficulty(difficulty);
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
+
+        fallingObjectFactory = new FallingObjectFactory();
     }
 
     public void draw(Canvas canvas){
@@ -49,13 +53,14 @@ public class CoreGame{
         }
         // TODO: Find a way to spawn the objects based on the gameloop-time and baseFrequency.
         if (gameTime == 10 ||gameTime % 50 == 0){
-            spawnObject(createObject());
+            spawnObject(createObject("good"));
         }
     }
 
-    public FallingObject createObject(){
+    public FallingObject createObject(String foodType){
         // TODO: Method that calls the factory to create object of given type and returns it.
-        return new FallingObject(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.obj_good_banana),0.15));
+        //return new FallingObject(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.obj_good_banana),0.15));
+        return fallingObjectFactory.getFallingObject(foodType);
     }
 
     public void spawnObject(FallingObject fallingObject){
@@ -132,6 +137,11 @@ public class CoreGame{
                 Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
         bmp.recycle();
         return resizedBitmap;
+    }
+
+    public static Context getContext(){
+        return context;
+
     }
 
 
