@@ -38,13 +38,17 @@ public class ScoreSinglePlayer {
     }
 
 
-    public void caughtObject(int objectPoints) {
+    public void caughtObject(FallingObject object) {
+        int objectPoints = object.getScore();
 
-        if(objectPoints>0){
+        if(object.getType().equals("good")){
             incrementScore(objectPoints);
         }
-        else {
+        if (object.getType().equals("bad")){
             decrementScore(objectPoints);
+        }
+        if (object.getType().equals("power")){
+            // TODO: Implement power-up logic
         }
 
     }

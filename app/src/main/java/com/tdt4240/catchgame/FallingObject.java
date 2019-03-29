@@ -13,7 +13,8 @@ public class FallingObject {
     private boolean isEaten = false;
     private boolean touchedFloor = false;
     private ScoreSinglePlayer scoreSinglePlayer;
-    public CoreGame coreGame;
+    private CoreGame coreGame;
+    private String type = "good";
 
 
     public FallingObject(Bitmap bmp, CoreGame coreGame) {
@@ -83,15 +84,31 @@ public class FallingObject {
         return this.score;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public void wasEaten() {
         System.out.println("was eaten");
         System.out.println("get score " + this.getScore());
-        coreGame.scoreSinglePlayer.caughtObject(this.score);
+        coreGame.scoreSinglePlayer.caughtObject(this);
         this.isEaten = true;
     }
 
     public void touchedFloor() {
         this.touchedFloor = true;
+        if (this.type.equals("good")) {
+            if (coreGame.characterSprite.getLives() == 1) {
+                // TODO: Create game-over state, send to game-over state here
+                System.out.println("Game over looooser");
+            }
+            coreGame.characterSprite.setLives(coreGame.characterSprite.getLives() - 1);
+            System.out.println("Player has " + coreGame.characterSprite.getLives() + " lives left");
+        }
     }
 
     public void detectCollision(CharacterSprite characterSprite) {
