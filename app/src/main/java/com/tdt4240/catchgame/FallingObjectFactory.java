@@ -8,8 +8,6 @@ import android.graphics.Matrix;
 import java.util.HashMap;
 import java.util.Random;
 
-
-
 public class FallingObjectFactory {
 
     HashMap<Integer, Integer> goodFoodCollection;
@@ -102,36 +100,5 @@ public class FallingObjectFactory {
         bmp.recycle();
         return resizedBitmap;
     }
-    
-    /*public Bitmap getBitmapForFallingObject(String foodType, String food) {
-        if (foodType.equals("good")) {
-            if (food.equals("banana")) {
-                return getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_banana), 0.15);
-            }
-            else if (food.equals("apple")) {
-                return getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_apple), 0.15);
-            }
-            else {
-                return getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_strawberry), 0.15);
-            }
-        } else if (foodType.equals("bad")) {
-            if (food.equals("snake")) {
-                return getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_bad_snake), 0.15);
-            }
-            else{
-                return getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_bad_spider), 0.15);
-            }
-        } else {
-            if (food.equals("beetle")) {
-                return getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_powerup_beetle), 0.15);
-            }
-            else if (food.equals("ladybug")) {
-                return getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_powerup_ladybug), 0.15);
-            }
-            else {
-                return getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_powerup_starbeetle), 0.15);
-            }
-        }
-    }*/
 
 }
