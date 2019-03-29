@@ -5,9 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-
 import java.util.HashMap;
-
 import java.util.Random;
 
 
@@ -21,8 +19,6 @@ public class FallingObjectFactory {
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
     public FallingObjectFactory(){
-        //foodTypeList = new ArrayList<>(Arrays.asList("good", "bad", "powerup", "good", "bad"));
-
         goodFoodCollection = new HashMap<>();
 
         goodFoodCollection.put(R.drawable.obj_good_banana, 2);
@@ -72,7 +68,6 @@ public class FallingObjectFactory {
         return null;
     }
 
-
     //picks out random food from a given foodtype
     public int getRandomKey(HashMap foodCollection) {
         Object[] foodKeys = foodCollection.keySet().toArray();
@@ -81,8 +76,7 @@ public class FallingObjectFactory {
         return (int) key;
     }
 
-
-
+    //use imageID to create Bitmap
     public Bitmap getBitmapForFallingObject(int food){
         return getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), food), 0.15);
     }
@@ -108,9 +102,7 @@ public class FallingObjectFactory {
         bmp.recycle();
         return resizedBitmap;
     }
-
-
-
+    
     /*public Bitmap getBitmapForFallingObject(String foodType, String food) {
         if (foodType.equals("good")) {
             if (food.equals("banana")) {
@@ -141,11 +133,5 @@ public class FallingObjectFactory {
             }
         }
     }*/
-
-
-
-
-
-
 
 }
