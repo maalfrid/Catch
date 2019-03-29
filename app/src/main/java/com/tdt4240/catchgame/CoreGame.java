@@ -51,7 +51,7 @@ public class CoreGame{
                 removeObject(currentObject);
             }
         }
-        // TODO: Find a way to spawn the objects based on the gameloop-time and baseFrequency.
+        // TODO: Find a way to spawn the objects based on the gameloop-time from MainThread? and baseFrequency.
         if (gameTime == 10 ||gameTime % 50 == 0){
             spawnObject(createObject("good"));
         }
@@ -101,7 +101,7 @@ public class CoreGame{
         }
     }
 
-    public boolean onTouch(GameView gameView,MotionEvent motionEvent) {
+    public boolean onTouch(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
@@ -121,7 +121,6 @@ public class CoreGame{
         return true;
     }
 
-    // Wanted to make this a static method in a separate class
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
         int width = bmp.getWidth();
         int height = bmp.getHeight();
@@ -145,10 +144,7 @@ public class CoreGame{
     }
 
 
-    // loop list and get coordinates of objects, compare with coordinates of player and floor.
-    //Check if object has changed status to eaten or hit ground.
-    //Remove object from list.
-    //IF object has status as eaten, increase/decrease score, apply powerup.
-    //IF object hits ground, remove life.
+    // TODO: IF object has status as eaten, increase/decrease score, apply powerup.
+    // TODO: IF object hits ground, remove life.
 
 }

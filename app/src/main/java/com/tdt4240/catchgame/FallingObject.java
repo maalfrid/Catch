@@ -1,6 +1,5 @@
 package com.tdt4240.catchgame;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -32,9 +31,9 @@ public abstract class FallingObject {
     public void update(){
         objectPositionY += objectSpeed;
 
-        // TODO: Need method in core game to remove object from list when it is eaten/touches floor.
+        // TODO: Move this logic to CoreGame to be able to call it on a sprite.
         if (touchedFloor) {
-            // TODO: Need method in player state for loosing life when object touches floor.
+            // TODO: Need method in CharacterSprite for loosing life when object touches floor.
         }
         if(isEaten){
             // TODO: Check if good food, bad food or power up
@@ -103,7 +102,7 @@ public abstract class FallingObject {
           }
           else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
                   || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
-                  || (objectTopLeft >= characterTopLeft && objectTopRight >= characterTopRight)) {
+                  || (objectTopLeft >= characterTopLeft && objectTopRight <= characterTopRight)) {
               this.wasEaten();
           }
       }

@@ -47,13 +47,20 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 SwitchScreen(R.id.view_settings_menu);
                 break;
             case R.id.btn_easy:
-                startActivity(new Intent(v.getContext(), SinglePlayerActivity.class));
+                Intent intentEasy = new Intent(v.getContext(), SinglePlayerActivity.class);
+                //send string to next activity
+                intentEasy.putExtra("difficulty", "easy");
+                startActivity(intentEasy);
                 break;
             case R.id.btn_medium:
-                startActivity(new Intent(v.getContext(), SinglePlayerActivity.class));
+                Intent intentMedium = new Intent(v.getContext(), SinglePlayerActivity.class);
+                intentMedium.putExtra("difficulty", "medium");
+                startActivity(intentMedium);
                 break;
             case R.id.btn_hard:
-                startActivity(new Intent(v.getContext(), SinglePlayerActivity.class));
+                Intent intentHard = new Intent(v.getContext(), SinglePlayerActivity.class);
+                intentHard.putExtra("difficulty", "hard");
+                startActivity(intentHard);
                 break;
             case R.id.btn_play_single:
                 SwitchScreen(R.id.view_play_single);
