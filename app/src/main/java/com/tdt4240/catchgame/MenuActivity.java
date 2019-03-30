@@ -28,7 +28,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     final static int[] CLICKABLES = { R.id.btn_play, R.id.btn_rules, R.id.btn_score,
             R.id.btn_settings, R.id.btn_background, R.id.btn_avatar, R.id.switch_sound,
             R.id.switch_background_music, R.id.btn_easy, R.id.btn_medium, R.id.btn_hard,
-            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack
+            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack, R.id.button_sign_in
     };
 
     @Override
@@ -60,7 +60,9 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_play_multi:
                 SwitchScreen(R.id.view_play_multi);
-                //startActivity(new Intent(v.getContext(), MultiPlayerActivity.class));
+                break;
+            case R.id.button_sign_in:
+                startActivity(new Intent(v.getContext(), MultiPlayerActivity.class));
                 break;
             case R.id.btn_goBack:
                 if(mCurScreen==R.id.view_play) {
