@@ -35,8 +35,12 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_player);
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
         // Create the client used to sign in
-        mGoogleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         //Set up a click listener for everything
         for(int id: CLICKABLEs){
@@ -87,9 +91,8 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             //Signed in successfully, show authenticated UI.
             Log.d(TAG, "---Account:"+ account);
         } catch(ApiException e){
-            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            Log.w(TAG, "-----------signInResult:failed code=" + e.getStatusCode());
         }
     }
-
 
 }
