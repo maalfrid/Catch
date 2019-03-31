@@ -157,7 +157,7 @@
     </LinearLayout>
 
     <!-- PLAY MULTI-PLAYER VIEW (CREATE / JOIN ROOM -->
-    <LinearLayout
+   <LinearLayout
         android:id="@+id/view_play_multi"
         style="@style/CenterScreen"
         android:layout_width="match_parent"
