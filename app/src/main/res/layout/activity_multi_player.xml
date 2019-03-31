@@ -7,4 +7,9 @@
     android:background="@drawable/bg_play"
     tools:context=".MultiPlayerActivity">
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/button_sign_in"
+        style="@style/SignInButton"
+        tools:layout_editor_absoluteX="142dp"
+        tools:layout_editor_absoluteY="338dp" />
 </android.support.constraint.ConstraintLayout>

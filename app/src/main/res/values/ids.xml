@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <!-- app_id -->
+    <string name="app_id" translatable="false">1036137187448</string>
+    <!-- package_name -->
+    <string name="package_name" translatable="false">com.tdt4240.catchgame</string>
+    <!-- event test -->
+    <string name="event_test" translatable="false">CgkI-JDb9JMeEAIQAQ</string>
+</resources>

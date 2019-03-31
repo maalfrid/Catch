@@ -157,17 +157,18 @@
     </LinearLayout>
 
     <!-- PLAY MULTI-PLAYER VIEW (CREATE / JOIN ROOM -->
-   <LinearLayout
+    <!-- TODO: VIEW FOR JOINING ROOM -->
+   <!-- <LinearLayout
         android:id="@+id/view_play_multi"
         style="@style/CenterScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- TODO: VIEW FOR JOINING ROOM -->
+
         <com.google.android.gms.common.SignInButton
             android:id="@+id/button_sign_in"
             style="@style/SignInButton" />
-    </LinearLayout>
+    </LinearLayout> -->
 
     <!-- Sign In screen -->
     <!--<LinearLayout

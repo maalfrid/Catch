@@ -1,6 +1,5 @@
 package com.tdt4240.catchgame;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,12 +39,13 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         mGoogleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
 
         //Set up a click listener for everything
-        for(int id: CLICKABLE){
+        for(int id: CLICKABLEs){
             findViewById(id).setOnClickListener(this);
+            System.out.println("-------Button Id--" + id);
         }
     }
 
-    final static int[] CLICKABLE = {
+    final static int[] CLICKABLEs = {
             R.id.button_sign_in
     };
 
@@ -76,16 +76,18 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
             Task<GoogleSignInAccount> task =
                     GoogleSignIn.getSignedInAccountFromIntent(intent);
+            handleSignInResult(task);
+        }
+    }
 
-            /*try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                onConnected(account);
-            } catch (ApiException apiException){
-                String message = apiException.getMessage();
-                if(message == null || message.isEmpty()){
-                    message = getString(R.string.signin_other_error);
-                }
-            } */
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask){
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            //Signed in successfully, show authenticated UI.
+            Log.d(TAG, "---Account:"+ account);
+        } catch(ApiException e){
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
         }
     }
 
