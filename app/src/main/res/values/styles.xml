@@ -45,4 +45,11 @@
         <item name="android:layout_marginTop">20dp</item>
     </style>
 
+    <!-- Google Sign In button -->
+    <style name="SignInButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">40dp</item>
+    </style>
+
 </resources>
