@@ -24,9 +24,7 @@ public class CoreGame{
     private int fractionGood;
     private String difficulty;
     protected static Context context;
-    //private List<FallingObject> objects;
     List<Integer> objectID;
-
     FallingObjectFactory fallingObjectFactory;
 
     public CoreGame(String difficulty, Context context, GameView gameview){
@@ -37,8 +35,6 @@ public class CoreGame{
         this.difficulty = difficulty;
         this.setDifficulty(difficulty);
         this.difficulty = difficulty;
-        //setDifficulty(difficulty);
-       // this.objects = new ArrayList<>();
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
         scoreSinglePlayer = new ScoreSinglePlayer(this);
         fallingObjectFactory = new FallingObjectFactory(this);
@@ -54,7 +50,7 @@ public class CoreGame{
     public void update(){
         gameTime++;
         characterSprite.update();
-        int type = getObjectType();
+        int fallingObjectType = getFallingObjectType();
         for(int i=0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
             currentObject.update();
@@ -63,66 +59,51 @@ public class CoreGame{
                 removeObject(currentObject);
             }
         }
+        //continously get new fallingObjectType of object
         if(gameTime % 2 == 1){
-            type = getObjectType();
+            fallingObjectType = getFallingObjectType();
         }
         // TODO: Find a way to spawn the objects based on the gameloop-time from MainThread? and baseFrequency.
         if ((gameTime == 10 ||gameTime % 50 == 0) && objectID.size() > 0){
-            System.out.println(type);
-            if(type == 0){
+            System.out.println(fallingObjectType);
+            if(fallingObjectType == 0){
                 spawnObject(createObject("good"));
                 System.out.println("spawned good");
             }
-            if(type == 1){
+            if(fallingObjectType == 1){
                 spawnObject(createObject("bad"));
                 System.out.println("spawned bad");
             }
 
-            //spawnObject(getRandomObject());
-            //System.out.println("spawned random object");
-
             //spawnObject(createObject("good"));
         }
     }
-//creates a list with 10 items, percentage of good/bad according to level
-    /*public void setFractionObjects(){
-        for (int i = 0; i < this.fractionGood; i++){
-            objects.add(createObject("good"));
-            System.out.println("created good food");
-        }
-        for (int i = 0; i < 10 - this.fractionGood; i++){
-            objects.add(createObject("bad"));
-            System.out.println("created bad food");
-        }
-    }
 
-
-    public FallingObject getRandomObject(){
-        System.out.println("fetching random object");
-        return objects.get((int)((Math.random() + 1) * (objects.size() - 1)));
-
-    }*/
-
-    public void setObjectType() {
+    //creates a list of 0s (good object) and 1s (bad object) according to fraction.
+    // 10 numbers in total
+    public void setFallingObjectType() {
+        //add as many 0s as the fraction of the goodfood
         for (int i = 0; i < this.fractionGood; i++) {
             objectID.add(0);
         }
+        //add as many 1s as the fraction of the badfood
         for (int j = 0; j < 10 - this.fractionGood; j++) {
             objectID.add(1);
         }
         System.out.println(objectID);
     }
 
-    public int getObjectType(){
+    //method for getting random falling object according to percentage from level
 
+    public int getFallingObjectType(){
         int id = (int)((Math.random())* (objectID.size() -1));
-        System.out.println(id);
+        System.out.println("id of object: " + id);
         return objectID.get(id);
 
         }
 
 
-    //Fraction of good/bad: 70/30 - 50/50 - 30/70
+//Fraction of good/bad: 70/30 - 50/50 - 30/70
 // remember to say what you want: good/bad/powerup
 
     public FallingObject createObject(String foodType){
@@ -153,9 +134,11 @@ public class CoreGame{
 
     public void setLevelUp(){
         if(this.difficulty == "easy"){
+            this.difficulty = "medium";
             setDifficulty("medium");
         }
         if(this.difficulty == "medium"){
+            this.difficulty = "hard";
             setDifficulty("hard");
         }
     }
@@ -165,19 +148,19 @@ public class CoreGame{
             this.baseFrequency = 1;
             this.baseSpeed = 5;
             this.fractionGood = 7;
-            setObjectType();
+            setFallingObjectType();
         }
         if (difficulty.equals("medium")){
             this.baseFrequency = 2;
             this.baseSpeed = 10;
             this.fractionGood = 5;
-            setObjectType();
+            setFallingObjectType();
         }
         if (difficulty.equals("hard")){
             this.baseFrequency = 3;
             this.baseSpeed = 15;
             this.fractionGood = 3;
-            setObjectType();
+            setFallingObjectType();
 
         }
     }
