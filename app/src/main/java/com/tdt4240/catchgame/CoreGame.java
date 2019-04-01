@@ -31,7 +31,7 @@ public class CoreGame{
         this.setDifficulty(difficulty);
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
         scoreSinglePlayer = new ScoreSinglePlayer(this);
-        fallingObjectFactory = new FallingObjectFactory();
+        fallingObjectFactory = new FallingObjectFactory(this);
     }
 
     public void draw(Canvas canvas){

@@ -13,10 +13,12 @@ public class FallingObjectFactory {
     HashMap<Integer, Integer> goodFoodCollection;
     HashMap<Integer, Integer> badFoodCollection;
     HashMap<Integer, Integer> powerUpCollection;
+    private CoreGame coreGame;
+
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-    public FallingObjectFactory(){
+    public FallingObjectFactory(CoreGame coreGame){
         goodFoodCollection = new HashMap<>();
 
         goodFoodCollection.put(R.drawable.obj_good_banana, 2);
@@ -38,6 +40,8 @@ public class FallingObjectFactory {
         powerUpCollection.put(R.drawable.obj_powerup_beetle, 3);
         powerUpCollection.put(R.drawable.obj_powerup_ladybug, 3);
         powerUpCollection.put(R.drawable.obj_powerup_starbeetle, 3);
+
+        this.coreGame = coreGame;
     }
 
     //creates an object of the given foodtype
@@ -47,21 +51,21 @@ public class FallingObjectFactory {
             int food = getRandomKey(goodFoodCollection);
             Bitmap bitmap = getBitmapForFallingObject(food);
             int value = getFoodValue(food, goodFoodCollection);
-            return new GoodFood(bitmap, value);
+            return new GoodFood(bitmap, value, coreGame);
         }
 
         if(foodType.equalsIgnoreCase("bad")){
             int food = getRandomKey(badFoodCollection);
             Bitmap bitmap = getBitmapForFallingObject(food);
             int value = getFoodValue(food, badFoodCollection);
-            return new BadFood(bitmap, value);
+            return new BadFood(bitmap, value, coreGame);
         }
 
         if(foodType.equalsIgnoreCase("powerup")){
             int food = getRandomKey(powerUpCollection);
             Bitmap bitmap = getBitmapForFallingObject(food);
             int value = getFoodValue(food, powerUpCollection);
-            return new PowerUp(bitmap, value);
+            return new PowerUp(bitmap, value, coreGame);
         }
         return null;
     }
@@ -83,6 +87,7 @@ public class FallingObjectFactory {
     public int getFoodValue(int food, HashMap foodCollection){
         return (int) foodCollection.get(food);
     }
+
 
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
         int width = bmp.getWidth();

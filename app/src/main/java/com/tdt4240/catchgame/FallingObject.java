@@ -17,7 +17,7 @@ public abstract class FallingObject {
     private String type = "good";
 
 
-    public FallingObject(Bitmap bmp, CoreGame coreGame) {
+    public FallingObject(Bitmap bmp, int objectScore, CoreGame coreGame) {
         objectImage = bmp;
         objectWidth = objectImage.getWidth();
         objectHeight = objectImage.getHeight();
