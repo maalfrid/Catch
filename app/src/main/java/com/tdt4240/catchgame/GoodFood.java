@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 public class GoodFood extends FallingObject {
 
-    public GoodFood(Bitmap bitmap,int objectScore){
-        super(bitmap, objectScore);
+    public GoodFood(Bitmap bitmap, int objectScore, CoreGame coreGame){
+        super(bitmap, objectScore, coreGame);
     }
 }

@@ -12,6 +12,8 @@ public class CharacterSprite {
     private boolean isTouched = false;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private int score;
+    private int lives = 3;
 
 
     public CharacterSprite(Bitmap bmp) {
@@ -45,6 +47,14 @@ public class CharacterSprite {
         return characterPositionX;
     }
 
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
     public int getCharacterPositionY() {
         return characterPositionY;
     }
@@ -61,6 +71,14 @@ public class CharacterSprite {
 
     public void setTouched(boolean isTouched) {
         this.isTouched = isTouched;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public boolean isTouched() {
