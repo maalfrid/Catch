@@ -3,22 +3,25 @@ package com.tdt4240.catchgame;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-public class FallingObject {
+public abstract class FallingObject {
 
     private Bitmap objectImage;
     private int objectPositionX, objectPositionY;
     private int objectWidth, objectHeight;
     private int objectSpeed;
-    private int score;
+    private int objectScore;
     private boolean isEaten = false;
     private boolean touchedFloor = false;
 
 
-    public FallingObject(Bitmap bmp){
+
+    public FallingObject(Bitmap bmp, int objectScore){
         objectImage = bmp;
         objectWidth = objectImage.getWidth();
         objectHeight = objectImage.getHeight();
         objectPositionY = 0;
+
+        this.objectScore = objectScore;
     }
 
     public void draw(Canvas canvas){
@@ -70,12 +73,12 @@ public class FallingObject {
     }
 
 
-    public void setScore(int score){
-        this.score = score;
+    public void setScore(int objectScore){
+        this.objectScore = objectScore;
     }
 
     public int getScore(){
-        return this.score;
+        return this.objectScore;
     }
 
     public void wasEaten(){
