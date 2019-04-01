@@ -9,6 +9,7 @@ import android.graphics.Matrix;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CoreGame{
 
@@ -19,15 +20,24 @@ public class CoreGame{
     private int gameTime;
     private int baseFrequency;
     private int baseSpeed;
+    private int fractionGood;
+    private String difficulty;
     protected static Context context;
+    //private List<FallingObject> objects;
+    List<Integer> objectID;
 
     FallingObjectFactory fallingObjectFactory;
 
     public CoreGame(String difficulty, Context context, GameView gameview){
         this.context = context;
         this.objectsOnScreen = new ArrayList<>();
+        this.objectID = new ArrayList<>();
         this.gameTime = 0;
+        this.difficulty = difficulty;
         this.setDifficulty(difficulty);
+        this.difficulty = difficulty;
+        //setDifficulty(difficulty);
+       // this.objects = new ArrayList<>();
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
 
         fallingObjectFactory = new FallingObjectFactory();
@@ -43,6 +53,7 @@ public class CoreGame{
     public void update(){
         gameTime++;
         characterSprite.update();
+        int type = getObjectType();
         for(int i=0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
             currentObject.update();
@@ -51,11 +62,67 @@ public class CoreGame{
                 removeObject(currentObject);
             }
         }
+        if(gameTime % 2 == 1){
+            type = getObjectType();
+        }
         // TODO: Find a way to spawn the objects based on the gameloop-time from MainThread? and baseFrequency.
-        if (gameTime == 10 ||gameTime % 50 == 0){
-            spawnObject(createObject("good"));
+        if ((gameTime == 10 ||gameTime % 50 == 0) && objectID.size() > 0){
+            System.out.println(type);
+            if(type == 0){
+                spawnObject(createObject("good"));
+                System.out.println("spawned good");
+            }
+            if(type == 1){
+                spawnObject(createObject("bad"));
+                System.out.println("spawned bad");
+            }
+
+            //spawnObject(getRandomObject());
+            //System.out.println("spawned random object");
+
+            //spawnObject(createObject("good"));
         }
     }
+//creates a list with 10 items, percentage of good/bad according to level
+    /*public void setFractionObjects(){
+        for (int i = 0; i < this.fractionGood; i++){
+            objects.add(createObject("good"));
+            System.out.println("created good food");
+        }
+        for (int i = 0; i < 10 - this.fractionGood; i++){
+            objects.add(createObject("bad"));
+            System.out.println("created bad food");
+        }
+    }
+
+
+    public FallingObject getRandomObject(){
+        System.out.println("fetching random object");
+        return objects.get((int)((Math.random() + 1) * (objects.size() - 1)));
+
+    }*/
+
+    public void setObjectType() {
+        for (int i = 0; i < this.fractionGood; i++) {
+            objectID.add(0);
+        }
+        for (int j = 0; j < 10 - this.fractionGood; j++) {
+            objectID.add(1);
+        }
+        System.out.println(objectID);
+    }
+
+    public int getObjectType(){
+
+        int id = (int)((Math.random())* (objectID.size() -1));
+        System.out.println(id);
+        return objectID.get(id);
+
+        }
+
+
+    //Fraction of good/bad: 70/30 - 50/50 - 30/70
+// remember to say what you want: good/bad/powerup
 
     public FallingObject createObject(String foodType){
         // TODO: Method that calls the factory to create object of given type and returns it.
@@ -85,19 +152,34 @@ public class CoreGame{
         return (int)(Math.random() * baseFrequency);
     }
 
+    public void setLevelUp(){
+        if(this.difficulty == "easy"){
+            setDifficulty("medium");
+        }
+        if(this.difficulty == "medium"){
+            setDifficulty("hard");
+        }
+    }
     //Temporary method to adjust game difficulty, should be in its own class?
     public void setDifficulty(String difficulty){
         if (difficulty.equals("easy")){
             this.baseFrequency = 1;
             this.baseSpeed = 5;
+            this.fractionGood = 7;
+            setObjectType();
         }
         if (difficulty.equals("medium")){
             this.baseFrequency = 2;
             this.baseSpeed = 10;
+            this.fractionGood = 5;
+            setObjectType();
         }
         if (difficulty.equals("hard")){
             this.baseFrequency = 3;
             this.baseSpeed = 15;
+            this.fractionGood = 3;
+            setObjectType();
+
         }
     }
 
