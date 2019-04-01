@@ -16,5 +16,8 @@
     <string name="background_sound_on_off">Background sound on/off</string>
     <string name="rules_for_catch_game">Rules for Catch game</string>
     <string name="sound_on_off">Sound on/off</string>
+    <!-- Multiplayer -->
     <string name="sign_out">Sign Out</string>
+    <string name="quick_game">Quick game</string>
+    <string name="please_wait">Please Wait</string>
 </resources>
