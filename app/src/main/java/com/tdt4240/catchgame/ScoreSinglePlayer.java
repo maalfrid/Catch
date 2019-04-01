@@ -6,6 +6,7 @@ public class ScoreSinglePlayer {
     public int score;
 
     public ScoreSinglePlayer(CoreGame coreGame) {
+
         this.coreGame = coreGame;
     }
 
