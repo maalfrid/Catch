@@ -15,6 +15,7 @@ public class CoreGame{
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     public CharacterSprite characterSprite;
+    public MenuItem btn_exit;
     private ArrayList<FallingObject> objectsOnScreen;
     public ScoreSinglePlayer scoreSinglePlayer;
     private int gameTime;
@@ -32,10 +33,14 @@ public class CoreGame{
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
         scoreSinglePlayer = new ScoreSinglePlayer(this);
         fallingObjectFactory = new FallingObjectFactory(this);
+        //menu items:
+        this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.25));
+
     }
 
     public void draw(Canvas canvas){
         characterSprite.draw(canvas);
+        btn_exit.draw(canvas, 0, 0);
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
         }
