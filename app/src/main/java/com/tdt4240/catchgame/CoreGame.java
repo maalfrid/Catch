@@ -1,5 +1,6 @@
 package com.tdt4240.catchgame;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -10,22 +11,25 @@ import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
-public class CoreGame{
+public class CoreGame extends Activity {
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     public CharacterSprite characterSprite;
     public MenuItem btn_exit;
+    public MenuItem btn_sound;
     private ArrayList<FallingObject> objectsOnScreen;
     public ScoreSinglePlayer scoreSinglePlayer;
     private int gameTime;
     private int baseFrequency;
     private int baseSpeed;
     protected static Context context;
+    private GameView gameview;
 
     FallingObjectFactory fallingObjectFactory;
 
     public CoreGame(String difficulty, Context context, GameView gameview){
+        this.gameview = gameview;
         this.context = context;
         this.objectsOnScreen = new ArrayList<>();
         this.gameTime = 0;
@@ -34,13 +38,15 @@ public class CoreGame{
         scoreSinglePlayer = new ScoreSinglePlayer(this);
         fallingObjectFactory = new FallingObjectFactory(this);
         //menu items:
-        this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.25));
+        this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
+        this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
 
     }
 
     public void draw(Canvas canvas){
         characterSprite.draw(canvas);
         btn_exit.draw(canvas, 0, 0);
+        btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
         }
@@ -109,6 +115,15 @@ public class CoreGame{
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
+                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY())){
+                    gameview.setRunning(false);
+                    //TODO: switch view
+                }
+                if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
+                    this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_off),0.15));
+                    //TODO: Draw new sound picture
+                    //TODO: Update settings for sound
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (characterSprite.isTouched()) {

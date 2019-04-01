@@ -93,4 +93,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return resizedBitmap;
     }
 
+    public void setRunning(Boolean b){
+        thread.setRunning(b);
+    }
+
 }

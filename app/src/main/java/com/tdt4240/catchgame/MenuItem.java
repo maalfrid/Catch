@@ -48,7 +48,7 @@ public class MenuItem {
         this.posY = posY;
     }
 
-    public boolean isTouched(int eventX, int eventY){
+    public boolean isTouched(float eventX, float eventY){
         if ((eventX >= (getPosX())) && (eventX <= (getPosX() + getWidth())) &&
                 (eventY >= (getPosY())) &&
                 (eventY <= getPosY() + getHeight())) {

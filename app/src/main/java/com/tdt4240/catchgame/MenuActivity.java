@@ -8,6 +8,10 @@ import android.view.View;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public MenuActivity(){
+        super();
+    }
+
   
     @Override
     protected void onCreate(Bundle savedInstanceState) {
