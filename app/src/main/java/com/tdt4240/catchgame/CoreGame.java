@@ -15,8 +15,9 @@ public class CoreGame{
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private CharacterSprite characterSprite;
+    public CharacterSprite characterSprite;
     private ArrayList<FallingObject> objectsOnScreen;
+    public ScoreSinglePlayer scoreSinglePlayer;
     private int gameTime;
     private int baseFrequency;
     private int baseSpeed;
@@ -39,8 +40,8 @@ public class CoreGame{
         //setDifficulty(difficulty);
        // this.objects = new ArrayList<>();
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
-
-        fallingObjectFactory = new FallingObjectFactory();
+        scoreSinglePlayer = new ScoreSinglePlayer(this);
+        fallingObjectFactory = new FallingObjectFactory(this);
     }
 
     public void draw(Canvas canvas){
@@ -125,8 +126,6 @@ public class CoreGame{
 // remember to say what you want: good/bad/powerup
 
     public FallingObject createObject(String foodType){
-        // TODO: Method that calls the factory to create object of given type and returns it.
-        //return new FallingObject(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.obj_good_banana),0.15));
         return fallingObjectFactory.getFallingObject(foodType);
     }
 
