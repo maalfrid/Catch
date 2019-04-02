@@ -195,7 +195,7 @@ public class CoreGame extends Activity {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
                 if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY())){
-                    gameview.setRunning(false);
+                    gameview.pauseGame();
                     //TODO: switch view
                 }
                 if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
