@@ -41,6 +41,7 @@ public class ScoreSinglePlayer {
 
     public void caughtObject(FallingObject object) {
         int objectPoints = object.getScore();
+        String typeOfGame = coreGame.getGametype();
 
         if(object.getType().equals("good")){
             incrementScore(objectPoints);
@@ -48,7 +49,6 @@ public class ScoreSinglePlayer {
         if (object.getType().equals("bad")){
             decrementScore(objectPoints);
         }
-        String typeOfGame = "single";
         if (object.getType().equals("powerup")){
             // TODO: Implement power-up logic
             if(typeOfGame == "single") {
