@@ -136,7 +136,7 @@ public abstract class FallingObject {
                     coreGame.getSoundEffect().biteSound();
                 }
                 else if(this.getType().equals("bad")){
-                    coreGame.getSoundEffect().powerupSound();
+                    coreGame.getSoundEffect().coughSound();
                 }
                 this.wasEaten();
 
