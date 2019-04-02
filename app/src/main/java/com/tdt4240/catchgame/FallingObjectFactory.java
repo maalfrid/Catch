@@ -51,21 +51,21 @@ public class FallingObjectFactory {
             int food = getRandomKey(goodFoodCollection);
             Bitmap bitmap = getBitmapForFallingObject(food);
             int value = getFoodValue(food, goodFoodCollection);
-            return new GoodFood(bitmap, value, coreGame);
+            return new GoodFood(bitmap, value, "good", coreGame);
         }
 
         if(foodType.equalsIgnoreCase("bad")){
             int food = getRandomKey(badFoodCollection);
             Bitmap bitmap = getBitmapForFallingObject(food);
             int value = getFoodValue(food, badFoodCollection);
-            return new BadFood(bitmap, value, coreGame);
+            return new BadFood(bitmap, value, "bad", coreGame);
         }
 
         if(foodType.equalsIgnoreCase("powerup")){
             int food = getRandomKey(powerUpCollection);
             Bitmap bitmap = getBitmapForFallingObject(food);
             int value = getFoodValue(food, powerUpCollection);
-            return new PowerUp(bitmap, value, coreGame);
+            return new PowerUp(bitmap, value, "powerUp", coreGame);
         }
         return null;
     }

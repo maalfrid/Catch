@@ -3,6 +3,8 @@ package com.tdt4240.catchgame;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+
+
 public abstract class FallingObject {
 
     private Bitmap objectImage;
@@ -14,10 +16,11 @@ public abstract class FallingObject {
     private boolean touchedFloor = false;
     private ScoreSinglePlayer scoreSinglePlayer;
     private CoreGame coreGame;
-    private String type = "good";
+    private String type;
+    SoundEffect soundeffect;
 
 
-    public FallingObject(Bitmap bmp, int objectScore, CoreGame coreGame) {
+    public FallingObject(Bitmap bmp, int objectScore, String type, CoreGame coreGame) {
         objectImage = bmp;
         objectWidth = objectImage.getWidth();
         objectHeight = objectImage.getHeight();
@@ -25,6 +28,9 @@ public abstract class FallingObject {
         this.coreGame = coreGame;
         scoreSinglePlayer = coreGame.scoreSinglePlayer;
         this.objectScore = objectScore;
+        this.type = type;
+
+        soundeffect = new SoundEffect();
     }
 
     public void draw(Canvas canvas) {
@@ -121,11 +127,16 @@ public abstract class FallingObject {
 
         if (objectBottom >= characterSprite.getCharacterPositionY()) {
             if (objectBottom >= characterBottom) {
+                soundeffect.smackSound();
                 this.touchedFloor();
             } else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
                     || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
                     || (objectTopLeft >= characterTopLeft && objectTopRight <= characterTopRight)) {
+                if(this.getType().equals("good")){
+                    soundeffect.crunchSound();
+                }
                 this.wasEaten();
+
             }
         }
     }

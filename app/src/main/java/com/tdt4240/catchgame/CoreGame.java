@@ -27,6 +27,7 @@ public class CoreGame{
     List<Integer> objectID;
     FallingObjectFactory fallingObjectFactory;
 
+
     public CoreGame(String difficulty, Context context, GameView gameview){
         this.context = context;
         this.objectsOnScreen = new ArrayList<>();
@@ -38,6 +39,7 @@ public class CoreGame{
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
         scoreSinglePlayer = new ScoreSinglePlayer(this);
         fallingObjectFactory = new FallingObjectFactory(this);
+
     }
 
     public void draw(Canvas canvas){
@@ -68,11 +70,9 @@ public class CoreGame{
             System.out.println(fallingObjectType);
             if(fallingObjectType == 0){
                 spawnObject(createObject("good"));
-                System.out.println("spawned good");
             }
             if(fallingObjectType == 1){
                 spawnObject(createObject("bad"));
-                System.out.println("spawned bad");
             }
 
             //spawnObject(createObject("good"));
@@ -90,17 +90,16 @@ public class CoreGame{
         for (int j = 0; j < 10 - this.fractionGood; j++) {
             objectID.add(1);
         }
-        System.out.println(objectID);
     }
 
     //method for getting random falling object according to percentage from level
 
     public int getFallingObjectType(){
         int id = (int)((Math.random())* (objectID.size() -1));
-        System.out.println("id of object: " + id);
         return objectID.get(id);
 
         }
+
 
 
 //Fraction of good/bad: 70/30 - 50/50 - 30/70
