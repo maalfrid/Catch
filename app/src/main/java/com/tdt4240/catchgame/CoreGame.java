@@ -124,6 +124,10 @@ public class CoreGame{
         return (int)(Math.random() * (screenWidth - fallingObject.getObjectWidth()));
     }
 
+    public String getDifficulty() {
+        return difficulty;
+    }
+
     public int getRandomSpeed(){
         return (int)((Math.random() + 1) * baseSpeed);
     }
@@ -206,9 +210,4 @@ public class CoreGame{
         return context;
 
     }
-
-
-    // TODO: IF object has status as eaten, increase/decrease score, apply powerup.
-    // TODO: IF object hits ground, remove life.
-
 }
