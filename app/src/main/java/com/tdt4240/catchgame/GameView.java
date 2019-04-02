@@ -97,4 +97,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(b);
     }
 
+
+    public SinglePlayerActivity getSinglePlayerActivity() {
+        return this.singlePlayerActivity;
+    }
 }

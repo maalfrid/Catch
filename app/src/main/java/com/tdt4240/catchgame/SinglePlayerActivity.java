@@ -32,18 +32,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
 
         backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(2.0f, 2.0f);
-
-        /*attributesBuilder = new AudioAttributes.Builder();
-        attributesBuilder.setUsage(AudioAttributes.USAGE_GAME);
-        attributesBuilder.setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION);
-        attributes = attributesBuilder.build();
-
-        soundPoolBuilder = new SoundPool.Builder();
-        soundPoolBuilder.setAudioAttributes(attributes);
-        soundPool = soundPoolBuilder.build();
-
-        soundID_crunch = soundPool.load(this, R.raw.crunch, 1);*/
+        backgroundMusic.setVolume(1, 1);
 
 
     }
@@ -64,5 +53,15 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     public String getDifficulty(){
         return this.difficulty;
+    }
+
+    public void backgroundMusicOn(){
+        //backgroundMusic.setVolume(1, 1);
+        backgroundMusic.start();
+    }
+
+    public void backgroundMusicOff(){
+        //backgroundMusic.setVolume(0, 0);
+        backgroundMusic.pause();
     }
 }

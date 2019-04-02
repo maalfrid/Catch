@@ -211,9 +211,15 @@ public class CoreGame extends Activity {
                     soundOn = !soundOn;
                     if(soundOn){
                         this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
+                        gameview.getSinglePlayerActivity().backgroundMusicOn();
+                        soundeffect.volumeOn();
+
                     }
                     else{
                         this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_off),0.15));
+                        gameview.getSinglePlayerActivity().backgroundMusicOff();
+                        soundeffect.volumeOff();
+
                     }
                     //TODO: Update settings for sound
                 }
