@@ -18,6 +18,7 @@ public class CoreGame extends Activity {
     public CharacterSprite characterSprite;
     public MenuItem btn_exit;
     public MenuItem btn_sound;
+    public MenuItem txt_score;
     private ArrayList<FallingObject> objectsOnScreen;
     public ScoreSinglePlayer scoreSinglePlayer;
     private int gameTime;
@@ -25,6 +26,7 @@ public class CoreGame extends Activity {
     private int baseSpeed;
     protected static Context context;
     private GameView gameview;
+    private boolean soundOn;
 
     FallingObjectFactory fallingObjectFactory;
 
@@ -37,24 +39,31 @@ public class CoreGame extends Activity {
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
         scoreSinglePlayer = new ScoreSinglePlayer(this);
         fallingObjectFactory = new FallingObjectFactory(this);
+        this.soundOn = true;
+
         //menu items:
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
-
+        this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000);
     }
 
     public void draw(Canvas canvas){
         characterSprite.draw(canvas);
         btn_exit.draw(canvas, 0, 0);
         btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
+        txt_score.draw(canvas, screenWidth/2, 0);
+
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
         }
     }
 
     public void update(){
-        gameTime++;
         characterSprite.update();
+        if(characterSprite.getLives()==0){
+            gameview.setRunning(false);
+        }
+        txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
         for(int i=0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
             currentObject.update();
@@ -67,6 +76,7 @@ public class CoreGame extends Activity {
         if (gameTime == 10 ||gameTime % 50 == 0){
             spawnObject(createObject("good"));
         }
+        gameTime++;
     }
 
     public FallingObject createObject(String foodType){
@@ -120,8 +130,13 @@ public class CoreGame extends Activity {
                     //TODO: switch view
                 }
                 if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
-                    this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_off),0.15));
-                    //TODO: Draw new sound picture
+                    soundOn = !soundOn;
+                    if(soundOn){
+                        this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
+                    }
+                    else{
+                        this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_off),0.15));
+                    }
                     //TODO: Update settings for sound
                 }
                 break;
@@ -140,6 +155,14 @@ public class CoreGame extends Activity {
         return true;
     }
 
+    public static Context getContext(){
+        return context;
+
+    }
+
+    /*
+    * Help method
+    * */
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
         int width = bmp.getWidth();
         int height = bmp.getHeight();
@@ -156,14 +179,5 @@ public class CoreGame extends Activity {
         bmp.recycle();
         return resizedBitmap;
     }
-
-    public static Context getContext(){
-        return context;
-
-    }
-
-
-    // TODO: IF object has status as eaten, increase/decrease score, apply powerup.
-    // TODO: IF object hits ground, remove life.
 
 }
