@@ -56,28 +56,49 @@ public class ScoreSinglePlayer {
         }
         if (object.getType().equals("powerup")){
             // TODO: Implement power-up logic
+            incrementScore(objectPoints);
 
-            // POWER UP FEATURE
-            // #1 Starbeetle (x2 points?)
-            // #2 Ladybug decrease character size oponent and decrease yourself
-            // #3 Beetle (lightning) faster opponent
+            /*POWER-UP RULES
+            Gets points for catching, in addition to logics for which is caught:
+
+            #1 Starbeetle: get 10 points
+            #2 Ladybug: decrease character size opponent and decrease yourself
+            #3 Beetle (lightning): faster opponent
+
+            */
             if(typeOfGame.equals("single")) {
                 if(objectPoints == 1) {
-                    incrementScore(objectPoints);
+                    incrementScore(10);
 
 
                 }
                 if(objectPoints == 2){
+                    // TODO: increase size of own sprite
+                    coreGame.characterSprite.maximizeCharacterSize();
+                    //wait 5 seconds
+                    coreGame.characterSprite.setCharacterSizeNormal();
+
 
                 }
             }
 
             if(typeOfGame.equals("multi")){
-                if(objectPoints < 0){
-                    // TODO: Implement negative score for opponent
+                if(objectPoints == 1) {
+                    incrementScore(10);
+                    // TODO: x2 points of the next caught items, don't know how yet
                 }
-                if(objectPoints > 0){
-                    incrementScore(objectPoints);
+                if(objectPoints == 2){
+                    // TODO: increase size of own sprite and decrease opponent size
+                    coreGame.characterSprite.maximizeCharacterSize();
+                    //coreGame.opponent.minimizeCharacterSize();
+                    // wait 5 seconds
+
+                    coreGame.characterSprite.setCharacterSizeNormal();
+
+
+                }
+                if(objectPoints == 3){
+                    // TODO: increase speed of opponent's falling objects
                 }
             }
 

@@ -117,7 +117,6 @@ public class CoreGame extends Activity {
     }
 
     //method for getting random falling object according to percentage from level
-
     public int getFallingObjectType(){
         int id = (int)((Math.random())* (objectID.size() -1));
         System.out.println("id of object: " + id);
