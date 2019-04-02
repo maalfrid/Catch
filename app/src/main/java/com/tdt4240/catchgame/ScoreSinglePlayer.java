@@ -3,6 +3,8 @@ package com.tdt4240.catchgame;
 public class ScoreSinglePlayer {
 
     public CoreGame coreGame;
+    private int twolevelsup = 35;
+    private int onelevelup = 20;
 
     public ScoreSinglePlayer(CoreGame coreGame) {
 
@@ -17,11 +19,11 @@ public class ScoreSinglePlayer {
         //Check if "level up"
         if(coreGame.getDifficulty() != "hard"){
             //up two levels
-            if (coreGame.characterSprite.getScore() > 35){
+            if (coreGame.characterSprite.getScore() > twolevelsup){
                 coreGame.setLevelUp();
             }
             //up one level
-            else if (coreGame.characterSprite.getScore() > 20){
+            else if (coreGame.characterSprite.getScore() > onelevelup){
                 coreGame.setLevelUp();
 
             }
