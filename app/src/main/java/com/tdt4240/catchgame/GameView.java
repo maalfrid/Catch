@@ -7,8 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -91,6 +91,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
         bmp.recycle();
         return resizedBitmap;
+    }
+
+    public void setRunning(Boolean b){
+        thread.setRunning(b);
     }
 
 }
