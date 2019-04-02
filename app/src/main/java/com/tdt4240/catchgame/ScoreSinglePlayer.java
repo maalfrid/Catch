@@ -3,7 +3,8 @@ package com.tdt4240.catchgame;
 public class ScoreSinglePlayer {
 
     public CoreGame coreGame;
-    public int score;
+    private int twolevelsup = 35;
+    private int onelevelup = 20;
 
     public ScoreSinglePlayer(CoreGame coreGame) {
 
@@ -16,10 +17,18 @@ public class ScoreSinglePlayer {
         System.out.println("Player score: " + coreGame.characterSprite.getScore());
 
         //Check if "level up"
-        // TODO: Find correct level-variables and methods
-       /* if (score >= Level.getLevelScore(player.getCurrentLevel() + 1)) {
-            player.levelUp();
-        }*/
+        if(coreGame.getDifficulty() != "hard"){
+            //up two levels
+            if (coreGame.characterSprite.getScore() > twolevelsup){
+                coreGame.setLevelUp();
+            }
+            //up one level
+            else if (coreGame.characterSprite.getScore() > onelevelup){
+                coreGame.setLevelUp();
+
+            }
+
+        }
 
     }
 
@@ -28,13 +37,9 @@ public class ScoreSinglePlayer {
 
         //Check if "level gameover"
         // TODO: Find correct game-over variables and methods, need view
-        if (score < 0) {
-        }
+        if (coreGame.characterSprite.getScore() < 0) {
 
-        //Check if "level level down"
-       /* if (score <= Level.getLevelScore(player.getCurrentLevel())) {
-            CharacterSprite.player.levelDown();
-        } */
+        }
 
     }
 
