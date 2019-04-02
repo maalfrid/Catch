@@ -56,12 +56,23 @@ public class ScoreSinglePlayer {
         }
         if (object.getType().equals("powerup")){
             // TODO: Implement power-up logic
-            if(typeOfGame == "single") {
-                if(objectPoints > 0) {
+
+            // POWER UP FEATURE
+            // #1 Starbeetle (x2 points?)
+            // #2 Ladybug decrease character size oponent and decrease yourself
+            // #3 Beetle (lightning) faster opponent
+            if(typeOfGame.equals("single")) {
+                if(objectPoints == 1) {
                     incrementScore(objectPoints);
+
+
+                }
+                if(objectPoints == 2){
+
                 }
             }
-            if(typeOfGame == "multi"){
+
+            if(typeOfGame.equals("multi")){
                 if(objectPoints < 0){
                     // TODO: Implement negative score for opponent
                 }

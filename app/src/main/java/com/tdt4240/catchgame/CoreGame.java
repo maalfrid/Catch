@@ -34,7 +34,7 @@ public class CoreGame extends Activity {
     List<Integer> objectID;
     FallingObjectFactory fallingObjectFactory;
 
-    public CoreGame(String difficulty, Context context, GameView gameview){
+    public CoreGame(String gametype, String difficulty, Context context, GameView gameview){
         this.gameview = gameview;
         this.context = context;
         this.gametype = gametype;
@@ -160,11 +160,11 @@ public class CoreGame extends Activity {
     }
 
     public void setLevelUp(){
-        if(this.difficulty == "easy"){
+        if(this.difficulty.equals("easy")){
             this.difficulty = "medium";
             setDifficulty("medium");
         }
-        if(this.difficulty == "medium"){
+        if(this.difficulty.equals("medium")){
             this.difficulty = "hard";
             setDifficulty("hard");
         }
@@ -251,10 +251,7 @@ public class CoreGame extends Activity {
         return resizedBitmap;
     }
 
-    public static Context getContext(){
-        return context;
 
-    }
 
     public String getGametype(){ return this.gametype;
     }
