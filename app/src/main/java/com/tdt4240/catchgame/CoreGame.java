@@ -67,7 +67,7 @@ public class CoreGame extends Activity {
     public void update(){
         characterSprite.update();
         if(characterSprite.getLives()==0){
-            gameview.setRunning(false);
+            gameview.gameOver();
         }
         txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
         int fallingObjectType = getFallingObjectType();

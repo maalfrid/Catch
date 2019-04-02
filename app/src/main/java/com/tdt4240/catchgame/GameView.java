@@ -109,4 +109,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         singlePlayerActivity.onResume();
     }
 
+    public void gameOver(){
+        singlePlayerActivity.setGameOver(true);
+        singlePlayerActivity.finish();
+    }
+
 }

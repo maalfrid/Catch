@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 public class SinglePlayerActivity extends AppCompatActivity {
     private String difficulty;
@@ -21,6 +22,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
+        this.gameExit = false;
+        this.gameOver = false;
     }
 
     public String getDifficulty(){
@@ -47,18 +50,19 @@ public class SinglePlayerActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
         MainThread.setRunning(false);
+        /*Toast.makeText(this,
+                "Are you sure you want to quit the game?", Toast.LENGTH_LONG).show();*/
         //TODO:
-        PopupWindow popupWindow = new PopupWindow();
         //Set new content view
         //Pop up: Do you want to quit?
         //Use input to quit game or resume
-        boolean quitGame = false;
+        /*boolean quitGame = false;
         if(quitGame){
             this.finish();
         }
         else{
             this.onResume();
-        }
+        }*/
     }
 
     @Override
@@ -70,6 +74,18 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        startActivity(new Intent(this, MenuActivity.class));
+        System.out.println("Game exit: "+gameExit);
+        System.out.println("Game over: "+gameOver);
+        if(gameExit){
+            Toast.makeText(this,
+                    "Quitting game", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, MenuActivity.class));
+        }
+        if(gameOver){
+            Toast.makeText(this,
+                    "Game Over", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, MenuActivity.class));
+        }
+
     }
 }
