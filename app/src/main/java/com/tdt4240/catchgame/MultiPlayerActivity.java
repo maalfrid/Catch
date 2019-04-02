@@ -137,9 +137,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                 .setRoomStatusUpdateCallback(mRoomStatusUpdateCallback)
                 .setAutoMatchCriteria(autoMatchCriteria)
                 .build();
-        //mRealTimeMultiplayerClient.create(mRoomConfig);
-        Games.getRealTimeMultiplayerClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                .create(mRoomConfig);
+        mRealTimeMultiplayerClient.create(mRoomConfig);
     }
 
     // Screens for multiplayer
@@ -184,7 +182,17 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
             Task<GoogleSignInAccount> task =
                     GoogleSignIn.getSignedInAccountFromIntent(intent);
-            handleSignInResult(task);
+           // handleSignInResult(task);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                onConnected(account);
+            } catch (ApiException apiException){
+                String message = apiException.getMessage();
+                if(message == null || message.isEmpty()) {
+                    //message = getString(R.string.signin_other_error);
+                    Log.d(TAG, "-------- Message from onActivityResult catch");
+                }
+            }
         } else if (requestCode == RC_WAITING_ROOM) {
             // we got the result from the "waiting room" UI.
             if(resultCode == Activity.RESULT_OK) {
@@ -192,6 +200,18 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                 Log.d(TAG, "Starting game (waiting room returned OK).");
                 //start game here
             }
+        }
+    }
+
+    // The currently signed in account, used to check the account has changed outside of this activity when resuming.
+    GoogleSignInAccount mSignedInAccount = null;
+    private void onConnected(GoogleSignInAccount googleSignInAccount){
+        Log.d(TAG, "---------onConnected(): Connected to Google Api's - Account " + googleSignInAccount );
+        if(mSignedInAccount != googleSignInAccount) {
+            mSignedInAccount = googleSignInAccount;
+            Log.d(TAG, "------Crashing here.");
+            //update the clients
+            mRealTimeMultiplayerClient = Games.getRealTimeMultiplayerClient(this, googleSignInAccount);
         }
     }
 
