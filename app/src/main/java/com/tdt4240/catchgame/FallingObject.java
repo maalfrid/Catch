@@ -17,7 +17,7 @@ public abstract class FallingObject {
     private ScoreSinglePlayer scoreSinglePlayer;
     private CoreGame coreGame;
     private String type;
-    SoundEffect soundeffect;
+    //SoundEffect soundeffect;
 
 
     public FallingObject(Bitmap bmp, int objectScore, String type, CoreGame coreGame) {
@@ -30,7 +30,7 @@ public abstract class FallingObject {
         this.objectScore = objectScore;
         this.type = type;
 
-        soundeffect = new SoundEffect();
+        //soundeffect = new SoundEffect();
     }
 
     public void draw(Canvas canvas) {
@@ -127,13 +127,16 @@ public abstract class FallingObject {
 
         if (objectBottom >= characterSprite.getCharacterPositionY()) {
             if (objectBottom >= characterBottom) {
-                soundeffect.smackSound();
+                coreGame.getSoundEffect().smackSound();
                 this.touchedFloor();
             } else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
                     || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
                     || (objectTopLeft >= characterTopLeft && objectTopRight <= characterTopRight)) {
                 if(this.getType().equals("good")){
-                    soundeffect.crunchSound();
+                    coreGame.getSoundEffect().biteSound();
+                }
+                else if(this.getType().equals("bad")){
+                    coreGame.getSoundEffect().powerupSound();
                 }
                 this.wasEaten();
 

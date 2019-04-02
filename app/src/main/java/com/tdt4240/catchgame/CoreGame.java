@@ -27,6 +27,8 @@ public class CoreGame{
     List<Integer> objectID;
     FallingObjectFactory fallingObjectFactory;
 
+    SoundEffect soundeffect;
+
 
     public CoreGame(String difficulty, Context context, GameView gameview){
         this.context = context;
@@ -39,6 +41,7 @@ public class CoreGame{
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
         scoreSinglePlayer = new ScoreSinglePlayer(this);
         fallingObjectFactory = new FallingObjectFactory(this);
+        this.soundeffect = new SoundEffect();
 
     }
 
@@ -47,6 +50,10 @@ public class CoreGame{
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
         }
+    }
+
+    public SoundEffect getSoundEffect(){
+        return this.soundeffect;
     }
 
     public void update(){
