@@ -1,5 +1,6 @@
 package com.tdt4240.catchgame;
 
+import android.app.Activity;
 import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,20 +20,25 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.games.GamesCallbackStatusCodes;
+import com.google.android.gms.games.multiplayer.realtime.RealTimeMessage;
 import com.google.android.gms.games.multiplayer.realtime.Room;
 import com.google.android.gms.games.multiplayer.realtime.RoomConfig;
 import com.google.android.gms.games.multiplayer.realtime.RoomUpdateCallback;
 import com.google.android.gms.games.multiplayer.realtime.RoomStatusUpdateCallback;
+import com.google.android.gms.games.multiplayer.realtime.OnRealTimeMessageReceivedListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 //Quick Game
 import  com.google.android.gms.games.RealTimeMultiplayerClient;
 import com.google.android.gms.games.multiplayer.Participant;
+import com.google.android.gms.games.Games;
 
 
 
 import  java.util.ArrayList;
+import java.util.List;
 
 
 public class MultiPlayerActivity extends AppCompatActivity implements
@@ -128,10 +134,12 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
         mRoomConfig = RoomConfig.builder(mRoomUpdateCallback)
                 .setOnMessageReceivedListener(mOnRealTimeMessageReceivedListener)
-                .setRoomStatusUpdateCallback(mRoomSatusUpdateCallback)
+                .setRoomStatusUpdateCallback(mRoomStatusUpdateCallback)
                 .setAutoMatchCriteria(autoMatchCriteria)
                 .build();
-        mRealTimeMultiplayerClient.create(mRoomConfig);
+        //mRealTimeMultiplayerClient.create(mRoomConfig);
+        Games.getRealTimeMultiplayerClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .create(mRoomConfig);
     }
 
     // Screens for multiplayer
@@ -147,13 +155,6 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
     }
 
-    /* void switchToMainScreen(){
-        if(mRealTimeMultiplayerClient!=null){
-            switchToScreen(R.id.view_signIn);
-        } else {
-            switchToScreen(R.id.view_signIn);
-        }
-    } */
     /**
      * Start a sign in activity.  To properly handle the result, call tryHandleSignInResult from
      * your Activity's onActivityResult function
@@ -184,6 +185,13 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             Task<GoogleSignInAccount> task =
                     GoogleSignIn.getSignedInAccountFromIntent(intent);
             handleSignInResult(task);
+        } else if (requestCode == RC_WAITING_ROOM) {
+            // we got the result from the "waiting room" UI.
+            if(resultCode == Activity.RESULT_OK) {
+                // ready to start playing
+                Log.d(TAG, "Starting game (waiting room returned OK).");
+                //start game here
+            }
         }
     }
 
@@ -198,48 +206,71 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         }
     }
 
-    // Show error message about game being cancelled and return to main screen.
-   /* void showGameError() {
-        new AlertDialog.Builder(this)
-                .setMessage(getString(R.string.game_problem))
-                .setNeutralButton(android.R.string.ok, null).create();
-
-        switchToMainScreen();
-    } */
-
-   // Show the waiting room UI to track the progress of other players as they enter the room
-   //  and get connected.
-    void showWaitingRoom(Room room) {
-        // minimum number of players required for our game
-        final int MIN_PLAYERS = Integer.MAX_VALUE;
-        mRealTimeMultiplayerClient.getWaitingRoomIntent(room, MIN_PLAYERS)
-                .addOnSuccessListener(new OnSuccessListener<Intent>() {
-                    @Override
-                    public void onSuccess(Intent intent) {
-                        // show waiting room UI
-                       startActivityForResult(intent, RC_WAITING_ROOM);
-                    }
-                })
-    }
-
-
-   private RoomUpdateCallback mRoomUpdataCallback = new RoomUpdateCallback() {
-
-       // Called when room has been created
+    private RoomStatusUpdateCallback mRoomStatusUpdateCallback = new RoomStatusUpdateCallback() {
         @Override
-        public void onRoomCreated(int statusCode, Room room) {
-            Log.d(TAG, "onRoomCreated(" + statusCode + ", " + room + ")");
-            if(statusCode != GamesCallbackStatusCodes.OK) {
-                Log.e(TAG, "*** Error: onRoomCreated, status " + statusCode);
-                //showGameError();
-                return;
-            }
+        public void onRoomConnecting(@Nullable Room room) {
 
-            // Save room
-            mRoomId = room.getRoomId();
+        }
 
-            // show the waiting room UI
-            showWaitingRoom(room);
+        @Override
+        public void onRoomAutoMatching(@Nullable Room room) {
+
+        }
+
+        @Override
+        public void onPeerInvitedToRoom(@Nullable Room room, @NonNull List<String> list) {
+
+        }
+
+        @Override
+        public void onPeerDeclined(@Nullable Room room, @NonNull List<String> list) {
+
+        }
+
+        @Override
+        public void onPeerJoined(@Nullable Room room, @NonNull List<String> list) {
+
+        }
+
+        @Override
+        public void onPeerLeft(@Nullable Room room, @NonNull List<String> list) {
+
+        }
+
+        @Override
+        public void onConnectedToRoom(@Nullable Room room) {
+
+        }
+
+        @Override
+        public void onDisconnectedFromRoom(@Nullable Room room) {
+
+        }
+
+        @Override
+        public void onPeersConnected(@Nullable Room room, @NonNull List<String> list) {
+
+        }
+
+        @Override
+        public void onPeersDisconnected(@Nullable Room room, @NonNull List<String> list) {
+
+        }
+
+        @Override
+        public void onP2PConnected(@NonNull String s) {
+
+        }
+
+        @Override
+        public void onP2PDisconnected(@NonNull String s) {
+
+        }
+    };
+    private RoomUpdateCallback mRoomUpdateCallback = new RoomUpdateCallback() {
+        @Override
+        public void onRoomCreated(int i, @Nullable Room room) {
+
         }
 
         @Override
@@ -258,8 +289,18 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         }
     };
 
+    private OnRealTimeMessageReceivedListener mOnRealTimeMessageReceivedListener = new OnRealTimeMessageReceivedListener() {
+        @Override
+        public void onRealTimeMessageReceived(@NonNull RealTimeMessage realTimeMessage) {
+
+        }
+    };
+
+
+
     //Keeps the screen turned on
     void keepScreenOn() {
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 }
