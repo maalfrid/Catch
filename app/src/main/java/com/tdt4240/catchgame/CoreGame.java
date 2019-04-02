@@ -23,12 +23,14 @@ public class CoreGame{
     private int baseSpeed;
     private int fractionGood;
     private String difficulty;
+    private String gametype;
     protected static Context context;
     List<Integer> objectID;
     FallingObjectFactory fallingObjectFactory;
 
-    public CoreGame(String difficulty, Context context, GameView gameview){
+    public CoreGame(String gametype, String difficulty, Context context, GameView gameview){
         this.context = context;
+        this.gametype = gametype;
         this.objectsOnScreen = new ArrayList<>();
         this.objectID = new ArrayList<>();
         this.gameTime = 0;
@@ -207,6 +209,8 @@ public class CoreGame{
 
     }
 
+    public String getGametype(){ return this.gametype;
+    }
 
     // TODO: IF object has status as eaten, increase/decrease score, apply powerup.
     // TODO: IF object hits ground, remove life.

@@ -48,8 +48,23 @@ public class ScoreSinglePlayer {
         if (object.getType().equals("bad")){
             decrementScore(objectPoints);
         }
-        if (object.getType().equals("power")){
+        String typeOfGame = "single";
+        if (object.getType().equals("powerup")){
             // TODO: Implement power-up logic
+            if(typeOfGame == "single") {
+                if(objectPoints > 0) {
+                    incrementScore(objectPoints);
+                }
+            }
+            if(typeOfGame == "multi"){
+                if(objectPoints < 0){
+                    // TODO: Implement negative score for opponent
+                }
+                if(objectPoints > 0){
+                    incrementScore(objectPoints);
+                }
+            }
+
         }
 
     }
