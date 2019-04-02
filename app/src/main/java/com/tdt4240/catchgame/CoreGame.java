@@ -1,5 +1,6 @@
 package com.tdt4240.catchgame;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -11,11 +12,14 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoreGame{
+public class CoreGame extends Activity {
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     public CharacterSprite characterSprite;
+    public MenuItem btn_exit;
+    public MenuItem btn_sound;
+    public MenuItem txt_score;
     private ArrayList<FallingObject> objectsOnScreen;
     public ScoreSinglePlayer scoreSinglePlayer;
     private int gameTime;
@@ -24,10 +28,13 @@ public class CoreGame{
     private int fractionGood;
     private String difficulty;
     protected static Context context;
+    private GameView gameview;
+    private boolean soundOn;
     List<Integer> objectID;
     FallingObjectFactory fallingObjectFactory;
 
     public CoreGame(String difficulty, Context context, GameView gameview){
+        this.gameview = gameview;
         this.context = context;
         this.objectsOnScreen = new ArrayList<>();
         this.objectID = new ArrayList<>();
@@ -38,18 +45,31 @@ public class CoreGame{
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
         scoreSinglePlayer = new ScoreSinglePlayer(this);
         fallingObjectFactory = new FallingObjectFactory(this);
+        this.soundOn = true;
+
+        //menu items:
+        this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
+        this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
+        this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000);
     }
 
     public void draw(Canvas canvas){
         characterSprite.draw(canvas);
+        btn_exit.draw(canvas, 0, 0);
+        btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
+        txt_score.draw(canvas, screenWidth/2, 0);
+
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
         }
     }
 
     public void update(){
-        gameTime++;
         characterSprite.update();
+        if(characterSprite.getLives()==0){
+            gameview.setRunning(false);
+        }
+        txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
         int fallingObjectType = getFallingObjectType();
         for(int i=0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
@@ -77,6 +97,7 @@ public class CoreGame{
 
             //spawnObject(createObject("good"));
         }
+        gameTime++;
     }
 
     //creates a list of 0s (good object) and 1s (bad object) according to fraction.
@@ -173,6 +194,20 @@ public class CoreGame{
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
+                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY())){
+                    gameview.setRunning(false);
+                    //TODO: switch view
+                }
+                if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
+                    soundOn = !soundOn;
+                    if(soundOn){
+                        this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
+                    }
+                    else{
+                        this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_off),0.15));
+                    }
+                    //TODO: Update settings for sound
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (characterSprite.isTouched()) {
@@ -189,6 +224,14 @@ public class CoreGame{
         return true;
     }
 
+    public static Context getContext(){
+        return context;
+
+    }
+
+    /*
+    * Help method
+    * */
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
         int width = bmp.getWidth();
         int height = bmp.getHeight();
@@ -205,9 +248,5 @@ public class CoreGame{
         bmp.recycle();
         return resizedBitmap;
     }
-
-    public static Context getContext(){
-        return context;
-
-    }
+  
 }
