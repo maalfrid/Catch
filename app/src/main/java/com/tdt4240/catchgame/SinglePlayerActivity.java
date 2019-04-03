@@ -25,28 +25,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
-        this.gameExit = false;
-        this.gameOver = false;
     }
 
     public String getDifficulty(){
         return this.difficulty;
-    }
-
-    public void setGameExit(boolean b){
-        this.gameExit = b;
-    }
-
-    public void setGameOver(boolean b){
-        this.gameOver = b;
-    }
-
-    public boolean getGameExit(){
-        return this.gameExit;
-    }
-
-    public boolean getGameOver(){
-        return this.gameOver;
     }
 
     @Override

@@ -60,6 +60,11 @@ public class MenuItem {
         return screenWidth/2 - this.width/2;
     }
 
+    public void setPos(float posX, float posY){
+        this.posX = posX;
+        this.posY = posY;
+    }
+
     public void setPosX(float posX){
         this.posX = posX;
     }
