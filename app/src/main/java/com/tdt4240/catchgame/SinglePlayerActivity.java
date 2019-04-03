@@ -1,14 +1,17 @@
 package com.tdt4240.catchgame;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-public class SinglePlayerActivity extends AppCompatActivity {
+public class SinglePlayerActivity extends AppCompatActivity implements DialogInterface.OnClickListener {
     private String difficulty;
     public boolean gameExit;
     public boolean gameOver;
@@ -77,15 +80,56 @@ public class SinglePlayerActivity extends AppCompatActivity {
         System.out.println("Game exit: "+gameExit);
         System.out.println("Game over: "+gameOver);
         if(gameExit){
-            Toast.makeText(this,
-                    "Quitting game", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, MenuActivity.class));
+            popUpExit();
+            //startActivity(new Intent(this, MenuActivity.class));
         }
         if(gameOver){
-            Toast.makeText(this,
-                    "Game Over", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, MenuActivity.class));
+            popUpOver();
+            //startActivity(new Intent(this, MenuActivity.class));
         }
+
+    }
+
+    public void popUpExit() {
+        setContentView(R.layout.activity_single_player);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to exit the game?");
+        builder.setPositiveButton(R.string.cast_tracks_chooser_dialog_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.out.println("--------------Clicked OK");
+            }
+        });
+        builder.setNegativeButton(R.string.cast_tracks_chooser_dialog_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.out.println("--------------Clicked CANCEL");
+            }
+        });
+        AlertDialog dialog = builder.create();
+    }
+
+    public void popUpOver() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to exit the game?");
+        builder.setPositiveButton(R.string.cast_tracks_chooser_dialog_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.out.println("--------------Clicked OK");
+            }
+        });
+        builder.setNegativeButton(R.string.cast_tracks_chooser_dialog_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.out.println("--------------Clicked CANCEL");
+            }
+        });
+        AlertDialog dialog = builder.create();
+    }
+
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
 
     }
 }

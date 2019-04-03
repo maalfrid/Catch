@@ -97,21 +97,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(b);
     }
 
-    public void finishGame(){
-        singlePlayerActivity.finish();
-    }
-
-    public void pauseGame(){
-        singlePlayerActivity.onPause();
-    }
-
-    public void continueGame(){
-        singlePlayerActivity.onResume();
+    public void gameExit(){
+        //thread.setRunning(false); //pauser spillet
+        surfaceDestroyed(getHolder());
+        //singlePlayerActivity.popUpExit();
+        //Popup: Are you sure you want to exit game?
+            //If yes: singlePlayerActivity.finish();
+            //If no: thread.setRunning(true);
     }
 
     public void gameOver(){
-        singlePlayerActivity.setGameOver(true);
-        singlePlayerActivity.finish();
+        thread.setRunning(false);
+        //Pop up: You lost the game (show score)
+            //Return to main menu -> singlePlayerActivity.finish();
     }
 
 }

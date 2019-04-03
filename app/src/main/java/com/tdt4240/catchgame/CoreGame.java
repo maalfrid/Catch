@@ -57,7 +57,7 @@ public class CoreGame extends Activity {
         characterSprite.draw(canvas);
         btn_exit.draw(canvas, 0, 0);
         btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
-        txt_score.draw(canvas, screenWidth/2, 0);
+        txt_score.draw(canvas, screenWidth/2 - txt_score.getWidth()/2, btn_exit.getHeight()/4);
 
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
@@ -67,7 +67,7 @@ public class CoreGame extends Activity {
     public void update(){
         characterSprite.update();
         if(characterSprite.getLives()==0){
-            gameview.gameOver();
+            gameview.gameOver(); //TODO: Handle game over
         }
         txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
         int fallingObjectType = getFallingObjectType();
@@ -195,8 +195,7 @@ public class CoreGame extends Activity {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
                 if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY())){
-                    gameview.pauseGame();
-                    //TODO: switch view
+                    gameview.gameExit(); //TODO: Handle game exit
                 }
                 if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
                     soundOn = !soundOn;
@@ -206,7 +205,6 @@ public class CoreGame extends Activity {
                     else{
                         this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_off),0.15));
                     }
-                    //TODO: Update settings for sound
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
