@@ -47,21 +47,21 @@ public class FallingObjectFactory {
     //creates an object of the given foodtype
     public FallingObject getFallingObject(String foodType){
 
-        if(foodType.equalsIgnoreCase("good")){
+        if(foodType.equalsIgnoreCase(coreGame.getGood())){
             int food = getRandomKey(goodFoodCollection);
             Bitmap bitmap = getBitmapForFallingObject(food);
             int value = getFoodValue(food, goodFoodCollection);
             return new GoodFood(bitmap, value, coreGame);
         }
 
-        if(foodType.equalsIgnoreCase("bad")){
+        if(foodType.equalsIgnoreCase(coreGame.getBad())){
             int food = getRandomKey(badFoodCollection);
             Bitmap bitmap = getBitmapForFallingObject(food);
             int value = getFoodValue(food, badFoodCollection);
             return new BadFood(bitmap, value, coreGame);
         }
 
-        if(foodType.equalsIgnoreCase("powerup")){
+        if(foodType.equalsIgnoreCase(coreGame.getPowerup())){
             int food = getRandomKey(powerUpCollection);
             Bitmap bitmap = getBitmapForFallingObject(food);
             int value = getFoodValue(food, powerUpCollection);
