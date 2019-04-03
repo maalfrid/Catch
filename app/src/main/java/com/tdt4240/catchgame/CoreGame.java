@@ -43,6 +43,11 @@ public class CoreGame extends Activity {
     List<Integer> objectID;
     FallingObjectFactory fallingObjectFactory;
 
+    public MenuItem txt_gameQuit;
+    public MenuItem txt_gameOver;
+    public MenuItem btn_yes;
+    public MenuItem btn_no;
+
     public CoreGame(String difficulty, Context context, GameView gameview){
         this.gameview = gameview;
         this.context = context;
@@ -57,17 +62,29 @@ public class CoreGame extends Activity {
         fallingObjectFactory = new FallingObjectFactory(this);
         this.soundOn = true;
 
-        //menu items:
+        //menu items
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
         this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000);
+
+        //game over/exit items
+        this.txt_gameQuit= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_quit),1.0));
+        this.txt_gameQuit.setPos(screenWidth/2 - txt_gameQuit.getWidth()/2, screenHeight/2 - txt_gameQuit.getHeight()/2);
+        this.btn_yes= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_yes),1.0));
+        this.btn_yes.setPos(txt_gameQuit.getPosX() - btn_yes.getWidth()/8, txt_gameQuit.getPosY() + txt_gameQuit.getHeight());
+        this.btn_no= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_no),1.0));
+        this.btn_no.setPos(txt_gameQuit.getPosX() + btn_no.getWidth()/8, txt_gameQuit.getPosY() + txt_gameQuit.getHeight());
+        //TODO: Replace with game over text
+        //this.txt_gameOver= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_gameover),1.0));
+        this.txt_gameOver = new MenuItem("GAME OVER (Click to continue)", 16, 000000);
+        this.txt_gameOver.setPos(screenWidth/2 - txt_gameOver.getWidth()/2, screenHeight/2 - txt_gameOver.getHeight()/2);
     }
 
     public void draw(Canvas canvas){
         characterSprite.draw(canvas);
         btn_exit.draw(canvas, 0, 0);
         btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
-        txt_score.draw(canvas, screenWidth/2, 0);
+        txt_score.draw(canvas, screenWidth/2 - txt_score.getWidth()/2, btn_exit.getHeight()/4);
 
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
@@ -77,7 +94,7 @@ public class CoreGame extends Activity {
     public void update(){
         characterSprite.update();
         if(characterSprite.getLives()==0){
-            gameview.setRunning(false);
+            gameview.gameOver();
         }
         txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
         int fallingObjectType = getFallingObjectType();
@@ -232,8 +249,7 @@ public class CoreGame extends Activity {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
                 if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY())){
-                    gameview.setRunning(false);
-                    //TODO: switch view
+                    gameview.gameExit();
                 }
                 if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
                     soundOn = !soundOn;
@@ -243,7 +259,6 @@ public class CoreGame extends Activity {
                     else{
                         this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_off),0.15));
                     }
-                    //TODO: Update settings for sound
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
