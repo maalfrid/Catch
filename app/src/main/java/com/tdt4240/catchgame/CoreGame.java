@@ -27,6 +27,16 @@ public class CoreGame extends Activity {
     private int baseSpeed;
     private int fractionGood;
     private String difficulty;
+
+    private String stringDiff = "difficulty";
+    private String easy = "easy";
+    private String medium = "medium";
+    private String hard = "hard";
+
+    private String good = "good";
+    private String bad = "bad";
+    private String powerup = "powerup";
+
     protected static Context context;
     private GameView gameview;
     private boolean soundOn;
@@ -85,19 +95,47 @@ public class CoreGame extends Activity {
         }
         // TODO: Find a way to spawn the objects based on the gameloop-time from MainThread? and baseFrequency.
         if ((gameTime == 10 ||gameTime % 50 == 0) && objectID.size() > 0){
-            System.out.println(fallingObjectType);
             if(fallingObjectType == 0){
-                spawnObject(createObject("good"));
-                System.out.println("spawned good");
+                spawnObject(createObject(good), good);
             }
             if(fallingObjectType == 1){
-                spawnObject(createObject("bad"));
-                System.out.println("spawned bad");
+                spawnObject(createObject(bad), bad);
             }
-
-            //spawnObject(createObject("good"));
+            // TODO: Method and logic for power ups
         }
         gameTime++;
+    }
+
+    public String getEasy() {
+
+        return easy;
+    }
+
+    public String getMedium() {
+
+        return medium;
+    }
+
+    public String getHard() {
+
+        return hard;
+    }
+
+    public String getGood() {
+
+        return good;
+    }
+
+    public String getBad() {
+        return bad;
+    }
+
+    public String getPowerup() {
+        return powerup;
+    }
+
+    public String getStringDiff() {
+        return stringDiff;
     }
 
     //creates a list of 0s (good object) and 1s (bad object) according to fraction.
@@ -111,14 +149,12 @@ public class CoreGame extends Activity {
         for (int j = 0; j < 10 - this.fractionGood; j++) {
             objectID.add(1);
         }
-        System.out.println(objectID);
     }
 
     //method for getting random falling object according to percentage from level
 
     public int getFallingObjectType(){
         int id = (int)((Math.random())* (objectID.size() -1));
-        System.out.println("id of object: " + id);
         return objectID.get(id);
 
         }
@@ -131,9 +167,10 @@ public class CoreGame extends Activity {
         return fallingObjectFactory.getFallingObject(foodType);
     }
 
-    public void spawnObject(FallingObject fallingObject){
+    public void spawnObject(FallingObject fallingObject, String type){
         fallingObject.setObjectPositionX(getRandomXPosition(fallingObject));
         fallingObject.setObjectSpeed(getRandomSpeed());
+        fallingObject.setType(type);
         objectsOnScreen.add(fallingObject);
     }
 
@@ -158,30 +195,30 @@ public class CoreGame extends Activity {
     }
 
     public void setLevelUp(){
-        if(this.difficulty == "easy"){
-            this.difficulty = "medium";
-            setDifficulty("medium");
+        if(this.difficulty.equals(easy)){
+            this.difficulty = medium;
+            setDifficulty(medium);
         }
-        if(this.difficulty == "medium"){
-            this.difficulty = "hard";
-            setDifficulty("hard");
+        if(this.difficulty.equals(medium)){
+            this.difficulty = hard;
+            setDifficulty(hard);
         }
     }
     //Temporary method to adjust game difficulty, should be in its own class?
     public void setDifficulty(String difficulty){
-        if (difficulty.equals("easy")){
+        if (difficulty.equals(easy)){
             this.baseFrequency = 1;
             this.baseSpeed = 5;
             this.fractionGood = 7;
             setFallingObjectType();
         }
-        if (difficulty.equals("medium")){
+        if (difficulty.equals(medium)){
             this.baseFrequency = 2;
             this.baseSpeed = 10;
             this.fractionGood = 5;
             setFallingObjectType();
         }
-        if (difficulty.equals("hard")){
+        if (difficulty.equals(hard)){
             this.baseFrequency = 3;
             this.baseSpeed = 15;
             this.fractionGood = 3;
