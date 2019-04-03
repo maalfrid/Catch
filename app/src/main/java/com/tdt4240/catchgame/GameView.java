@@ -19,6 +19,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private SinglePlayerActivity singlePlayerActivity;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private boolean gameExit;
+    private boolean gameOver;
 
 
     public GameView(Context context, SinglePlayerActivity singlePlayerActivity) {
@@ -28,6 +30,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
         this.context = context;
+        this.gameExit = false;
+        this.gameOver = false;
     }
 
     @Override
@@ -59,6 +63,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public boolean onTouchEvent(MotionEvent motionEvent) {
         coreGame.onTouch(motionEvent);
+
+        //If game exit or game over
+        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                if(coreGame.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY())){
+                    singlePlayerActivity.finish();
+                }
+                if(coreGame.btn_no.isTouched(motionEvent.getX(), motionEvent.getY())){
+                    //TODO: Pause and resume thread (with wait() and notify()?)
+                }
+                if(coreGame.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY())){
+                    singlePlayerActivity.finish();
+                }
+                break;
+        }
         return true;
     }
 
@@ -72,7 +91,51 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (canvas != null) {
             canvas.drawBitmap(background, 0,0, null);
             coreGame.draw(canvas);
+
+            if(getGameOver()){
+                coreGame.txt_gameOver.draw(canvas, coreGame.txt_gameOver.getPosX(), coreGame.txt_gameOver.getPosY());
+            }
+
+            if(getGameExit()){
+                coreGame.txt_gameQuit.draw(canvas, coreGame.txt_gameQuit.getPosX(), coreGame.txt_gameQuit.getPosY());
+                coreGame.btn_yes.draw(canvas, coreGame.btn_yes.getPosX(), coreGame.btn_yes.getPosY());
+                coreGame.btn_no.draw(canvas, coreGame.btn_no.getPosX(), coreGame.btn_no.getPosY());
+            }
         }
+    }
+
+    public void gameExit(){
+        setRunning(false);
+        setGameExit(true);
+    }
+
+    public void gameOver(){
+        setRunning(false);
+        setGameOver(true);
+    }
+
+    /*
+    * Setters and getters
+    * */
+
+    public void setRunning(Boolean b){
+        thread.setRunning(b);
+    }
+
+    public void setGameOver(Boolean b){
+        this.gameOver = b;
+    }
+
+    public boolean getGameOver(){
+        return this.gameOver;
+    }
+
+    public void setGameExit(Boolean b){
+        this.gameExit = b;
+    }
+
+    public boolean getGameExit(){
+        return this.gameExit;
     }
 
     public Bitmap getResizedBitmapBG(Bitmap bmp, double scaleFactorWidth, double scaleFactorHeight) {
@@ -91,10 +154,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
         bmp.recycle();
         return resizedBitmap;
-    }
-
-    public void setRunning(Boolean b){
-        thread.setRunning(b);
     }
 
 }

@@ -41,4 +41,6 @@
 
     <string name="sound_on_off">Sound on/off</string>
     <string name="sign_out">Sign Out</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
 </resources>

@@ -34,8 +34,6 @@ public class MenuItem {
         canvas.drawBitmap(this.bmp, getPosX(), getPosY(), null);
     }
 
-    public void update() {}
-
     public int getWidth(){
         return this.width;
     }
@@ -50,6 +48,19 @@ public class MenuItem {
 
     public float getPosY(){
         return this.posY;
+    }
+
+    public float getCenterY(){
+        return screenHeight/2 - this.height/2;
+    }
+
+    public float getCenterX(){
+        return screenWidth/2 - this.width/2;
+    }
+
+    public void setPos(float posX, float posY){
+        this.posX = posX;
+        this.posY = posY;
     }
 
     public void setPosX(float posX){
@@ -69,8 +80,8 @@ public class MenuItem {
         paint.setTextSize(40.0f);
         paint.setColor(Color.WHITE);
         float baseline = -paint.ascent(); // ascent() is negative
-        int width = (int) (paint.measureText(text) + 0.5f); // round
-        int height = (int) (baseline + paint.descent() + 0.5f);
+        int width = (int) (paint.measureText(text) + 0.0f); // round
+        int height = (int) (baseline + paint.descent() + 0.0f);
         Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(image);
         canvas.drawText(text, 0, baseline, paint);
@@ -87,7 +98,7 @@ public class MenuItem {
     }
 
     public void updateScoreLife(int score, int lives){
-        String s = "Score: "+score+" Lives: "+lives;
+        String s = "Score: "+score+" | Lives: "+lives;
         setText(s, 20.0f, Color.WHITE);
     }
 
