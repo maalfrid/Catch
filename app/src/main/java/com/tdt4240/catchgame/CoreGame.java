@@ -20,6 +20,8 @@ public class CoreGame extends Activity {
     public MenuItem btn_exit;
     public MenuItem btn_sound;
     public MenuItem txt_score;
+    public MenuItem txt_gameQuit;
+    public MenuItem txt_gameOver;
     private ArrayList<FallingObject> objectsOnScreen;
     public ScoreSinglePlayer scoreSinglePlayer;
     private int gameTime;
@@ -51,6 +53,9 @@ public class CoreGame extends Activity {
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
         this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000);
+
+        //game over/exit items:
+        this.txt_gameQuit= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_quit),1.0));;
     }
 
     public void draw(Canvas canvas){

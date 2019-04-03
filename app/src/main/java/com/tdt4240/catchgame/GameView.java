@@ -59,6 +59,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public boolean onTouchEvent(MotionEvent motionEvent) {
         coreGame.onTouch(motionEvent);
+        //TODO: Logic for game exit/over
         return true;
     }
 
@@ -72,6 +73,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (canvas != null) {
             canvas.drawBitmap(background, 0,0, null);
             coreGame.draw(canvas);
+        }
+        if(singlePlayerActivity.getGameExit()){
+            //Draw popup
+            coreGame.txt_gameQuit.draw(canvas, coreGame.txt_gameQuit.getCenterX(), coreGame.txt_gameQuit.getCenterY());
+            //Get user input and fire action
+        }
+        if(singlePlayerActivity.getGameOver()){
+            //Draw popup
+            //Get user input and fire action
         }
     }
 
@@ -98,16 +108,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void gameExit(){
-        //thread.setRunning(false); //pauser spillet
-        surfaceDestroyed(getHolder());
-        //singlePlayerActivity.popUpExit();
-        //Popup: Are you sure you want to exit game?
-            //If yes: singlePlayerActivity.finish();
-            //If no: thread.setRunning(true);
+        setRunning(false);
+        singlePlayerActivity.setGameExit(true);
+        // Pop up: Are you sure you want to quit?
+            // Yes: setrunning(true)
+            // No: Return to main menu
     }
 
     public void gameOver(){
-        thread.setRunning(false);
+        setRunning(false);
+        singlePlayerActivity.setGameOver(true);
         //Pop up: You lost the game (show score)
             //Return to main menu -> singlePlayerActivity.finish();
     }

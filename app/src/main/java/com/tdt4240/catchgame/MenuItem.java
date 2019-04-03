@@ -52,6 +52,14 @@ public class MenuItem {
         return this.posY;
     }
 
+    public float getCenterY(){
+        return screenHeight/2 - this.height/2;
+    }
+
+    public float getCenterX(){
+        return screenWidth/2 - this.width/2;
+    }
+
     public void setPosX(float posX){
         this.posX = posX;
     }
