@@ -60,18 +60,14 @@ public class CoreGame extends Activity {
         //game over/exit items
         this.txt_gameQuit= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_quit),1.0));
         this.txt_gameQuit.setPos(screenWidth/2 - txt_gameQuit.getWidth()/2, screenHeight/2 - txt_gameQuit.getHeight()/2);
-
         this.btn_yes= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_yes),1.0));
         this.btn_yes.setPos(txt_gameQuit.getPosX() - btn_yes.getWidth()/8, txt_gameQuit.getPosY() + txt_gameQuit.getHeight());
-
         this.btn_no= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_no),1.0));
         this.btn_no.setPos(txt_gameQuit.getPosX() + btn_no.getWidth()/8, txt_gameQuit.getPosY() + txt_gameQuit.getHeight());
-
         //TODO: Replace with game over text
         //this.txt_gameOver= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_gameover),1.0));
         this.txt_gameOver = new MenuItem("GAME OVER (Click to continue)", 16, 000000);
         this.txt_gameOver.setPos(screenWidth/2 - txt_gameOver.getWidth()/2, screenHeight/2 - txt_gameOver.getHeight()/2);
-
     }
 
     public void draw(Canvas canvas){

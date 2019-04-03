@@ -12,9 +12,8 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 public class SinglePlayerActivity extends AppCompatActivity {
+
     private String difficulty;
-    public boolean gameExit;
-    public boolean gameOver;
 
 
     public SinglePlayerActivity() {
@@ -39,10 +38,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MainThread.setRunning(true);
     }
 
-    //Called if game exit = yes or game over
+    //Called if game exit or game over
     @Override
     protected void onStop() {
         super.onStop();

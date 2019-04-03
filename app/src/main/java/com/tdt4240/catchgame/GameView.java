@@ -64,14 +64,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         coreGame.onTouch(motionEvent);
 
-        //If game exit / game over
+        //If game exit or game over
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 if(coreGame.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY())){
                     singlePlayerActivity.finish();
                 }
                 if(coreGame.btn_no.isTouched(motionEvent.getX(), motionEvent.getY())){
-                    //TODO: Suspend and resume thread.
+                    //TODO: Pause and resume thread (with wait() and notify()?)
                 }
                 if(coreGame.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY())){
                     singlePlayerActivity.finish();
@@ -104,6 +104,40 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    public void gameExit(){
+        setRunning(false);
+        setGameExit(true);
+    }
+
+    public void gameOver(){
+        setRunning(false);
+        setGameOver(true);
+    }
+
+    /*
+    * Setters and getters
+    * */
+
+    public void setRunning(Boolean b){
+        thread.setRunning(b);
+    }
+
+    public void setGameOver(Boolean b){
+        this.gameOver = b;
+    }
+
+    public boolean getGameOver(){
+        return this.gameOver;
+    }
+
+    public void setGameExit(Boolean b){
+        this.gameExit = b;
+    }
+
+    public boolean getGameExit(){
+        return this.gameExit;
+    }
+
     public Bitmap getResizedBitmapBG(Bitmap bmp, double scaleFactorWidth, double scaleFactorHeight) {
         int width = bmp.getWidth();
         int height = bmp.getHeight();
@@ -120,40 +154,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
         bmp.recycle();
         return resizedBitmap;
-    }
-
-    public void setRunning(Boolean b){
-        thread.setRunning(b);
-    }
-
-    public void gameExit(){
-        setRunning(false);
-        setGameExit(true);
-    }
-
-    public void gameOver(){
-        setRunning(false);
-        setGameOver(true);
-    }
-
-    /*
-    * Setters and getters
-    * */
-
-    public void setGameOver(Boolean b){
-        this.gameOver = b;
-    }
-
-    public boolean getGameOver(){
-        return this.gameOver;
-    }
-
-    public void setGameExit(Boolean b){
-        this.gameExit = b;
-    }
-
-    public boolean getGameExit(){
-        return this.gameExit;
     }
 
 }

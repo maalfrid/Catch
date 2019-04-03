@@ -34,8 +34,6 @@ public class MenuItem {
         canvas.drawBitmap(this.bmp, getPosX(), getPosY(), null);
     }
 
-    public void update() {}
-
     public int getWidth(){
         return this.width;
     }
