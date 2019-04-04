@@ -19,14 +19,8 @@ public class SoundEffect {
     int soundID_smack;
     int soundID_cough;
     int soundID_powerup;
-
-    /*AudioManager mgr = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
-
-    int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
-
-    streamVolume = streamVolume / AudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-
-    mSoundPool.play(mSoundPoolMap.get(index), streamVolume, streamVolume, 1, 0, 1f);*/
+    int soundID_levelup;
+    int soundID_button;
 
 
     public SoundEffect(){
@@ -47,19 +41,24 @@ public class SoundEffect {
 
         soundID_powerup = soundPool.load(CoreGame.getContext(), R.raw.powerup, 1);
 
+        soundID_levelup = soundPool.load(CoreGame.getContext(), R.raw.music_box, 1);
+
+        soundID_button = soundPool.load(CoreGame.getContext(), R.raw.buttonclick, 1);
+
         audioManager = (AudioManager) CoreGame.getContext().getSystemService(Context.AUDIO_SERVICE);
 
         soundPool.setVolume(soundID_bite,50.0f, 50.0f);
         soundPool.setVolume(soundID_cough,50.0f, 50.0f);
         soundPool.setVolume(soundID_powerup,50.0f, 50.0f);
         soundPool.setVolume(soundID_smack,50.0f, 50.0f);
+        soundPool.setVolume(soundID_levelup,50.0f, 50.0f);
+        soundPool.setVolume(soundID_button,50.0f, 50.0f);
     }
 
 
     public void biteSound(){
         soundPool.play(soundID_bite, 1, 1, 0, 0, 1);
     }
-
 
     public void smackSound(){
         soundPool.play(soundID_smack, 1, 1, 0, 0, 1);
@@ -73,6 +72,14 @@ public class SoundEffect {
         soundPool.play(soundID_powerup, 1, 1, 0, 0, 1);
     }
 
+    public void levelUpSound(){
+        soundPool.play(soundID_levelup, 1, 1, 0, 0, 1);
+    }
+
+    public void buttonClickSound(){
+        soundPool.play(soundID_button, 1, 1, 0, 0, 1);
+    }
+
     public void volumeOff(){
         audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
 
@@ -81,6 +88,8 @@ public class SoundEffect {
     public void volumeOn(){
         audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
     }
+
+
 
 
 

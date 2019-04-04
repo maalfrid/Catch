@@ -19,15 +19,10 @@ import android.widget.Toast;
 public class SinglePlayerActivity extends AppCompatActivity {
 
     private String difficulty;
+    private String gametype;
 
     MediaPlayer backgroundMusic;
-    /*SoundPool soundPool;
-    SoundPool.Builder soundPoolBuilder;
 
-    AudioAttributes attributes;
-    AudioAttributes.Builder attributesBuilder;
-
-    int soundID_crunch;*/
 
     public SinglePlayerActivity() {
     }
@@ -37,6 +32,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
+        this.gametype = getIntent().getStringExtra("gametype");
 
         backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
 
@@ -56,7 +52,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         return this.difficulty;
     }
 
-
+public String getGametype(){ return this.gametype;}
     @Override
     protected void onPause(){
         super.onPause();
@@ -73,15 +69,14 @@ public class SinglePlayerActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         startActivity(new Intent(this, MenuActivity.class));
+        backgroundMusic.release();
     }
 
     public void backgroundMusicOn(){
-        //backgroundMusic.setVolume(1, 1);
         backgroundMusic.start();
     }
 
     public void backgroundMusicOff(){
-        //backgroundMusic.setVolume(0, 0);
         backgroundMusic.pause();
     }
 }
