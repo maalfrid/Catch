@@ -181,7 +181,6 @@ public class CoreGame extends Activity {
     }
 
     //method for getting random falling object according to percentage from level
-
     public int getFallingObjectType(){
         int id = (int)((Math.random())* (objectID.size() -1));
         return objectID.get(id);
@@ -227,10 +226,13 @@ public class CoreGame extends Activity {
     public void setLevelUp(){
         if(this.difficulty.equals(easy)){
             this.difficulty = medium;
+            soundeffect.levelUpSound();
             setDifficulty(medium);
+
         }
         if(this.difficulty.equals(medium)){
             this.difficulty = hard;
+            soundeffect.levelUpSound();
             setDifficulty(hard);
         }
     }
