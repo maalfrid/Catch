@@ -28,6 +28,7 @@ public abstract class FallingObject {
         this.coreGame = coreGame;
         scoreSinglePlayer = coreGame.scoreSinglePlayer;
         this.objectScore = objectScore;
+
         this.type = type;
 
 
@@ -99,7 +100,6 @@ public abstract class FallingObject {
     }
 
     public void wasEaten() {
-        System.out.println("was eaten");
         System.out.println("get score " + this.getScore());
         coreGame.scoreSinglePlayer.caughtObject(this);
         this.isEaten = true;
@@ -107,7 +107,7 @@ public abstract class FallingObject {
 
     public void touchedFloor() {
         this.touchedFloor = true;
-        if (this.type.equals("good")) {
+        if (this.type.equals(coreGame.getGood())) {
             if (coreGame.characterSprite.getLives() == 1) {
                 // TODO: Create game-over state, send to game-over state here
                 System.out.println("Game over looooser");

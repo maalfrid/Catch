@@ -27,6 +27,16 @@ public class CoreGame extends Activity {
     private int baseSpeed;
     private int fractionGood;
     private String difficulty;
+
+    private String stringDiff = "difficulty";
+    private String easy = "easy";
+    private String medium = "medium";
+    private String hard = "hard";
+
+    private String good = "good";
+    private String bad = "bad";
+    private String powerup = "powerup";
+
     protected static Context context;
     private GameView gameview;
     private boolean soundOn;
@@ -34,6 +44,11 @@ public class CoreGame extends Activity {
     FallingObjectFactory fallingObjectFactory;
 
     SoundEffect soundeffect;
+
+    public MenuItem txt_gameQuit;
+    public MenuItem txt_gameOver;
+    public MenuItem btn_yes;
+    public MenuItem btn_no;
 
 
     public CoreGame(String difficulty, Context context, GameView gameview){
@@ -54,10 +69,22 @@ public class CoreGame extends Activity {
 
         this.soundOn = true;
 
-        //menu items:
+        //menu items
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
         this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000);
+
+        //game over/exit items
+        this.txt_gameQuit= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_quit),1.0));
+        this.txt_gameQuit.setPos(screenWidth/2 - txt_gameQuit.getWidth()/2, screenHeight/2 - txt_gameQuit.getHeight()/2);
+        this.btn_yes= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_yes),1.0));
+        this.btn_yes.setPos(txt_gameQuit.getPosX() - btn_yes.getWidth()/8, txt_gameQuit.getPosY() + txt_gameQuit.getHeight());
+        this.btn_no= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_no),1.0));
+        this.btn_no.setPos(txt_gameQuit.getPosX() + btn_no.getWidth()/8, txt_gameQuit.getPosY() + txt_gameQuit.getHeight());
+        //TODO: Replace with game over text
+        //this.txt_gameOver= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_gameover),1.0));
+        this.txt_gameOver = new MenuItem("GAME OVER (Click to continue)", 16, 000000);
+        this.txt_gameOver.setPos(screenWidth/2 - txt_gameOver.getWidth()/2, screenHeight/2 - txt_gameOver.getHeight()/2);
 
     }
 
@@ -65,7 +92,7 @@ public class CoreGame extends Activity {
         characterSprite.draw(canvas);
         btn_exit.draw(canvas, 0, 0);
         btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
-        txt_score.draw(canvas, screenWidth/2, 0);
+        txt_score.draw(canvas, screenWidth/2 - txt_score.getWidth()/2, btn_exit.getHeight()/4);
 
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
@@ -79,7 +106,7 @@ public class CoreGame extends Activity {
     public void update(){
         characterSprite.update();
         if(characterSprite.getLives()==0){
-            gameview.setRunning(false);
+            gameview.gameOver();
         }
         txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
         int fallingObjectType = getFallingObjectType();
@@ -97,17 +124,47 @@ public class CoreGame extends Activity {
         }
         // TODO: Find a way to spawn the objects based on the gameloop-time from MainThread? and baseFrequency.
         if ((gameTime == 10 ||gameTime % 50 == 0) && objectID.size() > 0){
-            System.out.println(fallingObjectType);
             if(fallingObjectType == 0){
-                spawnObject(createObject("good"));
+                spawnObject(createObject(good), good);
             }
             if(fallingObjectType == 1){
-                spawnObject(createObject("bad"));
+                spawnObject(createObject(bad), bad);
             }
-
-            //spawnObject(createObject("good"));
+            // TODO: Method and logic for power ups
         }
         gameTime++;
+    }
+
+    public String getEasy() {
+
+        return easy;
+    }
+
+    public String getMedium() {
+
+        return medium;
+    }
+
+    public String getHard() {
+
+        return hard;
+    }
+
+    public String getGood() {
+
+        return good;
+    }
+
+    public String getBad() {
+        return bad;
+    }
+
+    public String getPowerup() {
+        return powerup;
+    }
+
+    public String getStringDiff() {
+        return stringDiff;
     }
 
     //creates a list of 0s (good object) and 1s (bad object) according to fraction.
@@ -140,9 +197,10 @@ public class CoreGame extends Activity {
         return fallingObjectFactory.getFallingObject(foodType);
     }
 
-    public void spawnObject(FallingObject fallingObject){
+    public void spawnObject(FallingObject fallingObject, String type){
         fallingObject.setObjectPositionX(getRandomXPosition(fallingObject));
         fallingObject.setObjectSpeed(getRandomSpeed());
+        fallingObject.setType(type);
         objectsOnScreen.add(fallingObject);
     }
 
@@ -167,30 +225,30 @@ public class CoreGame extends Activity {
     }
 
     public void setLevelUp(){
-        if(this.difficulty == "easy"){
-            this.difficulty = "medium";
-            setDifficulty("medium");
+        if(this.difficulty.equals(easy)){
+            this.difficulty = medium;
+            setDifficulty(medium);
         }
-        if(this.difficulty == "medium"){
-            this.difficulty = "hard";
-            setDifficulty("hard");
+        if(this.difficulty.equals(medium)){
+            this.difficulty = hard;
+            setDifficulty(hard);
         }
     }
     //Temporary method to adjust game difficulty, should be in its own class?
     public void setDifficulty(String difficulty){
-        if (difficulty.equals("easy")){
+        if (difficulty.equals(easy)){
             this.baseFrequency = 1;
             this.baseSpeed = 5;
             this.fractionGood = 7;
             setFallingObjectType();
         }
-        if (difficulty.equals("medium")){
+        if (difficulty.equals(medium)){
             this.baseFrequency = 2;
             this.baseSpeed = 10;
             this.fractionGood = 5;
             setFallingObjectType();
         }
-        if (difficulty.equals("hard")){
+        if (difficulty.equals(hard)){
             this.baseFrequency = 3;
             this.baseSpeed = 15;
             this.fractionGood = 3;
@@ -204,8 +262,7 @@ public class CoreGame extends Activity {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
                 if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY())){
-                    gameview.setRunning(false);
-                    //TODO: switch view
+                    gameview.gameExit();
                 }
                 if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
                     soundOn = !soundOn;
@@ -221,7 +278,6 @@ public class CoreGame extends Activity {
                         soundeffect.volumeOff();
 
                     }
-                    //TODO: Update settings for sound
                 }
                 break;
             case MotionEvent.ACTION_MOVE:

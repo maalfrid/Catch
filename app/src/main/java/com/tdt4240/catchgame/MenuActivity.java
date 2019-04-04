@@ -7,6 +7,7 @@ import android.view.View;
 
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
+    private String difficulty = "difficulty";
 
     public MenuActivity(){
         super();
@@ -53,17 +54,17 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_easy:
                 Intent intentEasy = new Intent(v.getContext(), SinglePlayerActivity.class);
                 //send string to next activity
-                intentEasy.putExtra("difficulty", "easy");
+                intentEasy.putExtra(difficulty, "easy");
                 startActivity(intentEasy);
                 break;
             case R.id.btn_medium:
                 Intent intentMedium = new Intent(v.getContext(), SinglePlayerActivity.class);
-                intentMedium.putExtra("difficulty", "medium");
+                intentMedium.putExtra(difficulty, "medium");
                 startActivity(intentMedium);
                 break;
             case R.id.btn_hard:
                 Intent intentHard = new Intent(v.getContext(), SinglePlayerActivity.class);
-                intentHard.putExtra("difficulty", "hard");
+                intentHard.putExtra(difficulty, "hard");
                 startActivity(intentHard);
                 break;
             case R.id.btn_play_single:
@@ -107,5 +108,13 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         mCurScreen = screenId;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
 }
