@@ -94,22 +94,123 @@
     <!-- RULES VIEW -->
     <LinearLayout
         android:id="@+id/view_rules"
-        style="@style/TopScreen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/txt_rules"
+            android:layout_marginTop="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_rules"
             android:contentDescription="@string/txt_rules" />
 
-        <!-- TODO: FILL INN RULES INFORMATION -->
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rules_for_catch_game"/>
+            style="@style/TextHeaders"
+            app:fontFamily="sans-serif-condensed-medium"
+            android:text="@string/good_objects_subheader" />
+
+        <LinearLayout
+            style="@style/LinearRowLayout">
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_good_apple" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_good_banana" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_good_orange" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_good_cherry" />
+            android:background="@drawable/obj_good_banana" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_good_pineapple" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_good_grapes" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_good_strawberry" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/TextDescription"
+            android:gravity="center_horizontal"
+            android:text="@string/good_objects_description" />
+
+        <TextView
+            style="@style/TextHeaders"
+            app:fontFamily="sans-serif-condensed-medium"
+            android:text="@string/bad_objects_subheader" />
+
+        <LinearLayout
+            style="@style/LinearRowLayout">
+            <ImageView
+                style="@style/ImageRowSnake"
+                android:background="@drawable/obj_bad_snake" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_bad_spider" />
+            <ImageView
+                style="@style/ImageRowSnake"
+                android:background="@drawable/obj_bad_snake" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_bad_spider" />
+            <ImageView
+                style="@style/ImageRowSnake"
+                android:background="@drawable/obj_bad_snake" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_bad_spider" />
+            <ImageView
+                style="@style/ImageRowSnake"
+                android:background="@drawable/obj_bad_snake" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/TextDescription"
+            android:gravity="center_horizontal"
+            android:text="@string/bad_objects_description" />
+
+        <TextView
+            style="@style/TextHeaders"
+            app:fontFamily="sans-serif-condensed-medium"
+            android:text="@string/powerups_objects_subheader" />
+
+        <LinearLayout
+            style="@style/LinearRowLayout">
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_beetle" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_ladybug" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_starbeetle" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_beetle" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_ladybug" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_starbeetle" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_beetle" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/TextDescription"
+            android:gravity="center_horizontal"
+            android:text="@string/powerups_description" />
 
     </LinearLayout>
 

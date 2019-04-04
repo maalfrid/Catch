@@ -17,7 +17,7 @@ public class ScoreSinglePlayer {
         System.out.println("Player score: " + coreGame.characterSprite.getScore());
 
         //Check if "level up"
-        if(coreGame.getDifficulty() != "hard"){
+        if(coreGame.getDifficulty() != coreGame.getHard()){
             //up two levels
             if (coreGame.characterSprite.getScore() > twolevelsup){
                 coreGame.setLevelUp();
@@ -48,13 +48,13 @@ public class ScoreSinglePlayer {
         int objectPoints = object.getScore();
         String typeOfGame = coreGame.getGametype();
 
-        if(object.getType().equals("good")){
+        if(object.getType().equals(coreGame.getGood())){
             incrementScore(objectPoints);
         }
-        if (object.getType().equals("bad")){
+        if (object.getType().equals(coreGame.getBad())){
             decrementScore(objectPoints);
         }
-        if (object.getType().equals("powerup")){
+        if (object.getType().equals(coreGame.getPowerup())){
             // TODO: Implement power-up logic
             incrementScore(objectPoints);
 
@@ -107,4 +107,3 @@ public class ScoreSinglePlayer {
     }
 
 }
-

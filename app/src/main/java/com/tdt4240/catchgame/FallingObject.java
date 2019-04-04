@@ -3,6 +3,8 @@ package com.tdt4240.catchgame;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+
+
 public abstract class FallingObject {
 
     private Bitmap objectImage;
@@ -14,10 +16,11 @@ public abstract class FallingObject {
     private boolean touchedFloor = false;
     private ScoreSinglePlayer scoreSinglePlayer;
     private CoreGame coreGame;
-    private String type = "good";
+    private String type;
 
 
-    public FallingObject(Bitmap bmp, int objectScore, CoreGame coreGame) {
+
+    public FallingObject(Bitmap bmp, int objectScore, String type, CoreGame coreGame) {
         objectImage = bmp;
         objectWidth = objectImage.getWidth();
         objectHeight = objectImage.getHeight();
@@ -25,6 +28,10 @@ public abstract class FallingObject {
         this.coreGame = coreGame;
         scoreSinglePlayer = coreGame.scoreSinglePlayer;
         this.objectScore = objectScore;
+
+        this.type = type;
+
+
     }
 
     public void draw(Canvas canvas) {
@@ -93,7 +100,6 @@ public abstract class FallingObject {
     }
 
     public void wasEaten() {
-        System.out.println("was eaten");
         System.out.println("get score " + this.getScore());
         coreGame.scoreSinglePlayer.caughtObject(this);
         this.isEaten = true;
@@ -101,7 +107,7 @@ public abstract class FallingObject {
 
     public void touchedFloor() {
         this.touchedFloor = true;
-        if (this.type.equals("good")) {
+        if (this.type.equals(coreGame.getGood())) {
             if (coreGame.characterSprite.getLives() == 1) {
                 // TODO: Create game-over state, send to game-over state here
                 System.out.println("Game over looooser");
@@ -121,11 +127,23 @@ public abstract class FallingObject {
 
         if (objectBottom >= characterSprite.getCharacterPositionY()) {
             if (objectBottom >= characterBottom) {
+                if(this.getType().equals("good")){
+                    coreGame.getSoundEffect().smackSound();}
                 this.touchedFloor();
             } else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
                     || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
                     || (objectTopLeft >= characterTopLeft && objectTopRight <= characterTopRight)) {
+                if(this.getType().equals("good")){
+                    coreGame.getSoundEffect().biteSound();
+                }
+                else if(this.getType().equals("bad")){
+                    coreGame.getSoundEffect().coughSound();
+                }
+                else if(this.getType().equalsIgnoreCase("powerup")){
+                    coreGame.getSoundEffect().powerupSound();
+                }
                 this.wasEaten();
+
             }
         }
     }

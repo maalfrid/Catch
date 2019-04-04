@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 
 public class PowerUp extends FallingObject {
 
-    public PowerUp(Bitmap bitmap, int objectScore, CoreGame coreGame){
-        super(bitmap, objectScore, coreGame);
+    public PowerUp(Bitmap bitmap, int objectScore, String type, CoreGame coreGame){
+        super(bitmap, objectScore, type, coreGame);
     }
 
 }
