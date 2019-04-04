@@ -3,6 +3,8 @@ package com.tdt4240.catchgame;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+
+
 public abstract class FallingObject {
 
     private Bitmap objectImage;
@@ -17,7 +19,8 @@ public abstract class FallingObject {
     private String type;
 
 
-    public FallingObject(Bitmap bmp, int objectScore, CoreGame coreGame) {
+
+    public FallingObject(Bitmap bmp, int objectScore, String type, CoreGame coreGame) {
         objectImage = bmp;
         objectWidth = objectImage.getWidth();
         objectHeight = objectImage.getHeight();
@@ -25,6 +28,9 @@ public abstract class FallingObject {
         this.coreGame = coreGame;
         scoreSinglePlayer = coreGame.scoreSinglePlayer;
         this.objectScore = objectScore;
+
+        this.type = type;
+
 
     }
 
@@ -121,11 +127,23 @@ public abstract class FallingObject {
 
         if (objectBottom >= characterSprite.getCharacterPositionY()) {
             if (objectBottom >= characterBottom) {
+                if(this.getType().equals("good")){
+                    coreGame.getSoundEffect().smackSound();}
                 this.touchedFloor();
             } else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
                     || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
                     || (objectTopLeft >= characterTopLeft && objectTopRight <= characterTopRight)) {
+                if(this.getType().equals("good")){
+                    coreGame.getSoundEffect().biteSound();
+                }
+                else if(this.getType().equals("bad")){
+                    coreGame.getSoundEffect().coughSound();
+                }
+                else if(this.getType().equalsIgnoreCase("powerup")){
+                    coreGame.getSoundEffect().powerupSound();
+                }
                 this.wasEaten();
+
             }
         }
     }
