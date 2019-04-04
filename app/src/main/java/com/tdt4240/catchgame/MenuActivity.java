@@ -21,7 +21,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-  
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,18 +73,21 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intentEasy = new Intent(v.getContext(), SinglePlayerActivity.class);
                 //send string to next activity
                 intentEasy.putExtra(difficulty, "easy");
+                intentEasy.putExtra("gametype", "single");
                 startActivity(intentEasy);
                 break;
             case R.id.btn_medium:
                 buttonSound.start();
                 Intent intentMedium = new Intent(v.getContext(), SinglePlayerActivity.class);
                 intentMedium.putExtra(difficulty, "medium");
+                intentMedium.putExtra("gametype", "single");
                 startActivity(intentMedium);
                 break;
             case R.id.btn_hard:
                 buttonSound.start();
                 Intent intentHard = new Intent(v.getContext(), SinglePlayerActivity.class);
                 intentHard.putExtra(difficulty, "hard");
+                intentHard.putExtra("gametype", "single");
                 startActivity(intentHard);
                 break;
             case R.id.btn_play_single:
@@ -94,7 +97,13 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_play_multi:
                 buttonSound.start();
                 //SwitchScreen(R.id.view_play_multi);
-                startActivity(new Intent(v.getContext(), MultiPlayerActivity.class));
+
+                //remains to "catch" this in the constructor of multiplayer
+                // but i don't want to do that while abhi is working on it
+                // just do the same as for singleplayer
+                Intent intentMulti = new Intent(v.getContext(), MultiPlayerActivity.class);
+                intentMulti.putExtra("gametype", "multi");
+                startActivity(intentMulti);
                 break;
             /*case R.id.button_sign_in:
                 startActivity(new Intent(v.getContext(), MultiPlayerActivity.class));
