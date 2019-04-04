@@ -22,13 +22,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private String gametype;
 
     MediaPlayer backgroundMusic;
-    /*SoundPool soundPool;
-    SoundPool.Builder soundPoolBuilder;
 
-    AudioAttributes attributes;
-    AudioAttributes.Builder attributesBuilder;
-
-    int soundID_crunch;*/
 
     public SinglePlayerActivity() {
     }
@@ -75,15 +69,14 @@ public String getGametype(){ return this.gametype;}
     protected void onStop() {
         super.onStop();
         startActivity(new Intent(this, MenuActivity.class));
+        backgroundMusic.release();
     }
 
     public void backgroundMusicOn(){
-        //backgroundMusic.setVolume(1, 1);
         backgroundMusic.start();
     }
 
     public void backgroundMusicOff(){
-        //backgroundMusic.setVolume(0, 0);
         backgroundMusic.pause();
     }
 }
