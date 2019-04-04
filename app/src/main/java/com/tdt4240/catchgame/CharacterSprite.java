@@ -94,20 +94,7 @@ public class CharacterSprite {
             setTouched(false);
         }
     }
-    public void minimizeCharacterSize(){
-        this.characterSpriteImage.setHeight(this.characterHeight/2);
-        this.characterSpriteImage.setWidth(this.characterWidth/2);
 
-    }
-    public void maximizeCharacterSize(){
-        this.characterSpriteImage.setHeight(this.characterHeight + this.characterHeight/3);
-        this.characterSpriteImage.setWidth(this.characterWidth + this.characterWidth/3);
-
-    }
-    public void setCharacterSizeNormal(){
-        this.characterSpriteImage.setHeight(this.characterHeight);
-        this.characterSpriteImage.setWidth(this.characterWidth);
-    }
 }
 
 

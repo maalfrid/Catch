@@ -61,28 +61,37 @@ public class ScoreSinglePlayer {
             /*POWER-UP RULES
             Gets points for catching, in addition to logics for which is caught:
 
+            SINGLE PLAYER:
+
             #1 Starbeetle: get 10 points
-            #2 Ladybug: decrease character size opponent and decrease yourself
+            #2 Ladybug: level down
+            #3 Beetle (lightning): get one additional life
+
+            Multi PLAYER:
+
+            #1 Starbeetle: get 10 points
+            #2 Ladybug: level down
             #3 Beetle (lightning): faster opponent
 
             */
             if(typeOfGame.equals("single")) {
                 if(objectPoints == 1) {
                     incrementScore(10);
-
-
                 }
                 if(objectPoints == 2){
-                    // TODO: increase size of own sprite
-                    coreGame.characterSprite.maximizeCharacterSize();
-                    //wait 5 seconds
-                    coreGame.characterSprite.setCharacterSizeNormal();
-
-
+                    coreGame.setLevelDown();
+                }
+                if(objectPoints == 3){
+                    // TODO: this does not work, fix that the lives increases
+                    int currentLives = coreGame.characterSprite.getLives();
+                    int newLives = currentLives++;
+                    coreGame.characterSprite.setLives(newLives);
+                    System.out.println("catched a beetle: get life");
+                    System.out.println(coreGame.characterSprite.getLives());
                 }
             }
 
-            if(typeOfGame.equals("multi")){
+           /* if(typeOfGame.equals("multi")){
                 if(objectPoints == 1) {
                     incrementScore(10);
                     // TODO: x2 points of the next caught items, don't know how yet
@@ -100,7 +109,7 @@ public class ScoreSinglePlayer {
                 if(objectPoints == 3){
                     // TODO: increase speed of opponent's falling objects
                 }
-            }
+            }*/
 
         }
 
