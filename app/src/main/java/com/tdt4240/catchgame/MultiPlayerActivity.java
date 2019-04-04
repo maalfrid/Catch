@@ -20,6 +20,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.games.GamesCallbackStatusCodes;
+import com.google.android.gms.games.Player;
+import com.google.android.gms.games.PlayersClient;
 import com.google.android.gms.games.multiplayer.realtime.RealTimeMessage;
 import com.google.android.gms.games.multiplayer.realtime.Room;
 import com.google.android.gms.games.multiplayer.realtime.RoomConfig;
@@ -34,6 +36,10 @@ import com.google.android.gms.tasks.Task;
 import  com.google.android.gms.games.RealTimeMultiplayerClient;
 import com.google.android.gms.games.multiplayer.Participant;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+
 
 
 
@@ -52,13 +58,15 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     private static final int RC_SIGN_IN = 9001;
 
     // Request codes for the UIs that we show with startActivityForResult:
+    final static int RC_SELECT_PLAYERS = 10000;
+    final static int RC_INVITATION_INBOX = 10001;
     final static int RC_WAITING_ROOM = 10002;
 
     //Client used to sign in with Google APIs
     private GoogleSignInClient mGoogleSignInClient = null;
 
     // Client used to interact with the real time multi player system.
-    private  RealTimeMultiplayerClient mRealTimeMultiplayerClient = null;
+    private RealTimeMultiplayerClient mRealTimeMultiplayerClient = null;
 
 
     //Room Id where the currently active game is taking place; null if we're not playing
@@ -86,7 +94,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_multi_player);
         findViewById(R.id.view_signIn).setVisibility(View.VISIBLE);
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
                 .requestEmail()
                 .build();
 
@@ -131,6 +139,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         Bundle autoMatchCriteria = RoomConfig.createAutoMatchCriteria(MIN_OPPONENTS, MAX_OPPONENTS, 0);
         switchToScreen(R.id.screen_wait);
         keepScreenOn();
+        //resetGameVars();
 
         mRoomConfig = RoomConfig.builder(mRoomUpdateCallback)
                 .setOnMessageReceivedListener(mOnRealTimeMessageReceivedListener)
@@ -193,6 +202,10 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                     Log.d(TAG, "-------- Message from onActivityResult catch");
                 }
             }
+        } else if(requestCode == RC_SELECT_PLAYERS) {
+            // we got the result from the "select players" UI - ready to create the room
+            //handleSelectPlayersResult(resultCode, intent);
+            Log.d(TAG, "-------------Select players request code");
         } else if (requestCode == RC_WAITING_ROOM) {
             // we got the result from the "waiting room" UI.
             if(resultCode == Activity.RESULT_OK) {
@@ -201,21 +214,74 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                 //start game here
             }
         }
+        super.onActivityResult(requestCode, resultCode, intent);
     }
+
+    // Handle the result of the "Select players UI" we launched when the user clicked the
+    // "Invite friends" button. We react by creating a room with those players.
+
+    /*private void handleSelectPlayersResult(int response, Intent data) {
+        if(response != Activity.RESULT_OK) {
+            Log.w(TAG, "-------------Select players UI canceled, " + response);
+            return;
+        }
+        Log.d(TAG, "Select players UI succeeded");
+
+    } */
+
 
     // The currently signed in account, used to check the account has changed outside of this activity when resuming.
     GoogleSignInAccount mSignedInAccount = null;
+
+    private String mPlayerId;
     private void onConnected(GoogleSignInAccount googleSignInAccount){
         Log.d(TAG, "---------onConnected(): Connected to Google Api's - Account " + googleSignInAccount );
         if(mSignedInAccount != googleSignInAccount) {
             mSignedInAccount = googleSignInAccount;
-            Log.d(TAG, "------Crashing here.");
+            //Log.d(TAG, "------Crashing here.");
             //update the clients
             mRealTimeMultiplayerClient = Games.getRealTimeMultiplayerClient(this, googleSignInAccount);
+            Log.d(TAG, "------------Real time multiple client " + mRealTimeMultiplayerClient);
+
+            // get the players from the PlayerClient
+            PlayersClient playersClient = Games.getPlayersClient(this, googleSignInAccount);
+            playersClient.getCurrentPlayer()
+                    .addOnSuccessListener(new OnSuccessListener<Player>() {
+                        @Override
+                        public void onSuccess(Player player) {
+                            mPlayerId = player.getPlayerId();
+
+                            //switchToMainScreen();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "-----------Player client failed");
+                        }
+                    });
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask){
+    void showWaitingRoom(Room room){
+        final int MIN_PLAYERS= Integer.MAX_VALUE;
+        mRealTimeMultiplayerClient.getWaitingRoomIntent(room, MIN_PLAYERS)
+                .addOnSuccessListener(new OnSuccessListener<Intent>() {
+                    @Override
+                    public void onSuccess(Intent intent) {
+                        //show waiting room UI
+                        startActivityForResult(intent, RC_WAITING_ROOM);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "-----------show waiting room failed");
+                    }
+                });
+    }
+
+    /*private void handleSignInResult(Task<GoogleSignInAccount> completedTask){
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
@@ -224,9 +290,11 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         } catch(ApiException e){
             Log.w(TAG, "-----------signInResult:failed code=" + e.getStatusCode());
         }
-    }
+    } */
 
     private RoomStatusUpdateCallback mRoomStatusUpdateCallback = new RoomStatusUpdateCallback() {
+        // Called when we are connected to the room. We're not ready to play yet! (maybe not everybody
+        // is connected yet).
         @Override
         public void onRoomConnecting(@Nullable Room room) {
 
@@ -290,12 +358,14 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     private RoomUpdateCallback mRoomUpdateCallback = new RoomUpdateCallback() {
         @Override
         public void onRoomCreated(int i, @Nullable Room room) {
+            Log.d(TAG, "------------RoomUpdateCallback onRoomCreate()");
 
         }
 
         @Override
         public void onJoinedRoom(int i, @Nullable Room room) {
-
+            Log.d(TAG, "--------------onJoined room");
+            showWaitingRoom(room);
         }
 
         @Override
