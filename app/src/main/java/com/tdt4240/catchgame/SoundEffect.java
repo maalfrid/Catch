@@ -20,6 +20,7 @@ public class SoundEffect {
     int soundID_cough;
     int soundID_powerup;
     int soundID_levelup;
+    int soundID_button;
 
 
     public SoundEffect(){
@@ -42,6 +43,8 @@ public class SoundEffect {
 
         soundID_levelup = soundPool.load(CoreGame.getContext(), R.raw.music_box, 1);
 
+        soundID_button = soundPool.load(CoreGame.getContext(), R.raw.buttonclick, 1);
+
         audioManager = (AudioManager) CoreGame.getContext().getSystemService(Context.AUDIO_SERVICE);
 
         soundPool.setVolume(soundID_bite,50.0f, 50.0f);
@@ -49,6 +52,7 @@ public class SoundEffect {
         soundPool.setVolume(soundID_powerup,50.0f, 50.0f);
         soundPool.setVolume(soundID_smack,50.0f, 50.0f);
         soundPool.setVolume(soundID_levelup,50.0f, 50.0f);
+        soundPool.setVolume(soundID_button,50.0f, 50.0f);
     }
 
 
@@ -72,6 +76,9 @@ public class SoundEffect {
         soundPool.play(soundID_levelup, 1, 1, 0, 0, 1);
     }
 
+    public void buttonClickSound(){
+        soundPool.play(soundID_button, 1, 1, 0, 0, 1);
+    }
 
     public void volumeOff(){
         audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
