@@ -357,15 +357,16 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     };
     private RoomUpdateCallback mRoomUpdateCallback = new RoomUpdateCallback() {
         @Override
-        public void onRoomCreated(int i, @Nullable Room room) {
+        public void onRoomCreated(int statusCode, Room room) {
             Log.d(TAG, "------------RoomUpdateCallback onRoomCreate()");
+            showWaitingRoom(room);
 
         }
 
         @Override
-        public void onJoinedRoom(int i, @Nullable Room room) {
+        public void onJoinedRoom(int statusCode, Room room) {
             Log.d(TAG, "--------------onJoined room");
-            showWaitingRoom(room);
+
         }
 
         @Override
