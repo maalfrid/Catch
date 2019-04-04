@@ -233,13 +233,17 @@ private String gametype;
     }
 
     public void setLevelUp(){
-        if(this.difficulty.equals(easy)){
-            this.difficulty = medium;
-            setDifficulty(medium);
-        }
         if(this.difficulty.equals(medium)){
             this.difficulty = hard;
             setDifficulty(hard);
+            System.out.println("Level up from medium to hard");
+        }
+
+        if(this.difficulty.equals(easy)){
+            this.difficulty = medium;
+            setDifficulty(medium);
+            System.out.println("Level up from easy to medium");
+
         }
     }
     public void setLevelDown(){
