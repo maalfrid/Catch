@@ -38,8 +38,8 @@ public class FallingObjectFactory {
         powerUpCollection = new HashMap<>();
 
         powerUpCollection.put(R.drawable.obj_powerup_beetle, 3);
-        powerUpCollection.put(R.drawable.obj_powerup_ladybug, 3);
-        powerUpCollection.put(R.drawable.obj_powerup_starbeetle, 3);
+        powerUpCollection.put(R.drawable.obj_powerup_ladybug, 2);
+        powerUpCollection.put(R.drawable.obj_powerup_starbeetle, 1);
 
         this.coreGame = coreGame;
     }

@@ -19,6 +19,7 @@ import android.widget.Toast;
 public class SinglePlayerActivity extends AppCompatActivity {
 
     private String difficulty;
+    private String gametype;
 
     MediaPlayer backgroundMusic;
     /*SoundPool soundPool;
@@ -37,6 +38,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
+        this.gametype = getIntent().getStringExtra("gametype");
 
         backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
 
@@ -56,7 +58,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         return this.difficulty;
     }
 
-
+public String getGametype(){ return this.gametype;}
     @Override
     protected void onPause(){
         super.onPause();
