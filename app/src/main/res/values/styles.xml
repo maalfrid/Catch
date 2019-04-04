@@ -62,8 +62,21 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingBottom">5dp</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display1</item>
+        <item name="android:textColor">@color/colorDarkGreen</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="TextPoints" parent="android:Widget.TextView">
+        <item name="android:breakStrategy">simple</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display1</item>
         <item name="android:textColor">@color/cast_expanded_controller_text_color</item>
         <item name="android:textStyle">bold</item>
