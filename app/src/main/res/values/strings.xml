@@ -20,8 +20,7 @@
     <string name="good_objects_description">
         The monkey is hungry! To feed him, try to catch the good food.
         The monkey likes all kinds of fruits and will reward you with points if you eat them.
-        But be carefull, the monkey will punish you if the fruit hits the ground.
-        He will do this by removing one life, which you only have three of.
+        But be carefull, the monkey will punish you if the fruit hits the ground,by removing one life.
     </string>
 
     <string name="bad_objects_subheader">Avoid the bad objects</string>
