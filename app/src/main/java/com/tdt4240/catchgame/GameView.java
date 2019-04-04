@@ -21,6 +21,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private boolean gameExit;
     private boolean gameOver;
+    private boolean gamePause; //While deciding if game exit = true
 
 
     public GameView(Context context, SinglePlayerActivity singlePlayerActivity) {
@@ -32,6 +33,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.context = context;
         this.gameExit = false;
         this.gameOver = false;
+        this.gamePause = true;
     }
 
     @Override
@@ -65,19 +67,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         coreGame.onTouch(motionEvent);
 
         //If game exit or game over
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN:
-                if(coreGame.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY())){
-                    singlePlayerActivity.finish();
-                }
-                if(coreGame.btn_no.isTouched(motionEvent.getX(), motionEvent.getY())){
-                    //TODO: Pause and resume thread (with wait() and notify()?)
-                }
-                if(coreGame.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY())){
-                    singlePlayerActivity.finish();
-                }
-                break;
+        if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+            if(coreGame.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY())){
+                singlePlayerActivity.finish();
+            }
+            if(coreGame.btn_no.isTouched(motionEvent.getX(), motionEvent.getY())){
+                //TODO: Pause and resume thread (with wait() and notify()?)
+            }
+            if(coreGame.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY())){
+                singlePlayerActivity.finish();
+            }
         }
+
         return true;
     }
 
@@ -136,6 +137,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public boolean getGameExit(){
         return this.gameExit;
+    }
+
+    public void setGamePause(Boolean b){
+        this.gamePause = b;
+    }
+
+    public boolean getGamePause(){
+        return this.gamePause;
     }
 
     public Bitmap getResizedBitmapBG(Bitmap bmp, double scaleFactorWidth, double scaleFactorHeight) {
