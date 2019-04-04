@@ -43,10 +43,13 @@ public class CoreGame extends Activity {
     List<Integer> objectID;
     FallingObjectFactory fallingObjectFactory;
 
+    SoundEffect soundeffect;
+
     public MenuItem txt_gameQuit;
     public MenuItem txt_gameOver;
     public MenuItem btn_yes;
     public MenuItem btn_no;
+
 
     public CoreGame(String difficulty, Context context, GameView gameview){
         this.gameview = gameview;
@@ -60,6 +63,10 @@ public class CoreGame extends Activity {
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
         scoreSinglePlayer = new ScoreSinglePlayer(this);
         fallingObjectFactory = new FallingObjectFactory(this);
+
+        this.soundeffect = new SoundEffect();
+
+
         this.soundOn = true;
 
         //menu items
@@ -78,6 +85,7 @@ public class CoreGame extends Activity {
         //this.txt_gameOver= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_gameover),1.0));
         this.txt_gameOver = new MenuItem("GAME OVER (Click to continue)", 16, 000000);
         this.txt_gameOver.setPos(screenWidth/2 - txt_gameOver.getWidth()/2, screenHeight/2 - txt_gameOver.getHeight()/2);
+
     }
 
     public void draw(Canvas canvas){
@@ -89,6 +97,10 @@ public class CoreGame extends Activity {
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
         }
+    }
+
+    public SoundEffect getSoundEffect(){
+        return this.soundeffect;
     }
 
     public void update(){
@@ -177,6 +189,7 @@ public class CoreGame extends Activity {
         }
 
 
+
 //Fraction of good/bad: 70/30 - 50/50 - 30/70
 // remember to say what you want: good/bad/powerup
 
@@ -259,9 +272,15 @@ public class CoreGame extends Activity {
                     soundOn = !soundOn;
                     if(soundOn){
                         this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
+                        gameview.getSinglePlayerActivity().backgroundMusicOn();
+                        soundeffect.volumeOn();
+
                     }
                     else{
                         this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_off),0.15));
+                        gameview.getSinglePlayerActivity().backgroundMusicOff();
+                        soundeffect.volumeOff();
+
                     }
                 }
                 break;

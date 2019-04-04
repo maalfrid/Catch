@@ -1,5 +1,10 @@
 package com.tdt4240.catchgame;
 
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.media.PlaybackParams;
+import android.media.SoundPool;
+import android.provider.Settings;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,6 +20,14 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     private String difficulty;
 
+    MediaPlayer backgroundMusic;
+    /*SoundPool soundPool;
+    SoundPool.Builder soundPoolBuilder;
+
+    AudioAttributes attributes;
+    AudioAttributes.Builder attributesBuilder;
+
+    int soundID_crunch;*/
 
     public SinglePlayerActivity() {
     }
@@ -24,15 +37,30 @@ public class SinglePlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
+
+        backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(1, 1);
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        backgroundMusic.start();
     }
 
     public String getDifficulty(){
         return this.difficulty;
     }
 
+
     @Override
     protected void onPause(){
         super.onPause();
+        backgroundMusic.release();
     }
 
     @Override
@@ -47,4 +75,13 @@ public class SinglePlayerActivity extends AppCompatActivity {
         startActivity(new Intent(this, MenuActivity.class));
     }
 
+    public void backgroundMusicOn(){
+        //backgroundMusic.setVolume(1, 1);
+        backgroundMusic.start();
+    }
+
+    public void backgroundMusicOff(){
+        //backgroundMusic.setVolume(0, 0);
+        backgroundMusic.pause();
+    }
 }

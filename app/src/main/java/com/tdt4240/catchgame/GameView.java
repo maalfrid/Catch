@@ -156,4 +156,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return resizedBitmap;
     }
 
+
+
+    public SinglePlayerActivity getSinglePlayerActivity() {
+        return this.singlePlayerActivity;
+    }
 }
