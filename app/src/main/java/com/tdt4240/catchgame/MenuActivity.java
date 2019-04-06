@@ -1,24 +1,37 @@
 package com.tdt4240.catchgame;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
+
     private String difficulty = "difficulty";
+    MediaPlayer buttonSound;
 
     public MenuActivity(){
         super();
+
     }
 
-  
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         SwitchScreen(R.id.view_main_menu);
+
+        buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
+
+        buttonSound.setVolume(1, 1);
+
 
         // Click listener for all clickable elements
         for (int id : CLICKABLES) {
@@ -40,44 +53,63 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.btn_play:
+                buttonSound.start();
                 SwitchScreen(R.id.view_play);
                 break;
             case R.id.btn_rules:
+                buttonSound.start();
                 SwitchScreen(R.id.view_rules);
                 break;
             case R.id.btn_score:
+                buttonSound.start();
                 SwitchScreen(R.id.view_highscore);
                 break;
             case R.id.btn_settings:
+                buttonSound.start();
                 SwitchScreen(R.id.view_settings_menu);
                 break;
             case R.id.btn_easy:
+                buttonSound.start();
                 Intent intentEasy = new Intent(v.getContext(), SinglePlayerActivity.class);
                 //send string to next activity
                 intentEasy.putExtra(difficulty, "easy");
+                intentEasy.putExtra("gametype", "single");
                 startActivity(intentEasy);
                 break;
             case R.id.btn_medium:
+                buttonSound.start();
                 Intent intentMedium = new Intent(v.getContext(), SinglePlayerActivity.class);
                 intentMedium.putExtra(difficulty, "medium");
+                intentMedium.putExtra("gametype", "single");
                 startActivity(intentMedium);
                 break;
             case R.id.btn_hard:
+                buttonSound.start();
                 Intent intentHard = new Intent(v.getContext(), SinglePlayerActivity.class);
                 intentHard.putExtra(difficulty, "hard");
+                intentHard.putExtra("gametype", "single");
                 startActivity(intentHard);
                 break;
             case R.id.btn_play_single:
+                buttonSound.start();
                 SwitchScreen(R.id.view_play_single);
                 break;
             case R.id.btn_play_multi:
+                buttonSound.start();
                 //SwitchScreen(R.id.view_play_multi);
-                startActivity(new Intent(v.getContext(), MultiPlayerActivity.class));
+
+                //remains to "catch" this in the constructor of multiplayer
+                // but i don't want to do that while abhi is working on it
+                // just do the same as for singleplayer
+                Intent intentMulti = new Intent(v.getContext(), MultiPlayerActivity.class);
+                intentMulti.putExtra("gametype", "multi");
+                startActivity(intentMulti);
                 break;
             /*case R.id.button_sign_in:
                 startActivity(new Intent(v.getContext(), MultiPlayerActivity.class));
                 break;*/
             case R.id.btn_goBack:
+                buttonSound.start();
                 if(mCurScreen==R.id.view_play) {
                     SwitchScreen(R.id.view_main_menu);
                     break;
@@ -116,5 +148,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
+        buttonSound.release();
     }
 }

@@ -27,7 +27,7 @@ public class CoreGame extends Activity {
     private int baseSpeed;
     private int fractionGood;
     private String difficulty;
-
+    private String gametype;
     private String stringDiff = "difficulty";
     private String easy = "easy";
     private String medium = "medium";
@@ -44,9 +44,11 @@ public class CoreGame extends Activity {
     FallingObjectFactory fallingObjectFactory;
     SoundEffect soundeffect;
 
-    public CoreGame(String difficulty, Context context, GameView gameview){
+  
+    public CoreGame(String gameType, String difficulty, Context context, GameView gameview){
         this.gameview = gameview;
         this.context = context;
+        this.gametype = gameType;
         this.objectsOnScreen = new ArrayList<>();
         this.objectID = new ArrayList<>();
         this.gameTime = 0;
@@ -108,7 +110,9 @@ public class CoreGame extends Activity {
             if(fallingObjectType == 1){
                 spawnObject(createObject(bad), bad);
             }
-            // TODO: Method and logic for power ups
+            if(fallingObjectType == 2){
+                spawnObject(createObject(powerup), powerup);
+            }
         }
         gameTime++;
     }
@@ -220,6 +224,8 @@ public class CoreGame extends Activity {
     //creates a list of 0s (good object) and 1s (bad object) according to fraction.
     // 10 numbers in total
     public void setFallingObjectType() {
+        //number of powerups according to level: 3/13 - 2/13 - 1/13
+        int numberOfPowerUps = this.fractionGood/2;
         //add as many 0s as the fraction of the goodfood
         for (int i = 0; i < this.fractionGood; i++) {
             objectID.add(0);
@@ -228,10 +234,13 @@ public class CoreGame extends Activity {
         for (int j = 0; j < 10 - this.fractionGood; j++) {
             objectID.add(1);
         }
+        //add as many 2s as the fraction of powerups
+        for (int k = 0; k < numberOfPowerUps; k++){
+            objectID.add(2);
+        }
     }
 
     //method for getting random falling object according to percentage from level
-
     public int getFallingObjectType(){
         int id = (int)((Math.random())* (objectID.size() -1));
         return objectID.get(id);
@@ -255,15 +264,31 @@ public class CoreGame extends Activity {
     }
 
     public void setLevelUp(){
+        if(this.difficulty.equals(medium)){
+            this.difficulty = hard;
+            soundeffect.levelUpSound();
+            setDifficulty(hard);
+            System.out.println("Level up from medium to hard");
+        }
         if(this.difficulty.equals(easy)){
+            this.difficulty = medium;
+            soundeffect.levelUpSound();
+            setDifficulty(medium);
+            System.out.println("Level up from easy to medium");
+        }
+    }
+  
+    public void setLevelDown(){
+        if(this.difficulty.equals(hard)){
             this.difficulty = medium;
             setDifficulty(medium);
         }
         if(this.difficulty.equals(medium)){
-            this.difficulty = hard;
-            setDifficulty(hard);
+            this.difficulty = easy;
+            setDifficulty(easy);
         }
     }
+    
     //Temporary method to adjust game difficulty, should be in its own class?
     public void setDifficulty(String difficulty){
         if (difficulty.equals(easy)){
@@ -286,6 +311,8 @@ public class CoreGame extends Activity {
 
         }
     }
+  
+    public String getGametype(){ return this.gametype; }
 
 
     /*
@@ -308,5 +335,5 @@ public class CoreGame extends Activity {
         bmp.recycle();
         return resizedBitmap;
     }
-  
+
 }

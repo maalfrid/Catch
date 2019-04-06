@@ -3,8 +3,9 @@ package com.tdt4240.catchgame;
 public class ScoreSinglePlayer {
 
     public CoreGame coreGame;
-    private int twolevelsup = 35;
-    private int onelevelup = 20;
+    private int twolevelsup = 25;
+    private int onelevelup = 15;
+    private boolean levelUp = false;
 
     public ScoreSinglePlayer(CoreGame coreGame) {
 
@@ -17,15 +18,15 @@ public class ScoreSinglePlayer {
         System.out.println("Player score: " + coreGame.characterSprite.getScore());
 
         //Check if "level up"
-        if(coreGame.getDifficulty() != coreGame.getHard()){
+        if(!coreGame.getDifficulty().equals(coreGame.getHard())){
             //up two levels
-            if (coreGame.characterSprite.getScore() > twolevelsup){
+            if (coreGame.getDifficulty().equals(coreGame.getMedium()) && coreGame.characterSprite.getScore() >= twolevelsup){
                 coreGame.setLevelUp();
             }
             //up one level
-            else if (coreGame.characterSprite.getScore() > onelevelup){
+            if (coreGame.characterSprite.getScore() >= onelevelup && levelUp == false){
                 coreGame.setLevelUp();
-
+                levelUp = true;
             }
 
         }
@@ -46,6 +47,7 @@ public class ScoreSinglePlayer {
 
     public void caughtObject(FallingObject object) {
         int objectPoints = object.getScore();
+        String typeOfGame = coreGame.getGametype();
 
         if(object.getType().equals(coreGame.getGood())){
             incrementScore(objectPoints);
@@ -55,9 +57,63 @@ public class ScoreSinglePlayer {
         }
         if (object.getType().equals(coreGame.getPowerup())){
             // TODO: Implement power-up logic
+            incrementScore(objectPoints);
+
+            /*POWER-UP RULES
+            Gets points for catching, in addition to logics for which is caught:
+
+            SINGLE PLAYER:
+
+            #1 Starbeetle: get 10 points
+            #2 Ladybug: level down
+            #3 Beetle (lightning): get one additional life
+
+            Multi PLAYER:
+
+            #1 Starbeetle: get 10 points
+            #2 Ladybug: level down
+            #3 Beetle (lightning): faster opponent
+
+            */
+            if(typeOfGame.equals("single")) {
+                if(objectPoints == 1) {
+                    incrementScore(10);
+                }
+                if(objectPoints == 2){
+                    coreGame.setLevelDown();
+                }
+                if(objectPoints == 3){
+                    // TODO: this does not work, fix that the lives increases
+                    int currentLives = coreGame.characterSprite.getLives();
+                    int newLives = currentLives++;
+                    coreGame.characterSprite.setLives(newLives);
+                    System.out.println("catched a beetle: get life");
+                    System.out.println(coreGame.characterSprite.getLives());
+                }
+            }
+
+           /* if(typeOfGame.equals("multi")){
+                if(objectPoints == 1) {
+                    incrementScore(10);
+                    // TODO: x2 points of the next caught items, don't know how yet
+                }
+                if(objectPoints == 2){
+                    // TODO: increase size of own sprite and decrease opponent size
+                    coreGame.characterSprite.maximizeCharacterSize();
+                    //coreGame.opponent.minimizeCharacterSize();
+                    // wait 5 seconds
+
+                    coreGame.characterSprite.setCharacterSizeNormal();
+
+
+                }
+                if(objectPoints == 3){
+                    // TODO: increase speed of opponent's falling objects
+                }
+            }*/
+
         }
 
     }
 
 }
-
