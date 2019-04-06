@@ -262,7 +262,7 @@ public class CoreGame extends Activity {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
                 if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY())){
-                    gameview.gameExit();
+                    gameview.gamePause();
                 }
                 if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
                     soundOn = !soundOn;
@@ -270,13 +270,11 @@ public class CoreGame extends Activity {
                         this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
                         gameview.getSinglePlayerActivity().backgroundMusicOn();
                         soundeffect.volumeOn();
-
                     }
                     else{
                         this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_off),0.15));
                         gameview.getSinglePlayerActivity().backgroundMusicOff();
                         soundeffect.volumeOff();
-
                     }
                 }
                 break;

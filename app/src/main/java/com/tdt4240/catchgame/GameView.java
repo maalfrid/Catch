@@ -12,7 +12,7 @@ import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
-    private MainThread thread;
+    private final MainThread thread;
     private CoreGame coreGame;
     private Bitmap background;
     private Context context;
@@ -21,7 +21,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private boolean gameExit;
     private boolean gameOver;
-    private boolean gamePause; //While deciding if game exit = true
+    private boolean gamePause;
 
 
     public GameView(Context context, SinglePlayerActivity singlePlayerActivity) {
@@ -33,7 +33,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.context = context;
         this.gameExit = false;
         this.gameOver = false;
-        this.gamePause = true;
+        this.gamePause = false;
     }
 
     @Override
@@ -67,11 +67,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         coreGame.onTouch(motionEvent);
 
         //If game exit or game over
+        //TODO: Move isTouched logic into game view (as the core game is paused)
         if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
             if(coreGame.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY())){
-                singlePlayerActivity.finish();
+                gameExit();
             }
             if(coreGame.btn_no.isTouched(motionEvent.getX(), motionEvent.getY())){
+                gameResume();
                 //TODO: Pause and resume thread (with wait() and notify()?)
             }
             if(coreGame.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY())){
@@ -83,7 +85,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update(){
-        coreGame.update();
+        if(!this.thread.getIsPausing()){coreGame.update();}
     }
 
     @Override
@@ -91,13 +93,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         if (canvas != null) {
             canvas.drawBitmap(background, 0,0, null);
-            coreGame.draw(canvas);
+
+            if(!this.thread.getIsPausing()){coreGame.draw(canvas);}
 
             if(getGameOver()){
                 coreGame.txt_gameOver.draw(canvas, coreGame.txt_gameOver.getPosX(), coreGame.txt_gameOver.getPosY());
             }
 
-            if(getGameExit()){
+            //if(getGameExit()){
+            if(getGamePause()){
                 coreGame.txt_gameQuit.draw(canvas, coreGame.txt_gameQuit.getPosX(), coreGame.txt_gameQuit.getPosY());
                 coreGame.btn_yes.draw(canvas, coreGame.btn_yes.getPosX(), coreGame.btn_yes.getPosY());
                 coreGame.btn_no.draw(canvas, coreGame.btn_no.getPosX(), coreGame.btn_no.getPosY());
@@ -105,14 +109,44 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    // When the player says yes to quit the game
     public void gameExit(){
         setRunning(false);
-        setGameExit(true);
+        //setGameExit(true);
+        singlePlayerActivity.finish();
     }
 
+    // When the player has lost 3 lives
     public void gameOver(){
         setRunning(false);
         setGameOver(true);
+    }
+
+    // Check if the user really wants to quit
+    public void gamePause(){
+        setGamePause(true);
+        //this.thread.sleep(10000);
+        this.thread.setSleep(10000);
+        /*synchronized(this.thread){
+            while(getGamePause()){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }*/
+    }
+
+    public void gameResume(){
+        setGamePause(false);
+        //this.thread.sleep(0);
+        this.thread.setSleep(0);
+        /*if(!getGamePause()){
+            synchronized(this.thread){
+                notify();
+            }
+        }*/
     }
 
     /*
