@@ -94,12 +94,10 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_multi_player);
         findViewById(R.id.view_signIn).setVisibility(View.VISIBLE);
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
-                .requestEmail()
-                .build();
+        //GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
 
         // Create the client used to sign in
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
 
         //Set up a click listener for everything
         for(int id: CLICKABLEs){
@@ -167,6 +165,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
      * your Activity's onActivityResult function
      */
     public void startSignInIntent(){
+        Log.d(TAG, "--------------Start sign in Intent");
         startActivityForResult(mGoogleSignInClient.getSignInIntent(), RC_SIGN_IN);
     }
 
@@ -187,13 +186,17 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent){
+        Log.d(TAG, "---------------- requestcode: " + requestCode);
         if(requestCode == RC_SIGN_IN){
 
             Task<GoogleSignInAccount> task =
                     GoogleSignIn.getSignedInAccountFromIntent(intent);
+            Log.d(TAG, "--------------- task " + task);
            // handleSignInResult(task);
             try {
+                Log.d(TAG, "--------------- try statement");
                 GoogleSignInAccount account = task.getResult(ApiException.class);
+                Log.d(TAG, "--------------- account " + account);
                 onConnected(account);
             } catch (ApiException apiException){
                 String message = apiException.getMessage();
@@ -214,6 +217,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                 //start game here
             }
         }
+        Log.d(TAG, "------------if statement failed in onActivityResult");
         super.onActivityResult(requestCode, resultCode, intent);
     }
 
@@ -238,7 +242,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         Log.d(TAG, "---------onConnected(): Connected to Google Api's - Account " + googleSignInAccount );
         if(mSignedInAccount != googleSignInAccount) {
             mSignedInAccount = googleSignInAccount;
-            //Log.d(TAG, "------Crashing here.");
+            Log.d(TAG, "------Crashing here.");
             //update the clients
             mRealTimeMultiplayerClient = Games.getRealTimeMultiplayerClient(this, googleSignInAccount);
             Log.d(TAG, "------------Real time multiple client " + mRealTimeMultiplayerClient);
