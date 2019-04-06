@@ -213,8 +213,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             // we got the result from the "waiting room" UI.
             if(resultCode == Activity.RESULT_OK) {
                 // ready to start playing
-                Log.d(TAG, "Starting game (waiting room returned OK).");
-                //start game here
+                Log.d(TAG, "--------Starting game (waiting room returned OK).");
+                //start game here startGame(true);
+                startGame();
             }
         }
         Log.d(TAG, "------------if statement failed in onActivityResult");
@@ -383,6 +384,10 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
         }
     };
+
+    void startGame() {
+        setContentView(new GameView(this));
+    }
 
     private OnRealTimeMessageReceivedListener mOnRealTimeMessageReceivedListener = new OnRealTimeMessageReceivedListener() {
         @Override
