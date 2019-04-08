@@ -44,7 +44,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 
 import  java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MultiPlayerActivity extends AppCompatActivity implements
@@ -82,7 +84,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     ArrayList<Participant> mParticipants = null;
 
     //My participant Id in the currently active game
-    String myId = null;
+    String mMyId = null;
 
     // Message buffer for sending messages
     byte[] mMsgBuf = new byte[2];
@@ -338,8 +340,23 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
         @Override
         public void onConnectedToRoom(@Nullable Room room) {
+            Log.d(TAG, "-------onConnectedToRoom from RoomStatusUpdateCallback");
 
+            //get participants and my ID:
+            mParticipants = room.getParticipants();
+            mMyId = room.getParticipantId(mPlayerId);
+
+            // save room ID if its not initialized in onRoomCreated() so we can leave cleanly before the game starts.
+            if (mRoomId == null) {
+                mRoomId = room.getRoomId();
+            }
+
+            // print out the list of participants (for debug purposes)
+            Log.d(TAG, "-----------------Room ID: " + mRoomId);
+            Log.d(TAG, "-----------------My ID " + mMyId);
+            Log.d(TAG, "-----------------<< CONNECTED TO ROOM>>");
         }
+
 
         @Override
         public void onDisconnectedFromRoom(@Nullable Room room) {
@@ -370,6 +387,8 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         @Override
         public void onRoomCreated(int statusCode, Room room) {
             Log.d(TAG, "------------RoomUpdateCallback onRoomCreate()");
+            // save room ID so we can leave cleanly before the game starts.
+            mRoomId = room.getRoomId();
             showWaitingRoom(room);
 
         }
@@ -395,13 +414,43 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         setContentView(new GameView(this, this));
     }
 
+    public CharacterSprite characterSprite;
+    public int mScore = characterSprite.getScore();
+
+    //Score of other participants. We update this as we receive their scores from the network
+    Map<String, Integer> mParticipantScore = new HashMap<>();
+
     private OnRealTimeMessageReceivedListener mOnRealTimeMessageReceivedListener = new OnRealTimeMessageReceivedListener() {
         @Override
         public void onRealTimeMessageReceived(@NonNull RealTimeMessage realTimeMessage) {
+            byte[] buf = realTimeMessage.getMessageData();
+            String sender = realTimeMessage.getSenderParticipantId();
+            Log.d(TAG, "-----------Message received: " + (char) buf[0] + "/" + (int) buf[1]);
+
+            if(buf[0] == 'F' || buf[0] == 'U') {
+                //score update
+                int existingScore = mParticipantScore.containsKey(sender) ?
+                        mParticipantScore.get(sender) : 0;
+                int thisScore = (int) buf[1];
+                if(thisScore > existingScore) {
+                    mParticipantScore.put(sender, thisScore);
+                }
+                displayScore(false);
+
+            }
 
         }
     };
 
+    public void displayScore(boolean finalScore){
+        // First byte in message indicates whether it's a final score or not
+        mMsgBuf[0] = (byte) (finalScore ? 'F' : 'U');
+
+        // Second byte is the score.
+        mMsgBuf[1] = (byte) mScore;
+
+        Log.d(TAG, "----------------- Message buffer 1 from displayScore: " + mMsgBuf[1]);
+    }
 
 
     //Keeps the screen turned on
