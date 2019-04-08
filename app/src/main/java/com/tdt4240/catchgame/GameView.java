@@ -1,5 +1,6 @@
 package com.tdt4240.catchgame;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -18,11 +19,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Bitmap background;
     private Context context;
     private SinglePlayerActivity singlePlayerActivity;
+    private MultiPlayerActivity multiPlayerActivity;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private boolean gameExit;
     private boolean gameOver;
     private boolean gamePause;
+    private boolean isMultiplayer;
 
     //game over/exit items
     public MenuItem txt_gameQuit;
@@ -40,6 +43,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gameExit = false;
         this.gameOver = false;
         this.gamePause = false;
+        this.isMultiplayer = false;
+    }
+
+    public GameView(Context context, MultiPlayerActivity multiPlayerActivity) {
+        super(context);
+        this.multiPlayerActivity = multiPlayerActivity;
+        getHolder().addCallback(this);
+        thread = new MainThread(getHolder(), this);
+        setFocusable(true);
+        this.context = context;
+        this.gameExit = false;
+        this.gameOver = false;
+        this.gamePause = false;
+        this.isMultiplayer = true;
     }
 
     /*
@@ -67,7 +84,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         //this.txt_gameOver= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_gameover),1.0));
         this.txt_gameOver = new MenuItem("GAME OVER (Click to continue)", 16, 000000);
         this.txt_gameOver.setPos(screenWidth/2 - txt_gameOver.getWidth()/2, screenHeight/2 - txt_gameOver.getHeight()/2);
-        coreGame = new CoreGame(singlePlayerActivity.getGametype(), singlePlayerActivity.getDifficulty(), context, this);
+        if(isMultiplayer){
+            coreGame = new CoreGame(multiPlayerActivity.getGametype(), multiPlayerActivity.getDifficulty(), context, this);
+        }
+        if(!isMultiplayer){
+            coreGame = new CoreGame(singlePlayerActivity.getGametype(), singlePlayerActivity.getDifficulty(), context, this);
+        }
+
     }
 
     @Override
@@ -128,7 +151,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 gameResume();
             }
             if(txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY())){
-                singlePlayerActivity.finish();
+                if(!isMultiplayer){singlePlayerActivity.finish();}
+                if(isMultiplayer){multiPlayerActivity.finish();}
             }
         }
 
@@ -143,7 +167,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     // When the player says yes to quit the game
     public void gameExit(){
         setRunning(false);
-        singlePlayerActivity.finish();
+        if(!isMultiplayer){singlePlayerActivity.finish();}
+        if(isMultiplayer){multiPlayerActivity.finish();}
     }
 
     // When the player has lost 3 lives
@@ -157,16 +182,28 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         setGamePause(true);
     }
 
-    public void gameResume(){
+    public void gameResume() {
         setGamePause(false);
+    }
 
     public void popup(final String msg){
-        getSinglePlayerActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getSinglePlayerActivity(), msg, Toast.LENGTH_LONG).show();
-            }
-        });
+        if(!isMultiplayer){
+            getSinglePlayerActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getSinglePlayerActivity(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        if(isMultiplayer){
+            getMultiPlayerActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getMultiPlayerActivity(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
 
     }
 
@@ -205,6 +242,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public SinglePlayerActivity getSinglePlayerActivity() {
         return this.singlePlayerActivity;
     }
+
+    public MultiPlayerActivity getMultiPlayerActivity() {
+        return this.multiPlayerActivity;
+    }
+
 
     /*
      * --------- HELP METHODS ---------

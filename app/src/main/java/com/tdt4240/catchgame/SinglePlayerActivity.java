@@ -52,7 +52,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
         return this.difficulty;
     }
 
-public String getGametype(){ return this.gametype;}
+    public String getGametype(){ return this.gametype;}
+
     @Override
     protected void onPause(){
         super.onPause();

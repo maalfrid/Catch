@@ -106,6 +106,12 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         }
     }
 
+    public String getDifficulty(){
+        return "easy";
+    }
+
+    public String getGametype(){ return "multi";}
+
     //Clickable buttons
     final static int[] CLICKABLEs = {
             R.id.button_sign_in, R.id.button_sign_out, R.id.button_quick_game
@@ -386,7 +392,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     };
 
     void startGame() {
-        setContentView(new GameView(this));
+        setContentView(new GameView(this, this));
     }
 
     private OnRealTimeMessageReceivedListener mOnRealTimeMessageReceivedListener = new OnRealTimeMessageReceivedListener() {
