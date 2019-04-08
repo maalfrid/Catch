@@ -21,6 +21,14 @@
             tools:layout_editor_absoluteY="338dp" />
 
         <Button
+            android:id="@+id/button_quick_game"
+            style="@style/MenuButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quick_game"/>
+
+
+        <Button
             android:id="@+id/button_sign_out"
             style="@style/MenuButton"
             android:layout_width="wrap_content"
@@ -29,6 +37,16 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/screen_wait"
+        style="@style/CenterScreen">
+
+        <TextView
+            style="@style/Blurb"
+            android:text="@string/please_wait"
+        />
+
+    </LinearLayout>
 
 
 </FrameLayout>

@@ -39,7 +39,10 @@
     </string>
 
     <string name="sound_on_off">Sound on/off</string>
+    <!-- Multiplayer -->
     <string name="sign_out">Sign Out</string>
+    <string name="quick_game">Quick game</string>
+    <string name="please_wait">Please Wait</string>
     <string name="Yes">Yes</string>
     <string name="No">No</string>
 </resources>
