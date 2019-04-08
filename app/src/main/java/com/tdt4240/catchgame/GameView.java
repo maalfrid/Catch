@@ -9,6 +9,7 @@ import android.graphics.Matrix;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -112,6 +113,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void gameOver(){
         setRunning(false);
         setGameOver(true);
+    }
+
+    public void popup(final String msg){
+        getSinglePlayerActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getSinglePlayerActivity(), msg, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /*
