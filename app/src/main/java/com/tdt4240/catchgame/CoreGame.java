@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -268,13 +269,15 @@ public class CoreGame extends Activity {
             this.difficulty = hard;
             soundeffect.levelUpSound();
             setDifficulty(hard);
-            System.out.println("Level up from medium to hard");
+            this.gameview.popup("Level up from medium to hard");
+
+
         }
         if(this.difficulty.equals(easy)){
             this.difficulty = medium;
             soundeffect.levelUpSound();
             setDifficulty(medium);
-            System.out.println("Level up from easy to medium");
+            this.gameview.popup("Level up from easy to medium");
         }
     }
   
