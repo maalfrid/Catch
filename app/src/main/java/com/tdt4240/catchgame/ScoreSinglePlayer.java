@@ -8,24 +8,23 @@ public class ScoreSinglePlayer {
     private boolean levelUp = false;
 
     public ScoreSinglePlayer(CoreGame coreGame) {
-
         this.coreGame = coreGame;
     }
 
     // Method for incrementing players score
     public void incrementScore(int scoreInc) {
-        coreGame.characterSprite.setScore(coreGame.characterSprite.getScore() + scoreInc);
-        System.out.println("Player score: " + coreGame.characterSprite.getScore());
+        this.coreGame.characterSprite.setScore(this.coreGame.characterSprite.getScore() + scoreInc);
+        System.out.println("Player score: " + this.coreGame.characterSprite.getScore());
 
         //Check if "level up"
-        if(!coreGame.getDifficulty().equals(coreGame.getHard())){
+        if(!this.coreGame.getDifficulty().equals(this.coreGame.getHard())){
             //up two levels
-            if (coreGame.getDifficulty().equals(coreGame.getMedium()) && coreGame.characterSprite.getScore() >= twolevelsup){
-                coreGame.setLevelUp();
+            if (this.coreGame.getDifficulty().equals(this.coreGame.getMedium()) && this.coreGame.characterSprite.getScore() >= twolevelsup){
+                this.coreGame.setLevelUp();
             }
             //up one level
-            if (coreGame.characterSprite.getScore() >= onelevelup && levelUp == false){
-                coreGame.setLevelUp();
+            if (this.coreGame.characterSprite.getScore() >= onelevelup && levelUp == false){
+                this.coreGame.setLevelUp();
                 levelUp = true;
             }
 
@@ -34,11 +33,11 @@ public class ScoreSinglePlayer {
     }
 
     public void decrementScore(int scoreDec) {
-        coreGame.characterSprite.setScore(coreGame.characterSprite.getScore() + scoreDec);
+        this.coreGame.characterSprite.setScore(coreGame.characterSprite.getScore() + scoreDec);
 
         //Check if "level gameover"
         // TODO: Find correct game-over variables and methods, need view
-        if (coreGame.characterSprite.getScore() < 0) {
+        if (this.coreGame.characterSprite.getScore() < 0) {
 
         }
 
@@ -47,15 +46,15 @@ public class ScoreSinglePlayer {
 
     public void caughtObject(FallingObject object) {
         int objectPoints = object.getScore();
-        String typeOfGame = coreGame.getGametype();
+        String typeOfGame = this.coreGame.getGametype();
 
-        if(object.getType().equals(coreGame.getGood())){
+        if(object.getType().equals(this.coreGame.getGood())){
             incrementScore(objectPoints);
         }
-        if (object.getType().equals(coreGame.getBad())){
+        if (object.getType().equals(this.coreGame.getBad())){
             decrementScore(objectPoints);
         }
-        if (object.getType().equals(coreGame.getPowerup())){
+        if (object.getType().equals(this.coreGame.getPowerup())){
             // TODO: Implement power-up logic
             incrementScore(objectPoints);
 
@@ -78,17 +77,15 @@ public class ScoreSinglePlayer {
             if(typeOfGame.equals("single")) {
                 if(objectPoints == 1) {
                     incrementScore(10);
+                    this.coreGame.popup("Powerup! 10 extra points");
                 }
                 if(objectPoints == 2){
-                    coreGame.setLevelDown();
+                    this.coreGame.setLevelDown();
                 }
                 if(objectPoints == 3){
-                    // TODO: this does not work, fix that the lives increases
-                    int currentLives = coreGame.characterSprite.getLives();
-                    int newLives = currentLives++;
-                    coreGame.characterSprite.setLives(newLives);
-                    System.out.println("catched a beetle: get life");
-                    System.out.println(coreGame.characterSprite.getLives());
+                    int lives = this.coreGame.characterSprite.getLives() + 1;
+                    this.coreGame.characterSprite.setLives(lives);
+                    this.coreGame.popup("Powerup! 1 extra life");
                 }
             }
 

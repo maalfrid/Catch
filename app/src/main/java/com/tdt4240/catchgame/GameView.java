@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -191,7 +192,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             getSinglePlayerActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getSinglePlayerActivity(), msg, Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getSinglePlayerActivity(),msg, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                 }
             });
         }
@@ -199,7 +202,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             getMultiPlayerActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getMultiPlayerActivity(), msg, Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getSinglePlayerActivity(),msg, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                 }
             });
         }
