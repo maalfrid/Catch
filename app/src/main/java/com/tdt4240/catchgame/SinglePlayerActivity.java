@@ -20,7 +20,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     private String difficulty;
     private String gametype;
-
     MediaPlayer backgroundMusic;
 
 
@@ -33,11 +32,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
         this.gametype = getIntent().getStringExtra("gametype");
-
-        backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
-
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(1, 1);
+        this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+        this.backgroundMusic.setLooping(true);
+        this.backgroundMusic.setVolume(1, 1);
 
 
     }
@@ -45,7 +42,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        backgroundMusic.start();
+        this.backgroundMusic.start();
     }
 
     public String getDifficulty(){
@@ -57,12 +54,15 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        backgroundMusic.release();
+        this.backgroundMusic.release();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+        this.backgroundMusic.setLooping(true);
+        this.backgroundMusic.setVolume(1, 1);
     }
 
     //Called if game exit or game over
@@ -70,14 +70,14 @@ public class SinglePlayerActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         startActivity(new Intent(this, MenuActivity.class));
-        backgroundMusic.release();
+        this.backgroundMusic.release();
     }
 
     public void backgroundMusicOn(){
-        backgroundMusic.start();
+        this.backgroundMusic.start();
     }
 
     public void backgroundMusicOff(){
-        backgroundMusic.pause();
+        this.backgroundMusic.pause();
     }
 }

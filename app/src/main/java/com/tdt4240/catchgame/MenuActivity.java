@@ -152,6 +152,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+        this.buttonSound = MediaPlayer.create(this,R.raw.buttonclick);
+        this.buttonSound.setVolume(1, 1);
     }
 
 
