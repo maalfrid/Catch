@@ -64,7 +64,7 @@ CATCH is an intuitive and easily accessible mobile game that gets you hooked fro
 
 <a name="play"></a>
 # 2 Play Guide
-Todo: Screenshots from the game explaining how to play it (or add video?)
+Todo: Screenshots from the game explaining how to play it (or add video?).
 
 <a name="play-multi"></a>
 ## 2.1 Play Multiplayer
@@ -90,4 +90,4 @@ List of [contributors](https://github.com/maalfrid/Catch/graphs/contributors) wh
 
 <a name="license"></a>
 # 6 License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
