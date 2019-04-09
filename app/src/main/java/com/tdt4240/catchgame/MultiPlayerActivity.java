@@ -434,6 +434,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             byte[] buf = realTimeMessage.getMessageData();
             String sender = realTimeMessage.getSenderParticipantId();
             Log.d(TAG, "-----------Message received: " + (char) buf[0] + "/" + (int) buf[1]);
+            setOpponentScore(buf[1]);
 
         }
     };
@@ -458,8 +459,19 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                 mRealTimeMultiplayerClient.sendUnreliableMessage(mMsgBuf, mRoomId, p.getParticipantId());
             }
         }
-
     }
+
+    private int opponentScore;
+
+    public int getOpponentScore(){
+        return this.opponentScore;
+    }
+
+    public void setOpponentScore(int score){
+        this.opponentScore = score;
+    }
+
+
 
 
     //Keeps the screen turned on
