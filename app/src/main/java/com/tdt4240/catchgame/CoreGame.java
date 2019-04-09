@@ -105,9 +105,12 @@ public class CoreGame extends Activity {
             gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), this.multiGameOver);
             txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), gameview.getMultiPlayerActivity().getOpponentLife());
             //TODO: If the other opponent looses or exit game --> Make game over view (and click to continue to get to main menu)
-            if(gameview.getMultiPlayerActivity().getIsGameOver()==1 || gameview.getMultiPlayerActivity().getOpponentLife()==0){
+            if(gameview.getMultiPlayerActivity().getIsGameOver()==1){
                 gameview.gameOver();
             }
+            /*if(gameview.getMultiPlayerActivity().getOpponentLife()==0){
+                gameview.gameOver();
+            }*/
         }
         int fallingObjectType = getFallingObjectType();
         for(int i=0; i < objectsOnScreen.size(); i++) {
