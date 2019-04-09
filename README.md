@@ -17,7 +17,7 @@ CATCH is an intuitive and easily accessible mobile game that gets you hooked fro
 
 <a name="prerequisites"></a>
 ## 1.1 Prerequisites
-- An Android device or emulator supporting google play games services with API version 2X or later (todo: find exact API version)
+- An Android device or emulator supporting google play games services with API version 21 or later versions
 - Create a user in the [Google Play Games](https://play.google.com/store/apps/details?id=com.google.android.play.games&hl=en) app in order to play multiplayer
 - In order to test the game, you must be added as a tester on the [Google Developer Console](https://console.developers.google.com) by one of the contributors of Catch
 - For playing multiplayer, you need to be connected to the internet
@@ -54,7 +54,7 @@ CATCH is an intuitive and easily accessible mobile game that gets you hooked fro
 - Choose one of the devices with a play store symbol (e.g. NEXUS 5X): <br />
 <img src="https://user-images.githubusercontent.com/16878457/55806189-1865a700-5ae0-11e9-982e-ddd0938614ae.png" alt="" width="250"/>
 - Press next
-- Choose a version of the Android mobile operating system having an API level XX or higher (e.g. Pie)
+- Choose a version of the Android mobile operating system having an API level 21 or later versions (e.g. Pie)
   * Press the Download button for the chosen version
 - Press next
 - Press finish
