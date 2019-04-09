@@ -25,7 +25,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean gameExit;
     private boolean gameOver;
     private boolean gamePause;
-    private boolean isMultiplayer;
+    public boolean isMultiplayer;
 
     //game over/exit items
     public MenuItem txt_gameQuit;

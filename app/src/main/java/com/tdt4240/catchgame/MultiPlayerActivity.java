@@ -89,6 +89,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     // Message buffer for sending messages
     byte[] mMsgBuf = new byte[2];
 
+    //temp
+    int myScore = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -355,6 +358,11 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             Log.d(TAG, "-----------------Room ID: " + mRoomId);
             Log.d(TAG, "-----------------My ID " + mMyId);
             Log.d(TAG, "-----------------<< CONNECTED TO ROOM>>");
+            for(Participant p : mParticipants){
+                Log.d(TAG, "--------------mParticipants " + p.getDisplayName());
+
+            }
+
         }
 
 
@@ -411,11 +419,11 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     };
 
     void startGame() {
+
         setContentView(new GameView(this, this));
+        //broadcastScore(false);
     }
 
-    public CharacterSprite characterSprite;
-    public int mScore = characterSprite.getScore();
 
     //Score of other participants. We update this as we receive their scores from the network
     Map<String, Integer> mParticipantScore = new HashMap<>();
@@ -427,29 +435,30 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             String sender = realTimeMessage.getSenderParticipantId();
             Log.d(TAG, "-----------Message received: " + (char) buf[0] + "/" + (int) buf[1]);
 
-            if(buf[0] == 'F' || buf[0] == 'U') {
-                //score update
-                int existingScore = mParticipantScore.containsKey(sender) ?
-                        mParticipantScore.get(sender) : 0;
-                int thisScore = (int) buf[1];
-                if(thisScore > existingScore) {
-                    mParticipantScore.put(sender, thisScore);
-                }
-                displayScore(false);
-
-            }
-
         }
     };
 
-    public void displayScore(boolean finalScore){
-        // First byte in message indicates whether it's a final score or not
-        mMsgBuf[0] = (byte) (finalScore ? 'F' : 'U');
+    // Broadcast my score to everybody else
+    void broadcastScore(int myScore){
 
-        // Second byte is the score.
-        mMsgBuf[1] = (byte) mScore;
+        //First byte in message indicates whether it's final score or not
+        mMsgBuf[0] = 'U';
 
-        Log.d(TAG, "----------------- Message buffer 1 from displayScore: " + mMsgBuf[1]);
+        //Second byte is the score
+        //mMsgBuf[1] = (byte) CoreGame.pScore;
+        mMsgBuf[1] = (byte) myScore;
+
+        //send to every participant
+        for(Participant p : mParticipants) {
+            if(p.getParticipantId().equals(mMyId)){
+                continue;
+            }
+            if(true){
+                // interim score
+                mRealTimeMultiplayerClient.sendUnreliableMessage(mMsgBuf, mRoomId, p.getParticipantId());
+            }
+        }
+
     }
 
 

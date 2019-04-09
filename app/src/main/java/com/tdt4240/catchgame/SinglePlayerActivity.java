@@ -53,7 +53,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     }
 
     public String getGametype(){ return this.gametype;}
-    
+
     @Override
     protected void onPause(){
         super.onPause();
