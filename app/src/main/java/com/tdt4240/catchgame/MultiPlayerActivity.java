@@ -87,7 +87,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     String mMyId = null;
 
     // Message buffer for sending messages
-    byte[] mMsgBuf = new byte[2];
+    byte[] mMsgBuf = new byte[3];
 
     //temp
     int myScore = 0;
