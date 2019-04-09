@@ -32,16 +32,21 @@ Project description
   * (add screenshot)
 - Choose the cloned Catch directory:
   * (add screenshot) 
-- Press the Open button and wait for the Gradle to build
+- Press the Open button and wait for the Gradle build is finished
   * (add screenshot)
+- Build and run (green play button) 
+  * (add screenshot)
+- To run with device or emulator (next subsections)
 
 #### 1.2.1 With Device
-todo
+- Connect device to the computer with USB
+- One the device: Enable permission to access the device from the computer (other settings todo?)
+- Run
 
 #### 1.2.2 With Emulator
-- Open/import project
-- Build and run (green play button) 
-  * Create new device (supporting Google Play Games) 
+- Create new device (supporting Google Play Games)
+  * add more description
+- Run
 
 <a name="play"></a>
 ## 2 Play Guide
