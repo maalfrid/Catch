@@ -48,6 +48,7 @@ public class CoreGame extends Activity {
 
     //for multiplayer
     public static int pScore;
+    public int multiGameOver;
 
 
     public CoreGame(String gameType, String difficulty, Context context, GameView gameview){
@@ -71,6 +72,7 @@ public class CoreGame extends Activity {
         this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000);
         this.txt_score2 = new MenuItem("Score: ", 16, 000000);
         pScore = characterSprite.getScore();
+        this.multiGameOver = 0; //false
     }
 
     /*
@@ -100,8 +102,12 @@ public class CoreGame extends Activity {
         //Call broadcast
         if(this.gameview.isMultiplayer){
             //broadcastScore has 2 parameters -> Score and lives.
-            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives());
+            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), this.multiGameOver);
             txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), gameview.getMultiPlayerActivity().getOpponentLife());
+            //TODO: If the other opponent looses or exit game --> Make game over view (and click to continue to get to main menu)
+            if(gameview.getMultiPlayerActivity().getIsGameOver()==1 || characterSprite.getLives()==0){
+                gameview.gameOver();
+            }
         }
         int fallingObjectType = getFallingObjectType();
         for(int i=0; i < objectsOnScreen.size(); i++) {
@@ -136,8 +142,12 @@ public class CoreGame extends Activity {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
-                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY())){
+                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && !this.gameview.isMultiplayer){
                     gameview.gamePause();
+                }
+                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && this.gameview.isMultiplayer){
+                    this.multiGameOver = 1;
+                    gameview.gameOver();
                 }
                 if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
                     soundOn = !soundOn;

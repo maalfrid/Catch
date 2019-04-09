@@ -87,7 +87,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     String mMyId = null;
 
     // Message buffer for sending messages
-    byte[] mMsgBuf = new byte[3];
+    byte[] mMsgBuf = new byte[4];
 
     //temp
     int myScore = 0;
@@ -436,12 +436,13 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             Log.d(TAG, "-----------Message received: " + (char) buf[0] + " Score : " + (int) buf[1] + "Lives : " + (int) buf[2]);
             setOpponentScore(buf[1]);
             setOpponentLife(buf[2]);
+            setIsGameOver(buf[3]);
 
         }
     };
 
     // Broadcast my score to everybody else
-    void broadcastScore(int myScore, int myLives){
+    void broadcastScore(int myScore, int myLives, int isGameOver){
 
         //First byte in message indicates whether it's final score or not
         mMsgBuf[0] = 'U';
@@ -450,6 +451,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         //mMsgBuf[1] = (byte) CoreGame.pScore;
         mMsgBuf[1] = (byte) myScore;
         mMsgBuf[2] = (byte) myLives;
+        mMsgBuf[3] = (byte) isGameOver; //1: True, 0: False
 
         //send to every participant
         for(Participant p : mParticipants) {
@@ -465,6 +467,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
     private int opponentScore;
     private int opponentLife;
+    private int isGameOver;
 
     public int getOpponentScore(){
         return this.opponentScore;
@@ -481,6 +484,10 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     public void setOpponentLife(int lives){
         this.opponentLife= lives;
     }
+
+    public int getIsGameOver(){return this.isGameOver;}
+
+    public void setIsGameOver(int isGameOver){this.isGameOver = isGameOver;}
 
 
 
