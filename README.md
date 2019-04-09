@@ -1,7 +1,7 @@
-# Catch
-Project description
+<img src="https://github.com/maalfrid/Catch/blob/dev/app/src/main/res/drawable/txt_title.png" alt="" width="600"/>
+CATCH is an intuitive and easily accessible mobile game that gets you hooked from the first game. Control your sprite by touch, catch the good objects falling down and be rewarded, but by all means avoid the bad objects or you will be punished!  
 
-## Outline
+# Outline
 - [1 Getting Started](#getting-started)
   * [1.1 Prerequesites](#prerequisites)
   * [1.2 Installing](#installing)
@@ -13,17 +13,17 @@ Project description
 - [6 License](#license)
 
 <a name="getting-started"></a>
-## 1 Getting Started
+# 1 Getting Started
 
 <a name="prerequisites"></a>
-### 1.1 Prerequisites
+## 1.1 Prerequisites
 - An Android device or emulator supporting google play games services with API version 2X or later (todo: find exact API version)
 - Create a user in the [Google Play Games](https://play.google.com/store/apps/details?id=com.google.android.play.games&hl=en) app in order to play multiplayer
 - In order to test the game, you must be added as a tester on the [Google Developer Console](https://console.developers.google.com) by one of the contributors of Catch
 - For playing multiplayer, you need to be connected to the internet
 
 <a name="installing"></a>
-### 1.2 Install, Compile and Run
+## 1.2 Install, Compile and Run
 - Download [Android Studio](https://developer.android.com/studio) on you computer
 - Clone the [project](https://github.com/maalfrid/Catch) from terminal
   * ```cd your-git-directory```
@@ -41,14 +41,14 @@ Project description
   * Go to [this section](#installing_emulator) if you don't have a device.
 
 <a name="installing_device"></a>
-#### 1.2.1 With Device
+### 1.2.1 With Device
 - Connect device to the computer with USB
 - One the device: Enable permission to access the device from the computer
 - Select your device appearing in "Connected Devices"
 - Press OK to run the app on your device
 
 <a name="installing_emulator"></a>
-#### 1.2.2 With Emulator
+### 1.2.2 With Emulator
 - Create a new device: <br />
 <img src="https://user-images.githubusercontent.com/16878457/55806203-20254b80-5ae0-11e9-90b4-1c0a10dfccc5.png" alt="" width="500"/>
 - Choose one of the devices with a play store symbol (e.g. NEXUS 5X): <br />
@@ -63,11 +63,11 @@ Project description
 <img src="https://user-images.githubusercontent.com/16878457/55806208-2287a580-5ae0-11e9-89a6-38b46255d356.png" alt="" width="500"/>
 
 <a name="play"></a>
-## 2 Play Guide
+# 2 Play Guide
 Todo: Screenshots from the game explaining how to play it (or add video?)
 
 <a name="play-multi"></a>
-### 2.1 Play Multiplayer
+## 2.1 Play Multiplayer
 - In the landing page, press Play and further Multiplayer
 - Sign in to your google play games account
 - Choose Quick game:
@@ -75,19 +75,19 @@ Todo: Screenshots from the game explaining how to play it (or add video?)
   * When the opponent has joined, the game will start automatically
 
 <a name="built-with"></a>
-## 3 Built With
+# 3 Built With
 - Android Studio
 - [Google Play Games Services](https://developers.google.com/games/services/) (for multiplayer) 
 
 <a name="versioning"></a>
-## 4 Versioning
+# 4 Versioning
 Build gradle version 3.3.2.
 
 <a name="authors"></a>
-## 5 Authors
+# 5 Authors
 
 List of [contributors](https://github.com/maalfrid/Catch/graphs/contributors) who participated in this project.
 
 <a name="license"></a>
-## License
-eventual todo: add MIT license
+# 6 License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
