@@ -269,7 +269,7 @@ public class CoreGame extends Activity {
             this.difficulty = hard;
             soundeffect.levelUpSound();
             setDifficulty(hard);
-            this.gameview.popup("Level up from medium to hard");
+            this.gameview.popup("Level up! from medium to hard");
 
 
         }
@@ -277,7 +277,7 @@ public class CoreGame extends Activity {
             this.difficulty = medium;
             soundeffect.levelUpSound();
             setDifficulty(medium);
-            this.gameview.popup("Level up from easy to medium");
+            this.gameview.popup("Level up! From easy to medium");
         }
     }
   
@@ -285,10 +285,12 @@ public class CoreGame extends Activity {
         if(this.difficulty.equals(hard)){
             this.difficulty = medium;
             setDifficulty(medium);
+            this.gameview.popup("Level down from hard to medium");
         }
         if(this.difficulty.equals(medium)){
             this.difficulty = easy;
             setDifficulty(easy);
+            this.gameview.popup("Level down from medium to easy");
         }
     }
     
@@ -337,6 +339,10 @@ public class CoreGame extends Activity {
                 Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
         bmp.recycle();
         return resizedBitmap;
+    }
+
+    public void popup(String msg){
+        this.gameview.popup(msg);
     }
 
 }
