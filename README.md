@@ -29,20 +29,24 @@ Project description
   * ```cd your-git-directory```
   * ```git clone https://github.com/maalfrid/Catch.git```
 - Open the project in Android Studio:
-  * (add screenshot)
+  * ![open1](https://user-images.githubusercontent.com/16878457/55803463-a2127600-5ada-11e9-8bc1-b3c276e8c01d.png) 
 - Choose the cloned Catch directory:
-  * (add screenshot) 
-- Press the Open button and wait for the Gradle build is finished
-  * (add screenshot)
-- Build and run (green play button) 
-  * (add screenshot)
-- To run with device or emulator (next subsections)
+  * ![open2](https://user-images.githubusercontent.com/16878457/55803509-beaeae00-5ada-11e9-9ff2-b06ccf411833.png)
+- Press the Open button and wait for the Gradle build is finished:
+  * ![build](https://user-images.githubusercontent.com/16878457/55803520-c3736200-5ada-11e9-92ff-715e5d350716.png)
+- Run the project by pressing the green "play" button:
+  * ![run](https://user-images.githubusercontent.com/16878457/55804120-fff38d80-5adb-11e9-9a0c-6664a0ed7aee.png)
+- Further instructions for running the app: 
+  * Go to [this section](#installing_device) if you have a device.
+  * Go to [this section](#installing_emulator) if you don't have a device.
 
+<a name="installing_device"></a>
 #### 1.2.1 With Device
 - Connect device to the computer with USB
 - One the device: Enable permission to access the device from the computer (other settings todo?)
 - Run
 
+<a name="installing_emulator"></a>
 #### 1.2.2 With Emulator
 - Create new device (supporting Google Play Games)
   * add more description
