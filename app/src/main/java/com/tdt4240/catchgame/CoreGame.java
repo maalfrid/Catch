@@ -55,7 +55,6 @@ public class CoreGame extends Activity {
         this.gameTime = 0;
         this.difficulty = difficulty;
         this.setDifficulty(difficulty);
-        this.difficulty = difficulty;
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
         scoreSinglePlayer = new ScoreSinglePlayer(this);
         fallingObjectFactory = new FallingObjectFactory(this);
@@ -83,7 +82,7 @@ public class CoreGame extends Activity {
         }
     }
 
-
+//TODO: Remove some of the fallingObjectTypes, call only when item about to spawn.
     public void update(){
         characterSprite.update();
         if(characterSprite.getLives()==0){

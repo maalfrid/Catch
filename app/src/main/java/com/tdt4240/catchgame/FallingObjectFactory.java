@@ -31,19 +31,19 @@ public class FallingObjectFactory {
     public FallingObject getFallingObject(String foodType){
         if(foodType.equalsIgnoreCase(coreGame.getBad())){
             int food = getRandomKey(badFoodCollection);
-            Bitmap bitmap = getBitmapForFallingObject(food);
+            Bitmap bitmap = getBitmapForFallingObject(food, badFoodImages);
             int value = getFoodValue(food, badFoodCollection);
             return new BadFood(bitmap, value, "bad", coreGame);
         }
         else if(foodType.equalsIgnoreCase(coreGame.getPowerup())){
             int food = getRandomKey(powerUpCollection);
-            Bitmap bitmap = getBitmapForFallingObject(food);
+            Bitmap bitmap = getBitmapForFallingObject(food, powerUpImages);
             int value = getFoodValue(food, powerUpCollection);
             return new PowerUp(bitmap, value, "powerUp", coreGame);
         }
         else{
             int food = getRandomKey(goodFoodCollection);
-            Bitmap bitmap = getBitmapForFallingObject(food);
+            Bitmap bitmap = getBitmapForFallingObject(food, goodFoodImages);
             int value = getFoodValue(food, goodFoodCollection);
             return new GoodFood(bitmap, value, "good", coreGame);
         }
@@ -58,8 +58,8 @@ public class FallingObjectFactory {
     }
 
     //use imageID to create Bitmap
-    public Bitmap getBitmapForFallingObject(int food){
-        return getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), food), 0.15);
+    public Bitmap getBitmapForFallingObject(int food, HashMap foodCollection){
+        return (Bitmap) foodCollection.get(food);
     }
 
     //finds the score the given food gives
