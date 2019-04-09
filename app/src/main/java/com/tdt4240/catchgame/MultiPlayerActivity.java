@@ -435,6 +435,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             String sender = realTimeMessage.getSenderParticipantId();
             Log.d(TAG, "-----------Message received: " + (char) buf[0] + " Score : " + (int) buf[1] + "Lives : " + (int) buf[2]);
             setOpponentScore(buf[1]);
+            setOpponentLife(buf[2]);
 
         }
     };
