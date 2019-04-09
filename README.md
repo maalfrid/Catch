@@ -23,14 +23,22 @@ Project description
 - For playing multiplayer, you need to be connected to the internet
 
 <a name="installing"></a>
-### 1.2 Installing
+### 1.2 Install, Compile and Run
+- Download [Android Studio](https://developer.android.com/studio) on you computer
+- Clone the [project](https://github.com/maalfrid/Catch) from terminal
+  * ```cd your-git-directory```
+  * ```git clone https://github.com/maalfrid/Catch.git```
+- Open the project in Android Studio:
+  * (add screenshot)
+- Choose the cloned Catch directory:
+  * (add screenshot) 
+- Press the Open button and wait for the Gradle to build
+  * (add screenshot)
 
 #### 1.2.1 With Device
 todo
 
 #### 1.2.2 With Emulator
-- Download [Android Studio](https://developer.android.com/studio) on you computer
-- Clone the project (todo: add description for cloning)
 - Open/import project
 - Build and run (green play button) 
   * Create new device (supporting Google Play Games) 
