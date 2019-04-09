@@ -433,14 +433,14 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         public void onRealTimeMessageReceived(@NonNull RealTimeMessage realTimeMessage) {
             byte[] buf = realTimeMessage.getMessageData();
             String sender = realTimeMessage.getSenderParticipantId();
-            Log.d(TAG, "-----------Message received: " + (char) buf[0] + "/" + (int) buf[1]);
+            Log.d(TAG, "-----------Message received: " + (char) buf[0] + " Score : " + (int) buf[1] + "Lives : " + (int) buf[2]);
             setOpponentScore(buf[1]);
 
         }
     };
 
     // Broadcast my score to everybody else
-    void broadcastScore(int myScore){
+    void broadcastScore(int myScore, int myLives){
 
         //First byte in message indicates whether it's final score or not
         mMsgBuf[0] = 'U';
@@ -448,6 +448,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         //Second byte is the score
         //mMsgBuf[1] = (byte) CoreGame.pScore;
         mMsgBuf[1] = (byte) myScore;
+        mMsgBuf[2] = (byte) myLives;
 
         //send to every participant
         for(Participant p : mParticipants) {
