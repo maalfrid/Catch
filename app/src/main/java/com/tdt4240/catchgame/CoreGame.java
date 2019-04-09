@@ -100,8 +100,8 @@ public class CoreGame extends Activity {
         //Call broadcast
         if(this.gameview.isMultiplayer){
             //broadcastScore has 2 parameters -> Score and lives.
-            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore());
-            txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), 0);
+            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives());
+            txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), gameview.getMultiPlayerActivity().getOpponentLife());
         }
         int fallingObjectType = getFallingObjectType();
         for(int i=0; i < objectsOnScreen.size(); i++) {

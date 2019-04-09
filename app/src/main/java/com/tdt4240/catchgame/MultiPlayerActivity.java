@@ -463,6 +463,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     }
 
     private int opponentScore;
+    private int opponentLife;
 
     public int getOpponentScore(){
         return this.opponentScore;
@@ -470,6 +471,14 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
     public void setOpponentScore(int score){
         this.opponentScore = score;
+    }
+
+    public int getOpponentLife(){
+        return this.opponentLife;
+    }
+
+    public void setOpponentLife(int lives){
+        this.opponentLife= lives;
     }
 
 
