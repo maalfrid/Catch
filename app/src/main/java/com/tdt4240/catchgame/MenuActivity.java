@@ -27,10 +27,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         SwitchScreen(R.id.view_main_menu);
-
-        buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
-
-        buttonSound.setVolume(1, 1);
+        this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
+        this.buttonSound.setVolume(1, 1);
 
 
         // Click listener for all clickable elements
@@ -53,23 +51,23 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.btn_play:
-                buttonSound.start();
+                this.buttonSound.start();
                 SwitchScreen(R.id.view_play);
                 break;
             case R.id.btn_rules:
-                buttonSound.start();
+                this.buttonSound.start();
                 SwitchScreen(R.id.view_rules);
                 break;
             case R.id.btn_score:
-                buttonSound.start();
+                this.buttonSound.start();
                 SwitchScreen(R.id.view_highscore);
                 break;
             case R.id.btn_settings:
-                buttonSound.start();
+                this.buttonSound.start();
                 SwitchScreen(R.id.view_settings_menu);
                 break;
             case R.id.btn_easy:
-                buttonSound.start();
+                this.buttonSound.start();
                 Intent intentEasy = new Intent(v.getContext(), SinglePlayerActivity.class);
                 //send string to next activity
                 intentEasy.putExtra(difficulty, "easy");
@@ -77,25 +75,25 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intentEasy);
                 break;
             case R.id.btn_medium:
-                buttonSound.start();
+                this.buttonSound.start();
                 Intent intentMedium = new Intent(v.getContext(), SinglePlayerActivity.class);
                 intentMedium.putExtra(difficulty, "medium");
                 intentMedium.putExtra("gametype", "single");
                 startActivity(intentMedium);
                 break;
             case R.id.btn_hard:
-                buttonSound.start();
+                this.buttonSound.start();
                 Intent intentHard = new Intent(v.getContext(), SinglePlayerActivity.class);
                 intentHard.putExtra(difficulty, "hard");
                 intentHard.putExtra("gametype", "single");
                 startActivity(intentHard);
                 break;
             case R.id.btn_play_single:
-                buttonSound.start();
+                this.buttonSound.start();
                 SwitchScreen(R.id.view_play_single);
                 break;
             case R.id.btn_play_multi:
-                buttonSound.start();
+                this.buttonSound.start();
                 //SwitchScreen(R.id.view_play_multi);
 
                 //remains to "catch" this in the constructor of multiplayer
@@ -109,7 +107,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(v.getContext(), MultiPlayerActivity.class));
                 break;*/
             case R.id.btn_goBack:
-                buttonSound.start();
+                this.buttonSound.start();
                 if(mCurScreen==R.id.view_play) {
                     SwitchScreen(R.id.view_main_menu);
                     break;
@@ -148,6 +146,13 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        buttonSound.release();
+        this.buttonSound.release();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
 }
