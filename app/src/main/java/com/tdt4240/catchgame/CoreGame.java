@@ -45,7 +45,10 @@ public class CoreGame extends Activity {
     FallingObjectFactory fallingObjectFactory;
     SoundEffect soundeffect;
 
-  
+    //for multiplayer
+    public static int pScore;
+
+
     public CoreGame(String gameType, String difficulty, Context context, GameView gameview){
         this.gameview = gameview;
         this.context = context;
@@ -65,6 +68,7 @@ public class CoreGame extends Activity {
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
         this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000);
+        pScore = characterSprite.getScore();
     }
 
     /*
@@ -90,6 +94,10 @@ public class CoreGame extends Activity {
             gameview.gameOver();
         }
         txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
+        //Call broadcast
+        if(this.gameview.isMultiplayer){
+            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore());
+        }
         int fallingObjectType = getFallingObjectType();
         for(int i=0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);

@@ -44,7 +44,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 
 import  java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MultiPlayerActivity extends AppCompatActivity implements
@@ -82,10 +84,13 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     ArrayList<Participant> mParticipants = null;
 
     //My participant Id in the currently active game
-    String myId = null;
+    String mMyId = null;
 
     // Message buffer for sending messages
     byte[] mMsgBuf = new byte[2];
+
+    //temp
+    int myScore = 0;
 
 
     @Override
@@ -338,8 +343,28 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
         @Override
         public void onConnectedToRoom(@Nullable Room room) {
+            Log.d(TAG, "-------onConnectedToRoom from RoomStatusUpdateCallback");
+
+            //get participants and my ID:
+            mParticipants = room.getParticipants();
+            mMyId = room.getParticipantId(mPlayerId);
+
+            // save room ID if its not initialized in onRoomCreated() so we can leave cleanly before the game starts.
+            if (mRoomId == null) {
+                mRoomId = room.getRoomId();
+            }
+
+            // print out the list of participants (for debug purposes)
+            Log.d(TAG, "-----------------Room ID: " + mRoomId);
+            Log.d(TAG, "-----------------My ID " + mMyId);
+            Log.d(TAG, "-----------------<< CONNECTED TO ROOM>>");
+            for(Participant p : mParticipants){
+                Log.d(TAG, "--------------mParticipants " + p.getDisplayName());
+
+            }
 
         }
+
 
         @Override
         public void onDisconnectedFromRoom(@Nullable Room room) {
@@ -370,6 +395,8 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         @Override
         public void onRoomCreated(int statusCode, Room room) {
             Log.d(TAG, "------------RoomUpdateCallback onRoomCreate()");
+            // save room ID so we can leave cleanly before the game starts.
+            mRoomId = room.getRoomId();
             showWaitingRoom(room);
 
         }
@@ -392,16 +419,47 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     };
 
     void startGame() {
+
         setContentView(new GameView(this, this));
+        //broadcastScore(false);
     }
+
+
+    //Score of other participants. We update this as we receive their scores from the network
+    Map<String, Integer> mParticipantScore = new HashMap<>();
 
     private OnRealTimeMessageReceivedListener mOnRealTimeMessageReceivedListener = new OnRealTimeMessageReceivedListener() {
         @Override
         public void onRealTimeMessageReceived(@NonNull RealTimeMessage realTimeMessage) {
+            byte[] buf = realTimeMessage.getMessageData();
+            String sender = realTimeMessage.getSenderParticipantId();
+            Log.d(TAG, "-----------Message received: " + (char) buf[0] + "/" + (int) buf[1]);
 
         }
     };
 
+    // Broadcast my score to everybody else
+    void broadcastScore(int myScore){
+
+        //First byte in message indicates whether it's final score or not
+        mMsgBuf[0] = 'U';
+
+        //Second byte is the score
+        //mMsgBuf[1] = (byte) CoreGame.pScore;
+        mMsgBuf[1] = (byte) myScore;
+
+        //send to every participant
+        for(Participant p : mParticipants) {
+            if(p.getParticipantId().equals(mMyId)){
+                continue;
+            }
+            if(true){
+                // interim score
+                mRealTimeMultiplayerClient.sendUnreliableMessage(mMsgBuf, mRoomId, p.getParticipantId());
+            }
+        }
+
+    }
 
 
     //Keeps the screen turned on
