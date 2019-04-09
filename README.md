@@ -52,7 +52,7 @@ CATCH is an intuitive and easily accessible mobile game that gets you hooked fro
 - Create a new device: <br />
 <img src="https://user-images.githubusercontent.com/16878457/55806203-20254b80-5ae0-11e9-90b4-1c0a10dfccc5.png" alt="" width="500"/>
 - Choose one of the devices with a play store symbol (e.g. NEXUS 5X): <br />
-<img src="https://user-images.githubusercontent.com/16878457/55806189-1865a700-5ae0-11e9-982e-ddd0938614ae.png" alt="" width="250"/>
+<img src="https://user-images.githubusercontent.com/16878457/55806189-1865a700-5ae0-11e9-982e-ddd0938614ae.png" alt="" width="100"/>
 - Press next
 - Choose a version of the Android mobile operating system having an API level 21 or later versions (e.g. Pie)
   * Press the Download button for the chosen version
