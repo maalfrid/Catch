@@ -45,6 +45,7 @@
         <item name="android:layout_marginTop">20dp</item>
     </style>
 
+    <!-- Multi Player -->
     <style name="TextHeaders" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -62,8 +63,21 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingBottom">5dp</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display1</item>
+        <item name="android:textColor">@color/colorDarkGreen</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="TextPoints" parent="android:Widget.TextView">
+        <item name="android:breakStrategy">simple</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display1</item>
         <item name="android:textColor">@color/cast_expanded_controller_text_color</item>
         <item name="android:textStyle">bold</item>
@@ -91,13 +105,27 @@
         <item name="android:adjustViewBounds">true</item>
     </style>
 
-
-
     <!-- Google Sign In button -->
     <style name="SignInButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">40dp</item>
     </style>
+
+    <style name="LLScreen" parent="@style/GameScreen">
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">30dp</item>
+    </style>
+
+    <style name="Blurb">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/BlurbColor</item>
+    </style>
+
+
+    <!-- Colors -->
+    <color name="BlurbColor">#a0a0a0</color>
 
 </resources>

@@ -9,30 +9,28 @@ public class CharacterSprite {
     private int characterPositionX, characterPositionY;
     private int characterWidth, characterHeight;
 
-    private boolean isTouched = false;
+    private boolean isTouched;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private int score;
-    private int lives = 3;
+    private int lives;
 
 
     public CharacterSprite(Bitmap bmp) {
         characterSpriteImage = bmp;
-
         characterWidth = characterSpriteImage.getWidth();
         characterHeight = characterSpriteImage.getHeight();
-
         characterPositionX = (screenWidth - characterWidth) / 2;
         characterPositionY = screenHeight - characterHeight - 125;
+        this.lives = 3;
+        this.isTouched = false;
     }
 
     public void draw(Canvas canvas) {
         canvas.drawBitmap(characterSpriteImage, characterPositionX, characterPositionY, null);
     }
 
-    public void update() {
-
-    }
+    public void update() {}
 
     public int getCharacterWidth() {
         return characterWidth;
@@ -42,14 +40,9 @@ public class CharacterSprite {
         return characterHeight;
     }
 
-    public int getCharacterPositionX() {
+    public int getCharacterPositionX() { return characterPositionX;}
 
-        return characterPositionX;
-    }
-
-    public int getLives() {
-        return lives;
-    }
+    public int getLives() { return this.lives; }
 
     public void setLives(int lives) {
         this.lives = lives;
@@ -74,7 +67,7 @@ public class CharacterSprite {
     }
 
     public int getScore() {
-        return score;
+        return this.score;
     }
 
     public void setScore(int score) {

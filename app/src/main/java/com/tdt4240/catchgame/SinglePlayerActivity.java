@@ -20,15 +20,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     private String difficulty;
     private String gametype;
-
     MediaPlayer backgroundMusic;
-    /*SoundPool soundPool;
-    SoundPool.Builder soundPoolBuilder;
 
-    AudioAttributes attributes;
-    AudioAttributes.Builder attributesBuilder;
-
-    int soundID_crunch;*/
 
     public SinglePlayerActivity() {
     }
@@ -39,11 +32,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
         this.gametype = getIntent().getStringExtra("gametype");
-
-        backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
-
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(1, 1);
+        this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+        this.backgroundMusic.setLooping(true);
+        this.backgroundMusic.setVolume(1, 1);
 
 
     }
@@ -51,18 +42,19 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        backgroundMusic.start();
+        this.backgroundMusic.start();
     }
 
     public String getDifficulty(){
         return this.difficulty;
     }
 
-public String getGametype(){ return this.gametype;}
+    public String getGametype(){ return this.gametype;}
+
     @Override
     protected void onPause(){
         super.onPause();
-        backgroundMusic.release();
+        this.backgroundMusic.release();
     }
 
     @Override
@@ -75,15 +67,14 @@ public String getGametype(){ return this.gametype;}
     protected void onStop() {
         super.onStop();
         startActivity(new Intent(this, MenuActivity.class));
+        this.backgroundMusic.release();
     }
 
     public void backgroundMusicOn(){
-        //backgroundMusic.setVolume(1, 1);
-        backgroundMusic.start();
+        this.backgroundMusic.start();
     }
 
     public void backgroundMusicOff(){
-        //backgroundMusic.setVolume(0, 0);
-        backgroundMusic.pause();
+        this.backgroundMusic.pause();
     }
 }

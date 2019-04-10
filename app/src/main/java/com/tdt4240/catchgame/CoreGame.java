@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class CoreGame extends Activity {
     public MenuItem btn_exit;
     public MenuItem btn_sound;
     public MenuItem txt_score;
+    public MenuItem txt_score2;
     private ArrayList<FallingObject> objectsOnScreen;
     public ScoreSinglePlayer scoreSinglePlayer;
     private int gameTime;
@@ -27,7 +29,7 @@ public class CoreGame extends Activity {
     private int baseSpeed;
     private int fractionGood;
     private String difficulty;
-private String gametype;
+    private String gametype;
     private String stringDiff = "difficulty";
     private String easy = "easy";
     private String medium = "medium";
@@ -42,13 +44,10 @@ private String gametype;
     private boolean soundOn;
     List<Integer> objectID;
     FallingObjectFactory fallingObjectFactory;
-
     SoundEffect soundeffect;
 
-    public MenuItem txt_gameQuit;
-    public MenuItem txt_gameOver;
-    public MenuItem btn_yes;
-    public MenuItem btn_no;
+    //for multiplayer
+    public static int pScore;
 
 
     public CoreGame(String gameType, String difficulty, Context context, GameView gameview){
@@ -60,56 +59,52 @@ private String gametype;
         this.gameTime = 0;
         this.difficulty = difficulty;
         this.setDifficulty(difficulty);
-        this.difficulty = difficulty;
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
         scoreSinglePlayer = new ScoreSinglePlayer(this);
         fallingObjectFactory = new FallingObjectFactory(this);
-
         this.soundeffect = new SoundEffect();
-
-
         this.soundOn = true;
-
         //menu items
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
         this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000, context);
-
-        //game over/exit items
-        this.txt_gameQuit= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_quit),1.0));
-        this.txt_gameQuit.setPos(screenWidth/2 - txt_gameQuit.getWidth()/2, screenHeight/2 - txt_gameQuit.getHeight()/2);
-        this.btn_yes= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_yes),1.0));
-        this.btn_yes.setPos(txt_gameQuit.getPosX() - btn_yes.getWidth()/8, txt_gameQuit.getPosY() + txt_gameQuit.getHeight());
-        this.btn_no= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_no),1.0));
-        this.btn_no.setPos(txt_gameQuit.getPosX() + btn_no.getWidth()/8, txt_gameQuit.getPosY() + txt_gameQuit.getHeight());
-        //TODO: Replace with game over text
-        //this.txt_gameOver= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_gameover),1.0));
-        this.txt_gameOver = new MenuItem("GAME OVER (Click to continue)", 16, 000000, context);
-        this.txt_gameOver.setPos(screenWidth/2 - txt_gameOver.getWidth()/2, screenHeight/2 - txt_gameOver.getHeight()/2);
-
+        this.txt_score2 = new MenuItem("Score: ", 16, 000000, context);
+        pScore = characterSprite.getScore();
     }
+
+    /*
+     * --------- DRAW, UPDATE, ONTOUCH ---------
+     * */
+
 
     public void draw(Canvas canvas){
         characterSprite.draw(canvas);
         btn_exit.draw(canvas, 0, 0);
         btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
         txt_score.draw(canvas, screenWidth/2 - txt_score.getWidth()/2, btn_exit.getHeight()/4);
+        txt_score2.draw(canvas, screenWidth/2 - txt_score.getWidth()/2, btn_exit.getHeight()/2);
 
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
         }
     }
 
-    public SoundEffect getSoundEffect(){
-        return this.soundeffect;
-    }
-
+//TODO: Remove some of the fallingObjectTypes, call only when item about to spawn.
     public void update(){
         characterSprite.update();
         if(characterSprite.getLives()==0){
             gameview.gameOver();
         }
+<<<<<<< HEAD
         txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives(), getContext());
+=======
+        txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
+        //Call broadcast
+        if(this.gameview.isMultiplayer){
+            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore());
+            txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), 0);
+        }
+>>>>>>> e560a424e0f64e54b7f0aa2a3e8998353c08057d
         int fallingObjectType = getFallingObjectType();
         for(int i=0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
@@ -136,6 +131,78 @@ private String gametype;
             }
         }
         gameTime++;
+    }
+
+
+    public boolean onTouch(MotionEvent motionEvent) {
+        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
+                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY())){
+                    gameview.gamePause();
+                }
+                if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
+                    soundOn = !soundOn;
+                    if(soundOn){
+                        this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
+                        gameview.getSinglePlayerActivity().backgroundMusicOn();
+                        soundeffect.volumeOn();
+                    }
+                    else{
+                        this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_off),0.15));
+                        gameview.getSinglePlayerActivity().backgroundMusicOff();
+                        soundeffect.volumeOff();
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (characterSprite.isTouched()) {
+                    characterSprite.setCharacterPositionX((int) motionEvent.getX());
+                }
+                break;
+
+            case MotionEvent.ACTION_UP:
+                if (characterSprite.isTouched()) {
+                    characterSprite.setTouched(false);
+                }
+                break;
+        }
+        return true;
+    }
+
+    /*
+     * --------- OBJECT METHODS ---------
+    * */
+
+    //Fraction of good/bad: 70/30 - 50/50 - 30/70
+    // remember to say what you want: good/bad/powerup
+
+    public FallingObject createObject(String foodType){
+        return fallingObjectFactory.getFallingObject(foodType);
+    }
+
+    public void spawnObject(FallingObject fallingObject, String type){
+        fallingObject.setObjectPositionX(getRandomXPosition(fallingObject));
+        fallingObject.setObjectSpeed(getRandomSpeed());
+        fallingObject.setType(type);
+        objectsOnScreen.add(fallingObject);
+    }
+
+    public void removeObject(FallingObject fallingObject){
+        objectsOnScreen.remove(fallingObject);
+    }
+
+    /*
+    * --------- GETTERS AND SETTERS ---------
+    * */
+
+    public static Context getContext(){
+        return context;
+
+    }
+
+    public SoundEffect getSoundEffect(){
+        return this.soundeffect;
     }
 
     public String getEasy() {
@@ -194,26 +261,6 @@ private String gametype;
         int id = (int)((Math.random())* (objectID.size() -1));
         return objectID.get(id);
 
-        }
-
-
-
-//Fraction of good/bad: 70/30 - 50/50 - 30/70
-// remember to say what you want: good/bad/powerup
-
-    public FallingObject createObject(String foodType){
-        return fallingObjectFactory.getFallingObject(foodType);
-    }
-
-    public void spawnObject(FallingObject fallingObject, String type){
-        fallingObject.setObjectPositionX(getRandomXPosition(fallingObject));
-        fallingObject.setObjectSpeed(getRandomSpeed());
-        fallingObject.setType(type);
-        objectsOnScreen.add(fallingObject);
-    }
-
-    public void removeObject(FallingObject fallingObject){
-        objectsOnScreen.remove(fallingObject);
     }
 
     public int getRandomXPosition(FallingObject fallingObject){
@@ -235,27 +282,33 @@ private String gametype;
     public void setLevelUp(){
         if(this.difficulty.equals(medium)){
             this.difficulty = hard;
+            soundeffect.levelUpSound();
             setDifficulty(hard);
-            System.out.println("Level up from medium to hard");
-        }
+            this.gameview.popup("Level up! from medium to hard");
 
+
+        }
         if(this.difficulty.equals(easy)){
             this.difficulty = medium;
+            soundeffect.levelUpSound();
             setDifficulty(medium);
-            System.out.println("Level up from easy to medium");
-
+            this.gameview.popup("Level up! From easy to medium");
         }
     }
+  
     public void setLevelDown(){
         if(this.difficulty.equals(hard)){
             this.difficulty = medium;
             setDifficulty(medium);
+            this.gameview.popup("Level down from hard to medium");
         }
         if(this.difficulty.equals(medium)){
             this.difficulty = easy;
             setDifficulty(easy);
+            this.gameview.popup("Level down from medium to easy");
         }
     }
+    
     //Temporary method to adjust game difficulty, should be in its own class?
     public void setDifficulty(String difficulty){
         if (difficulty.equals(easy)){
@@ -278,53 +331,14 @@ private String gametype;
 
         }
     }
+  
+    public String getGametype(){ return this.gametype; }
 
-    public boolean onTouch(MotionEvent motionEvent) {
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN:
-                characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
-                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY())){
-                    gameview.gameExit();
-                }
-                if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
-                    soundOn = !soundOn;
-                    if(soundOn){
-                        this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
-                        gameview.getSinglePlayerActivity().backgroundMusicOn();
-                        soundeffect.volumeOn();
-
-                    }
-                    else{
-                        this.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_off),0.15));
-                        gameview.getSinglePlayerActivity().backgroundMusicOff();
-                        soundeffect.volumeOff();
-
-                    }
-                }
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (characterSprite.isTouched()) {
-                    characterSprite.setCharacterPositionX((int) motionEvent.getX());
-                }
-                break;
-
-            case MotionEvent.ACTION_UP:
-                if (characterSprite.isTouched()) {
-                    characterSprite.setTouched(false);
-                }
-                break;
-        }
-        return true;
-    }
-
-    public static Context getContext(){
-        return context;
-
-    }
 
     /*
-    * Help method
+    * --------- HELP METHODS ---------
     * */
+
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
         int width = bmp.getWidth();
         int height = bmp.getHeight();
@@ -342,12 +356,8 @@ private String gametype;
         return resizedBitmap;
     }
 
-
-
-    public String getGametype(){ return this.gametype;
+    public void popup(String msg){
+        this.gameview.popup(msg);
     }
-
-    // TODO: IF object has status as eaten, increase/decrease score, apply powerup.
-    // TODO: IF object hits ground, remove life.
 
 }

@@ -17,6 +17,8 @@ public class MainThread extends Thread {
 
     @Override
     public void run() {
+        long startTime = System.nanoTime();
+
         while (running) {
             canvas = null;
 
@@ -26,15 +28,30 @@ public class MainThread extends Thread {
                     this.gameView.update();
                     this.gameView.draw(canvas);
                 }
-            } catch (Exception e) { e.printStackTrace(); } finally {
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            finally {
                 if (canvas != null) {
                     try {
-                        surfaceHolder.unlockCanvasAndPost(canvas);
+                        this.surfaceHolder.unlockCanvasAndPost(canvas);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
+            long now = System.nanoTime();
+            long waitTime = (now - startTime)/1000000;
+            if (waitTime < 10){
+                waitTime = 10;
+            }
+            try {
+                this.sleep(waitTime);
+            } catch(InterruptedException e){
+                e.printStackTrace();
+            }
+            startTime = System.nanoTime();
         }
     }
 
