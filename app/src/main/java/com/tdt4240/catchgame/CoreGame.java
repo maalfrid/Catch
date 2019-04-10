@@ -99,6 +99,7 @@ public class CoreGame extends Activity {
         txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives(), getContext());
         //Call broadcast
         if(this.gameview.isMultiplayer){
+            /* SCORE LOGIC */
             //broadcastScore has 2 parameters -> Score and lives.
             gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), this.multiGameOver);
             txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), gameview.getMultiPlayerActivity().getOpponentLife(), getContext());
@@ -109,6 +110,14 @@ public class CoreGame extends Activity {
             /*if(gameview.getMultiPlayerActivity().getOpponentLife()==0){
                 gameview.gameOver();
             }*/
+
+            /* POWERUPS LOGIC */
+
+            // Check powerup buffer bit
+            // TODO first: Add powerup bit to buffer in Multiplayeractivity
+                // If == 2 -> Increase decrease this sprites size (use setImage)
+                // If == 3 -> Increase speed of falling objects (e.g. level up?)
+
         }
         int fallingObjectType = getFallingObjectType();
         for(int i=0; i < objectsOnScreen.size(); i++) {

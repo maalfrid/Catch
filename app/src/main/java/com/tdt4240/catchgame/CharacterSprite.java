@@ -17,9 +17,9 @@ public class CharacterSprite {
 
 
     public CharacterSprite(Bitmap bmp) {
-        this.characterSpriteImage = bmp;
-        this.characterWidth = characterSpriteImage.getWidth();
-        this.characterHeight = characterSpriteImage.getHeight();
+        setImage(bmp);
+        setCharacterWidth(this.characterSpriteImage.getWidth());
+        setCharacterHeight(this.characterSpriteImage.getHeight());
         this.characterPositionX = (screenWidth - characterWidth) / 2;
         this.characterPositionY = screenHeight - characterHeight - 125;
         this.lives = 3;
@@ -32,47 +32,9 @@ public class CharacterSprite {
 
     public void update() {}
 
-    public int getCharacterWidth() {
-        return this.characterWidth;
-    }
-
-    public int getCharacterHeight() {
-        return this.characterHeight;
-    }
-
-    public int getCharacterPositionX() { return this.characterPositionX;}
-
-    public int getLives() { return this.lives; }
-
-    public void setLives(int lives) {
-        this.lives = lives;
-    }
-
-    public int getCharacterPositionY() {
-        return this.characterPositionY;
-    }
-
-    public void setCharacterPositionX(int newPositionX) {
-        if (newPositionX > screenWidth - this.characterSpriteImage.getWidth()) {
-            this.characterPositionX = screenWidth - this.characterSpriteImage.getWidth();
-        } else if (newPositionX < 0) {
-            this.characterPositionX = this.characterSpriteImage.getWidth();
-        } else {
-            this.characterPositionX = newPositionX;
-        }
-    }
-
-    public void setTouched(boolean isTouched) {
-        this.isTouched = isTouched;
-    }
-
-    public int getScore() {
-        return this.score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
+    /*
+    * TOUCH METHODS
+    * */
 
     public boolean isTouched() {
         return isTouched;
@@ -88,8 +50,60 @@ public class CharacterSprite {
         }
     }
 
-    public void resizeSprite(){
+    /*
+    * GETTERS AND SETTERS
+    * */
+    
+    public void setImage(Bitmap bmp){this.characterSpriteImage = bmp; }
 
+    public void setCharacterWidth(int width) {
+        this.characterWidth = width;
+    }
+    
+    public int getCharacterWidth() {
+        return this.characterWidth;
+    }
+
+
+    public void setCharacterHeight(int height) { this.characterHeight = height;}
+    
+    public int getCharacterHeight() {
+        return this.characterHeight;
+    }
+
+    public void setCharacterPositionX(int newPositionX) {
+        if (newPositionX > screenWidth - this.characterSpriteImage.getWidth()) {
+            this.characterPositionX = screenWidth - this.characterSpriteImage.getWidth();
+        } else if (newPositionX < 0) {
+            this.characterPositionX = this.characterSpriteImage.getWidth();
+        } else {
+            this.characterPositionX = newPositionX;
+        }
+    }
+
+    public int getCharacterPositionX() { return this.characterPositionX;}
+
+    public int getCharacterPositionY() {
+        return this.characterPositionY;
+    }
+
+
+    public void setTouched(boolean isTouched) {
+        this.isTouched = isTouched;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public int getLives() { return this.lives; }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getScore() {
+        return this.score;
     }
 
 }
