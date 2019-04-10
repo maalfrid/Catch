@@ -47,6 +47,7 @@ public class CoreGame extends Activity {
 
     //for multiplayer
     public static int pScore;
+    public int multiGameOver;
 
 
     public CoreGame(String gameType, String difficulty, Context context, GameView gameview){
@@ -69,6 +70,7 @@ public class CoreGame extends Activity {
         this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000, context);
         this.txt_score2 = new MenuItem("Score: ", 16, 000000, context);
         pScore = characterSprite.getScore();
+        this.multiGameOver = 0; //false
     }
 
     /*
@@ -97,8 +99,16 @@ public class CoreGame extends Activity {
         txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives(), getContext());
         //Call broadcast
         if(this.gameview.isMultiplayer){
-            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore());
-            txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), 0, getContext());
+            //broadcastScore has 2 parameters -> Score and lives.
+            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), this.multiGameOver);
+            txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), gameview.getMultiPlayerActivity().getOpponentLife());
+            //TODO: If the other opponent looses or exit game --> Make game over view (and click to continue to get to main menu)
+            if(gameview.getMultiPlayerActivity().getIsGameOver()==1){
+                gameview.gameOver();
+            }
+            /*if(gameview.getMultiPlayerActivity().getOpponentLife()==0){
+                gameview.gameOver();
+            }*/
         }
         int fallingObjectType = getFallingObjectType();
         for(int i=0; i < objectsOnScreen.size(); i++) {
@@ -133,8 +143,12 @@ public class CoreGame extends Activity {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
-                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY())){
+                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && !this.gameview.isMultiplayer){
                     gameview.gamePause();
+                }
+                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && this.gameview.isMultiplayer){
+                    this.multiGameOver = 1;
+                    gameview.gameOver();
                 }
                 if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
                     soundOn = !soundOn;
@@ -279,7 +293,7 @@ public class CoreGame extends Activity {
             this.difficulty = hard;
             soundeffect.levelUpSound();
             setDifficulty(hard);
-            this.gameview.popup("Level up! from medium to hard");
+            //this.gameview.popup("Level up! from medium to hard");
 
 
         }
@@ -287,7 +301,7 @@ public class CoreGame extends Activity {
             this.difficulty = medium;
             soundeffect.levelUpSound();
             setDifficulty(medium);
-            this.gameview.popup("Level up! From easy to medium");
+            //this.gameview.popup("Level up! From easy to medium");
         }
     }
   
@@ -295,12 +309,12 @@ public class CoreGame extends Activity {
         if(this.difficulty.equals(hard)){
             this.difficulty = medium;
             setDifficulty(medium);
-            this.gameview.popup("Level down from hard to medium");
+            //this.gameview.popup("Level down from hard to medium");
         }
         if(this.difficulty.equals(medium)){
             this.difficulty = easy;
             setDifficulty(easy);
-            this.gameview.popup("Level down from medium to easy");
+            //this.gameview.popup("Level down from medium to easy");
         }
     }
     
@@ -351,8 +365,8 @@ public class CoreGame extends Activity {
         return resizedBitmap;
     }
 
-    public void popup(String msg){
-        this.gameview.popup(msg);
-    }
+    //public void popup(String msg){
+        //this.gameview.popup(msg);
+    //}
 
 }

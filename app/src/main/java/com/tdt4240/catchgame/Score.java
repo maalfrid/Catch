@@ -75,7 +75,7 @@ public class Score {
             if(typeOfGame.equals("single")) {
                 if(objectPoints == 1) {
                     incrementScore(10);
-                    this.coreGame.popup("Powerup! 10 extra points");
+                    //this.coreGame.popup("Powerup! 10 extra points");
                 }
                 if(objectPoints == 2){
                     this.coreGame.setLevelDown();
@@ -83,7 +83,7 @@ public class Score {
                 if(objectPoints == 3){
                     int lives = this.coreGame.characterSprite.getLives() + 1;
                     this.coreGame.characterSprite.setLives(lives);
-                    this.coreGame.popup("Powerup! 1 extra life");
+                    //this.coreGame.popup("Powerup! 1 extra life");
                 }
             }
 
