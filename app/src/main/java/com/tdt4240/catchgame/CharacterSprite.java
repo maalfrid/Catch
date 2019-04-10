@@ -17,30 +17,30 @@ public class CharacterSprite {
 
 
     public CharacterSprite(Bitmap bmp) {
-        characterSpriteImage = bmp;
-        characterWidth = characterSpriteImage.getWidth();
-        characterHeight = characterSpriteImage.getHeight();
-        characterPositionX = (screenWidth - characterWidth) / 2;
-        characterPositionY = screenHeight - characterHeight - 125;
+        this.characterSpriteImage = bmp;
+        this.characterWidth = characterSpriteImage.getWidth();
+        this.characterHeight = characterSpriteImage.getHeight();
+        this.characterPositionX = (screenWidth - characterWidth) / 2;
+        this.characterPositionY = screenHeight - characterHeight - 125;
         this.lives = 3;
         this.isTouched = false;
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(characterSpriteImage, characterPositionX, characterPositionY, null);
+        canvas.drawBitmap(this.characterSpriteImage, this.characterPositionX, this.characterPositionY, null);
     }
 
     public void update() {}
 
     public int getCharacterWidth() {
-        return characterWidth;
+        return this.characterWidth;
     }
 
     public int getCharacterHeight() {
-        return characterHeight;
+        return this.characterHeight;
     }
 
-    public int getCharacterPositionX() { return characterPositionX;}
+    public int getCharacterPositionX() { return this.characterPositionX;}
 
     public int getLives() { return this.lives; }
 
@@ -49,16 +49,16 @@ public class CharacterSprite {
     }
 
     public int getCharacterPositionY() {
-        return characterPositionY;
+        return this.characterPositionY;
     }
 
     public void setCharacterPositionX(int newPositionX) {
-        if (newPositionX > screenWidth - characterSpriteImage.getWidth()) {
-            characterPositionX = screenWidth - characterSpriteImage.getWidth();
+        if (newPositionX > screenWidth - this.characterSpriteImage.getWidth()) {
+            this.characterPositionX = screenWidth - this.characterSpriteImage.getWidth();
         } else if (newPositionX < 0) {
-            characterPositionX = characterSpriteImage.getWidth();
+            this.characterPositionX = this.characterSpriteImage.getWidth();
         } else {
-            characterPositionX = newPositionX;
+            this.characterPositionX = newPositionX;
         }
     }
 
@@ -79,13 +79,17 @@ public class CharacterSprite {
     }
 
     public void isBeingTouched(int eventX, int eventY) {
-        if ((eventX >= (characterPositionX)) && (eventX <= (characterPositionX + characterWidth)) &&
-                (eventY >= (characterPositionY)) &&
-                (eventY <= characterPositionY + characterHeight)) {
+        if ((eventX >= (this.characterPositionX)) && (eventX <= (this.characterPositionX + this.characterWidth)) &&
+                (eventY >= (this.characterPositionY)) &&
+                (eventY <= this.characterPositionY + this.characterHeight)) {
             setTouched(true);
         } else {
             setTouched(false);
         }
+    }
+
+    public void resizeSprite(){
+
     }
 
 }
