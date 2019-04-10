@@ -4,8 +4,18 @@ import android.graphics.Bitmap;
 
 public class PowerUp extends FallingObject {
 
-    public PowerUp(Bitmap bitmap, int objectScore, String type, CoreGame coreGame){
-        super(bitmap, objectScore, type, coreGame);
+    public PowerUp(Bitmap bitmap, int objectScore, CoreGame coreGame){
+        super(bitmap, objectScore, coreGame);
+    }
+
+    @Override
+    public void applyObjectEatenEffect(){
+        coreGame.getSoundEffect().powerupSound();
+    }
+
+    @Override
+    public void applyObjectOnFloorEffect(){
+        coreGame.getSoundEffect().smackSound();
     }
 
 }
