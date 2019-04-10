@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class CoreGame extends Activity {
     public MenuItem txt_score;
     public MenuItem txt_score2;
     private ArrayList<FallingObject> objectsOnScreen;
-    public ScoreSinglePlayer scoreSinglePlayer;
+    public Score score;
     private int gameTime;
     private int baseFrequency;
     private int baseSpeed;
@@ -60,7 +59,7 @@ public class CoreGame extends Activity {
         this.difficulty = difficulty;
         this.setDifficulty(difficulty);
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
-        scoreSinglePlayer = new ScoreSinglePlayer(this);
+        score = new Score(this);
         fallingObjectFactory = new FallingObjectFactory(this);
         this.soundeffect = new SoundEffect();
         this.soundOn = true;

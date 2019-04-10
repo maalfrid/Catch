@@ -14,7 +14,7 @@ public abstract class FallingObject {
     private int objectScore;
     private boolean isEaten = false;
     private boolean touchedFloor = false;
-    private ScoreSinglePlayer scoreSinglePlayer;
+    private Score score;
     private CoreGame coreGame;
     private String type;
 
@@ -26,7 +26,7 @@ public abstract class FallingObject {
         objectHeight = objectImage.getHeight();
         objectPositionY = 0;
         this.coreGame = coreGame;
-        scoreSinglePlayer = coreGame.scoreSinglePlayer;
+        score = coreGame.score;
         this.objectScore = objectScore;
 
         this.type = type;
@@ -101,7 +101,7 @@ public abstract class FallingObject {
 
     public void wasEaten() {
         System.out.println("get score " + this.getScore());
-        coreGame.scoreSinglePlayer.caughtObject(this);
+        coreGame.score.caughtObject(this);
         this.isEaten = true;
     }
 

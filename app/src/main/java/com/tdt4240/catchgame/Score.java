@@ -1,13 +1,13 @@
 package com.tdt4240.catchgame;
 
-public class ScoreSinglePlayer {
+public class Score {
 
     public CoreGame coreGame;
     private int twolevelsup = 25;
     private int onelevelup = 15;
     private boolean levelUp = false;
 
-    public ScoreSinglePlayer(CoreGame coreGame) {
+    public Score(CoreGame coreGame) {
         this.coreGame = coreGame;
     }
 
@@ -27,9 +27,7 @@ public class ScoreSinglePlayer {
                 this.coreGame.setLevelUp();
                 levelUp = true;
             }
-
         }
-
     }
 
     public void decrementScore(int scoreDec) {
