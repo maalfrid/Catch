@@ -83,7 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.btn_no.setPos(txt_gameQuit.getPosX(), txt_gameQuit.getPosY() + txt_gameQuit.getHeight() + btn_no.getHeight());
         //TODO: Replace with game over text
         //this.txt_gameOver= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_gameover),1.0));
-        this.txt_gameOver = new MenuItem("GAME OVER (Click to continue)", 16, 000000);
+        this.txt_gameOver = new MenuItem("GAME OVER (Click to continue)", 16, 000000, this.context);
         this.txt_gameOver.setPos(screenWidth/2 - txt_gameOver.getWidth()/2, screenHeight/2 - txt_gameOver.getHeight()/2);
         if(isMultiplayer){
             coreGame = new CoreGame(multiPlayerActivity.getGametype(), multiPlayerActivity.getDifficulty(), context, this);

@@ -95,16 +95,12 @@ public class CoreGame extends Activity {
         if(characterSprite.getLives()==0){
             gameview.gameOver();
         }
-<<<<<<< HEAD
         txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives(), getContext());
-=======
-        txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
         //Call broadcast
         if(this.gameview.isMultiplayer){
             gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore());
-            txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), 0);
+            txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), 0, getContext());
         }
->>>>>>> e560a424e0f64e54b7f0aa2a3e8998353c08057d
         int fallingObjectType = getFallingObjectType();
         for(int i=0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
