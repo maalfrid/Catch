@@ -73,7 +73,7 @@ private String gametype;
         //menu items
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
-        this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000);
+        this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000, context);
 
         //game over/exit items
         this.txt_gameQuit= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_quit),1.0));
@@ -84,7 +84,7 @@ private String gametype;
         this.btn_no.setPos(txt_gameQuit.getPosX() + btn_no.getWidth()/8, txt_gameQuit.getPosY() + txt_gameQuit.getHeight());
         //TODO: Replace with game over text
         //this.txt_gameOver= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_gameover),1.0));
-        this.txt_gameOver = new MenuItem("GAME OVER (Click to continue)", 16, 000000);
+        this.txt_gameOver = new MenuItem("GAME OVER (Click to continue)", 16, 000000, context);
         this.txt_gameOver.setPos(screenWidth/2 - txt_gameOver.getWidth()/2, screenHeight/2 - txt_gameOver.getHeight()/2);
 
     }
@@ -109,7 +109,7 @@ private String gametype;
         if(characterSprite.getLives()==0){
             gameview.gameOver();
         }
-        txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
+        txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives(), getContext());
         int fallingObjectType = getFallingObjectType();
         for(int i=0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);

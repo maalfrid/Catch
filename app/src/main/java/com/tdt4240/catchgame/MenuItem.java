@@ -1,10 +1,15 @@
 package com.tdt4240.catchgame;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.support.v4.content.res.ResourcesCompat;
+
+import static com.tdt4240.catchgame.CoreGame.context;
 
 public class MenuItem {
 
@@ -22,8 +27,8 @@ public class MenuItem {
     }
 
     //Constructor for text
-    public MenuItem(String text, float textSize, int textColor){
-        setText(text, textSize, textColor);
+    public MenuItem(String text, float textSize, int textColor, Context context){
+        setText(text, textSize, textColor, context);
         this.width = bmp.getWidth();
         this.height = bmp.getHeight();
     }
@@ -75,8 +80,10 @@ public class MenuItem {
         this.bmp = bmp;
     }
 
-    public void setText(String text, float textSize, int textColor){
+    public void setText(String text, float textSize, int textColor, Context context){
+        Typeface regular = ResourcesCompat.getFont(context, R.font.frecklefaceregular);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setTypeface(regular);
         paint.setTextSize(40.0f);
         paint.setColor(Color.WHITE);
         float baseline = -paint.ascent(); // ascent() is negative
@@ -97,9 +104,9 @@ public class MenuItem {
         return false;
     }
 
-    public void updateScoreLife(int score, int lives){
+    public void updateScoreLife(int score, int lives, Context context){
         String s = "Score: "+score+" | Lives: "+lives;
-        setText(s, 20.0f, Color.WHITE);
+        setText(s, 20.0f, Color.WHITE, context);
     }
 
 }
