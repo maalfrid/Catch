@@ -23,7 +23,7 @@ public class FallingObjectFactory {
     private ArrayList<Integer> fallingObjectFraction;
     private CoreGame coreGame;
 
-
+    //TODO: Get rid of coregame being passed around.
     public FallingObjectFactory(CoreGame coreGame){
         this.loadGoodObjects();
         this.loadBadObjects();
@@ -53,28 +53,20 @@ public class FallingObjectFactory {
         return fallingObjectFraction.get(id);
     }
 
-    //TODO: Clean up
+    //TODO: Clean up COREGAME
     public FallingObject getFallingObject() {
         int fallingObjectType = getFallingObjectType();
-        FallingObject fallingObject;
         if (fallingObjectType == 1) {
             int objectID = getRandomKey(badFoodCollection);
-            Bitmap bmp = getBitmapForFallingObject(objectID, badFoodImages);
-            int objectScore = getFoodValue(objectID, badFoodCollection);
-            fallingObject = new BadFood(bmp, objectScore, coreGame);
+            return new BadFood(getBitmapForFallingObject(objectID, badFoodImages), getFoodValue(objectID, badFoodCollection), coreGame);
         } else if (fallingObjectType == 2) {
             int objectID = getRandomKey(powerUpCollection);
-            Bitmap bmp = getBitmapForFallingObject(objectID, powerUpImages);
-            int objectScore = getFoodValue(objectID, powerUpCollection);
-            fallingObject = new PowerUp(bmp, objectScore, coreGame);
+            return new PowerUp(getBitmapForFallingObject(objectID, powerUpImages), getFoodValue(objectID, powerUpCollection), objectID, coreGame);
         }
         else {
             int objectID = getRandomKey(goodFoodCollection);
-            Bitmap bmp = getBitmapForFallingObject(objectID, goodFoodImages);
-            int objectScore = getFoodValue(objectID, goodFoodCollection);
-            fallingObject = new GoodFood(bmp, objectScore, coreGame);
+            return new GoodFood(getBitmapForFallingObject(objectID, goodFoodImages), getFoodValue(objectID, goodFoodCollection), coreGame);
         }
-        return fallingObject;
     }
 
     //picks out random food from a given foodtype
