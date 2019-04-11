@@ -131,7 +131,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
             this.txt_score_self.draw(canvas, screenWidth/2 - txt_score_self.getWidth()/2, 0);
             if(this.isMultiplayer){ this.txt_score_opponent.draw(canvas, screenWidth/2 - txt_score_self.getWidth()/2, 0);}
-
             btn_exit.draw(canvas, 0, 0);
             btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
 
@@ -150,10 +149,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(){
         if(!isGamePause() && !isGameOver()){coreGame.update();}
+
+        // From multiplayer:
+        updateScoreOpponent();
+
         // TODO: Update method to set sound in coregame
+
     }
 
-    public void updateScoreOpponent(int score, int lives){
+    public void updateScoreOpponent(){
+        int score = getMultiPlayerActivity().getOpponentScore();
+        int lives = getMultiPlayerActivity().getOpponentLife();
         this.txt_score_opponent.updateScoreLife(score, lives, this.context);
     }
 

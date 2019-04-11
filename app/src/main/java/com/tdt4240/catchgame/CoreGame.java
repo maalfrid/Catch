@@ -86,8 +86,6 @@ public class CoreGame {
             /* SCORE LOGIC */
             //broadcastScore has 2 parameters -> ScoreSinglePlayer and lives.
             gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), this.multiGameOver);
-            //TODO: update score for opponent
-            //gameview.updateScoreOpponent();
 
             //TODO: If the other opponent looses or exit game --> Make game over view (and click to continue to get to main menu)
             if(gameview.getMultiPlayerActivity().getIsGameOver()==1){
