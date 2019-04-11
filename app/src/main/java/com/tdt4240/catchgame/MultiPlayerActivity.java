@@ -425,7 +425,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     }
 
 
-    //Score of other participants. We update this as we receive their scores from the network
+    //ScoreSinglePlayer of other participants. We update this as we receive their scores from the network
     Map<String, Integer> mParticipantScore = new HashMap<>();
 
     private OnRealTimeMessageReceivedListener mOnRealTimeMessageReceivedListener = new OnRealTimeMessageReceivedListener() {
