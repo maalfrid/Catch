@@ -4,17 +4,17 @@ import android.graphics.Bitmap;
 
 public class GoodFood extends FallingObject {
 
-    public GoodFood(Bitmap bitmap, int objectScore, CoreGame coreGame){
-        super(bitmap, objectScore, coreGame);
+    public GoodFood(Bitmap bitmap, int objectScore){
+        super(bitmap, objectScore);
     }
 
     @Override
     public void applyObjectEatenEffect(){
-        coreGame.getSoundEffect().biteSound();
+        setSound("bite");
     }
 
     @Override
     public void applyObjectOnFloorEffect(){
-        coreGame.getSoundEffect().smackSound();
+        setSound("smack");
     }
 }
