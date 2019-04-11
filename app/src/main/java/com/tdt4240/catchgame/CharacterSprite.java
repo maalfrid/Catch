@@ -23,6 +23,7 @@ public class CharacterSprite {
         characterPositionX = (screenWidth - characterWidth) / 2;
         characterPositionY = screenHeight - characterHeight - 125;
         this.lives = 3;
+        this.score = 0;
         this.isTouched = false;
     }
 
@@ -46,6 +47,14 @@ public class CharacterSprite {
 
     public void setLives(int lives) {
         this.lives = lives;
+    }
+
+    public void removeLife(){
+        this.lives--;
+    }
+
+    public void addLife(){
+        this.lives++;
     }
 
     public int getCharacterPositionY() {
@@ -73,6 +82,15 @@ public class CharacterSprite {
     public void setScore(int score) {
         this.score = score;
     }
+
+    public void removeScore(int score){
+        this.score -= score;
+    }
+
+    public void addScore(int score){
+        this.score += score;
+    }
+
 
     public boolean isTouched() {
         return isTouched;

@@ -13,7 +13,7 @@ public class PowerUp extends FallingObject {
 
 
     @Override
-    public void applyObjectEatenEffect(){
+    public void applyObjectEatenEffect(CharacterSprite characterSprite){
         if (powerUpID == 0){
             //DO something
         }
@@ -25,7 +25,7 @@ public class PowerUp extends FallingObject {
     }
 
     @Override
-    public void applyObjectOnFloorEffect(){
+    public void applyObjectOnFloorEffect(CharacterSprite characterSprite){
         setSound("smack");
     }
 

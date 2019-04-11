@@ -11,7 +11,7 @@ public abstract class FallingObject {
     private int objectPositionX, objectPositionY;
     private int objectWidth, objectHeight;
     private int objectSpeed;
-    private int objectScore;
+    protected int objectScore;
     private boolean isEaten = false;
     private boolean touchedFloor = false;
     private String sound;
@@ -119,23 +119,23 @@ public abstract class FallingObject {
                     || (objectTopLeft >= characterTopLeft && objectTopRight <= characterTopRight)) {
                 this.wasEaten();
             }
-            applyObjectEffect();
+            applyObjectEffect(characterSprite);
         }
     }
 
-    public void applyObjectEffect(){
+    public void applyObjectEffect(CharacterSprite characterSprite){
         if (this.isEaten){
-            this.applyObjectEatenEffect();
+            this.applyObjectEatenEffect(characterSprite);
         }
         else if (this.touchedFloor){
-            applyObjectOnFloorEffect();
+            applyObjectOnFloorEffect(characterSprite);
         }
     }
 
-    public void applyObjectEatenEffect(){
+    public void applyObjectEatenEffect(CharacterSprite characterSprite){
     }
 
-    public void applyObjectOnFloorEffect(){
+    public void applyObjectOnFloorEffect(CharacterSprite characterSprite){
     }
 
     public boolean collisionDetected() {

@@ -10,12 +10,13 @@ public class BadFood extends FallingObject {
     }
 
     @Override
-    public void applyObjectEatenEffect(){
+    public void applyObjectEatenEffect(CharacterSprite characterSprite){
+        characterSprite.removeScore(this.objectScore);
         setSound("cough");
     }
 
     @Override
-    public void applyObjectOnFloorEffect(){
+    public void applyObjectOnFloorEffect(CharacterSprite characterSprite){
         setSound("smack");
     }
 }
