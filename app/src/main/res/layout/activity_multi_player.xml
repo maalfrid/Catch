@@ -12,28 +12,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/CenterScreen"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <com.google.android.gms.common.SignInButton
+        <Button
             android:id="@+id/button_sign_in"
+            android:background="@drawable/button_sign_in"
             style="@style/MenuButton"
-            tools:layout_editor_absoluteX="142dp"
-            tools:layout_editor_absoluteY="338dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/button_quick_game"
+            android:background="@drawable/button_quickplay"
             style="@style/MenuButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/quick_game"/>
+            android:layout_height="wrap_content" />
 
 
         <Button
             android:id="@+id/button_sign_out"
+            android:background="@drawable/button_sign_out"
             style="@style/MenuButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_out"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -42,8 +43,12 @@
         style="@style/CenterScreen">
 
         <TextView
-            style="@style/Blurb"
+            android:fontFamily="@font/frecklefaceregular"
             android:text="@string/please_wait"
+            android:textSize="120px"
+            android:textColor="@color/cast_expanded_controller_progress_text_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
         />
 
     </LinearLayout>
