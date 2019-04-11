@@ -59,8 +59,8 @@ public class CoreGame {
         //menu items
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
-        this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000, context);
-        this.txt_score2 = new MenuItem("Score: ", 16, 000000, context);
+        this.txt_score = new MenuItem("ScoreSinglePlayer: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000, context);
+        this.txt_score2 = new MenuItem("ScoreSinglePlayer: ", 16, 000000, context);
         pScore = characterSprite.getScore();
 
       
@@ -92,7 +92,7 @@ public class CoreGame {
         //Call broadcast
         if(this.gameview.isMultiplayer){
             /* SCORE LOGIC */
-            //broadcastScore has 2 parameters -> Score and lives.
+            //broadcastScore has 2 parameters -> ScoreSinglePlayer and lives.
             gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), this.multiGameOver);
             txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), gameview.getMultiPlayerActivity().getOpponentLife(), getContext());
             //TODO: If the other opponent looses or exit game --> Make game over view (and click to continue to get to main menu)
@@ -118,7 +118,7 @@ public class CoreGame {
             currentObject.detectCollision(characterSprite);
             if (currentObject.collisionDetected()) {
                 removeObject(currentObject);
-                txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
+                txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives(), getContext());
             }
         }
         // TODO: Find a way to spawn the objects based on the gameloop-time from MainThread? and baseFrequency.

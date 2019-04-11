@@ -1,6 +1,6 @@
 package com.tdt4240.catchgame;
 
-public class Score {
+public class ScoreSinglePlayer {
 
     public CharacterSprite characterSprite;
     private int twolevelsup = 25;
@@ -97,7 +97,7 @@ public class Score {
                 }
             }*/
 
-            if(typeOfGame.equals("multi")){
+            /*if(typeOfGame.equals("multi")){
                 if(objectPoints == 1) {
                     incrementScore(10);
                     // TODO: x2 points of the next caught items, don't know how yet
@@ -112,7 +112,7 @@ public class Score {
                     //TODO: increase speed of opponent's falling objects
                         //Broadcast this message
                 }
-            }
+            }*/
 
         }
 
