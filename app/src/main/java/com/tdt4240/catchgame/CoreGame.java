@@ -47,15 +47,10 @@ public class CoreGame {
         this.gameview = gameview;
         this.context = context;
         this.gametype = gameType;
-        this.objectsOnScreen = new ArrayList<>();
-        this.gameTime = 0;
-        this.fallingObjectFactory = new FallingObjectFactory(this);
-        this.difficulty = difficulty;
-        this.setGameDifficulty(difficulty);
-        this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
-        this.scoreSinglePlayer = new ScoreSinglePlayer(characterSprite);
         this.soundEffects = new SoundEffects();
         this.soundOn = true;
+
+        this.setupGame(difficulty);
         //menu items
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
@@ -64,6 +59,15 @@ public class CoreGame {
         pScore = characterSprite.getScore();
 
       
+    }
+
+    private void setupGame(String difficulty){
+        this.objectsOnScreen = new ArrayList<>();
+        this.gameTime = 0;
+        this.fallingObjectFactory = new FallingObjectFactory(this);
+        this.setGameDifficulty(difficulty);
+        this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
+        this.scoreSinglePlayer = new ScoreSinglePlayer(characterSprite);
     }
 
     /*
@@ -117,6 +121,9 @@ public class CoreGame {
             currentObject.update();
             currentObject.detectCollision(characterSprite);
             if (currentObject.collisionDetected()) {
+                if (currentObject instanceof PowerUp){
+                    ((PowerUp) currentObject).applyPowerUpEffect(characterSprite);
+                }
                 removeObject(currentObject);
                 txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives(), getContext());
             }
