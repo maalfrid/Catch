@@ -2,47 +2,54 @@ package com.tdt4240.catchgame;
 
 public class Score {
 
-    public CoreGame coreGame;
+    public CharacterSprite characterSprite;
     private int twolevelsup = 25;
     private int onelevelup = 15;
     private boolean levelUp = false;
 
-    public Score(CoreGame coreGame) {
-        this.coreGame = coreGame;
+    public ScoreSinglePlayer(CharacterSprite characterSprite) {
+
+        this.characterSprite = characterSprite;
+
     }
 
     // Method for incrementing players score
     public void incrementScore(int scoreInc) {
-        this.coreGame.characterSprite.setScore(this.coreGame.characterSprite.getScore() + scoreInc);
-        System.out.println("Player score: " + this.coreGame.characterSprite.getScore());
 
-        //Check if "level up"
-        if(!this.coreGame.getDifficulty().equals(this.coreGame.getHard())){
+        characterSprite.setScore(characterSprite.getScore() + scoreInc);
+        System.out.println("Player score: " + characterSprite.getScore());
+
+       /* //Check if "level up"
+        if(!coreGame.getDifficulty().equals(coreGame.getHard())){
             //up two levels
-            if (this.coreGame.getDifficulty().equals(this.coreGame.getMedium()) && this.coreGame.characterSprite.getScore() >= twolevelsup){
-                this.coreGame.setLevelUp();
+            if (coreGame.getDifficulty().equals(coreGame.getMedium()) && characterSprite.getScore() >= twolevelsup){
+                coreGame.setLevelUp();
             }
             //up one level
-            if (this.coreGame.characterSprite.getScore() >= onelevelup && levelUp == false){
-                this.coreGame.setLevelUp();
+            if (characterSprite.getScore() >= onelevelup && levelUp == false){
+                coreGame.setLevelUp();
                 levelUp = true;
             }
-        }
+
+        }*/
+
     }
 
     public void decrementScore(int scoreDec) {
-        this.coreGame.characterSprite.setScore(coreGame.characterSprite.getScore() + scoreDec);
+
+        characterSprite.setScore(characterSprite.getScore() + scoreDec);
 
         //Check if "level gameover"
         // TODO: Find correct game-over variables and methods, need view
-        if (this.coreGame.characterSprite.getScore() < 0) {
+        if (characterSprite.getScore() < 0) {
+
 
         }
 
     }
 
 
-    public void caughtObject(FallingObject object) {
+   /* public void caughtObject(FallingObject object) {
         int objectPoints = object.getScore();
         String typeOfGame = this.coreGame.getGametype();
 
@@ -54,7 +61,7 @@ public class Score {
         }
         if (object.getType().equals(this.coreGame.getPowerup())){
             // TODO: Implement power-up logic
-            incrementScore(objectPoints);
+            incrementScore(objectPoints);*/
 
             /*POWER-UP RULES
             Gets points for catching, in addition to logics for which is caught:
@@ -72,7 +79,7 @@ public class Score {
             #3 Beetle (lightning): faster opponent
 
             */
-            if(typeOfGame.equals("single")) {
+      /*      if(typeOfGame.equals("single")) {
                 if(objectPoints == 1) {
                     incrementScore(10);
                     //this.coreGame.popup("Powerup! 10 extra points");
@@ -81,11 +88,14 @@ public class Score {
                     this.coreGame.setLevelDown();
                 }
                 if(objectPoints == 3){
-                    int lives = this.coreGame.characterSprite.getLives() + 1;
-                    this.coreGame.characterSprite.setLives(lives);
+
+                    // TODO: this does not work, fix that the lives increases
+                    int currentLives = characterSprite.getLives();
+                    int newLives = currentLives++;
+                    characterSprite.setLives(newLives);
                     //this.coreGame.popup("Powerup! 1 extra life");
                 }
-            }
+            }*/
 
             if(typeOfGame.equals("multi")){
                 if(objectPoints == 1) {
@@ -106,6 +116,15 @@ public class Score {
 
         }
 
-    }
+/*    }
 
-}
+     if (this.type.equals(coreGame.getGood())) {
+        if (characterSprite.getLives() == 1) {
+            // TODO: Create game-over state, send to game-over state here
+            System.out.println("Game over looooser");
+        }
+        characterSprite.setLives(characterSprite.getLives() - 1);
+        System.out.println("Player has " + characterSprite.getLives() + " lives left");
+    }*/
+
+

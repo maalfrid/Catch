@@ -14,24 +14,16 @@ public abstract class FallingObject {
     private int objectScore;
     private boolean isEaten = false;
     private boolean touchedFloor = false;
-    private Score score;
-    private CoreGame coreGame;
-    private String type;
+    protected CoreGame coreGame;
 
 
-
-    public FallingObject(Bitmap bmp, int objectScore, String type, CoreGame coreGame) {
-        objectImage = bmp;
-        objectWidth = objectImage.getWidth();
-        objectHeight = objectImage.getHeight();
-        objectPositionY = 0;
-        this.coreGame = coreGame;
-        score = coreGame.score;
+    public FallingObject(Bitmap bmp, int objectScore, CoreGame coreGame) {
         this.objectScore = objectScore;
-
-        this.type = type;
-
-
+        this.objectImage = bmp;
+        this.objectWidth = objectImage.getWidth();
+        this.objectHeight = objectImage.getHeight();
+        this.objectPositionY = 0;
+        this.coreGame = coreGame;
     }
 
     public void draw(Canvas canvas) {
@@ -91,30 +83,14 @@ public abstract class FallingObject {
         return this.objectScore;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public void wasEaten() {
-        System.out.println("get score " + this.getScore());
-        coreGame.score.caughtObject(this);
+        System.out.println("Object eaten, get score " + this.getScore());
         this.isEaten = true;
     }
 
     public void touchedFloor() {
         this.touchedFloor = true;
-        if (this.type.equals(coreGame.getGood())) {
-            if (coreGame.characterSprite.getLives() == 1) {
-                // TODO: Create game-over state, send to game-over state here
-                System.out.println("Game over looooser");
-            }
-            coreGame.characterSprite.setLives(coreGame.characterSprite.getLives() - 1);
-            System.out.println("Player has " + coreGame.characterSprite.getLives() + " lives left");
-        }
+        System.out.println("Object dropped, get score " + this.getScore());
     }
 
     public void detectCollision(CharacterSprite characterSprite) {
@@ -127,29 +103,37 @@ public abstract class FallingObject {
 
         if (objectBottom >= characterSprite.getCharacterPositionY()) {
             if (objectBottom >= characterBottom) {
-                if(this.getType().equals("good")){
-                    coreGame.getSoundEffect().smackSound();}
                 this.touchedFloor();
             } else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
                     || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
                     || (objectTopLeft >= characterTopLeft && objectTopRight <= characterTopRight)) {
-                if(this.getType().equals("good")){
-                    coreGame.getSoundEffect().biteSound();
-                }
-                else if(this.getType().equals("bad")){
-                    coreGame.getSoundEffect().coughSound();
-                }
-                else if(this.getType().equalsIgnoreCase("powerup")){
-                    coreGame.getSoundEffect().powerupSound();
-                }
                 this.wasEaten();
-
             }
+            applyObjectEffect();
         }
+    }
+
+    public void applyObjectEffect(){
+        if (this.isEaten){
+            this.applyObjectEatenEffect();
+        }
+        else if (this.touchedFloor){
+            applyObjectOnFloorEffect();
+        }
+    }
+
+    public void applyObjectEatenEffect(){
+    }
+
+    public void applyObjectOnFloorEffect(){
     }
 
     public boolean collisionDetected() {
         return (isEaten || touchedFloor);
+    }
+
+    public void playSound(SoundEffects soundEffects){
+
     }
 
 }

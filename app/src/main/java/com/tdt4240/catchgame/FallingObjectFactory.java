@@ -5,71 +5,100 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 public class FallingObjectFactory {
 
-    HashMap<Integer, Integer> goodFoodCollection;
-    HashMap<Integer, Bitmap> goodFoodImages;
-    HashMap<Integer, Integer> badFoodCollection;
-    HashMap<Integer, Bitmap> badFoodImages;
-    HashMap<Integer, Integer> powerUpCollection;
-    HashMap<Integer, Bitmap> powerUpImages;
-    private CoreGame coreGame;
-
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
+    private HashMap<Integer, Integer> goodFoodCollection;
+    private HashMap<Integer, Bitmap> goodFoodImages;
+    private HashMap<Integer, Integer> badFoodCollection;
+    private HashMap<Integer, Bitmap> badFoodImages;
+    private HashMap<Integer, Integer> powerUpCollection;
+    private HashMap<Integer, Bitmap> powerUpImages;
+    private ArrayList<Integer> fallingObjectFraction;
+    private CoreGame coreGame;
+
+
     public FallingObjectFactory(CoreGame coreGame){
-        this.coreGame = coreGame;
         this.loadGoodObjects();
         this.loadBadObjects();
         this.loadPowerUpObjects();
+        this.fallingObjectFraction = new ArrayList<>();
+        this.coreGame = coreGame;
     }
 
-    //creates an object of the given foodtype
-    public FallingObject getFallingObject(String foodType){
-        if(foodType.equalsIgnoreCase(coreGame.getBad())){
-            int food = getRandomKey(badFoodCollection);
-            Bitmap bitmap = getBitmapForFallingObject(food, badFoodImages);
-            int value = getFoodValue(food, badFoodCollection);
-            return new BadFood(bitmap, value, "bad", coreGame);
+    //Creates a list of 0s (good object), 1s (bad object), and 2s (power up) according to fraction.
+    // fraction is given on game creation as difficulty is set. Based on fraction of 10 numbers.
+    public void setFallingObjectFraction(int fractionGood) {
+        int numberOfPowerUps = fractionGood/2;
+        for (int i = 0; i < fractionGood; i++) {
+            fallingObjectFraction.add(0);
         }
-        else if(foodType.equalsIgnoreCase(coreGame.getPowerup())){
-            int food = getRandomKey(powerUpCollection);
-            Bitmap bitmap = getBitmapForFallingObject(food, powerUpImages);
-            int value = getFoodValue(food, powerUpCollection);
-            return new PowerUp(bitmap, value, "powerUp", coreGame);
+        for (int j = 0; j < 10 - fractionGood; j++) {
+            fallingObjectFraction.add(1);
         }
-        else{
-            int food = getRandomKey(goodFoodCollection);
-            Bitmap bitmap = getBitmapForFallingObject(food, goodFoodImages);
-            int value = getFoodValue(food, goodFoodCollection);
-            return new GoodFood(bitmap, value, "good", coreGame);
+        for (int k = 0; k < numberOfPowerUps; k++){
+            fallingObjectFraction.add(2);
         }
+    }
+
+    //method for getting random falling object according to percentage from level
+    public int getFallingObjectType(){
+        int id = (int)((Math.random())* (fallingObjectFraction.size() -1));
+        return fallingObjectFraction.get(id);
+    }
+
+    //TODO: Clean up
+    public FallingObject getFallingObject() {
+        int fallingObjectType = getFallingObjectType();
+        FallingObject fallingObject;
+        if (fallingObjectType == 1) {
+            int objectID = getRandomKey(badFoodCollection);
+            Bitmap bmp = getBitmapForFallingObject(objectID, badFoodImages);
+            int objectScore = getFoodValue(objectID, badFoodCollection);
+            fallingObject = new BadFood(bmp, objectScore, coreGame);
+        } else if (fallingObjectType == 2) {
+            int objectID = getRandomKey(powerUpCollection);
+            Bitmap bmp = getBitmapForFallingObject(objectID, powerUpImages);
+            int objectScore = getFoodValue(objectID, powerUpCollection);
+            fallingObject = new PowerUp(bmp, objectScore, coreGame);
+        }
+        else {
+            int objectID = getRandomKey(goodFoodCollection);
+            Bitmap bmp = getBitmapForFallingObject(objectID, goodFoodImages);
+            int objectScore = getFoodValue(objectID, goodFoodCollection);
+            fallingObject = new GoodFood(bmp, objectScore, coreGame);
+        }
+        return fallingObject;
     }
 
     //picks out random food from a given foodtype
     public int getRandomKey(HashMap foodCollection) {
         Object[] foodKeys = foodCollection.keySet().toArray();
         Object key = foodKeys[new Random().nextInt(foodKeys.length)];
-
         return (int) key;
     }
 
     //use imageID to create Bitmap
-    public Bitmap getBitmapForFallingObject(int food, HashMap foodCollection){
-        return (Bitmap) foodCollection.get(food);
+    public Bitmap getBitmapForFallingObject(int objectID, HashMap foodCollection){
+        return (Bitmap) foodCollection.get(objectID);
     }
 
     //finds the score the given food gives
-    public int getFoodValue(int food, HashMap foodCollection){
-        return (int) foodCollection.get(food);
+    public int getFoodValue(int objectID, HashMap foodCollection){
+        return (int) foodCollection.get(objectID);
     }
+
+    // --- Load object-library ---
 
     public void loadGoodObjects(){
         goodFoodCollection = new HashMap<>();
-        goodFoodCollection.put(R.drawable.obj_good_banana, 2);
+        goodFoodCollection.put(R.drawable.obj_good_banana, 5);
         goodFoodCollection.put(R.drawable.obj_good_apple, 2);
         goodFoodCollection.put(R.drawable.obj_good_strawberry, 1);
         goodFoodCollection.put(R.drawable.obj_good_cherry, 1);
@@ -79,7 +108,7 @@ public class FallingObjectFactory {
         goodFoodCollection.put(R.drawable.obj_good_pineapple, 1);
 
         goodFoodImages = new HashMap<>();
-        goodFoodImages.put(R.drawable.obj_good_banana, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_banana), 0.15));
+        goodFoodImages.put(R.drawable.obj_good_banana, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_banana), 0.2));
         goodFoodImages.put(R.drawable.obj_good_apple, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_apple), 0.15));
         goodFoodImages.put(R.drawable.obj_good_strawberry, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_strawberry), 0.15));
         goodFoodImages.put(R.drawable.obj_good_cherry, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_cherry), 0.15));
@@ -111,20 +140,14 @@ public class FallingObjectFactory {
         powerUpImages.put(R.drawable.obj_powerup_starbeetle, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_powerup_starbeetle), 0.15));
     }
 
-
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
         int width = bmp.getWidth();
         int height = bmp.getHeight();
         double newWidth = screenWidth * scaleFactorWidth;
         float scale = ((float) newWidth) / width;
-        // CREATE A MATRIX FOR THE MANIPULATION
         Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
         matrix.postScale(scale, scale);
-
-        // "RECREATE" THE NEW BITMAP
-        Bitmap resizedBitmap =
-                Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
+        Bitmap resizedBitmap = Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
         bmp.recycle();
         return resizedBitmap;
     }
