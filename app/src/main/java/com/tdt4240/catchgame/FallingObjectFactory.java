@@ -21,15 +21,13 @@ public class FallingObjectFactory {
     private HashMap<Integer, Integer> powerUpCollection;
     private HashMap<Integer, Bitmap> powerUpImages;
     private ArrayList<Integer> fallingObjectFraction;
-    private CoreGame coreGame;
 
     //TODO: Get rid of coregame being passed around.
-    public FallingObjectFactory(CoreGame coreGame){
+    public FallingObjectFactory(){
         this.loadGoodObjects();
         this.loadBadObjects();
         this.loadPowerUpObjects();
         this.fallingObjectFraction = new ArrayList<>();
-        this.coreGame = coreGame;
     }
 
     //Creates a list of 0s (good object), 1s (bad object), and 2s (power up) according to fraction.
@@ -53,19 +51,18 @@ public class FallingObjectFactory {
         return fallingObjectFraction.get(id);
     }
 
-    //TODO: Clean up COREGAME
     public FallingObject getFallingObject() {
         int fallingObjectType = getFallingObjectType();
         if (fallingObjectType == 1) {
             int objectID = getRandomKey(badFoodCollection);
-            return new BadFood(getBitmapForFallingObject(objectID, badFoodImages), getFoodValue(objectID, badFoodCollection), coreGame);
+            return new BadFood(getBitmapForFallingObject(objectID, badFoodImages), getFoodValue(objectID, badFoodCollection));
         } else if (fallingObjectType == 2) {
             int objectID = getRandomKey(powerUpCollection);
-            return new PowerUp(getBitmapForFallingObject(objectID, powerUpImages), getFoodValue(objectID, powerUpCollection), objectID, coreGame);
+            return new PowerUp(getBitmapForFallingObject(objectID, powerUpImages), getFoodValue(objectID, powerUpCollection), objectID);
         }
         else {
             int objectID = getRandomKey(goodFoodCollection);
-            return new GoodFood(getBitmapForFallingObject(objectID, goodFoodImages), getFoodValue(objectID, goodFoodCollection), coreGame);
+            return new GoodFood(getBitmapForFallingObject(objectID, goodFoodImages), getFoodValue(objectID, goodFoodCollection));
         }
     }
 

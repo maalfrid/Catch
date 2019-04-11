@@ -64,7 +64,7 @@ public class CoreGame {
     private void setupGame(String difficulty){
         this.objectsOnScreen = new ArrayList<>();
         this.gameTime = 0;
-        this.fallingObjectFactory = new FallingObjectFactory(this);
+        this.fallingObjectFactory = new FallingObjectFactory();
         this.setGameDifficulty(difficulty);
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
         this.scoreSinglePlayer = new ScoreSinglePlayer(characterSprite);
@@ -121,9 +121,7 @@ public class CoreGame {
             currentObject.update();
             currentObject.detectCollision(characterSprite);
             if (currentObject.collisionDetected()) {
-                if (currentObject instanceof PowerUp){
-                    ((PowerUp) currentObject).applyPowerUpEffect(characterSprite);
-                }
+                soundEffects.playSound(currentObject.getSound());
                 removeObject(currentObject);
                 txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives(), getContext());
             }

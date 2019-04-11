@@ -6,30 +6,27 @@ public class PowerUp extends FallingObject {
 
     private int powerUpID;
 
-    public PowerUp(Bitmap bitmap, int objectScore, int powerUpID, CoreGame coreGame){
-        super(bitmap, objectScore, coreGame);
+    public PowerUp(Bitmap bitmap, int objectScore, int powerUpID){
+        super(bitmap, objectScore);
         this.powerUpID = powerUpID;
     }
 
-    public void applyPowerUpEffect(CharacterSprite characterSprite){
+
+    @Override
+    public void applyObjectEatenEffect(){
         if (powerUpID == 0){
             //DO something
         }
         else if (powerUpID == 1){
             //DO something else
         }
-    }
 
-
-
-    @Override
-    public void applyObjectEatenEffect(){
-        coreGame.getSoundEffect().powerupSound();
+        setSound("powerup");
     }
 
     @Override
     public void applyObjectOnFloorEffect(){
-        coreGame.getSoundEffect().smackSound();
+        setSound("smack");
     }
 
 }
