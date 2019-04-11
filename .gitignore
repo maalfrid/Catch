@@ -13,3 +13,8 @@
 /captures
 .externalNativeBuild
 .idea/misc.xml
+.project
+.settings/
+app/.classpath
+app/.project
+app/.settings

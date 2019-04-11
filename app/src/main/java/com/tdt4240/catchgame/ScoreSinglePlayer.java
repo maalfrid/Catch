@@ -82,7 +82,7 @@ public class ScoreSinglePlayer {
       /*      if(typeOfGame.equals("single")) {
                 if(objectPoints == 1) {
                     incrementScore(10);
-                    this.coreGame.popup("Powerup! 10 extra points");
+                    //this.coreGame.popup("Powerup! 10 extra points");
                 }
                 if(objectPoints == 2){
                     this.coreGame.setLevelDown();
@@ -97,23 +97,20 @@ public class ScoreSinglePlayer {
                 }
             }*/
 
-           /* if(typeOfGame.equals("multi")){
+            /*if(typeOfGame.equals("multi")){
                 if(objectPoints == 1) {
                     incrementScore(10);
                     // TODO: x2 points of the next caught items, don't know how yet
                 }
                 if(objectPoints == 2){
                     // TODO: increase size of own sprite and decrease opponent size
-                    coreGame.characterSprite.maximizeCharacterSize();
-                    //coreGame.opponent.minimizeCharacterSize();
-                    // wait 5 seconds
-
-                    coreGame.characterSprite.setCharacterSizeNormal();
-
+                        //Increase own size
+                        //Broadcast this message
 
                 }
                 if(objectPoints == 3){
-                    // TODO: increase speed of opponent's falling objects
+                    //TODO: increase speed of opponent's falling objects
+                        //Broadcast this message
                 }
             }*/
 

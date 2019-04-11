@@ -21,7 +21,6 @@ public class CoreGame {
     public MenuItem btn_sound;
     public MenuItem txt_score;
     public MenuItem txt_score2;
-
     private int gameTime;
     private String difficulty;
     private String gametype;
@@ -41,6 +40,7 @@ public class CoreGame {
 
     //for multiplayer
     public static int pScore;
+    public int multiGameOver;
 
 
     public CoreGame(String gameType, String difficulty, Context context, GameView gameview){
@@ -59,8 +59,8 @@ public class CoreGame {
         //menu items
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
-        this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000);
-        this.txt_score2 = new MenuItem("Score: ", 16, 000000);
+        this.txt_score = new MenuItem("ScoreSinglePlayer: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000, context);
+        this.txt_score2 = new MenuItem("ScoreSinglePlayer: ", 16, 000000, context);
         pScore = characterSprite.getScore();
 
       
@@ -88,11 +88,28 @@ public class CoreGame {
         if(characterSprite.getLives()==0){
             gameview.gameOver();
         }
-        txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
+        txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives(), getContext());
         //Call broadcast
         if(this.gameview.isMultiplayer){
-            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore());
-            txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), 0);
+            /* SCORE LOGIC */
+            //broadcastScore has 2 parameters -> ScoreSinglePlayer and lives.
+            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), this.multiGameOver);
+            txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), gameview.getMultiPlayerActivity().getOpponentLife(), getContext());
+            //TODO: If the other opponent looses or exit game --> Make game over view (and click to continue to get to main menu)
+            if(gameview.getMultiPlayerActivity().getIsGameOver()==1){
+                gameview.gameOver();
+            }
+            /*if(gameview.getMultiPlayerActivity().getOpponentLife()==0){
+                gameview.gameOver();
+            }*/
+
+            /* POWERUPS LOGIC */
+
+            // Check powerup buffer bit
+            // TODO first: Add powerup bit to buffer in Multiplayeractivity
+                // If == 2 -> Increase decrease this sprites size (use setImage)
+                // If == 3 -> Increase speed of falling objects (e.g. level up?)
+
         }
 
         for(int i=0; i < objectsOnScreen.size(); i++) {
@@ -101,7 +118,7 @@ public class CoreGame {
             currentObject.detectCollision(characterSprite);
             if (currentObject.collisionDetected()) {
                 removeObject(currentObject);
-                txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
+                txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives(), getContext());
             }
         }
         // TODO: Find a way to spawn the objects based on the gameloop-time from MainThread? and baseFrequency.
@@ -116,8 +133,12 @@ public class CoreGame {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
-                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY())){
+                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && !this.gameview.isMultiplayer){
                     gameview.gamePause();
+                }
+                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && this.gameview.isMultiplayer){
+                    this.multiGameOver = 1;
+                    gameview.gameOver();
                 }
                 if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
                     soundOn = !soundOn;
@@ -136,6 +157,7 @@ public class CoreGame {
             case MotionEvent.ACTION_MOVE:
                 if (characterSprite.isTouched()) {
                     characterSprite.setCharacterPositionX((int) motionEvent.getX());
+                    //TODO: Fix touch track of sprite
                 }
                 break;
 
@@ -264,8 +286,8 @@ public class CoreGame {
         return resizedBitmap;
     }
 
-    public void popup(String msg){
-        this.gameview.popup(msg);
-    }
+    //public void popup(String msg){
+        //this.gameview.popup(msg);
+    //}
 
 }
