@@ -14,16 +14,15 @@ public abstract class FallingObject {
     private int objectScore;
     private boolean isEaten = false;
     private boolean touchedFloor = false;
-    protected CoreGame coreGame;
+    private String sound;
 
 
-    public FallingObject(Bitmap bmp, int objectScore, CoreGame coreGame) {
+    public FallingObject(Bitmap bmp, int objectScore) {
         this.objectScore = objectScore;
         this.objectImage = bmp;
         this.objectWidth = objectImage.getWidth();
         this.objectHeight = objectImage.getHeight();
         this.objectPositionY = 0;
-        this.coreGame = coreGame;
     }
 
     public void draw(Canvas canvas) {
@@ -71,6 +70,13 @@ public abstract class FallingObject {
         return objectSpeed;
     }
 
+    public String getSound(){
+        return this.sound;
+    }
+    public void setSound(String sound) {
+        this.sound = sound;
+
+    }
     public void setObjectSpeed(int objectSpeed) {
         this.objectSpeed = objectSpeed;
     }
@@ -88,8 +94,8 @@ public abstract class FallingObject {
         this.isEaten = true;
     }
 
-    public boolean eaten() {
-        return this.isEaten;
+    public boolean isEaten(){
+        return isEaten;
     }
 
     public void touchedFloor() {
@@ -134,10 +140,6 @@ public abstract class FallingObject {
 
     public boolean collisionDetected() {
         return (isEaten || touchedFloor);
-    }
-
-    public void playSound(SoundEffects soundEffects){
-
     }
 
 }
