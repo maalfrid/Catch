@@ -32,6 +32,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public MenuItem txt_score_self;
     public MenuItem txt_score_opponent;
     public MenuItem btn_exit;
+    public MenuItem btn_sound;
 
     //game over/exit items
     public MenuItem txt_gameQuit;
@@ -83,6 +84,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.txt_score_self = new MenuItem("Score:  | Lives: ", 16, 000000, this.context);
         if(this.isMultiplayer){this.txt_score_self = new MenuItem("(Opponent) Score: | Lives: ", 16, 000000, this.context);}
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
+        this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
         //game over/exit items
         this.txt_gameQuit= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.txt_quit),1.0));
         this.txt_gameQuit.setPos(screenWidth/2 - txt_gameQuit.getWidth()/2, screenHeight/2 - txt_gameQuit.getHeight()/2);
@@ -125,17 +127,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (canvas != null) {
             canvas.drawBitmap(background, 0,0, null);
 
-            if(!getGamePause() & !getGameOver()){coreGame.draw(canvas);}
+            if(!isGamePause() & !isGameOver()){coreGame.draw(canvas);}
 
             this.txt_score_self.draw(canvas, screenWidth/2 - txt_score_self.getWidth()/2, 0);
             if(this.isMultiplayer){ this.txt_score_opponent.draw(canvas, screenWidth/2 - txt_score_self.getWidth()/2, 0);}
-            btn_exit.draw(canvas, 0, 0);
 
-            if(getGameOver()){
+            btn_exit.draw(canvas, 0, 0);
+            btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
+
+            if(isGameOver()){
                 txt_gameOver.draw(canvas, txt_gameOver.getPosX(), txt_gameOver.getPosY());
             }
 
-            if(getGamePause()){
+            if(isGamePause()){
                 txt_gameQuit.draw(canvas, txt_gameQuit.getPosX(), txt_gameQuit.getPosY());
                 btn_yes.draw(canvas, btn_yes.getPosX(), btn_yes.getPosY());
                 btn_no.draw(canvas, btn_no.getPosX(), btn_no.getPosY());
@@ -145,7 +149,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void update(){
-        if(!getGamePause() & !getGameOver()){coreGame.update();}
+        if(!isGamePause() && !isGameOver()){coreGame.update();}
+        // TODO: Update method to set sound in coregame
     }
 
     public void updateScoreOpponent(int score, int lives){
@@ -159,32 +164,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public boolean onTouchEvent(MotionEvent motionEvent) {
         coreGame.onTouch(motionEvent);
-
-        //Tracking for menu elements
-        if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-            if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && !this.isMultiplayer){
-                gamePause();
-            }
-            if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && this.isMultiplayer){
-                //TODO: Handle if multiplayer --> Exit the game for both players.
-            }
-        }
-
-        //Tracking if game exit or game over
-        //TODO: Move isTouched logic into game view (as the core game is paused)
-        if(motionEvent.getAction() == MotionEvent.ACTION_DOWN & (getGameOver() | getGamePause())){
-            if(btn_yes.isTouched(motionEvent.getX(), motionEvent.getY())){
-                gameExit();
-            }
-            if(btn_no.isTouched(motionEvent.getX(), motionEvent.getY())){
-                gameResume();
-            }
-            if(txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY())){
-                if(!isMultiplayer){singlePlayerActivity.finish();}
-                if(isMultiplayer){multiPlayerActivity.finish();}
-            }
-        }
-
         return true;
     }
 
@@ -252,7 +231,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gameOver = b;
     }
 
-    public boolean getGameOver(){
+    public boolean isGameOver(){
         return this.gameOver;
     }
 
@@ -260,7 +239,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gameExit = b;
     }
 
-    public boolean getGameExit(){
+    public boolean isGameExit(){
         return this.gameExit;
     }
 
@@ -268,7 +247,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gamePause = b;
     }
 
-    public boolean getGamePause(){
+    public boolean isGamePause(){
         return this.gamePause;
     }
 
