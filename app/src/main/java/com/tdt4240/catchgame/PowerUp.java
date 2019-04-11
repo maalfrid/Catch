@@ -4,9 +4,23 @@ import android.graphics.Bitmap;
 
 public class PowerUp extends FallingObject {
 
-    public PowerUp(Bitmap bitmap, int objectScore, CoreGame coreGame){
+    private int powerUpID;
+
+    public PowerUp(Bitmap bitmap, int objectScore, int powerUpID, CoreGame coreGame){
         super(bitmap, objectScore, coreGame);
+        this.powerUpID = powerUpID;
     }
+
+    public void applyPowerUpEffect(CharacterSprite characterSprite){
+        if (powerUpID == 0){
+            //DO something
+        }
+        else if (powerUpID == 1){
+            //DO something else
+        }
+    }
+
+
 
     @Override
     public void applyObjectEatenEffect(){
