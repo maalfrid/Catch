@@ -5,7 +5,7 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
-public class SoundEffect {
+public class SoundEffects {
 
     SoundPool soundPool;
     SoundPool.Builder soundPoolBuilder;
@@ -23,7 +23,7 @@ public class SoundEffect {
     int soundID_button;
 
 
-    public SoundEffect(){
+    public SoundEffects(){
         attributesBuilder = new AudioAttributes.Builder();
         attributesBuilder.setUsage(AudioAttributes.USAGE_GAME);
         attributesBuilder.setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION);
@@ -88,7 +88,6 @@ public class SoundEffect {
     public void volumeOn(){
         audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
     }
-
 
 
 
