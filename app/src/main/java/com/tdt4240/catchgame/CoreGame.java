@@ -20,6 +20,7 @@ public class CoreGame {
     public MenuItem btn_exit;
     public MenuItem btn_sound;
     public MenuItem txt_score;
+    public MenuItem txt_score2;
 
     private int gameTime;
     private String difficulty;
@@ -38,7 +39,10 @@ public class CoreGame {
     public ScoreSinglePlayer scoreSinglePlayer;
 
 
-  
+    //for multiplayer
+    public static int pScore;
+
+
     public CoreGame(String gameType, String difficulty, Context context, GameView gameview){
         this.gameview = gameview;
         this.context = context;
@@ -56,7 +60,10 @@ public class CoreGame {
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
         this.txt_score = new MenuItem("Score: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000);
+        this.txt_score2 = new MenuItem("Score: ", 16, 000000);
+        pScore = characterSprite.getScore();
 
+      
     }
 
     /*
@@ -69,6 +76,7 @@ public class CoreGame {
         btn_exit.draw(canvas, 0, 0);
         btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
         txt_score.draw(canvas, screenWidth/2 - txt_score.getWidth()/2, btn_exit.getHeight()/4);
+        txt_score2.draw(canvas, screenWidth/2 - txt_score.getWidth()/2, btn_exit.getHeight()/2);
 
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
@@ -80,6 +88,13 @@ public class CoreGame {
         if(characterSprite.getLives()==0){
             gameview.gameOver();
         }
+        txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives());
+        //Call broadcast
+        if(this.gameview.isMultiplayer){
+            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore());
+            txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), 0);
+        }
+
         for(int i=0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
             currentObject.update();
@@ -195,11 +210,13 @@ public class CoreGame {
     public void setLevelDown(){
         if(this.difficulty.equals(hard)){
             this.difficulty = medium;
+
             setGameDifficulty(medium);
         }
         if(this.difficulty.equals(medium)){
             this.difficulty = easy;
             setGameDifficulty(easy);
+
         }
     }
 
@@ -245,6 +262,10 @@ public class CoreGame {
                 Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
         bmp.recycle();
         return resizedBitmap;
+    }
+
+    public void popup(String msg){
+        this.gameview.popup(msg);
     }
 
 }
