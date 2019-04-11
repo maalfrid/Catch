@@ -17,10 +17,7 @@ public class CoreGame {
     private boolean soundOn;
     private SoundEffects soundEffects;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    public MenuItem btn_exit;
     public MenuItem btn_sound;
-    public MenuItem txt_score;
-    public MenuItem txt_score2;
     private int gameTime;
     private String difficulty;
     private String gametype;
@@ -52,13 +49,10 @@ public class CoreGame {
 
         this.setupGame(difficulty);
         //menu items
-        this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
-        this.txt_score = new MenuItem("ScoreSinglePlayer: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000, context);
-        this.txt_score2 = new MenuItem("ScoreSinglePlayer: ", 16, 000000, context);
         pScore = characterSprite.getScore();
 
-      
+
     }
 
     private void setupGame(String difficulty){
@@ -77,10 +71,7 @@ public class CoreGame {
 
     public void draw(Canvas canvas){
         characterSprite.draw(canvas);
-        btn_exit.draw(canvas, 0, 0);
         btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
-        txt_score.draw(canvas, screenWidth/2 - txt_score.getWidth()/2, btn_exit.getHeight()/4);
-        txt_score2.draw(canvas, screenWidth/2 - txt_score.getWidth()/2, btn_exit.getHeight()/2);
 
         for(int i=0; i < objectsOnScreen.size(); i++){
             objectsOnScreen.get(i).draw(canvas);
@@ -92,13 +83,15 @@ public class CoreGame {
         if(characterSprite.getLives()==0){
             gameview.gameOver();
         }
-        txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives(), getContext());
+        gameview.updateScoreSelf(characterSprite.getScore(), characterSprite.getLives());
         //Call broadcast
         if(this.gameview.isMultiplayer){
             /* SCORE LOGIC */
             //broadcastScore has 2 parameters -> ScoreSinglePlayer and lives.
             gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), this.multiGameOver);
-            txt_score2.updateScoreLife(gameview.getMultiPlayerActivity().getOpponentScore(), gameview.getMultiPlayerActivity().getOpponentLife(), getContext());
+            //TODO: update score for opponent
+            //gameview.updateScoreOpponent();
+
             //TODO: If the other opponent looses or exit game --> Make game over view (and click to continue to get to main menu)
             if(gameview.getMultiPlayerActivity().getIsGameOver()==1){
                 gameview.gameOver();
@@ -121,11 +114,10 @@ public class CoreGame {
             currentObject.update();
             currentObject.detectCollision(characterSprite);
             if (currentObject.collisionDetected()) {
-                if (currentObject instanceof PowerUp){
+                if (currentObject instanceof PowerUp && currentObject.eaten()){
                     ((PowerUp) currentObject).applyPowerUpEffect(characterSprite);
                 }
                 removeObject(currentObject);
-                txt_score.updateScoreLife(characterSprite.getScore(), characterSprite.getLives(), getContext());
             }
         }
         // TODO: Find a way to spawn the objects based on the gameloop-time from MainThread? and baseFrequency.
@@ -140,13 +132,6 @@ public class CoreGame {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
-                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && !this.gameview.isMultiplayer){
-                    gameview.gamePause();
-                }
-                if(btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && this.gameview.isMultiplayer){
-                    this.multiGameOver = 1;
-                    gameview.gameOver();
-                }
                 if(btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
                     soundOn = !soundOn;
                     if(soundOn){

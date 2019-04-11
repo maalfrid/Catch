@@ -88,6 +88,10 @@ public abstract class FallingObject {
         this.isEaten = true;
     }
 
+    public boolean eaten() {
+        return this.isEaten;
+    }
+
     public void touchedFloor() {
         this.touchedFloor = true;
         System.out.println("Object dropped, get score " + this.getScore());
