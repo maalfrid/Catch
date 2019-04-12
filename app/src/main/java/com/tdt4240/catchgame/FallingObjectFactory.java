@@ -14,19 +14,11 @@ public class FallingObjectFactory {
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-    private HashMap<Integer, Integer> goodFoodCollection;
-    private HashMap<Integer, Bitmap> goodFoodImages;
-    private HashMap<Integer, Integer> badFoodCollection;
-    private HashMap<Integer, Bitmap> badFoodImages;
-    private HashMap<Integer, Integer> powerUpCollection;
-    private HashMap<Integer, Bitmap> powerUpImages;
+    private HashMap<ObjectType, Bitmap> objectImages;
     private ArrayList<Integer> fallingObjectFraction;
 
-    //TODO: Get rid of coregame being passed around.
     public FallingObjectFactory(){
-        this.loadGoodObjects();
-        this.loadBadObjects();
-        this.loadPowerUpObjects();
+        this.loadObjectImages();
         this.fallingObjectFraction = new ArrayList<>();
     }
 
@@ -45,7 +37,6 @@ public class FallingObjectFactory {
         }
     }
 
-    //method for getting random falling object according to percentage from level
     public int getFallingObjectType(){
         int id = (int)((Math.random())* (fallingObjectFraction.size() -1));
         return fallingObjectFraction.get(id);
@@ -54,28 +45,21 @@ public class FallingObjectFactory {
     public FallingObject getFallingObject() {
         int fallingObjectType = getFallingObjectType();
         if (fallingObjectType == 1) {
-            int objectID = getRandomKey(badFoodCollection);
-            return new BadFood(getBitmapForFallingObject(objectID, badFoodImages), getFoodValue(objectID, badFoodCollection));
+            ObjectType objectID = ObjectType.randomBad();
+            return new BadFood(objectImages.get(objectID), objectID);
         } else if (fallingObjectType == 2) {
-            int objectID = getRandomKey(powerUpCollection);
-            return new PowerUp(getBitmapForFallingObject(objectID, powerUpImages), getFoodValue(objectID, powerUpCollection), objectID);
+            ObjectType objectID = ObjectType.randomPowerup();
+            return new PowerUp(objectImages.get(objectID), objectID);
         }
         else {
-            int objectID = getRandomKey(goodFoodCollection);
-            return new GoodFood(getBitmapForFallingObject(objectID, goodFoodImages), getFoodValue(objectID, goodFoodCollection));
+            ObjectType objectID = ObjectType.randomGood();
+            return new GoodFood(objectImages.get(objectID), objectID);
         }
     }
 
-    //picks out random food from a given foodtype
-    public int getRandomKey(HashMap foodCollection) {
-        Object[] foodKeys = foodCollection.keySet().toArray();
-        Object key = foodKeys[new Random().nextInt(foodKeys.length)];
-        return (int) key;
-    }
 
-    //use imageID to create Bitmap
-    public Bitmap getBitmapForFallingObject(int objectID, HashMap foodCollection){
-        return (Bitmap) foodCollection.get(objectID);
+    public Bitmap getBitmapForFallingObject(ObjectType objectID){
+        return objectImages.get(objectID);
     }
 
     //finds the score the given food gives
@@ -85,48 +69,18 @@ public class FallingObjectFactory {
 
     // --- Load object-library ---
 
-    public void loadGoodObjects(){
-        goodFoodCollection = new HashMap<>();
-        goodFoodCollection.put(R.drawable.obj_good_banana, 5);
-        goodFoodCollection.put(R.drawable.obj_good_apple, 2);
-        goodFoodCollection.put(R.drawable.obj_good_strawberry, 1);
-        goodFoodCollection.put(R.drawable.obj_good_cherry, 1);
-        goodFoodCollection.put(R.drawable.obj_good_grapes, 2);
-        goodFoodCollection.put(R.drawable.obj_good_lemon, 2);
-        goodFoodCollection.put(R.drawable.obj_good_orange, 1);
-        goodFoodCollection.put(R.drawable.obj_good_pineapple, 1);
+    public void loadObjectImages() {
+        objectImages = new HashMap<>();
+        for (ObjectType object : ObjectType.values()) {
+            objectImages.put(object, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), object.objectResourceId), 0.15));
+        }
 
-        goodFoodImages = new HashMap<>();
-        goodFoodImages.put(R.drawable.obj_good_banana, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_banana), 0.2));
-        goodFoodImages.put(R.drawable.obj_good_apple, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_apple), 0.15));
-        goodFoodImages.put(R.drawable.obj_good_strawberry, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_strawberry), 0.15));
-        goodFoodImages.put(R.drawable.obj_good_cherry, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_cherry), 0.15));
-        goodFoodImages.put(R.drawable.obj_good_grapes, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_grapes), 0.15));
-        goodFoodImages.put(R.drawable.obj_good_lemon, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_lemon), 0.15));
-        goodFoodImages.put(R.drawable.obj_good_orange, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_orange), 0.15));
-        goodFoodImages.put(R.drawable.obj_good_pineapple, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_good_pineapple), 0.15));
     }
 
-    public void loadBadObjects(){
-        badFoodCollection = new HashMap<>();
-        badFoodCollection.put(R.drawable.obj_bad_snake, -3);
-        badFoodCollection.put(R.drawable.obj_bad_spider, -2);
-
-        badFoodImages = new HashMap<>();
-        badFoodImages.put(R.drawable.obj_bad_snake, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_bad_snake), 0.15));
-        badFoodImages.put(R.drawable.obj_bad_spider, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_bad_spider), 0.15));
-    }
-
-    public void loadPowerUpObjects(){
-        powerUpCollection = new HashMap<>();
-        powerUpCollection.put(R.drawable.obj_powerup_beetle, 3);
-        powerUpCollection.put(R.drawable.obj_powerup_ladybug, 1);
-        powerUpCollection.put(R.drawable.obj_powerup_starbeetle, 2);
-
-        powerUpImages = new HashMap<>();
-        powerUpImages.put(R.drawable.obj_powerup_beetle, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_powerup_beetle), 0.15));
-        powerUpImages.put(R.drawable.obj_powerup_ladybug, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_powerup_ladybug), 0.15));
-        powerUpImages.put(R.drawable.obj_powerup_starbeetle, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), R.drawable.obj_powerup_starbeetle), 0.15));
+    public void addRescaledObject(ScaledObject scaledObject){
+            if (!objectImages.containsKey(scaledObject)){
+             //   objectImages.put(scaledObject, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), scaledObject.getObject().objectResourceId), scaledObject.getScale()));
+        }
     }
 
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {

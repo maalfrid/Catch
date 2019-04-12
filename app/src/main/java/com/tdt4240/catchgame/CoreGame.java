@@ -57,8 +57,6 @@ public class CoreGame {
         this.txt_score = new MenuItem("ScoreSinglePlayer: "+characterSprite.getScore()+" Lives: "+characterSprite.getLives(), 16, 000000, context);
         this.txt_score2 = new MenuItem("ScoreSinglePlayer: ", 16, 000000, context);
         pScore = characterSprite.getScore();
-
-      
     }
 
     private void setupGame(String difficulty){

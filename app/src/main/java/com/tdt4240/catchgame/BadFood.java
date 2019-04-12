@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 public class BadFood extends FallingObject {
 
 
-    public BadFood(Bitmap bitmap, int objectScore){
-        super(bitmap, objectScore);
+    public BadFood(Bitmap bitmap, ObjectType object){
+        super(bitmap, object);
     }
 
     @Override

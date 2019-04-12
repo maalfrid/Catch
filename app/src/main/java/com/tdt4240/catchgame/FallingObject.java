@@ -12,13 +12,14 @@ public abstract class FallingObject {
     private int objectWidth, objectHeight;
     private int objectSpeed;
     protected int objectScore;
+    protected ObjectType objectType;
     private boolean isEaten = false;
     private boolean touchedFloor = false;
     private String sound;
 
-
-    public FallingObject(Bitmap bmp, int objectScore) {
-        this.objectScore = objectScore;
+    public FallingObject(Bitmap bmp, ObjectType object) {
+        this.objectType = object;
+        this.objectScore = object.objectValue;
         this.objectImage = bmp;
         this.objectWidth = objectImage.getWidth();
         this.objectHeight = objectImage.getHeight();

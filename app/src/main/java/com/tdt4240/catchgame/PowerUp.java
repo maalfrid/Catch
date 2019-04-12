@@ -6,19 +6,21 @@ public class PowerUp extends FallingObject {
 
     private int powerUpID;
 
-    public PowerUp(Bitmap bitmap, int objectScore, int powerUpID){
-        super(bitmap, objectScore);
-        this.powerUpID = powerUpID;
+    public PowerUp(Bitmap bitmap, ObjectType object){
+        super(bitmap, object);
     }
 
 
     @Override
     public void applyObjectEatenEffect(CharacterSprite characterSprite){
-        if (powerUpID == 0){
+        if (objectType == ObjectType.BEETLE){
             //DO something
         }
-        else if (powerUpID == 1){
+        else if (objectType == ObjectType.LADYBUG){
             //DO something else
+        }
+        else if (objectType == ObjectType.STARBEETLE){
+
         }
 
         setSound("powerup");
