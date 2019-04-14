@@ -54,7 +54,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        this.backgroundMusic.release();
+      this.backgroundMusic.release();
     }
 
     @Override

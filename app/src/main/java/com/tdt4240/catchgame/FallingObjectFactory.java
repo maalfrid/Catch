@@ -20,6 +20,7 @@ public class FallingObjectFactory {
 
     public FallingObjectFactory(){
         objectImages = new HashMap<>();
+       // loadObjectImages();
         this.fallingObjectFraction = new ArrayList<>();
     }
 
@@ -64,6 +65,15 @@ public class FallingObjectFactory {
             objectImages.put(ImageKey, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), object.objectResourceId), scale));
         }
         return objectImages.get(ImageKey);
+    }
+
+    public void loadObjectImages(){
+        for (ObjectType object : ObjectType.values()) {
+            ScaledObject ImageKey = new ScaledObject(object, objectScale);
+            if (!objectImages.containsKey(ImageKey)){
+                objectImages.put(ImageKey, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), object.objectResourceId), objectScale));
+            }
+        }
     }
 
     public double getObjectScale(){

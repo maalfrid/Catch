@@ -35,7 +35,6 @@ public class CoreGame {
     private CharacterSprite characterSprite;
     private FallingObjectFactory fallingObjectFactory;
     private ArrayList<FallingObject> objectsOnScreen;
-    public ScoreSinglePlayer scoreSinglePlayer;
 
 
     //for multiplayer
@@ -61,7 +60,6 @@ public class CoreGame {
         this.fallingObjectFactory = new FallingObjectFactory();
         this.setGameDifficulty(difficulty);
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
-        this.scoreSinglePlayer = new ScoreSinglePlayer(characterSprite);
     }
 
     /*
@@ -87,7 +85,7 @@ public class CoreGame {
         //Call broadcast
         if(this.gameview.isMultiplayer){
             /* SCORE LOGIC */
-            //broadcastScore has 2 parameters -> ScoreSinglePlayer and lives.
+            //broadcastScore has 2 parameters -> score and lives.
             gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), this.multiGameOver);
 
             //TODO: If the other opponent looses or exit game --> Make game over view (and click to continue to get to main menu)
@@ -122,7 +120,7 @@ public class CoreGame {
             spawnObject(createObject());
             timeLastSpawn = updateTime;
             objectsSpawned++;
-            if (objectsSpawned % 10 == 0){
+            if (objectsSpawned % 5 == 0){
                 speedUp();
             }
         }
@@ -230,8 +228,16 @@ public class CoreGame {
     }
 
     public void speedUp(){
-        this.baseFrequency -= 100;
-        this.baseSpeed += 1;
+        if (baseFrequency >= 50) {
+            if (this.baseFrequency <= 75) {
+                this.baseFrequency -= 5;
+            } else if (this.baseFrequency <= 150) {
+                this.baseFrequency -= 25;
+            } else {
+                this.baseFrequency -= 50;
+            }
+        }
+        this.baseSpeed += 0.5;
     }
 
 
@@ -273,12 +279,12 @@ public class CoreGame {
         if (difficulty.equals(medium)){
             this.baseFrequency = 1500;
             this.baseSpeed = 10;
-            this.fractionGood = 5;
+            this.fractionGood = 6;
         }
         if (difficulty.equals(hard)){
             this.baseFrequency = 1000;
             this.baseSpeed = 15;
-            this.fractionGood = 3;
+            this.fractionGood = 5;
         }
         this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
         this.fallingObjectFactory.setObjectScale(0.15);
