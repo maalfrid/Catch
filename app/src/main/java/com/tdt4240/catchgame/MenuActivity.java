@@ -16,7 +16,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     private String difficulty = "difficulty";
     MediaPlayer buttonSound;
 
-    public MenuActivity(){
+    public MenuActivity() {
         super();
 
     }
@@ -41,7 +41,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
      * Menu views and logic for switching screens
      */
 
-    final static int[] CLICKABLES = { R.id.btn_play, R.id.btn_rules, R.id.btn_score,
+    final static int[] CLICKABLES = {R.id.btn_play, R.id.btn_rules, R.id.btn_score,
             R.id.btn_settings, R.id.btn_background, R.id.btn_avatar, R.id.switch_sound,
             R.id.switch_background_music, R.id.btn_easy, R.id.btn_medium, R.id.btn_hard,
             R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack
@@ -49,7 +49,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.btn_play:
                 this.buttonSound.start();
                 SwitchScreen(R.id.view_play);
@@ -108,7 +108,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 break;*/
             case R.id.btn_goBack:
                 this.buttonSound.start();
-                if(mCurScreen==R.id.view_play) {
+                if (mCurScreen == R.id.view_play) {
                     SwitchScreen(R.id.view_main_menu);
                     break;
                 }
@@ -118,8 +118,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /*
-    * Menu views and logic for switching screens
-    */
+     * Menu views and logic for switching screens
+     */
 
     final static int[] SCREENS = {
             R.id.view_main_menu, R.id.view_highscore, R.id.view_play,
@@ -132,7 +132,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         for (int id : SCREENS) {
             findViewById(id).setVisibility(screenId == id ? View.VISIBLE : View.GONE);
         }
-        if(screenId != R.id.view_main_menu) findViewById(R.id.btn_goBack).setVisibility(View.VISIBLE);
+        if (screenId != R.id.view_main_menu)
+            findViewById(R.id.btn_goBack).setVisibility(View.VISIBLE);
 
         mLastScreen = mCurScreen;
         mCurScreen = screenId;
@@ -152,7 +153,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        this.buttonSound = MediaPlayer.create(this,R.raw.buttonclick);
+        this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
         this.buttonSound.setVolume(1, 1);
     }
 

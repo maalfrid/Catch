@@ -31,7 +31,8 @@ public class CharacterSprite {
         canvas.drawBitmap(characterSpriteImage, characterPositionX, characterPositionY, null);
     }
 
-    public void update() {}
+    public void update() {
+    }
 
     public int getCharacterWidth() {
         return characterWidth;
@@ -41,19 +42,23 @@ public class CharacterSprite {
         return characterHeight;
     }
 
-    public int getCharacterPositionX() { return characterPositionX;}
+    public int getCharacterPositionX() {
+        return characterPositionX;
+    }
 
-    public int getLives() { return this.lives; }
+    public int getLives() {
+        return this.lives;
+    }
 
     public void setLives(int lives) {
         this.lives = lives;
     }
 
-    public void removeLife(){
+    public void removeLife() {
         this.lives--;
     }
 
-    public void addLife(){
+    public void addLife() {
         this.lives++;
     }
 
@@ -83,11 +88,11 @@ public class CharacterSprite {
         this.score = score;
     }
 
-    public void removeScore(int score){
+    public void removeScore(int score) {
         this.score -= score;
     }
 
-    public void addScore(int score){
+    public void addScore(int score) {
         this.score += score;
     }
 

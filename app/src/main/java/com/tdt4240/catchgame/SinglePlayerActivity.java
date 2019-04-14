@@ -45,16 +45,18 @@ public class SinglePlayerActivity extends AppCompatActivity {
         this.backgroundMusic.start();
     }
 
-    public String getDifficulty(){
+    public String getDifficulty() {
         return this.difficulty;
     }
 
-    public String getGametype(){ return this.gametype;}
+    public String getGametype() {
+        return this.gametype;
+    }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-      this.backgroundMusic.release();
+        this.backgroundMusic.release();
     }
 
     @Override
@@ -73,11 +75,11 @@ public class SinglePlayerActivity extends AppCompatActivity {
         this.backgroundMusic.release();
     }
 
-    public void backgroundMusicOn(){
+    public void backgroundMusicOn() {
         this.backgroundMusic.start();
     }
 
-    public void backgroundMusicOff(){
+    public void backgroundMusicOff() {
         this.backgroundMusic.pause();
     }
 }

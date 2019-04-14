@@ -18,29 +18,29 @@ public class FallingObjectFactory {
     private ArrayList<Integer> fallingObjectFraction;
     private double objectScale;
 
-    public FallingObjectFactory(){
+    public FallingObjectFactory() {
         objectImages = new HashMap<>();
-       // loadObjectImages();
+        // loadObjectImages();
         this.fallingObjectFraction = new ArrayList<>();
     }
 
     //Creates a list of 0s (good object), 1s (bad object), and 2s (power up) according to fraction.
     // fraction is given on game creation as difficulty is set. Based on fraction of 10 numbers.
     public void setFallingObjectFraction(int fractionGood) {
-        int numberOfPowerUps = fractionGood/2;
+        int numberOfPowerUps = fractionGood / 2;
         for (int i = 0; i < fractionGood; i++) {
             fallingObjectFraction.add(0);
         }
         for (int j = 0; j < 10 - fractionGood; j++) {
             fallingObjectFraction.add(1);
         }
-        for (int k = 0; k < numberOfPowerUps; k++){
+        for (int k = 0; k < numberOfPowerUps; k++) {
             fallingObjectFraction.add(2);
         }
     }
 
-    public int getFallingObjectType(){
-        int id = (int)((Math.random())* (fallingObjectFraction.size() -1));
+    public int getFallingObjectType() {
+        int id = (int) ((Math.random()) * (fallingObjectFraction.size() - 1));
         return fallingObjectFraction.get(id);
     }
 
@@ -52,35 +52,34 @@ public class FallingObjectFactory {
         } else if (fallingObjectType == 2) {
             ObjectType objectID = ObjectType.randomPowerup();
             return new PowerUp(getObjectImage(objectID, objectScale), objectID);
-        }
-        else {
+        } else {
             ObjectType objectID = ObjectType.randomGood();
             return new GoodFood(getObjectImage(objectID, objectScale), objectID);
         }
     }
 
-    public Bitmap getObjectImage(ObjectType object, double scale){
+    public Bitmap getObjectImage(ObjectType object, double scale) {
         ScaledObject ImageKey = new ScaledObject(object, scale);
-        if (!objectImages.containsKey(ImageKey)){
+        if (!objectImages.containsKey(ImageKey)) {
             objectImages.put(ImageKey, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), object.objectResourceId), scale));
         }
         return objectImages.get(ImageKey);
     }
 
-    public void loadObjectImages(){
+    public void loadObjectImages() {
         for (ObjectType object : ObjectType.values()) {
             ScaledObject ImageKey = new ScaledObject(object, objectScale);
-            if (!objectImages.containsKey(ImageKey)){
+            if (!objectImages.containsKey(ImageKey)) {
                 objectImages.put(ImageKey, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), object.objectResourceId), objectScale));
             }
         }
     }
 
-    public double getObjectScale(){
+    public double getObjectScale() {
         return this.objectScale;
     }
 
-    public void setObjectScale(double newScale){
+    public void setObjectScale(double newScale) {
         this.objectScale = newScale;
     }
 

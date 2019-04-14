@@ -8,12 +8,12 @@ public class GameModes {
 
     private HashMap<String, ArrayList<Integer>> gameModeData = new HashMap<>();
 
-    public GameModes(String difficulty, int baseSpeed, int baseFrequency){
+    public GameModes(String difficulty, int baseSpeed, int baseFrequency) {
         ArrayList<Integer> difficultyStats = new ArrayList<>(Arrays.asList(baseSpeed, baseFrequency));
         gameModeData.put(difficulty, difficultyStats);
     }
 
-    public ArrayList<Integer> getGameModeData(String difficulty){
+    public ArrayList<Integer> getGameModeData(String difficulty) {
         ArrayList<Integer> difficultyStats = gameModeData.get(difficulty);
         return difficultyStats;
     }

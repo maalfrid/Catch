@@ -28,19 +28,20 @@ public enum ObjectType {
         this.objectResourceId = resourceId;
     }
 
-    private static ObjectType[] GOOD = new ObjectType[] {
+    private static ObjectType[] GOOD = new ObjectType[]{
             APPLE, BANANA, STRAWBERRY, CHERRY, GRAPES, LEMON, ORANGE, PINEAPPLE
     };
-    private static ObjectType[] BAD = new ObjectType[] {
+    private static ObjectType[] BAD = new ObjectType[]{
             SNAKE, SPIDER
     };
-    private static ObjectType[] POWERUP = new ObjectType[] {
+    private static ObjectType[] POWERUP = new ObjectType[]{
             BEETLE, LADYBUG, STARBEETLE
     };
 
     public static ObjectType randomGood() {
         return GOOD[new Random().nextInt(GOOD.length)];
     }
+
     public static ObjectType randomBad() {
         return BAD[new Random().nextInt(BAD.length)];
     }

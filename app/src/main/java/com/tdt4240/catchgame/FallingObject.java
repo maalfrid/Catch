@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 
-
 public abstract class FallingObject {
 
     private Bitmap objectImage;
@@ -71,22 +70,24 @@ public abstract class FallingObject {
         return objectSpeed;
     }
 
-    public String getSound(){
+    public String getSound() {
         return this.sound;
     }
+
     public void setSound(String sound) {
         this.sound = sound;
 
     }
+
     public void setObjectSpeed(int objectSpeed) {
         this.objectSpeed = objectSpeed;
     }
 
-    public void setScore(int objectScore){
+    public void setScore(int objectScore) {
         this.objectScore = objectScore;
     }
 
-    public int getScore(){
+    public int getScore() {
         return this.objectScore;
     }
 
@@ -95,7 +96,7 @@ public abstract class FallingObject {
         this.isEaten = true;
     }
 
-    public boolean isEaten(){
+    public boolean isEaten() {
         return isEaten;
     }
 
@@ -124,19 +125,18 @@ public abstract class FallingObject {
         }
     }
 
-    public void applyObjectEffect(CharacterSprite characterSprite){
-        if (this.isEaten){
+    public void applyObjectEffect(CharacterSprite characterSprite) {
+        if (this.isEaten) {
             this.applyObjectEatenEffect(characterSprite);
-        }
-        else if (this.touchedFloor){
+        } else if (this.touchedFloor) {
             applyObjectOnFloorEffect(characterSprite);
         }
     }
 
-    public void applyObjectEatenEffect(CharacterSprite characterSprite){
+    public void applyObjectEatenEffect(CharacterSprite characterSprite) {
     }
 
-    public void applyObjectOnFloorEffect(CharacterSprite characterSprite){
+    public void applyObjectOnFloorEffect(CharacterSprite characterSprite) {
     }
 
     public boolean collisionDetected() {

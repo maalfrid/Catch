@@ -26,7 +26,7 @@ public class SoundEffects {
     private int soundID_button;
 
 
-    public SoundEffects(){
+    public SoundEffects() {
         attributesBuilder = new AudioAttributes.Builder();
         attributesBuilder.setUsage(AudioAttributes.USAGE_GAME);
         attributesBuilder.setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION);
@@ -45,54 +45,54 @@ public class SoundEffects {
 
         audioManager = (AudioManager) CoreGame.getContext().getSystemService(Context.AUDIO_SERVICE);
 
-        soundPool.setVolume(soundID_bite,50.0f, 50.0f);
-        soundPool.setVolume(soundID_cough,50.0f, 50.0f);
-        soundPool.setVolume(soundID_powerup,50.0f, 50.0f);
-        soundPool.setVolume(soundID_smack,50.0f, 50.0f);
-        soundPool.setVolume(soundID_levelup,50.0f, 50.0f);
-        soundPool.setVolume(soundID_button,50.0f, 50.0f);
+        soundPool.setVolume(soundID_bite, 50.0f, 50.0f);
+        soundPool.setVolume(soundID_cough, 50.0f, 50.0f);
+        soundPool.setVolume(soundID_powerup, 50.0f, 50.0f);
+        soundPool.setVolume(soundID_smack, 50.0f, 50.0f);
+        soundPool.setVolume(soundID_levelup, 50.0f, 50.0f);
+        soundPool.setVolume(soundID_button, 50.0f, 50.0f);
 
         this.buildSoundMap();
     }
 
-    public void playSound(String sound){
+    public void playSound(String sound) {
         soundPool.play(soundEffects.get(sound), 1, 1, 0, 0, 1);
     }
 
-    public void biteSound(){
+    public void biteSound() {
         soundPool.play(soundID_bite, 1, 1, 0, 0, 1);
     }
 
-    public void smackSound(){
+    public void smackSound() {
         soundPool.play(soundID_smack, 1, 1, 0, 0, 1);
     }
 
-    public void coughSound(){
+    public void coughSound() {
         soundPool.play(soundID_cough, 1, 1, 0, 0, 1);
     }
 
-    public void powerupSound(){
+    public void powerupSound() {
         soundPool.play(soundID_powerup, 1, 1, 0, 0, 1);
     }
 
-    public void levelUpSound(){
+    public void levelUpSound() {
         soundPool.play(soundID_levelup, 1, 1, 0, 0, 1);
     }
 
-    public void buttonClickSound(){
+    public void buttonClickSound() {
         soundPool.play(soundID_button, 1, 1, 0, 0, 1);
     }
 
-    public void volumeOff(){
+    public void volumeOff() {
         audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
 
     }
 
-    public void volumeOn(){
+    public void volumeOn() {
         audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
     }
 
-    public void buildSoundMap(){
+    public void buildSoundMap() {
         soundEffects = new HashMap<>();
         soundEffects.put("bite", soundID_bite);
         soundEffects.put("smack", soundID_smack);

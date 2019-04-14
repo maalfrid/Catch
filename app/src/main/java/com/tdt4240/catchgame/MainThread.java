@@ -24,15 +24,13 @@ public class MainThread extends Thread {
 
             try {
                 canvas = this.surfaceHolder.lockCanvas();
-                synchronized(surfaceHolder) {
+                synchronized (surfaceHolder) {
                     this.gameView.update();
                     this.gameView.draw(canvas);
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 if (canvas != null) {
                     try {
                         this.surfaceHolder.unlockCanvasAndPost(canvas);
@@ -42,13 +40,13 @@ public class MainThread extends Thread {
                 }
             }
             long now = System.nanoTime();
-            long waitTime = (now - startTime)/1000000;
-            if (waitTime < 10){
+            long waitTime = (now - startTime) / 1000000;
+            if (waitTime < 10) {
                 waitTime = 10;
             }
             try {
                 this.sleep(waitTime);
-            } catch(InterruptedException e){
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             startTime = System.nanoTime();

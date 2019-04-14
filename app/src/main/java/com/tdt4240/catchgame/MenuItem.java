@@ -20,14 +20,14 @@ public class MenuItem {
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
     //Constructor for images
-    public MenuItem(Bitmap bmp){
+    public MenuItem(Bitmap bmp) {
         setImage(bmp);
         this.width = bmp.getWidth();
         this.height = bmp.getHeight();
     }
 
     //Constructor for text
-    public MenuItem(String text, float textSize, int textColor, Context context){
+    public MenuItem(String text, float textSize, int textColor, Context context) {
         setText(text, textSize, textColor, context);
         this.width = bmp.getWidth();
         this.height = bmp.getHeight();
@@ -39,48 +39,48 @@ public class MenuItem {
         canvas.drawBitmap(this.bmp, getPosX(), getPosY(), null);
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return this.width;
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return this.height;
     }
 
-    public float getPosX(){
+    public float getPosX() {
         return this.posX;
     }
 
-    public float getPosY(){
+    public float getPosY() {
         return this.posY;
     }
 
-    public float getCenterY(){
-        return screenHeight/2 - this.height/2;
+    public float getCenterY() {
+        return screenHeight / 2 - this.height / 2;
     }
 
-    public float getCenterX(){
-        return screenWidth/2 - this.width/2;
+    public float getCenterX() {
+        return screenWidth / 2 - this.width / 2;
     }
 
-    public void setPos(float posX, float posY){
+    public void setPos(float posX, float posY) {
         this.posX = posX;
         this.posY = posY;
     }
 
-    public void setPosX(float posX){
+    public void setPosX(float posX) {
         this.posX = posX;
     }
 
-    public void setPosY(float posY){
+    public void setPosY(float posY) {
         this.posY = posY;
     }
 
-    public void setImage(Bitmap bmp){
+    public void setImage(Bitmap bmp) {
         this.bmp = bmp;
     }
 
-    public void setText(String text, float textSize, int textColor, Context context){
+    public void setText(String text, float textSize, int textColor, Context context) {
         Typeface regular = ResourcesCompat.getFont(context, R.font.frecklefaceregular);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setTypeface(regular);
@@ -95,7 +95,7 @@ public class MenuItem {
         this.bmp = image;
     }
 
-    public boolean isTouched(float eventX, float eventY){
+    public boolean isTouched(float eventX, float eventY) {
         if ((eventX >= (getPosX())) && (eventX <= (getPosX() + getWidth())) &&
                 (eventY >= (getPosY())) &&
                 (eventY <= getPosY() + getHeight())) {
@@ -104,8 +104,8 @@ public class MenuItem {
         return false;
     }
 
-    public void updateScoreLife(int score, int lives, Context context){
-        String s = "Score: "+score+" | Lives: "+lives;
+    public void updateScoreLife(int score, int lives, Context context) {
+        String s = "Score: " + score + " | Lives: " + lives;
         setText(s, 20.0f, Color.WHITE, context);
     }
 
