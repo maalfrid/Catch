@@ -31,27 +31,6 @@ public abstract class FallingObject {
 
     public void update() {
         objectPositionY += objectSpeed;
-
-        // TODO: Move this logic to CoreGame to be able to call it on a sprite.
-        if (touchedFloor) {
-            // TODO: Need method in CharacterSprite for loosing life when object touches floor.
-        }
-        if (isEaten) {
-            // TODO: Check if good food, bad food or power up
-            // TODO: method to score points or apply powerup.
-        }
-    }
-
-    public int getObjectPositionY() {
-        return objectPositionY;
-    }
-
-    public int getObjectPositionX() {
-        return objectPositionX;
-    }
-
-    public void setObjectPositionY(int newPositionY) {
-        this.objectPositionY = newPositionY;
     }
 
     public void setObjectPositionX(int newPositionX) {
@@ -62,29 +41,16 @@ public abstract class FallingObject {
         return objectWidth;
     }
 
-    public int getObjectHeight() {
-        return objectHeight;
-    }
-
-    public int getObjectSpeed() {
-        return objectSpeed;
-    }
-
     public String getSound() {
         return this.sound;
     }
 
     public void setSound(String sound) {
         this.sound = sound;
-
     }
 
     public void setObjectSpeed(int objectSpeed) {
         this.objectSpeed = objectSpeed;
-    }
-
-    public void setScore(int objectScore) {
-        this.objectScore = objectScore;
     }
 
     public int getScore() {
@@ -94,10 +60,6 @@ public abstract class FallingObject {
     public void wasEaten() {
         System.out.println("Object eaten, get score " + this.getScore());
         this.isEaten = true;
-    }
-
-    public boolean isEaten() {
-        return isEaten;
     }
 
     public void touchedFloor() {

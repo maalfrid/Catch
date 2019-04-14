@@ -50,10 +50,6 @@ public class CharacterSprite {
         return this.lives;
     }
 
-    public void setLives(int lives) {
-        this.lives = lives;
-    }
-
     public void removeLife() {
         this.lives--;
     }
@@ -82,10 +78,6 @@ public class CharacterSprite {
 
     public int getScore() {
         return this.score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     public void removeScore(int score) {

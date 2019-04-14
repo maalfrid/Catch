@@ -58,6 +58,7 @@ public class FallingObjectFactory {
         }
     }
 
+    //TODO: Make this not lag during rescale.
     public Bitmap getObjectImage(ObjectType object, double scale) {
         ScaledObject ImageKey = new ScaledObject(object, scale);
         if (!objectImages.containsKey(ImageKey)) {
