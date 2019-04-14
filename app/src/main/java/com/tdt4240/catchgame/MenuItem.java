@@ -105,7 +105,7 @@ public class MenuItem {
     }
 
     public void updateScoreLife(int score, int lives, Context context){
-        String s = "ScoreSinglePlayer: "+score+" | Lives: "+lives;
+        String s = "Score: "+score+" | Lives: "+lives;
         setText(s, 20.0f, Color.WHITE, context);
     }
 
