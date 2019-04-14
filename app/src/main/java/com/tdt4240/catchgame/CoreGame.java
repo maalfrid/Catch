@@ -24,6 +24,9 @@ public class CoreGame {
     private String medium = "medium";
     private String hard = "hard";
 
+    private long timeLastSpawn = 0;
+    private int objectsSpawned = 0;
+
     private int baseFrequency;
     private int baseSpeed;
     private int fractionGood;
@@ -116,6 +119,20 @@ public class CoreGame {
             spawnObject(createObject());
         }
         gameTime++;
+    }
+
+    public void adjustFreq(){
+        long updateTime = System.currentTimeMillis();
+        int timeSinceSpawn = (int) (updateTime - timeLastSpawn);
+        if (timeSinceSpawn >= baseFrequency){
+            spawnObject(createObject());
+            timeLastSpawn = updateTime;
+            objectsSpawned++;
+            if (objectsSpawned % 10 == 0){
+                speedUp();
+            }
+        }
+
     }
 
 
@@ -217,6 +234,11 @@ public class CoreGame {
 
     public int getRandomFrequency(){
         return (int)(Math.random() * baseFrequency);
+    }
+
+    public void speedUp(){
+        this.baseFrequency += 10;
+        this.baseSpeed += 1;
     }
 
 
