@@ -28,6 +28,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean gamePause;
     public boolean isMultiplayer;
 
+    //menu items
+    public MenuItem txt_score_self;
+    public MenuItem txt_score_opponent;
+    public MenuItem btn_exit;
+    public MenuItem btn_sound;
+
     //game over/exit items
     public MenuItem txt_gameQuit;
     public MenuItem txt_gameOver;
@@ -74,6 +80,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(true);
         thread.start();
         background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
+        //menu items
+        this.txt_score_self = new MenuItem("Score:  | Lives: ", 16, 000000, this.context);
+        if(this.isMultiplayer){this.txt_score_self = new MenuItem("(Opponent) Score: | Lives: ", 16, 000000, this.context);}
+        this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_exit),0.15));
+        this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
         //game over/exit items
         this.txt_gameQuit= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.txt_quit),1.0));
         this.txt_gameQuit.setPos(screenWidth/2 - txt_gameQuit.getWidth()/2, screenHeight/2 - txt_gameQuit.getHeight()/2);
@@ -81,9 +92,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.btn_yes.setPos(txt_gameQuit.getPosX(), txt_gameQuit.getPosY() + txt_gameQuit.getHeight());
         this.btn_no= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(),R.drawable.button_no),1.0));
         this.btn_no.setPos(txt_gameQuit.getPosX(), txt_gameQuit.getPosY() + txt_gameQuit.getHeight() + btn_no.getHeight());
-        //TODO: Replace with game over text
-        //this.txt_gameOver= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_gameover),1.0));
-        this.txt_gameOver = new MenuItem("GAME OVER (Click to continue)", 16, 000000, this.context);
+        this.txt_gameOver= new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.txt_gameover),1.0));
         this.txt_gameOver.setPos(screenWidth/2 - txt_gameOver.getWidth()/2, screenHeight/2 - txt_gameOver.getHeight()/2);
         if(isMultiplayer){
             coreGame = new CoreGame(multiPlayerActivity.getGametype(), multiPlayerActivity.getDifficulty(), context, this);
@@ -118,13 +127,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (canvas != null) {
             canvas.drawBitmap(background, 0,0, null);
 
-            if(!getGamePause() & !getGameOver()){coreGame.draw(canvas);}
+            if(!isGamePause() & !isGameOver()){coreGame.draw(canvas);}
 
-            if(getGameOver()){
+            this.txt_score_self.draw(canvas, screenWidth/2 - txt_score_self.getWidth()/2, 0);
+            if(this.isMultiplayer){ this.txt_score_opponent.draw(canvas, screenWidth/2 - txt_score_self.getWidth()/2, 0);}
+            btn_exit.draw(canvas, 0, 0);
+            btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
+
+            if(isGameOver()){
                 txt_gameOver.draw(canvas, txt_gameOver.getPosX(), txt_gameOver.getPosY());
             }
 
-            if(getGamePause()){
+            if(isGamePause()){
                 txt_gameQuit.draw(canvas, txt_gameQuit.getPosX(), txt_gameQuit.getPosY());
                 btn_yes.draw(canvas, btn_yes.getPosX(), btn_yes.getPosY());
                 btn_no.draw(canvas, btn_no.getPosX(), btn_no.getPosY());
@@ -134,29 +148,28 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void update(){
-        if(!getGamePause() & !getGameOver()){coreGame.update();}
+        if(!isGamePause() && !isGameOver()){coreGame.update();}
+
+        // From multiplayer:
+        updateScoreOpponent();
+
+        // TODO: Update method to set sound in coregame
+
+    }
+
+    public void updateScoreOpponent(){
+        int score = getMultiPlayerActivity().getOpponentScore();
+        int lives = getMultiPlayerActivity().getOpponentLife();
+        this.txt_score_opponent.updateScoreLife(score, lives, this.context);
+    }
+
+    public void updateScoreSelf(int score, int lives){
+        this.txt_score_self.updateScoreLife(score, lives, this.context);
     }
 
 
     public boolean onTouchEvent(MotionEvent motionEvent) {
         coreGame.onTouch(motionEvent);
-
-        //If game exit or game over
-        //TODO: Move isTouched logic into game view (as the core game is paused)
-
-        if(motionEvent.getAction() == MotionEvent.ACTION_DOWN & (getGameOver() | getGamePause())){
-            if(btn_yes.isTouched(motionEvent.getX(), motionEvent.getY())){
-                gameExit();
-            }
-            if(btn_no.isTouched(motionEvent.getX(), motionEvent.getY())){
-                gameResume();
-            }
-            if(txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY())){
-                if(!isMultiplayer){singlePlayerActivity.finish();}
-                if(isMultiplayer){multiPlayerActivity.finish();}
-            }
-        }
-
         return true;
     }
 
@@ -224,7 +237,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gameOver = b;
     }
 
-    public boolean getGameOver(){
+    public boolean isGameOver(){
         return this.gameOver;
     }
 
@@ -232,7 +245,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gameExit = b;
     }
 
-    public boolean getGameExit(){
+    public boolean isGameExit(){
         return this.gameExit;
     }
 
@@ -240,7 +253,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gamePause = b;
     }
 
-    public boolean getGamePause(){
+    public boolean isGamePause(){
         return this.gamePause;
     }
 

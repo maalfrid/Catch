@@ -433,7 +433,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         public void onRealTimeMessageReceived(@NonNull RealTimeMessage realTimeMessage) {
             byte[] buf = realTimeMessage.getMessageData();
             String sender = realTimeMessage.getSenderParticipantId();
-            Log.d(TAG, "-----------Message received: " + (char) buf[0] + " ScoreSinglePlayer : " + (int) buf[1] + "Lives : " + (int) buf[2]);
+            Log.d(TAG, "-----------Message received: " + (char) buf[0] + " Score : " + (int) buf[1] + "Lives : " + (int) buf[2] + " isGameover " + (int) buf[3]);
             setOpponentScore(buf[1]);
             setOpponentLife(buf[2]);
             setIsGameOver(buf[3]);
@@ -443,6 +443,10 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
     // Broadcast my score to everybody else
     void broadcastScore(int myScore, int myLives, int isGameOver){
+
+        if(myLives == 0) {
+            isGameOver = 1;
+        }
 
         //First byte in message indicates whether it's final score or not
         mMsgBuf[0] = 'U';
@@ -487,7 +491,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
     public int getIsGameOver(){return this.isGameOver;}
 
-    public void setIsGameOver(int isGameOver){this.isGameOver = isGameOver;}
+    public void setIsGameOver(int isGameOver){
+        this.isGameOver = isGameOver;
+    }
 
 
 
