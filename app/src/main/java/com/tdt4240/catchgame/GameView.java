@@ -150,8 +150,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update(){
         if(!isGamePause() && !isGameOver()){coreGame.update();}
 
-        // From multiplayer:
-        updateScoreOpponent();
+        if(isMultiplayer) {
+            updateScoreOpponent();
+        }
 
         // TODO: Update method to set sound in coregame
 
