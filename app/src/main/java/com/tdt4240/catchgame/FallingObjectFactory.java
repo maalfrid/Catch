@@ -14,11 +14,12 @@ public class FallingObjectFactory {
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-    private HashMap<ObjectType, Bitmap> objectImages;
+    private HashMap<ScaledObject, Bitmap> objectImages;
     private ArrayList<Integer> fallingObjectFraction;
+    private double objectScale;
 
     public FallingObjectFactory(){
-        this.loadObjectImages();
+        objectImages = new HashMap<>();
         this.fallingObjectFraction = new ArrayList<>();
     }
 
@@ -46,41 +47,31 @@ public class FallingObjectFactory {
         int fallingObjectType = getFallingObjectType();
         if (fallingObjectType == 1) {
             ObjectType objectID = ObjectType.randomBad();
-            return new BadFood(objectImages.get(objectID), objectID);
+            return new BadFood(getObjectImage(objectID, objectScale), objectID);
         } else if (fallingObjectType == 2) {
             ObjectType objectID = ObjectType.randomPowerup();
-            return new PowerUp(objectImages.get(objectID), objectID);
+            return new PowerUp(getObjectImage(objectID, objectScale), objectID);
         }
         else {
             ObjectType objectID = ObjectType.randomGood();
-            return new GoodFood(objectImages.get(objectID), objectID);
+            return new GoodFood(getObjectImage(objectID, objectScale), objectID);
         }
     }
 
-
-    public Bitmap getBitmapForFallingObject(ObjectType objectID){
-        return objectImages.get(objectID);
-    }
-
-    //finds the score the given food gives
-    public int getFoodValue(int objectID, HashMap foodCollection){
-        return (int) foodCollection.get(objectID);
-    }
-
-    // --- Load object-library ---
-
-    public void loadObjectImages() {
-        objectImages = new HashMap<>();
-        for (ObjectType object : ObjectType.values()) {
-            objectImages.put(object, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), object.objectResourceId), 0.15));
+    public Bitmap getObjectImage(ObjectType object, double scale){
+        ScaledObject ImageKey = new ScaledObject(object, scale);
+        if (!objectImages.containsKey(ImageKey)){
+            objectImages.put(ImageKey, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), object.objectResourceId), scale));
         }
-
+        return objectImages.get(ImageKey);
     }
 
-    public void addRescaledObject(ScaledObject scaledObject){
-            if (!objectImages.containsKey(scaledObject)){
-             //   objectImages.put(scaledObject, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), scaledObject.getObject().objectResourceId), scaledObject.getScale()));
-        }
+    public double getObjectScale(){
+        return this.objectScale;
+    }
+
+    public void setObjectScale(double newScale){
+        this.objectScale = newScale;
     }
 
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {

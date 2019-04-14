@@ -30,6 +30,7 @@ public class CoreGame {
     private int baseFrequency;
     private int baseSpeed;
     private int fractionGood;
+    private double standardScale;
 
     private CharacterSprite characterSprite;
     private FallingObjectFactory fallingObjectFactory;
@@ -287,7 +288,8 @@ public class CoreGame {
             this.baseSpeed = 15;
             this.fractionGood = 3;
         }
-        fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
+        this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
+        this.fallingObjectFactory.setObjectScale(0.15);
     }
   
     public String getGametype(){ return this.gametype; }
