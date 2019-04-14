@@ -78,6 +78,7 @@ public class CoreGame {
     }
 
     public void update(){
+        long updateTime = System.currentTimeMillis();
         characterSprite.update();
         if(characterSprite.getLives()==0){
             gameview.gameOver();
@@ -115,15 +116,7 @@ public class CoreGame {
                 removeObject(currentObject);
             }
         }
-        // TODO: Find a way to spawn the objects based on the gameloop-time from MainThread? and baseFrequency.
-        if (gameTime == 10 || gameTime % 50 == 0){
-            spawnObject(createObject());
-        }
-        gameTime++;
-    }
 
-    public void adjustFreq(){
-        long updateTime = System.currentTimeMillis();
         int timeSinceSpawn = (int) (updateTime - timeLastSpawn);
         if (timeSinceSpawn >= baseFrequency){
             spawnObject(createObject());
@@ -133,7 +126,6 @@ public class CoreGame {
                 speedUp();
             }
         }
-
     }
 
 
@@ -238,7 +230,7 @@ public class CoreGame {
     }
 
     public void speedUp(){
-        this.baseFrequency += 10;
+        this.baseFrequency -= 100;
         this.baseSpeed += 1;
     }
 
@@ -274,17 +266,17 @@ public class CoreGame {
     private void setGameDifficulty(String difficulty){
         this.difficulty = difficulty;
         if (difficulty.equals(easy)){
-            this.baseFrequency = 1;
+            this.baseFrequency = 2000;
             this.baseSpeed = 5;
             this.fractionGood = 7;
         }
         if (difficulty.equals(medium)){
-            this.baseFrequency = 2;
+            this.baseFrequency = 1500;
             this.baseSpeed = 10;
             this.fractionGood = 5;
         }
         if (difficulty.equals(hard)){
-            this.baseFrequency = 3;
+            this.baseFrequency = 1000;
             this.baseSpeed = 15;
             this.fractionGood = 3;
         }
