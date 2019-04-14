@@ -9,8 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
 
-import static com.tdt4240.catchgame.CoreGame.context;
-
 public class MenuItem {
 
     private Bitmap bmp;
@@ -85,7 +83,7 @@ public class MenuItem {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setTypeface(regular);
         paint.setTextSize(40.0f);
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.parseColor("#f1c131"));
         float baseline = -paint.ascent(); // ascent() is negative
         int width = (int) (paint.measureText(text) + 0.0f); // round
         int height = (int) (baseline + paint.descent() + 0.0f);
@@ -104,9 +102,11 @@ public class MenuItem {
         return false;
     }
 
+    //TODO: separate lines and larger text?
+    //TODO: different colour for the other player?
     public void updateScoreLife(int score, int lives, Context context) {
         String s = "Score: " + score + " | Lives: " + lives;
-        setText(s, 20.0f, Color.WHITE, context);
+        setText(s, 20.0f, Color.parseColor("#f1c131"), context);
     }
 
 }

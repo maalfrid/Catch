@@ -17,9 +17,10 @@ public class CoreGame {
     private boolean soundOn;
     private SoundEffects soundEffects;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private int gameTime;
     private String difficulty;
     private String gametype;
+
+    //TODO: change this
     private String easy = "easy";
     private String medium = "medium";
     private String hard = "hard";
@@ -30,7 +31,6 @@ public class CoreGame {
     private int baseFrequency;
     private int baseSpeed;
     private int fractionGood;
-    private double standardScale;
 
     private CharacterSprite characterSprite;
     private FallingObjectFactory fallingObjectFactory;
@@ -56,7 +56,6 @@ public class CoreGame {
 
     private void setupGame(String difficulty) {
         this.objectsOnScreen = new ArrayList<>();
-        this.gameTime = 0;
         this.fallingObjectFactory = new FallingObjectFactory();
         this.setGameDifficulty(difficulty);
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_monkey3), 0.25));
@@ -96,12 +95,7 @@ public class CoreGame {
                 gameview.gameOver();
             }*/
 
-            /* POWERUPS LOGIC */
-
-            // Check powerup buffer bit
             // TODO first: Add powerup bit to buffer in Multiplayeractivity
-            // If == 2 -> Increase decrease this sprites size (use setImage)
-            // If == 3 -> Increase speed of falling objects (e.g. level up?)
 
         }
 
@@ -210,26 +204,6 @@ public class CoreGame {
         return (int) (Math.random() * (screenWidth - fallingObject.getObjectWidth()));
     }
 
-    /*
-     * --------- GETTERS AND SETTERS ---------
-     * */
-
-    public static Context getContext() {
-        return context;
-    }
-
-    public String getDifficulty() {
-        return difficulty;
-    }
-
-    public int getRandomSpeed() {
-        return (int) ((Math.random() + 1) * baseSpeed);
-    }
-
-    public int getRandomFrequency() {
-        return (int) (Math.random() * baseFrequency);
-    }
-
     public void speedUp() {
         if (baseFrequency >= 50) {
             if (this.baseFrequency <= 75) {
@@ -243,34 +217,16 @@ public class CoreGame {
         this.baseSpeed += 0.5;
     }
 
+    /*
+     * --------- GETTERS AND SETTERS ---------
+     * */
 
-    // TODO: Turn these into gradual increase of frequency for an endless experience. Universal for all difficulties.
-    public void setLevelUp() {
-        if (this.difficulty.equals(medium)) {
-            this.difficulty = hard;
-            soundEffects.levelUpSound();
-            setGameDifficulty(hard);
-            this.gameview.popup("Level up from medium to hard");
-        }
-        if (this.difficulty.equals(easy)) {
-            this.difficulty = medium;
-            soundEffects.levelUpSound();
-            setGameDifficulty(medium);
-            this.gameview.popup("Level up from easy to medium");
-        }
+    public static Context getContext() {
+        return context;
     }
 
-    public void setLevelDown() {
-        if (this.difficulty.equals(hard)) {
-            this.difficulty = medium;
-
-            setGameDifficulty(medium);
-        }
-        if (this.difficulty.equals(medium)) {
-            this.difficulty = easy;
-            setGameDifficulty(easy);
-
-        }
+    public int getRandomSpeed() {
+        return (int) ((Math.random() + 1) * baseSpeed);
     }
 
     private void setGameDifficulty(String difficulty) {
@@ -293,15 +249,6 @@ public class CoreGame {
         this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
         this.fallingObjectFactory.setObjectScale(0.15);
     }
-
-    public String getGametype() {
-        return this.gametype;
-    }
-
-    public SoundEffects getSoundEffect() {
-        return this.soundEffects;
-    }
-
 
     /*
      * --------- HELP METHODS ---------

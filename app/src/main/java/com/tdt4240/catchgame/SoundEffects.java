@@ -59,22 +59,6 @@ public class SoundEffects {
         soundPool.play(soundEffects.get(sound), 1, 1, 0, 0, 1);
     }
 
-    public void biteSound() {
-        soundPool.play(soundID_bite, 1, 1, 0, 0, 1);
-    }
-
-    public void smackSound() {
-        soundPool.play(soundID_smack, 1, 1, 0, 0, 1);
-    }
-
-    public void coughSound() {
-        soundPool.play(soundID_cough, 1, 1, 0, 0, 1);
-    }
-
-    public void powerupSound() {
-        soundPool.play(soundID_powerup, 1, 1, 0, 0, 1);
-    }
-
     public void levelUpSound() {
         soundPool.play(soundID_levelup, 1, 1, 0, 0, 1);
     }

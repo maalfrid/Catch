@@ -20,7 +20,6 @@ public class FallingObjectFactory {
 
     public FallingObjectFactory() {
         objectImages = new HashMap<>();
-        // loadObjectImages();
         this.fallingObjectFraction = new ArrayList<>();
     }
 
@@ -58,22 +57,12 @@ public class FallingObjectFactory {
         }
     }
 
-    //TODO: Make this not lag during rescale.
     public Bitmap getObjectImage(ObjectType object, double scale) {
         ScaledObject ImageKey = new ScaledObject(object, scale);
         if (!objectImages.containsKey(ImageKey)) {
             objectImages.put(ImageKey, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), object.objectResourceId), scale));
         }
         return objectImages.get(ImageKey);
-    }
-
-    public void loadObjectImages() {
-        for (ObjectType object : ObjectType.values()) {
-            ScaledObject ImageKey = new ScaledObject(object, objectScale);
-            if (!objectImages.containsKey(ImageKey)) {
-                objectImages.put(ImageKey, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), object.objectResourceId), objectScale));
-            }
-        }
     }
 
     public double getObjectScale() {

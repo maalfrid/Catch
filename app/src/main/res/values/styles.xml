@@ -52,7 +52,7 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:textSize">38sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display2</item>
-        <item name="android:textColor">@color/cast_expanded_controller_text_color</item>
+        <item name="android:textColor">@color/colorYellow</item>
         <item name="android:textStyle">bold</item>
         <item name="android:visibility">visible</item>
     </style>
@@ -79,7 +79,7 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display1</item>
-        <item name="android:textColor">@color/cast_expanded_controller_text_color</item>
+        <item name="android:textColor">@color/colorYellow</item>
         <item name="android:textStyle">bold</item>
         <item name="android:visibility">visible</item>
     </style>
