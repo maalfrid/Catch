@@ -66,6 +66,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.isMultiplayer = true;
     }
 
+
     /*
      * --------- @OVERRIDE METHODS - SURFACEVIEW ---------
      * */
@@ -83,7 +84,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         //menu items
         this.txt_score_self = new MenuItem("Score:  | Lives: ", 16, 000000, this.context);
         if (this.isMultiplayer) {
-            this.txt_score_self = new MenuItem("(Opponent) Score: | Lives: ", 16, 000000, this.context);
+            this.txt_score_opponent = new MenuItem("(Opponent) Score: | Lives: ", 16, 000000, this.context);
         }
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_exit), 0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_on), 0.15));
@@ -97,10 +98,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.txt_gameOver = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_gameover), 1.0));
         this.txt_gameOver.setPos(screenWidth / 2 - txt_gameOver.getWidth() / 2, screenHeight / 2 - txt_gameOver.getHeight() / 2);
         if (isMultiplayer) {
-            coreGame = new CoreGame(multiPlayerActivity.getGametype(), multiPlayerActivity.getDifficulty(), context, this);
+            coreGame = new CoreGame(multiPlayerActivity.getGametype(), multiPlayerActivity.getDifficulty(), this.context, this);
         }
         if (!isMultiplayer) {
-            coreGame = new CoreGame(singlePlayerActivity.getGametype(), singlePlayerActivity.getDifficulty(), context, this);
+            coreGame = new CoreGame(singlePlayerActivity.getGametype(), singlePlayerActivity.getDifficulty(), this.context, this);
         }
 
     }
@@ -135,7 +136,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
             this.txt_score_self.draw(canvas, screenWidth / 2 - txt_score_self.getWidth() / 2, 0);
             if (this.isMultiplayer) {
-                this.txt_score_opponent.draw(canvas, screenWidth / 2 - txt_score_self.getWidth() / 2, 0);
+                this.txt_score_opponent.draw(canvas, screenWidth / 2 - txt_score_self.getWidth() / 2, txt_score_self.getHeight());
             }
             btn_exit.draw(canvas, 0, 0);
             btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
@@ -156,21 +157,33 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update() {
         if (!isGamePause() && !isGameOver()) {
             coreGame.update();
-        }
-
-        if (isMultiplayer) {
-            updateScoreOpponent();
+            if (isMultiplayer) {
+                updateScoreOpponent();
+            }
         }
     }
 
     public void updateScoreOpponent() {
+        // TODO: FIX THIS
         int score = getMultiPlayerActivity().getOpponentScore();
         int lives = getMultiPlayerActivity().getOpponentLife();
-        this.txt_score_opponent.updateScoreLife(score, lives, this.context);
+        System.out.println("--------------------- (OPP) SCORE"+score);
+        System.out.println("--------------------- (OPP) LIVES"+lives);
+        System.out.println("--------------------- (OPP) CONTEXT"+this.context);
+        if(this.context != null){
+            this.txt_score_opponent.updateScoreLife(score, lives, this.context);
+        }
+
+
     }
 
     public void updateScoreSelf(int score, int lives) {
+        // TODO: FIX THIS
+        System.out.println("--------------------- SCORE"+score);
+        System.out.println("--------------------- LIVES"+lives);
+        System.out.println("--------------------- CONTEXT"+this.context);
         this.txt_score_self.updateScoreLife(score, lives, this.context);
+
     }
 
 
