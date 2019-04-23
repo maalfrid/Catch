@@ -7,7 +7,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class FallingObjectFactory {
@@ -16,11 +18,12 @@ public class FallingObjectFactory {
 
     private HashMap<ScaledObject, Bitmap> objectImages;
     private ArrayList<Integer> fallingObjectFraction;
-    private double objectScale;
+    private List<Double> objectScale;
 
     public FallingObjectFactory() {
         objectImages = new HashMap<>();
         this.fallingObjectFraction = new ArrayList<>();
+        this.objectScale = Arrays.asList(0.15, 0.15, 0.15);
     }
 
     //Creates a list of 0s (good object), 1s (bad object), and 2s (power up) according to fraction.
@@ -43,17 +46,27 @@ public class FallingObjectFactory {
         return fallingObjectFraction.get(id);
     }
 
-    public FallingObject getFallingObject() {
-        int fallingObjectType = getFallingObjectType();
-        if (fallingObjectType == 1) {
+    public FallingObject getFallingObject(boolean onlyBad, boolean onlyGood) {
+        if (onlyBad) {
             ObjectType objectID = ObjectType.randomBad();
-            return new BadFood(getObjectImage(objectID, objectScale), objectID);
-        } else if (fallingObjectType == 2) {
-            ObjectType objectID = ObjectType.randomPowerup();
-            return new PowerUp(getObjectImage(objectID, objectScale), objectID);
-        } else {
+            return new BadFood(getObjectImage(objectID, objectScale.get(1)), objectID);
+        }
+        else if (onlyGood) {
             ObjectType objectID = ObjectType.randomGood();
-            return new GoodFood(getObjectImage(objectID, objectScale), objectID);
+            return new GoodFood(getObjectImage(objectID, objectScale.get(0)), objectID);
+        }
+        else {
+            int fallingObjectType = getFallingObjectType();
+            if (fallingObjectType == 1) {
+                ObjectType objectID = ObjectType.randomBad();
+                return new BadFood(getObjectImage(objectID, objectScale.get(1)), objectID);
+            } else if (fallingObjectType == 2) {
+                ObjectType objectID = ObjectType.randomPowerup();
+                return new PowerUp(getObjectImage(objectID, objectScale.get(2)), objectID);
+            } else {
+                ObjectType objectID = ObjectType.randomGood();
+                return new GoodFood(getObjectImage(objectID, objectScale.get(0)), objectID);
+            }
         }
     }
 
@@ -65,12 +78,8 @@ public class FallingObjectFactory {
         return objectImages.get(ImageKey);
     }
 
-    public double getObjectScale() {
-        return this.objectScale;
-    }
-
-    public void setObjectScale(double newScale) {
-        this.objectScale = newScale;
+    public void setObjectScale(int objectType, double newScale) {
+        this.objectScale.set(objectType, newScale);
     }
 
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {

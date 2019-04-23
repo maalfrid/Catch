@@ -95,6 +95,9 @@ public abstract class FallingObject {
         }
     }
 
+    public void applyGameChange(CoreGame coreGame, long updateTime){
+    }
+
     public void applyObjectEatenEffect(CharacterSprite characterSprite) {
     }
 
@@ -105,4 +108,7 @@ public abstract class FallingObject {
         return (isEaten || touchedFloor);
     }
 
+    public boolean isEaten(){
+        return isEaten;
+    }
 }

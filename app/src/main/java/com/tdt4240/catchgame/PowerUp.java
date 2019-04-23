@@ -15,17 +15,31 @@ public class PowerUp extends FallingObject {
         if (objectType == ObjectType.BEETLE) {
             //DO something
         } else if (objectType == ObjectType.LADYBUG) {
-            //DO something else
+            characterSprite.addLife();
         } else if (objectType == ObjectType.STARBEETLE) {
 
         }
-
+        characterSprite.addScore(this.objectScore);
         setSound("powerup");
     }
 
     @Override
     public void applyObjectOnFloorEffect(CharacterSprite characterSprite) {
         setSound("smack");
+    }
+
+    @Override
+    public void applyGameChange(CoreGame coreGame, long updateTime){
+        if (objectType == ObjectType.BEETLE) {
+            coreGame.setLargeObjects(true);
+            coreGame.getFallingObjectFactory().setObjectScale(0,0.25);
+            coreGame.getFallingObjectFactory().setObjectScale(1,0.1);
+            coreGame.setBeetleDuration(updateTime + 10000);
+        } else if (objectType == ObjectType.LADYBUG) {
+        } else if (objectType == ObjectType.STARBEETLE) {
+            coreGame.setOnlyGood(true);
+            coreGame.setStarBeetleDuration(updateTime + 10000);
+        }
     }
 
 }
