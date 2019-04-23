@@ -31,6 +31,11 @@ public class CoreGame {
     private int baseFrequency;
     private int baseSpeed;
     private int fractionGood;
+    private boolean onlyGood = false;
+    private boolean onlyBad = false;
+    private long starBeetleDuration;
+    private boolean largeObjects = false;
+    private long beetleDuration;
 
     private CharacterSprite characterSprite;
     private FallingObjectFactory fallingObjectFactory;
@@ -104,9 +109,19 @@ public class CoreGame {
             FallingObject currentObject = objectsOnScreen.get(i);
             currentObject.update();
             currentObject.detectCollision(characterSprite);
+            if (currentObject.isEaten()){
+                currentObject.applyGameChange(this, updateTime);
+            }
             if (currentObject.collisionDetected()) {
                 soundEffects.playSound(currentObject.getSound());
                 removeObject(currentObject);
+            }
+            if (starBeetleDuration <= updateTime){
+                setOnlyGood(false);
+            }
+            if (beetleDuration <= updateTime){
+                this.fallingObjectFactory.setObjectScale(0, 0.15);
+                this.fallingObjectFactory.setObjectScale(1, 0.15);
             }
         }
 
@@ -191,7 +206,7 @@ public class CoreGame {
      * */
 
     public FallingObject createObject() {
-        return fallingObjectFactory.getFallingObject();
+        return fallingObjectFactory.getFallingObject(onlyBad, onlyGood);
     }
 
     public void spawnObject(FallingObject fallingObject) {
@@ -229,6 +244,10 @@ public class CoreGame {
         return context;
     }
 
+    public FallingObjectFactory getFallingObjectFactory(){
+        return this.fallingObjectFactory;
+    }
+
     public int getRandomSpeed() {
         return (int) ((Math.random() + 1) * baseSpeed);
     }
@@ -251,9 +270,26 @@ public class CoreGame {
             this.fractionGood = 5;
         }
         this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
-        this.fallingObjectFactory.setObjectScale(0.15);
     }
 
+    public void setOnlyBad(boolean onlyBad){
+        this.onlyBad = onlyBad;
+    }
+
+    public void setOnlyGood(boolean onlyGood){
+        this.onlyGood = onlyGood;
+    }
+    public void setLargeObjects(boolean largeObjects){
+        this.largeObjects = largeObjects;
+    }
+
+    public void setStarBeetleDuration(long starBeetleDuration) {
+        this.starBeetleDuration = starBeetleDuration;
+    }
+
+    public void setBeetleDuration(long beetleDuration) {
+        this.beetleDuration = beetleDuration;
+    }
     /*
      * --------- HELP METHODS ---------
      * */
