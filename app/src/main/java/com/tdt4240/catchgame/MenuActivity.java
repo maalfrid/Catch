@@ -18,7 +18,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     public MenuActivity() {
         super();
-
     }
 
 

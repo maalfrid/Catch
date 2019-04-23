@@ -5,7 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_play"
-    tools:context=".MultiPlayerActivity">
+    tools:context=".MultiPlayerActivity"
+    android:visibility="visible">
+
+    <Button
+        android:id="@+id/btn_mpgGoBack"
+        style="@style/BackButton"
+        android:background="@drawable/button_back" />
 
     <LinearLayout
         android:id="@+id/view_signIn"
@@ -46,7 +52,7 @@
             android:fontFamily="@font/frecklefaceregular"
             android:text="@string/please_wait"
             android:textSize="120px"
-            android:textColor="@color/cast_expanded_controller_progress_text_color"
+            android:textColor="@color/colorYellow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
         />

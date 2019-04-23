@@ -59,6 +59,7 @@ public class CoreGame {
         this.fallingObjectFactory = new FallingObjectFactory();
         this.setGameDifficulty(difficulty);
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_monkey3), 0.25));
+        if(gameview.isMultiplayer){this.multiGameOver = 0;}
     }
 
     /*
@@ -131,11 +132,13 @@ public class CoreGame {
                     soundOn = !soundOn;
                     if (soundOn) {
                         gameview.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_on), 0.15));
-                        gameview.getSinglePlayerActivity().backgroundMusicOn();
+                        if(this.gameview.isMultiplayer){gameview.getMultiPlayerActivity().backgroundMusicOn();}
+                        if(!this.gameview.isMultiplayer){gameview.getSinglePlayerActivity().backgroundMusicOn();}
                         soundEffects.volumeOn();
                     } else {
                         gameview.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_off), 0.15));
-                        gameview.getSinglePlayerActivity().backgroundMusicOff();
+                        if(this.gameview.isMultiplayer){gameview.getMultiPlayerActivity().backgroundMusicOff();}
+                        if(!this.gameview.isMultiplayer){gameview.getSinglePlayerActivity().backgroundMusicOff();}
                         soundEffects.volumeOff();
                     }
                 }
@@ -145,7 +148,8 @@ public class CoreGame {
                     gameview.setGamePause(true);
                 }
                 if (gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isMultiplayer) {
-                    //TODO: Handle if multiplayer --> Exit the game for both players.
+                    gameview.setGamePause(true);
+                    this.multiGameOver = 1;
                 }
 
                 // Update for response in game exit / game over

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tdt4240.catchgame">
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/catch_logo"
@@ -9,7 +11,7 @@
         android:roundIcon="@mipmap/catch_logo"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
 
         <!--Meta-data from button clicker -->
         <meta-data android:name="com.google.android.gms.games.APP_ID"
