@@ -2,6 +2,10 @@ package com.tdt4240.catchgame;
 
 import java.util.Objects;
 
+/*
+Class to generate a key for resized images that should be stored for future use so the scaling only has to happen once.
+ */
+
 public class ScaledObject {
     private ObjectType object;
     private double scale;

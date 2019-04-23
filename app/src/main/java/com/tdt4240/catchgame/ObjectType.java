@@ -2,6 +2,10 @@ package com.tdt4240.catchgame;
 
 import java.util.Random;
 
+/*
+All object types are stored here with their value and image reference, sorted into good, bad, and powerup.
+ */
+
 public enum ObjectType {
 
     APPLE(5, R.drawable.obj_good_apple),
@@ -20,8 +24,8 @@ public enum ObjectType {
     LADYBUG(1, R.drawable.obj_powerup_ladybug),
     STARBEETLE(2, R.drawable.obj_powerup_starbeetle);
 
-    int objectValue;
-    int objectResourceId;
+    public final int objectValue;
+    public final int objectResourceId;
 
     ObjectType(int value, int resourceId) {
         this.objectValue = value;
@@ -49,5 +53,4 @@ public enum ObjectType {
     public static ObjectType randomPowerup() {
         return POWERUP[new Random().nextInt(POWERUP.length)];
     }
-
 }
