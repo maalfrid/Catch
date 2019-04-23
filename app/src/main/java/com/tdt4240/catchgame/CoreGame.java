@@ -142,20 +142,20 @@ public class CoreGame {
 
                 // Update when exit button pressed
                 if (gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && !gameview.isMultiplayer) {
-                    gameview.gamePause();
+                    gameview.setGamePause(true);
                 }
                 if (gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isMultiplayer) {
                     //TODO: Handle if multiplayer --> Exit the game for both players.
                 }
 
                 // Update for response in game exit / game over
-                if (gameview.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY()) || gameview.isGamePause()) {
+                if (gameview.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) {
                     gameview.gameExit();
                 }
-                if (gameview.btn_no.isTouched(motionEvent.getX(), motionEvent.getY()) || gameview.isGamePause()) {
-                    gameview.gameResume();
+                if (gameview.btn_no.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) {
+                    gameview.setGamePause(false);
                 }
-                if (gameview.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY()) || gameview.isGameOver()) {
+                if (gameview.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameOver()) {
                     if (!gameview.isMultiplayer) {
                         gameview.getSinglePlayerActivity().finish();
                     }

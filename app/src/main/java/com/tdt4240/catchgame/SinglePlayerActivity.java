@@ -62,9 +62,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+        /*this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setLooping(true);
-        this.backgroundMusic.setVolume(1, 1);
+        this.backgroundMusic.setVolume(1, 1);*/
     }
 
     //Called if game exit or game over
