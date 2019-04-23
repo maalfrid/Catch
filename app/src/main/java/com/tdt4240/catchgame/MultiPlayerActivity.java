@@ -1,6 +1,7 @@
 package com.tdt4240.catchgame;
 
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -90,6 +91,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     //temp
     int myScore = 0;
 
+    // Background music
+    MediaPlayer backgroundMusic;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +111,40 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             findViewById(id).setOnClickListener(this);
             System.out.println("-------Button Id--" + id);
         }
+
+        // Background music
+        this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+        this.backgroundMusic.setLooping(true);
+        this.backgroundMusic.setVolume(1, 1);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        this.backgroundMusic.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.backgroundMusic.release();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        startActivity(new Intent(this, MenuActivity.class));
+        this.backgroundMusic.release();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /*this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+        this.backgroundMusic.setLooping(true);
+        this.backgroundMusic.setVolume(1, 1);*/
+    }
+
 
     public String getDifficulty() {
         return "easy";
@@ -420,8 +457,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     };
 
     void startGame() {
-
         setContentView(new GameView(this, this));
+        // Background music
+
         //broadcastScore(false);
     }
 
