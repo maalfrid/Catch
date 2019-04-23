@@ -64,7 +64,7 @@ public class CoreGame {
         this.fallingObjectFactory = new FallingObjectFactory();
         this.setGameDifficulty(difficulty);
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_monkey3), 0.25));
-        if(gameview.isMultiplayer){this.multiGameOver = 0;}
+        if(gameview.isMultiplayer){setMultiGameOver(0);}
     }
 
     /*
@@ -91,8 +91,8 @@ public class CoreGame {
         if (this.gameview.isMultiplayer) {
             /* SCORE LOGIC */
             //broadcastScore has 2 parameters -> score and lives.
-            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), this.multiGameOver);
-
+            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), getMultiGameOver());
+            System.out.println("------------------- IS GAME OVER: "+getMultiGameOver());
             //TODO: If the other opponent looses or exit game --> Make game over view (and click to continue to get to main menu)
             if (gameview.getMultiPlayerActivity().getIsGameOver() == 1) {
                 gameview.gameOver();
@@ -163,8 +163,8 @@ public class CoreGame {
                     gameview.setGamePause(true);
                 }
                 if (gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isMultiplayer) {
+                    setMultiGameOver(1);
                     gameview.setGamePause(true);
-                    this.multiGameOver = 1;
                 }
 
                 // Update for response in game exit / game over
@@ -290,6 +290,16 @@ public class CoreGame {
     public void setBeetleDuration(long beetleDuration) {
         this.beetleDuration = beetleDuration;
     }
+
+    public void setMultiGameOver(int b){
+        this.multiGameOver = b;
+    }
+
+    public int getMultiGameOver(){
+        return this.multiGameOver;
+    }
+
+
     /*
      * --------- HELP METHODS ---------
      * */
