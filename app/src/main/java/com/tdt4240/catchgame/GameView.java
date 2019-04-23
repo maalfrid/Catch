@@ -164,28 +164,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void updateScoreOpponent() {
-        // TODO: FIX THIS
         int score = getMultiPlayerActivity().getOpponentScore();
         int lives = getMultiPlayerActivity().getOpponentLife();
-        System.out.println("--------------------- (OPP) SCORE"+score);
-        System.out.println("--------------------- (OPP) LIVES"+lives);
-        System.out.println("--------------------- (OPP) CONTEXT"+this.context);
-        if(this.context != null){
-            this.txt_score_opponent.updateScoreLife(score, lives, this.context);
-        }
-
-
+        this.txt_score_opponent.updateScoreLife(score, lives, this.context);
     }
 
     public void updateScoreSelf(int score, int lives) {
-        // TODO: FIX THIS
-        System.out.println("--------------------- SCORE"+score);
-        System.out.println("--------------------- LIVES"+lives);
-        System.out.println("--------------------- CONTEXT"+this.context);
         this.txt_score_self.updateScoreLife(score, lives, this.context);
 
     }
-
 
     public boolean onTouchEvent(MotionEvent motionEvent) {
         coreGame.onTouch(motionEvent);
