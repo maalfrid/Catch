@@ -201,15 +201,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         setGameOver(true);
     }
 
-    // Check if the user really wants to quit
-    public void gamePause() {
-        setGamePause(true);
-    }
-
-    public void gameResume() {
-        setGamePause(false);
-    }
-
     public void popup(final String msg) {
         if (!isMultiplayer) {
             getSinglePlayerActivity().runOnUiThread(new Runnable() {
