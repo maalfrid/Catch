@@ -17,12 +17,16 @@ public class CoreGame {
     private boolean soundOn;
     private SoundEffects soundEffects;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private int gameTime;
     private String difficulty;
     private String gametype;
+
+    //TODO: change this
     private String easy = "easy";
     private String medium = "medium";
     private String hard = "hard";
+
+    private long timeLastSpawn = 0;
+    private int objectsSpawned = 0;
 
     private int baseFrequency;
     private int baseSpeed;
@@ -31,7 +35,6 @@ public class CoreGame {
     private CharacterSprite characterSprite;
     private FallingObjectFactory fallingObjectFactory;
     private ArrayList<FallingObject> objectsOnScreen;
-    public ScoreSinglePlayer scoreSinglePlayer;
 
 
     //for multiplayer
@@ -39,7 +42,7 @@ public class CoreGame {
     public int multiGameOver;
 
 
-    public CoreGame(String gameType, String difficulty, Context context, GameView gameview){
+    public CoreGame(String gameType, String difficulty, Context context, GameView gameview) {
         this.gameview = gameview;
         this.context = context;
         this.gametype = gameType;
@@ -49,17 +52,13 @@ public class CoreGame {
         this.setupGame(difficulty);
 
         pScore = characterSprite.getScore();
-
-
     }
 
-    private void setupGame(String difficulty){
+    private void setupGame(String difficulty) {
         this.objectsOnScreen = new ArrayList<>();
-        this.gameTime = 0;
         this.fallingObjectFactory = new FallingObjectFactory();
         this.setGameDifficulty(difficulty);
-        this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.sprites_monkey3),0.25));
-        this.scoreSinglePlayer = new ScoreSinglePlayer(characterSprite);
+        this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_monkey3), 0.25));
     }
 
     /*
@@ -67,44 +66,40 @@ public class CoreGame {
      * */
 
 
-    public void draw(Canvas canvas){
+    public void draw(Canvas canvas) {
         characterSprite.draw(canvas);
 
-        for(int i=0; i < objectsOnScreen.size(); i++){
+        for (int i = 0; i < objectsOnScreen.size(); i++) {
             objectsOnScreen.get(i).draw(canvas);
         }
     }
 
-    public void update(){
+    public void update() {
+        long updateTime = System.currentTimeMillis();
         characterSprite.update();
-        if(characterSprite.getLives()==0){
+        if (characterSprite.getLives() == 0) {
             gameview.gameOver();
         }
         gameview.updateScoreSelf(characterSprite.getScore(), characterSprite.getLives());
         //Call broadcast
-        if(this.gameview.isMultiplayer){
+        if (this.gameview.isMultiplayer) {
             /* SCORE LOGIC */
-            //broadcastScore has 2 parameters -> ScoreSinglePlayer and lives.
+            //broadcastScore has 2 parameters -> score and lives.
             gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), this.multiGameOver);
 
             //TODO: If the other opponent looses or exit game --> Make game over view (and click to continue to get to main menu)
-            if(gameview.getMultiPlayerActivity().getIsGameOver()==1){
+            if (gameview.getMultiPlayerActivity().getIsGameOver() == 1) {
                 gameview.gameOver();
             }
             /*if(gameview.getMultiPlayerActivity().getOpponentLife()==0){
                 gameview.gameOver();
             }*/
 
-            /* POWERUPS LOGIC */
-
-            // Check powerup buffer bit
             // TODO first: Add powerup bit to buffer in Multiplayeractivity
-                // If == 2 -> Increase decrease this sprites size (use setImage)
-                // If == 3 -> Increase speed of falling objects (e.g. level up?)
 
         }
 
-        for(int i=0; i < objectsOnScreen.size(); i++) {
+        for (int i = 0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
             currentObject.update();
             currentObject.detectCollision(characterSprite);
@@ -113,11 +108,16 @@ public class CoreGame {
                 removeObject(currentObject);
             }
         }
-        // TODO: Find a way to spawn the objects based on the gameloop-time from MainThread? and baseFrequency.
-        if (gameTime == 10 || gameTime % 50 == 0){
+
+        int timeSinceSpawn = (int) (updateTime - timeLastSpawn);
+        if (timeSinceSpawn >= baseFrequency) {
             spawnObject(createObject());
+            timeLastSpawn = updateTime;
+            objectsSpawned++;
+            if (objectsSpawned % 5 == 0) {
+                speedUp();
+            }
         }
-        gameTime++;
     }
 
 
@@ -127,38 +127,41 @@ public class CoreGame {
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
 
                 // Update - Sound on /off
-                if(gameview.btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())){
+                if (gameview.btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())) {
                     soundOn = !soundOn;
-                    if(soundOn){
-                        gameview.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_on),0.15));
+                    if (soundOn) {
+                        gameview.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_on), 0.15));
                         gameview.getSinglePlayerActivity().backgroundMusicOn();
                         soundEffects.volumeOn();
-                    }
-                    else{
-                        gameview.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(),R.drawable.button_sound_off),0.15));
+                    } else {
+                        gameview.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_off), 0.15));
                         gameview.getSinglePlayerActivity().backgroundMusicOff();
                         soundEffects.volumeOff();
                     }
                 }
 
                 // Update when exit button pressed
-                if(gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && !gameview.isMultiplayer){
-                    gameview.gamePause();
+                if (gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && !gameview.isMultiplayer) {
+                    gameview.setGamePause(true);
                 }
-                if(gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isMultiplayer){
+                if (gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isMultiplayer) {
                     //TODO: Handle if multiplayer --> Exit the game for both players.
                 }
 
                 // Update for response in game exit / game over
-                if(gameview.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY()) || gameview.isGamePause()){
+                if (gameview.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) {
                     gameview.gameExit();
                 }
-                if(gameview.btn_no.isTouched(motionEvent.getX(), motionEvent.getY()) || gameview.isGamePause()){
-                    gameview.gameResume();
+                if (gameview.btn_no.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) {
+                    gameview.setGamePause(false);
                 }
-                if(gameview.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY()) || gameview.isGameOver()){
-                    if(!gameview.isMultiplayer){gameview.getSinglePlayerActivity().finish();}
-                    if(gameview.isMultiplayer){gameview.getMultiPlayerActivity().finish();}
+                if (gameview.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameOver()) {
+                    if (!gameview.isMultiplayer) {
+                        gameview.getSinglePlayerActivity().finish();
+                    }
+                    if (gameview.isMultiplayer) {
+                        gameview.getMultiPlayerActivity().finish();
+                    }
                 }
 
                 break;
@@ -181,105 +184,75 @@ public class CoreGame {
     /*
      * --------- OBJECT METHODS ---------
      * Calls the factory to generate an object, handles objects presence on the screen.
-    * */
+     * */
 
-    public FallingObject createObject(){
+    public FallingObject createObject() {
         return fallingObjectFactory.getFallingObject();
     }
 
-    public void spawnObject(FallingObject fallingObject){
+    public void spawnObject(FallingObject fallingObject) {
         fallingObject.setObjectPositionX(getRandomXPosition(fallingObject));
         fallingObject.setObjectSpeed(getRandomSpeed());
         objectsOnScreen.add(fallingObject);
     }
 
-    public void removeObject(FallingObject fallingObject){
+    public void removeObject(FallingObject fallingObject) {
         objectsOnScreen.remove(fallingObject);
     }
 
-    public int getRandomXPosition(FallingObject fallingObject){
-        return (int)(Math.random() * (screenWidth - fallingObject.getObjectWidth()));
+    public int getRandomXPosition(FallingObject fallingObject) {
+        return (int) (Math.random() * (screenWidth - fallingObject.getObjectWidth()));
+    }
+
+    public void speedUp() {
+        if (baseFrequency >= 50) {
+            if (this.baseFrequency <= 75) {
+                this.baseFrequency -= 5;
+            } else if (this.baseFrequency <= 150) {
+                this.baseFrequency -= 25;
+            } else {
+                this.baseFrequency -= 50;
+            }
+        }
+        this.baseSpeed += 0.5;
     }
 
     /*
-    * --------- GETTERS AND SETTERS ---------
-    * */
+     * --------- GETTERS AND SETTERS ---------
+     * */
 
-    public static Context getContext(){
+    public static Context getContext() {
         return context;
     }
 
-    public String getDifficulty() {
-        return difficulty;
+    public int getRandomSpeed() {
+        return (int) ((Math.random() + 1) * baseSpeed);
     }
 
-    public int getRandomSpeed(){
-        return (int)((Math.random() + 1) * baseSpeed);
-    }
-
-    public int getRandomFrequency(){
-        return (int)(Math.random() * baseFrequency);
-    }
-
-
-    // TODO: Turn these into gradual increase of frequency for an endless experience. Universal for all difficulties.
-    public void setLevelUp(){
-        if(this.difficulty.equals(medium)){
-            this.difficulty = hard;
-            soundEffects.levelUpSound();
-            setGameDifficulty(hard);
-            this.gameview.popup("Level up from medium to hard");
-        }
-        if(this.difficulty.equals(easy)){
-            this.difficulty = medium;
-            soundEffects.levelUpSound();
-            setGameDifficulty(medium);
-            this.gameview.popup("Level up from easy to medium");
-        }
-    }
-    public void setLevelDown(){
-        if(this.difficulty.equals(hard)){
-            this.difficulty = medium;
-
-            setGameDifficulty(medium);
-        }
-        if(this.difficulty.equals(medium)){
-            this.difficulty = easy;
-            setGameDifficulty(easy);
-
-        }
-    }
-
-    private void setGameDifficulty(String difficulty){
+    private void setGameDifficulty(String difficulty) {
         this.difficulty = difficulty;
-        if (difficulty.equals(easy)){
-            this.baseFrequency = 1;
+        if (difficulty.equals(easy)) {
+            this.baseFrequency = 2000;
             this.baseSpeed = 5;
             this.fractionGood = 7;
         }
-        if (difficulty.equals(medium)){
-            this.baseFrequency = 2;
+        if (difficulty.equals(medium)) {
+            this.baseFrequency = 1500;
             this.baseSpeed = 10;
+            this.fractionGood = 6;
+        }
+        if (difficulty.equals(hard)) {
+            this.baseFrequency = 1000;
+            this.baseSpeed = 15;
             this.fractionGood = 5;
         }
-        if (difficulty.equals(hard)){
-            this.baseFrequency = 3;
-            this.baseSpeed = 15;
-            this.fractionGood = 3;
-        }
-        fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
+        this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
+        this.fallingObjectFactory.setObjectScale(0.15);
     }
-  
-    public String getGametype(){ return this.gametype; }
-
-    public SoundEffects getSoundEffect(){
-        return this.soundEffects;
-    }
-
 
     /*
-    * --------- HELP METHODS ---------
-    * */
+     * --------- HELP METHODS ---------
+     * */
 
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
         int width = bmp.getWidth();
@@ -295,7 +268,7 @@ public class CoreGame {
     }
 
     //public void popup(String msg){
-        //this.gameview.popup(msg);
+    //this.gameview.popup(msg);
     //}
 
 }

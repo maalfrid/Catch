@@ -4,10 +4,10 @@ import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
 public class MainThread extends Thread {
-    private SurfaceHolder surfaceHolder;
+    private final SurfaceHolder surfaceHolder;
     private GameView gameView;
-    private static boolean running;
-    public static Canvas canvas;
+    private boolean running;
+    private Canvas canvas;
 
     public MainThread(SurfaceHolder surfaceHolder, GameView gameView) {
         super();
@@ -17,9 +17,13 @@ public class MainThread extends Thread {
 
     @Override
     public void run() {
-        long startTime = System.nanoTime();
+        long startTime;
+        long timeMillis;
+        long waitTime;
+        long targetTime = 1000 / 30;
 
         while (running) {
+            startTime = System.nanoTime();
             canvas = null;
 
             try {
@@ -28,34 +32,31 @@ public class MainThread extends Thread {
                     this.gameView.update();
                     this.gameView.draw(canvas);
                 }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch (Exception e) {  e.printStackTrace();     }
             finally {
-                if (canvas != null) {
+                if (canvas != null)            {
                     try {
                         this.surfaceHolder.unlockCanvasAndPost(canvas);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
-            long now = System.nanoTime();
-            long waitTime = (now - startTime)/1000000;
-            if (waitTime < 10){
-                waitTime = 10;
-            }
+
+            timeMillis = (System.nanoTime() - startTime) / 1000000;
+            waitTime = targetTime - timeMillis;
+
             try {
-                this.sleep(waitTime);
-            } catch(InterruptedException e){
+                Thread.sleep(waitTime);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            startTime = System.nanoTime();
         }
+
     }
 
-    public static void setRunning(boolean isRunning) {
+    public void setRunning(boolean isRunning) {
         running = isRunning;
     }
 }

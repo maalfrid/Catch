@@ -33,7 +33,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 //Quick Game
-import  com.google.android.gms.games.RealTimeMultiplayerClient;
+import com.google.android.gms.games.RealTimeMultiplayerClient;
 import com.google.android.gms.games.multiplayer.Participant;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,9 +41,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 
-
-
-import  java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,17 +103,19 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         mGoogleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
 
         //Set up a click listener for everything
-        for(int id: CLICKABLEs){
+        for (int id : CLICKABLEs) {
             findViewById(id).setOnClickListener(this);
             System.out.println("-------Button Id--" + id);
         }
     }
 
-    public String getDifficulty(){
+    public String getDifficulty() {
         return "easy";
     }
 
-    public String getGametype(){ return "multi";}
+    public String getGametype() {
+        return "multi";
+    }
 
     //Clickable buttons
     final static int[] CLICKABLEs = {
@@ -124,8 +124,8 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.button_sign_in:
                 // start the sign-in flow
                 Log.d(TAG, "-----------Sign-in button clicked");
@@ -142,7 +142,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     }
 
     // Quick game with auto match
-    void startQuickGame(){
+    void startQuickGame() {
         // quick-start a game with 1 randomly selected opponent
         final int MIN_OPPONENTS = 1, MAX_OPPONENTS = 1;
         Bundle autoMatchCriteria = RoomConfig.createAutoMatchCriteria(MIN_OPPONENTS, MAX_OPPONENTS, 0);
@@ -163,10 +163,10 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             R.id.view_signIn, R.id.screen_wait
     };
 
-    void switchToScreen(int screenId){
+    void switchToScreen(int screenId) {
         // make the requested screen visible; hide all others
-        for(int id : SCREENS) {
-            findViewById(id).setVisibility(screenId == id ? View.VISIBLE: View.GONE);
+        for (int id : SCREENS) {
+            findViewById(id).setVisibility(screenId == id ? View.VISIBLE : View.GONE);
         }
 
     }
@@ -175,18 +175,18 @@ public class MultiPlayerActivity extends AppCompatActivity implements
      * Start a sign in activity.  To properly handle the result, call tryHandleSignInResult from
      * your Activity's onActivityResult function
      */
-    public void startSignInIntent(){
+    public void startSignInIntent() {
         Log.d(TAG, "--------------Start sign in Intent");
         startActivityForResult(mGoogleSignInClient.getSignInIntent(), RC_SIGN_IN);
     }
 
-    private void signOut(){
+    private void signOut() {
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this,
                         new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     Log.d(TAG, " ----------Signed out successfully");
                                 } else {
                                     Log.d(TAG, " ----------Signed out failed");
@@ -196,33 +196,33 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent){
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         Log.d(TAG, "---------------- requestcode: " + requestCode);
-        if(requestCode == RC_SIGN_IN){
+        if (requestCode == RC_SIGN_IN) {
 
             Task<GoogleSignInAccount> task =
                     GoogleSignIn.getSignedInAccountFromIntent(intent);
             Log.d(TAG, "--------------- task " + task);
-           // handleSignInResult(task);
+            // handleSignInResult(task);
             try {
                 Log.d(TAG, "--------------- try statement");
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Log.d(TAG, "--------------- account " + account);
                 onConnected(account);
-            } catch (ApiException apiException){
+            } catch (ApiException apiException) {
                 String message = apiException.getMessage();
-                if(message == null || message.isEmpty()) {
+                if (message == null || message.isEmpty()) {
                     //message = getString(R.string.signin_other_error);
                     Log.d(TAG, "-------- Message from onActivityResult catch");
                 }
             }
-        } else if(requestCode == RC_SELECT_PLAYERS) {
+        } else if (requestCode == RC_SELECT_PLAYERS) {
             // we got the result from the "select players" UI - ready to create the room
             //handleSelectPlayersResult(resultCode, intent);
             Log.d(TAG, "-------------Select players request code");
         } else if (requestCode == RC_WAITING_ROOM) {
             // we got the result from the "waiting room" UI.
-            if(resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
                 // ready to start playing
                 Log.d(TAG, "--------Starting game (waiting room returned OK).");
                 //start game here startGame(true);
@@ -250,9 +250,10 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     GoogleSignInAccount mSignedInAccount = null;
 
     private String mPlayerId;
-    private void onConnected(GoogleSignInAccount googleSignInAccount){
-        Log.d(TAG, "---------onConnected(): Connected to Google Api's - Account " + googleSignInAccount );
-        if(mSignedInAccount != googleSignInAccount) {
+
+    private void onConnected(GoogleSignInAccount googleSignInAccount) {
+        Log.d(TAG, "---------onConnected(): Connected to Google Api's - Account " + googleSignInAccount);
+        if (mSignedInAccount != googleSignInAccount) {
             mSignedInAccount = googleSignInAccount;
             Log.d(TAG, "------Crashing here.");
             //update the clients
@@ -279,8 +280,8 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         }
     }
 
-    void showWaitingRoom(Room room){
-        final int MIN_PLAYERS= Integer.MAX_VALUE;
+    void showWaitingRoom(Room room) {
+        final int MIN_PLAYERS = Integer.MAX_VALUE;
         mRealTimeMultiplayerClient.getWaitingRoomIntent(room, MIN_PLAYERS)
                 .addOnSuccessListener(new OnSuccessListener<Intent>() {
                     @Override
@@ -358,7 +359,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             Log.d(TAG, "-----------------Room ID: " + mRoomId);
             Log.d(TAG, "-----------------My ID " + mMyId);
             Log.d(TAG, "-----------------<< CONNECTED TO ROOM>>");
-            for(Participant p : mParticipants){
+            for (Participant p : mParticipants) {
                 Log.d(TAG, "--------------mParticipants " + p.getDisplayName());
 
             }
@@ -425,7 +426,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     }
 
 
-    //ScoreSinglePlayer of other participants. We update this as we receive their scores from the network
+    //Score SinglePlayer of other participants. We update this as we receive their scores from the network
     Map<String, Integer> mParticipantScore = new HashMap<>();
 
     private OnRealTimeMessageReceivedListener mOnRealTimeMessageReceivedListener = new OnRealTimeMessageReceivedListener() {
@@ -442,9 +443,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     };
 
     // Broadcast my score to everybody else
-    void broadcastScore(int myScore, int myLives, int isGameOver){
+    void broadcastScore(int myScore, int myLives, int isGameOver) {
 
-        if(myLives == 0) {
+        if (myLives == 0) {
             isGameOver = 1;
         }
 
@@ -458,11 +459,11 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         mMsgBuf[3] = (byte) isGameOver; //1: True, 0: False
 
         //send to every participant
-        for(Participant p : mParticipants) {
-            if(p.getParticipantId().equals(mMyId)){
+        for (Participant p : mParticipants) {
+            if (p.getParticipantId().equals(mMyId)) {
                 continue;
             }
-            if(true){
+            if (true) {
                 // interim score
                 mRealTimeMultiplayerClient.sendUnreliableMessage(mMsgBuf, mRoomId, p.getParticipantId());
             }
@@ -473,29 +474,29 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     private int opponentLife;
     private int isGameOver;
 
-    public int getOpponentScore(){
+    public int getOpponentScore() {
         return this.opponentScore;
     }
 
-    public void setOpponentScore(int score){
+    public void setOpponentScore(int score) {
         this.opponentScore = score;
     }
 
-    public int getOpponentLife(){
+    public int getOpponentLife() {
         return this.opponentLife;
     }
 
-    public void setOpponentLife(int lives){
-        this.opponentLife= lives;
+    public void setOpponentLife(int lives) {
+        this.opponentLife = lives;
     }
 
-    public int getIsGameOver(){return this.isGameOver;}
+    public int getIsGameOver() {
+        return this.isGameOver;
+    }
 
-    public void setIsGameOver(int isGameOver){
+    public void setIsGameOver(int isGameOver) {
         this.isGameOver = isGameOver;
     }
-
-
 
 
     //Keeps the screen turned on

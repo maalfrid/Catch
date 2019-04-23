@@ -97,7 +97,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/bg_play">
+        android:background="@drawable/bg_menu">
 
         <ImageView
             android:id="@+id/txt_rules"
@@ -109,7 +109,7 @@
 
         <TextView
             style="@style/TextHeaders"
-            app:fontFamily="sans-serif-condensed-medium"
+            app:fontFamily="@font/frecklefaceregular"
             android:text="@string/good_objects_subheader"
             />
 
@@ -130,7 +130,7 @@
 
             <TextView
                 style="@style/TextPoints"
-                app:fontFamily="sans-serif-condensed-medium"
+                app:fontFamily="@font/frecklefaceregular"
                 android:text="= 1, " />
             <ImageView
                 style="@style/ImageRow"
@@ -146,18 +146,19 @@
                 android:background="@drawable/obj_good_apple" />
             <TextView
                 style="@style/TextPoints"
-                app:fontFamily="sans-serif-condensed-medium"
+                app:fontFamily="@font/frecklefaceregular"
                 android:text="= 2" />
         </LinearLayout>
 
         <TextView
+            app:fontFamily="@font/frecklefaceregular"
             style="@style/TextDescription"
             android:gravity="center_horizontal"
             android:text="@string/good_objects_description"/>
 
         <TextView
             style="@style/TextHeaders"
-            app:fontFamily="sans-serif-condensed-medium"
+            app:fontFamily="@font/frecklefaceregular"
             android:text="@string/bad_objects_subheader" />
 
         <LinearLayout
@@ -173,7 +174,7 @@
                 android:background="@drawable/obj_bad_snake" />
             <TextView
                 style="@style/TextPoints"
-                app:fontFamily="sans-serif-condensed-medium"
+                app:fontFamily="@font/frecklefaceregular"
                 android:text="= -3, " />
             <ImageView
                 style="@style/ImageRow"
@@ -186,19 +187,20 @@
                 android:background="@drawable/obj_bad_spider" />
             <TextView
                 style="@style/TextPoints"
-                app:fontFamily="sans-serif-condensed-medium"
+                app:fontFamily="@font/frecklefaceregular"
                 android:text="= -2" />
 
         </LinearLayout>
 
         <TextView
+            app:fontFamily="@font/frecklefaceregular"
             style="@style/TextDescription"
             android:gravity="center_horizontal"
             android:text="@string/bad_objects_description" />
 
         <TextView
             style="@style/TextHeaders"
-            app:fontFamily="sans-serif-condensed-medium"
+            app:fontFamily="@font/frecklefaceregular"
             android:text="@string/powerups_objects_subheader" />
 
         <LinearLayout
@@ -211,7 +213,7 @@
                 android:background="@drawable/obj_powerup_ladybug" />
             <TextView
                 style="@style/TextPoints"
-                app:fontFamily="sans-serif-condensed-medium"
+                app:fontFamily="@font/frecklefaceregular"
                 android:text="= 1, " />
             <ImageView
                 style="@style/ImageRow"
@@ -221,7 +223,7 @@
                 android:background="@drawable/obj_powerup_starbeetle" />
             <TextView
                 style="@style/TextPoints"
-                app:fontFamily="sans-serif-condensed-medium"
+                app:fontFamily="@font/frecklefaceregular"
                 android:text="= 2, " />
             <ImageView
                 style="@style/ImageRow"
@@ -233,20 +235,14 @@
             <TextView
                 style="@style/TextPoints"
                 android:text="= 3 "
-                app:fontFamily="sans-serif-condensed-medium" />
+                app:fontFamily="@font/frecklefaceregular" />
         </LinearLayout>
 
         <TextView
+            app:fontFamily="@font/frecklefaceregular"
             style="@style/TextDescription"
             android:gravity="center_horizontal"
             android:text="@string/powerups_description" />
-
-        <TextView
-            style="@style/TextHeaders"
-            android:text="–Play the singleplayer game to learn how to play–"
-            android:textSize="20dp"
-            android:textStyle="bold|italic"
-            app:fontFamily="sans-serif-condensed-medium" />
     </LinearLayout>
 
     <!-- PLAY GAME VIEW -->

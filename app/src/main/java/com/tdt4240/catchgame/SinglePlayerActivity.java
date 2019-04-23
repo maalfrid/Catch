@@ -45,14 +45,16 @@ public class SinglePlayerActivity extends AppCompatActivity {
         this.backgroundMusic.start();
     }
 
-    public String getDifficulty(){
+    public String getDifficulty() {
         return this.difficulty;
     }
 
-    public String getGametype(){ return this.gametype;}
+    public String getGametype() {
+        return this.gametype;
+    }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         this.backgroundMusic.release();
     }
@@ -60,9 +62,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+        /*this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setLooping(true);
-        this.backgroundMusic.setVolume(1, 1);
+        this.backgroundMusic.setVolume(1, 1);*/
     }
 
     //Called if game exit or game over
@@ -73,11 +75,11 @@ public class SinglePlayerActivity extends AppCompatActivity {
         this.backgroundMusic.release();
     }
 
-    public void backgroundMusicOn(){
+    public void backgroundMusicOn() {
         this.backgroundMusic.start();
     }
 
-    public void backgroundMusicOff(){
+    public void backgroundMusicOff() {
         this.backgroundMusic.pause();
     }
 }
