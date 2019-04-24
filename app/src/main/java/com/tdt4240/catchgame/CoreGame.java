@@ -228,12 +228,12 @@ public class CoreGame {
 
     public void receiveBroadcast(){
         // If opponent lost the game
-        if(gameview.getMultiPlayerActivity().getOpponentLife() == -1) {
+        if(gameview.getMultiPlayerActivity().getIsGameOver() == 1 && gameview.getMultiPlayerActivity().getOpponentLife() <= 0) {
             gameview.gameWon();
         }
 
         // If opponent exits in the middle of the game
-        if (gameview.getMultiPlayerActivity().getIsGameOver() == 1) {
+        if (gameview.getMultiPlayerActivity().getIsGameOver() == 1 && (gameview.getMultiPlayerActivity().getOpponentLife() > 0)) {
             gameview.opponentExit();
         }
     }
