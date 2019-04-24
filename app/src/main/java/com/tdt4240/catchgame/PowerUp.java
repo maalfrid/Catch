@@ -42,15 +42,16 @@ public class PowerUp extends FallingObject {
         }
     }
 
-    public String gameChangeMessage(ObjectType objectType){
+    @Override
+    public String gameChangeMessage(){
         if(objectType == ObjectType.BEETLE) {
-            return "You caught a beetle!";
+            return "Beetle!\nLarge good objects, small bad objects";
         }
         else if(objectType == ObjectType.LADYBUG) {
-            return "You caught a ladybug!";
+            return "Ladybug!\nOne extra life";
         }
         else {
-            return "You caught a starbeetle!";
+            return "Starbeetle!\nOnly good objects falling";
         }
     }
 
