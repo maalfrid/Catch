@@ -31,10 +31,11 @@ public class CoreGame {
     private int baseFrequency;
     private int baseSpeed;
     private int fractionGood;
+
+
     private boolean onlyGood = false;
     private boolean onlyBad = false;
     private long starBeetleDuration;
-    private boolean largeObjects = false;
     private long beetleDuration;
 
     private CharacterSprite characterSprite;
@@ -102,7 +103,8 @@ public class CoreGame {
                 removeObject(currentObject);
             }
             if (starBeetleDuration <= updateTime){
-                setOnlyGood(false);
+                fallingObjectFactory.setOnlyBad(false);
+                fallingObjectFactory.setOnlyGood(false);
             }
             if (beetleDuration <= updateTime){
                 this.fallingObjectFactory.setObjectScale(0, 0.15);
@@ -186,7 +188,7 @@ public class CoreGame {
      * */
 
     public FallingObject createObject() {
-        return fallingObjectFactory.getFallingObject(onlyBad, onlyGood);
+        return fallingObjectFactory.getFallingObject();
     }
 
     public void spawnObject(FallingObject fallingObject) {
@@ -245,6 +247,25 @@ public class CoreGame {
         gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), characterSprite.getLives(), getMultiGameOver());
     }
 
+    public void broadCastPowerUp(int powerup){
+        // TODO: Send type of powerup to other player.
+    }
+
+    public void applyNegativeGameChange(ObjectType objectType, long updateTime){
+        if (objectType == ObjectType.BEETLE) {
+            fallingObjectFactory.setObjectScale(0,0.1);
+            fallingObjectFactory.setObjectScale(1,0.25);
+            setBeetleDuration(updateTime + 10000);
+        } else if (objectType == ObjectType.STARBEETLE) {
+            fallingObjectFactory.setOnlyBad(true);
+            setStarBeetleDuration(updateTime + 10000);
+        }
+    }
+
+
+
+
+
     /*
      * --------- GETTERS AND SETTERS ---------
      * */
@@ -279,17 +300,6 @@ public class CoreGame {
             this.fractionGood = 5;
         }
         this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
-    }
-
-    public void setOnlyBad(boolean onlyBad){
-        this.onlyBad = onlyBad;
-    }
-
-    public void setOnlyGood(boolean onlyGood){
-        this.onlyGood = onlyGood;
-    }
-    public void setLargeObjects(boolean largeObjects){
-        this.largeObjects = largeObjects;
     }
 
     public void setStarBeetleDuration(long starBeetleDuration) {

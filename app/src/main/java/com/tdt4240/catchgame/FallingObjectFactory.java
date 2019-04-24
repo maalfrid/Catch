@@ -19,6 +19,8 @@ public class FallingObjectFactory {
     private HashMap<ScaledObject, Bitmap> objectImages;
     private ArrayList<Integer> fallingObjectFraction;
     private List<Double> objectScale;
+    private boolean onlyBad = false;
+    private boolean onlyGood = false;
 
     public FallingObjectFactory() {
         objectImages = new HashMap<>();
@@ -46,12 +48,12 @@ public class FallingObjectFactory {
         return fallingObjectFraction.get(id);
     }
 
-    public FallingObject getFallingObject(boolean onlyBad, boolean onlyGood) {
-        if (onlyBad) {
+    public FallingObject getFallingObject() {
+        if (this.onlyBad) {
             ObjectType objectID = ObjectType.randomBad();
             return new BadFood(getObjectImage(objectID, objectScale.get(1)), objectID);
         }
-        else if (onlyGood) {
+        else if (this.onlyGood) {
             ObjectType objectID = ObjectType.randomGood();
             return new GoodFood(getObjectImage(objectID, objectScale.get(0)), objectID);
         }
@@ -80,6 +82,14 @@ public class FallingObjectFactory {
 
     public void setObjectScale(int objectType, double newScale) {
         this.objectScale.set(objectType, newScale);
+    }
+
+    public void setOnlyBad(boolean onlyBad){
+        this.onlyBad = onlyBad;
+    }
+
+    public void setOnlyGood(boolean onlyGood){
+        this.onlyGood = onlyGood;
     }
 
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
