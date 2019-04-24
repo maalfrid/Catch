@@ -252,7 +252,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             });
         }
-        if(isMultiplayer){
+        /*if(isMultiplayer){
             getMultiPlayerActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -261,7 +261,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     toast.show();
                 }
             });
-        }
+        }*/
     }
 
     /*

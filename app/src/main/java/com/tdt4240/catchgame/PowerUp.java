@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 
 public class PowerUp extends FallingObject {
 
+    private int multiPowerup;
+
     public PowerUp(Bitmap bitmap, ObjectType object) {
         super(bitmap, object);
     }
@@ -34,12 +36,12 @@ public class PowerUp extends FallingObject {
             coreGame.getFallingObjectFactory().setObjectScale(0,0.25);
             coreGame.getFallingObjectFactory().setObjectScale(1,0.05);
             coreGame.setBeetleDuration(updateTime + 10000);
-            coreGame.broadCastPowerUp(1);
+            coreGame.setMultiPowerupSent(1);
         } else if (objectType == ObjectType.LADYBUG) {
         } else if (objectType == ObjectType.STARBEETLE) {
             coreGame.getFallingObjectFactory().setOnlyGood(true);
             coreGame.setStarBeetleDuration(updateTime + 10000);
-            coreGame.broadCastPowerUp(2);
+            coreGame.setMultiPowerupSent(2);
         }
     }
 

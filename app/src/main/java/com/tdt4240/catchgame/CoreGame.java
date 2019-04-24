@@ -44,8 +44,10 @@ public class CoreGame {
 
 
     //for multiplayer
-    public static int pScore;
-    public int multiGameOver;
+    private static int pScore;
+    private int multiGameOver;
+    private int multiPowerupSent;
+    private int multiPowerupReceived;
 
 
     public CoreGame(String gameType, String difficulty, Context context, GameView gameview) {
@@ -90,6 +92,8 @@ public class CoreGame {
         gameview.updateScoreSelf(characterSprite.getScore(), characterSprite.getLives());
 
         if (this.gameview.isMultiplayer) { broadcast(); }
+
+        if(this.multiPowerupReceived != 0){ applyNegativeGameChange(this.multiPowerupReceived, updateTime);}
 
         for (int i = 0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
@@ -244,17 +248,20 @@ public class CoreGame {
         if (gameview.getMultiPlayerActivity().getIsGameOver() == 1 && (gameview.getMultiPlayerActivity().getOpponentLife() > 0)) {
             gameview.opponentExit();
         }
+
+        // Get powerup value
+        this.multiPowerupReceived = this.gameview.getMultiPlayerActivity().getPowerup();
+
     }
 
     public void sendBroadcast(){
         if(characterSprite.getLives() == 0){
-            gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), -1, getMultiGameOver(), 0);
+            gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), -1, getMultiGameOver(), getMultiPowerupSent());
         }
-        gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), characterSprite.getLives(), getMultiGameOver(), 0);
-    }
+        gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), characterSprite.getLives(), getMultiGameOver(), getMultiPowerupSent());
 
-    public void broadCastPowerUp(int powerup){
-        // TODO: Send type of powerup to other player.
+        // Reset powerup
+        if(getMultiPowerupSent() != 0){ setMultiPowerupSent(0);}
     }
 
     public String gameChangeMessage(ObjectType objectType){
@@ -269,16 +276,20 @@ public class CoreGame {
         }
     }
 
-    public void applyNegativeGameChange(ObjectType objectType, long updateTime){
-        if (objectType == ObjectType.BEETLE) {
+    public void applyNegativeGameChange(int objectType, long updateTime){
+        // 1: Beetle
+        // 2: Starbeetle
+        //if (objectType == ObjectType.BEETLE) {
+        if (objectType == 1) {
             fallingObjectFactory.setObjectScale(0,0.1);
             fallingObjectFactory.setObjectScale(1,0.25);
             setBeetleDuration(updateTime + 10000);
-        } else if (objectType == ObjectType.STARBEETLE) {
+        //} else if (objectType == ObjectType.STARBEETLE) {
+        } else if (objectType == 2) {
             fallingObjectFactory.setOnlyBad(true);
             setStarBeetleDuration(updateTime + 10000);
         }
-        gameChangeMessage(objectType);
+        //gameChangeMessage(objectType);
     }
 
 
@@ -335,6 +346,14 @@ public class CoreGame {
 
     public int getMultiGameOver(){
         return this.multiGameOver;
+    }
+
+    public void setMultiPowerupSent(int b){
+        this.multiPowerupSent = b;
+    }
+
+    public int getMultiPowerupSent(){
+        return this.multiPowerupSent;
     }
 
 
