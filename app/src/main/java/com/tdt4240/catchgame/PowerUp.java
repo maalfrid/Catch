@@ -32,7 +32,7 @@ public class PowerUp extends FallingObject {
     public void applyGameChange(CoreGame coreGame, long updateTime){
         if (objectType == ObjectType.BEETLE) {
             coreGame.getFallingObjectFactory().setObjectScale(0,0.25);
-            coreGame.getFallingObjectFactory().setObjectScale(1,0.1);
+            coreGame.getFallingObjectFactory().setObjectScale(1,0.05);
             coreGame.setBeetleDuration(updateTime + 10000);
             coreGame.broadCastPowerUp(1);
         } else if (objectType == ObjectType.LADYBUG) {

@@ -25,7 +25,7 @@ public class FallingObjectFactory {
     public FallingObjectFactory() {
         objectImages = new HashMap<>();
         this.fallingObjectFraction = new ArrayList<>();
-        this.objectScale = Arrays.asList(0.15, 0.15, 0.15);
+        this.objectScale = Arrays.asList(0.15, 0.1, 0.15);
     }
 
     //Creates a list of 0s (good object), 1s (bad object), and 2s (power up) according to fraction.
