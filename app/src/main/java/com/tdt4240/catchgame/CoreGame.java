@@ -259,6 +259,9 @@ public class CoreGame {
             gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), -1, getMultiGameOver(), getMultiPowerupSent());
         }
         gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), characterSprite.getLives(), getMultiGameOver(), getMultiPowerupSent());
+
+        // Reset powerup
+        if(getMultiPowerupSent() != 0){ setMultiPowerupSent(0);}
     }
 
     public void gameChangeMessage(ObjectType objectType){
@@ -291,8 +294,9 @@ public class CoreGame {
             gameChangeMessage(ObjectType.STARBEETLE);
         }
 
-        // Reset powerup
-        if(getMultiPowerupSent() != 0){ setMultiPowerupSent(0);}
+        this.multiPowerupReceived = 0;
+
+
     }
 
 
