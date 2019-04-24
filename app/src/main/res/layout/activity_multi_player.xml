@@ -48,13 +48,10 @@
         android:id="@+id/screen_wait"
         style="@style/CenterScreen">
 
-        <TextView
-            android:fontFamily="@font/frecklefaceregular"
-            android:text="@string/please_wait"
-            android:textSize="120px"
-            android:textColor="@color/colorYellow"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/txt_pleasewait"
         />
 
     </LinearLayout>
