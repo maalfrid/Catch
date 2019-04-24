@@ -42,6 +42,19 @@ public class PowerUp extends FallingObject {
         }
     }
 
+    @Override
+    public String gameChangeMessage(){
+        if(objectType == ObjectType.BEETLE) {
+            return "Beetle!\nLarge good objects, small bad objects";
+        }
+        else if(objectType == ObjectType.LADYBUG) {
+            return "Ladybug!\nOne extra life";
+        }
+        else {
+            return "Starbeetle!\nOnly good objects falling";
+        }
+    }
+
 }
 
   /*POWER-UP RULES
