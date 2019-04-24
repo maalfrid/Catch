@@ -248,9 +248,9 @@ public class CoreGame {
 
     public void sendBroadcast(){
         if(characterSprite.getLives() == 0){
-            gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), -1, getMultiGameOver());
+            gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), -1, getMultiGameOver(), 0);
         }
-        gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), characterSprite.getLives(), getMultiGameOver());
+        gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), characterSprite.getLives(), getMultiGameOver(), 0);
     }
 
     public void broadCastPowerUp(int powerup){
