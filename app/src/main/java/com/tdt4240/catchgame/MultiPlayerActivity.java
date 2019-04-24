@@ -9,6 +9,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.content.Intent;
 //Quick game
@@ -95,6 +96,11 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     // Music
     MediaPlayer backgroundMusic;
     MediaPlayer buttonSound;
+
+    // Broadcast vars
+    private int opponentScore;
+    private int opponentLife;
+    private int isGameOver;
 
 
     @Override
@@ -483,9 +489,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     };
 
     void startGame() {
-        //this.backgroundMusic.start();
         setContentView(new GameView(this, this));
-        //broadcastScore(false);
     }
 
 
@@ -506,7 +510,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     };
 
     // Broadcast my score to everybody else
-    void broadcastScore(int myScore, int myLives, int isGameOver) {
+    void broadcast(int myScore, int myLives, int isGameOver) {
 
         if (myLives == 0) {
             isGameOver = 1;
@@ -533,29 +537,17 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         }
     }
 
-    private int opponentScore;
-    private int opponentLife;
-    private int isGameOver;
-
     public int getOpponentScore() {
         return this.opponentScore;
     }
 
-    public void setOpponentScore(int score) {
-        this.opponentScore = score;
-    }
+    public void setOpponentScore(int score) { this.opponentScore = score; }
 
-    public int getOpponentLife() {
-        return this.opponentLife;
-    }
+    public int getOpponentLife() { return this.opponentLife; }
 
-    public void setOpponentLife(int lives) {
-        this.opponentLife = lives;
-    }
+    public void setOpponentLife(int lives) { this.opponentLife = lives; }
 
-    public int getIsGameOver() {
-        return this.isGameOver;
-    }
+    public int getIsGameOver() { return this.isGameOver; }
 
     public void setIsGameOver(int isGameOver) {
         this.isGameOver = isGameOver;
@@ -567,4 +559,5 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
+
 }

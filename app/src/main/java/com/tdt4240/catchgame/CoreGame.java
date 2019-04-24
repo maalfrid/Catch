@@ -83,27 +83,12 @@ public class CoreGame {
     public void update() {
         long updateTime = System.currentTimeMillis();
         characterSprite.update();
-        if (characterSprite.getLives() == 0) {
-            gameview.gameOver();
-        }
+        if (characterSprite.getLives() == 0 && !this.gameview.isMultiplayer) { gameview.gameOver(); }
+        if (characterSprite.getLives() == 0 && this.gameview.isMultiplayer) { gameview.gameLost(); }
+
         gameview.updateScoreSelf(characterSprite.getScore(), characterSprite.getLives());
-        //Call broadcast
-        if (this.gameview.isMultiplayer) {
-            /* SCORE LOGIC */
-            //broadcastScore has 2 parameters -> score and lives.
-            gameview.getMultiPlayerActivity().broadcastScore(characterSprite.getScore(), characterSprite.getLives(), getMultiGameOver());
-            System.out.println("------------------- IS GAME OVER: "+getMultiGameOver());
-            //TODO: If the other opponent looses or exit game --> Make game over view (and click to continue to get to main menu)
-            if (gameview.getMultiPlayerActivity().getIsGameOver() == 1) {
-                gameview.gameOver();
-            }
-            /*if(gameview.getMultiPlayerActivity().getOpponentLife()==0){
-                gameview.gameOver();
-            }*/
 
-            // TODO first: Add powerup bit to buffer in Multiplayeractivity
-
-        }
+        if (this.gameview.isMultiplayer) { broadcast(); }
 
         for (int i = 0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
@@ -163,25 +148,20 @@ public class CoreGame {
                     gameview.setGamePause(true);
                 }
                 if (gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isMultiplayer) {
-                    setMultiGameOver(1);
                     gameview.setGamePause(true);
                 }
 
                 // Update for response in game exit / game over
                 if (gameview.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) {
+                    setMultiGameOver(1);
+                    sendBroadcast();
                     gameview.gameExit();
                 }
-                if (gameview.btn_no.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) {
-                    gameview.setGamePause(false);
-                }
-                if (gameview.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameOver()) {
-                    if (!gameview.isMultiplayer) {
-                        gameview.getSinglePlayerActivity().finish();
-                    }
-                    if (gameview.isMultiplayer) {
-                        gameview.getMultiPlayerActivity().finish();
-                    }
-                }
+                if (gameview.btn_no.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) { gameview.setGamePause(false); }
+                if (gameview.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameOver()) { finishGame(); }
+                if (gameview.txt_gameWin.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameWon()) { finishGame(); }
+                if (gameview.txt_gameLost.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameLost()) { finishGame(); }
+                if (gameview.txt_opponentExit.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isOpponentExit()) { finishGame(); }
 
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -234,6 +214,35 @@ public class CoreGame {
             }
         }
         this.baseSpeed += 0.5;
+    }
+
+    /*
+     * --------- MULTIPLAYER METHODS ---------
+     * Broadcast score to other player
+     * */
+
+    public void broadcast(){
+        sendBroadcast();
+        receiveBroadcast();
+    }
+
+    public void receiveBroadcast(){
+        // If opponent lost the game
+        if(gameview.getMultiPlayerActivity().getOpponentLife() == -1) {
+            gameview.gameWon();
+        }
+
+        // If opponent exits in the middle of the game
+        if (gameview.getMultiPlayerActivity().getIsGameOver() == 1) {
+            gameview.opponentExit();
+        }
+    }
+
+    public void sendBroadcast(){
+        if(characterSprite.getLives() == 0){
+            gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), -1, getMultiGameOver());
+        }
+        gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), characterSprite.getLives(), getMultiGameOver());
     }
 
     /*
@@ -304,6 +313,11 @@ public class CoreGame {
      * --------- HELP METHODS ---------
      * */
 
+    public void finishGame(){
+        if (!gameview.isMultiplayer) { gameview.getSinglePlayerActivity().finish();}
+        if (gameview.isMultiplayer) { gameview.getMultiPlayerActivity().finish(); }
+    }
+
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
         int width = bmp.getWidth();
         int height = bmp.getHeight();
@@ -316,9 +330,5 @@ public class CoreGame {
         bmp.recycle();
         return resizedBitmap;
     }
-
-    //public void popup(String msg){
-    //this.gameview.popup(msg);
-    //}
 
 }
