@@ -88,7 +88,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     String mMyId = null;
 
     // Message buffer for sending messages
-    byte[] mMsgBuf = new byte[4];
+    byte[] mMsgBuf = new byte[5];
 
     //temp
     int myScore = 0;
@@ -101,6 +101,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     private int opponentScore;
     private int opponentLife;
     private int isGameOver;
+    private int powerup;
 
 
     @Override
@@ -501,16 +502,16 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         public void onRealTimeMessageReceived(@NonNull RealTimeMessage realTimeMessage) {
             byte[] buf = realTimeMessage.getMessageData();
             String sender = realTimeMessage.getSenderParticipantId();
-            Log.d(TAG, "-----------Message received: " + (char) buf[0] + " Score : " + (int) buf[1] + "Lives : " + (int) buf[2] + " isGameover " + (int) buf[3]);
+            Log.d(TAG, "-----------Message received: " + (char) buf[0] + " Score : " + (int) buf[1] + "Lives : " + (int) buf[2] + " isGameover: " + (int) buf[3] + " Powerup: "+ (int) buf[4]);
             setOpponentScore(buf[1]);
             setOpponentLife(buf[2]);
             setIsGameOver(buf[3]);
-
+            setPowerup(buf[4]);
         }
     };
 
     // Broadcast my score to everybody else
-    void broadcast(int myScore, int myLives, int isGameOver) {
+    void broadcast(int myScore, int myLives, int isGameOver, int powerup) {
 
         if (myLives == 0) {
             isGameOver = 1;
@@ -524,6 +525,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         mMsgBuf[1] = (byte) myScore;
         mMsgBuf[2] = (byte) myLives;
         mMsgBuf[3] = (byte) isGameOver; //1: True, 0: False
+        mMsgBuf[4] = (byte) powerup;
 
         //send to every participant
         for (Participant p : mParticipants) {
@@ -537,9 +539,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         }
     }
 
-    public int getOpponentScore() {
-        return this.opponentScore;
-    }
+    public int getOpponentScore() { return this.opponentScore; }
 
     public void setOpponentScore(int score) { this.opponentScore = score; }
 
@@ -549,9 +549,11 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
     public int getIsGameOver() { return this.isGameOver; }
 
-    public void setIsGameOver(int isGameOver) {
-        this.isGameOver = isGameOver;
-    }
+    public void setIsGameOver(int isGameOver) { this.isGameOver = isGameOver; }
+
+    public int getPowerup() { return this.powerup; }
+
+    public void setPowerup(int powerup) { this.powerup= powerup; }
 
 
     //Keeps the screen turned on
