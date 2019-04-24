@@ -96,6 +96,7 @@ public class CoreGame {
             currentObject.detectCollision(characterSprite);
             if (currentObject.isEaten()){
                 currentObject.applyGameChange(this, updateTime);
+                this.gameview.popup("test");
             }
             if (currentObject.collisionDetected()) {
                 soundEffects.playSound(currentObject.getSound());

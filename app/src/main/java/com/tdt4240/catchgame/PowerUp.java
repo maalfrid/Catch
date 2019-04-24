@@ -42,6 +42,18 @@ public class PowerUp extends FallingObject {
         }
     }
 
+    public String gameChangeMessage(ObjectType objectType){
+        if(objectType == ObjectType.BEETLE) {
+            return "You caught a beetle!";
+        }
+        else if(objectType == ObjectType.LADYBUG) {
+            return "You caught a ladybug!";
+        }
+        else {
+            return "You caught a starbeetle!";
+        }
+    }
+
 }
 
   /*POWER-UP RULES
