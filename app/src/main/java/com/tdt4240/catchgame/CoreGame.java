@@ -109,7 +109,7 @@ public class CoreGame {
             }
             if (beetleDuration <= updateTime){
                 this.fallingObjectFactory.setObjectScale(0, 0.15);
-                this.fallingObjectFactory.setObjectScale(1, 0.15);
+                this.fallingObjectFactory.setObjectScale(1, 0.1);
             }
         }
 
@@ -257,6 +257,18 @@ public class CoreGame {
         // TODO: Send type of powerup to other player.
     }
 
+    public String gameChangeMessage(ObjectType objectType){
+        if(objectType == ObjectType.BEETLE) {
+            return "Your opponent caught a beetle!\nSmall good objects, large bad objects for 10 seconds";
+        }
+        else if(objectType == ObjectType.LADYBUG) {
+            return "Your opponent caught a ladybug\n and got one extra life";
+        }
+        else {
+            return "Your opponent caught a starbeetle!\nOnly bad objects for 10 seconds";
+        }
+    }
+
     public void applyNegativeGameChange(ObjectType objectType, long updateTime){
         if (objectType == ObjectType.BEETLE) {
             fallingObjectFactory.setObjectScale(0,0.1);
@@ -266,6 +278,7 @@ public class CoreGame {
             fallingObjectFactory.setOnlyBad(true);
             setStarBeetleDuration(updateTime + 10000);
         }
+        gameChangeMessage(objectType);
     }
 
 
