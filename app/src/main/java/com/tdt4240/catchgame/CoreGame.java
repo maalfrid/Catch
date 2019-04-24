@@ -92,8 +92,8 @@ public class CoreGame {
         gameview.updateScoreSelf(characterSprite.getScore(), characterSprite.getLives());
 
         if (this.gameview.isMultiplayer) { broadcast(); }
-
         if(this.multiPowerupReceived != 0){ applyNegativeGameChange(this.multiPowerupReceived, updateTime);}
+
 
         for (int i = 0; i < objectsOnScreen.size(); i++) {
             FallingObject currentObject = objectsOnScreen.get(i);
@@ -259,21 +259,20 @@ public class CoreGame {
             gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), -1, getMultiGameOver(), getMultiPowerupSent());
         }
         gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), characterSprite.getLives(), getMultiGameOver(), getMultiPowerupSent());
-
-        // Reset powerup
-        if(getMultiPowerupSent() != 0){ setMultiPowerupSent(0);}
     }
 
-    public String gameChangeMessage(ObjectType objectType){
+    public void gameChangeMessage(ObjectType objectType){
+        String msg = "";
         if(objectType == ObjectType.BEETLE) {
-            return "Your opponent caught a beetle!\nSmall good objects, large bad objects for 10 seconds";
+            msg =  "Your opponent caught a beetle!\nSmall good objects, large bad objects for 10 seconds";
         }
         else if(objectType == ObjectType.LADYBUG) {
-            return "Your opponent caught a ladybug\n and got one extra life";
+            msg = "Your opponent caught a ladybug\n and got one extra life";
         }
-        else {
-            return "Your opponent caught a starbeetle!\nOnly bad objects for 10 seconds";
+        else if(objectType == ObjectType.STARBEETLE) {
+            msg = "Your opponent caught a starbeetle!\nOnly bad objects for 10 seconds";
         }
+        this.gameview.popup(msg);
     }
 
     public void applyNegativeGameChange(int objectType, long updateTime){
@@ -284,12 +283,16 @@ public class CoreGame {
             fallingObjectFactory.setObjectScale(0,0.1);
             fallingObjectFactory.setObjectScale(1,0.25);
             setBeetleDuration(updateTime + 10000);
+            gameChangeMessage(ObjectType.BEETLE);
         //} else if (objectType == ObjectType.STARBEETLE) {
         } else if (objectType == 2) {
             fallingObjectFactory.setOnlyBad(true);
             setStarBeetleDuration(updateTime + 10000);
+            gameChangeMessage(ObjectType.STARBEETLE);
         }
-        //gameChangeMessage(objectType);
+
+        // Reset powerup
+        if(getMultiPowerupSent() != 0){ setMultiPowerupSent(0);}
     }
 
 

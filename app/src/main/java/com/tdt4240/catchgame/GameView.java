@@ -252,16 +252,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             });
         }
-        /*if(isMultiplayer){
+        if(isMultiplayer){
             getMultiPlayerActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast toast = Toast.makeText(getSinglePlayerActivity(),msg, Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getMultiPlayerActivity(), msg, Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 }
             });
-        }*/
+        }
     }
 
     /*
