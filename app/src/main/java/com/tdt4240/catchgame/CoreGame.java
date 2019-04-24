@@ -97,6 +97,7 @@ public class CoreGame {
             currentObject.detectCollision(characterSprite);
             if (currentObject.isEaten()){
                 currentObject.applyGameChange(this, updateTime);
+                if(!currentObject.gameChangeMessage().equals("")){this.gameview.popup(currentObject.gameChangeMessage());}
             }
             if (currentObject.collisionDetected()) {
                 soundEffects.playSound(currentObject.getSound());
@@ -155,8 +156,10 @@ public class CoreGame {
 
                 // Update for response in game exit / game over
                 if (gameview.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) {
-                    setMultiGameOver(1);
-                    sendBroadcast();
+                    if(gameview.isMultiplayer){
+                        setMultiGameOver(1);
+                        sendBroadcast();
+                    }
                     gameview.gameExit();
                 }
                 if (gameview.btn_no.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) { gameview.setGamePause(false); }

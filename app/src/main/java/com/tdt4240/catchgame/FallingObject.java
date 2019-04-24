@@ -98,6 +98,8 @@ public abstract class FallingObject {
     public void applyGameChange(CoreGame coreGame, long updateTime){
     }
 
+    public String gameChangeMessage(){ return"";}
+
     public void applyObjectEatenEffect(CharacterSprite characterSprite) {
     }
 
