@@ -23,9 +23,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MultiPlayerActivity multiPlayerActivity;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private boolean gameExit;
     private boolean gameOver;
     private boolean gamePause;
+    private boolean gameWon;
+    private boolean gameLost;
+    private boolean opponentExit;
     public boolean isMultiplayer;
 
     //menu items
@@ -37,6 +39,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     //game over/exit items
     public MenuItem txt_gameQuit;
     public MenuItem txt_gameOver;
+    public MenuItem txt_gameWin;
+    public MenuItem txt_gameLost;
+    public MenuItem txt_opponentExit;
     public MenuItem btn_yes;
     public MenuItem btn_no;
 
@@ -47,7 +52,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
         this.context = context;
-        this.gameExit = false;
         this.gameOver = false;
         this.gamePause = false;
         this.isMultiplayer = false;
@@ -60,9 +64,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
         this.context = context;
-        this.gameExit = false;
         this.gameOver = false;
         this.gamePause = false;
+        this.gameWon = false;
+        this.gameLost = false;
+        this.opponentExit = false;
         this.isMultiplayer = true;
     }
 
@@ -98,6 +104,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.txt_gameOver = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_gameover), 1.0));
         this.txt_gameOver.setPos(screenWidth / 2 - txt_gameOver.getWidth() / 2, screenHeight / 2 - txt_gameOver.getHeight() / 2);
         if (isMultiplayer) {
+            this.txt_gameWin = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_youwon), 1.0));
+            this.txt_gameWin.setPos(screenWidth / 2 - txt_gameWin.getWidth() / 2, screenHeight / 2 - txt_gameWin.getHeight() / 2);
+            this.txt_gameLost = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_youlost), 1.0));
+            this.txt_gameLost.setPos(screenWidth / 2 - txt_gameLost.getWidth() / 2, screenHeight / 2 - txt_gameLost.getHeight() / 2);
+            this.txt_opponentExit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_opponentquit), 1.0));
+            this.txt_opponentExit.setPos(screenWidth / 2 - txt_opponentExit.getWidth() / 2, screenHeight / 2 - txt_opponentExit.getHeight() / 2);
             coreGame = new CoreGame(multiPlayerActivity.getGametype(), multiPlayerActivity.getDifficulty(), this.context, this);
         }
         if (!isMultiplayer) {
@@ -150,6 +162,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 btn_yes.draw(canvas, btn_yes.getPosX(), btn_yes.getPosY());
                 btn_no.draw(canvas, btn_no.getPosX(), btn_no.getPosY());
             }
+
+            if (isGameWon()) {
+                txt_gameWin.draw(canvas, txt_gameWin.getPosX(), txt_gameWin.getPosY());
+            }
+
+            if (isGameLost()) {
+                txt_gameLost.draw(canvas, txt_gameLost.getPosX(), txt_gameLost.getPosY());
+            }
+
+            if (isOpponentExit()) {
+                txt_opponentExit.draw(canvas, txt_opponentExit.getPosX(), txt_opponentExit.getPosY());
+            }
         }
     }
 
@@ -201,6 +225,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         setGameOver(true);
     }
 
+    public void gameWon() {
+        setRunning(false);
+        setGameWon(true);
+    }
+
+    public void gameLost() {
+        setRunning(false);
+        setGameLost(true);
+    }
+
+    public void opponentExit() {
+        setRunning(false);
+        setOpponentExit(true);
+    }
+
+
     public void popup(final String msg) {
         if (!isMultiplayer) {
             getSinglePlayerActivity().runOnUiThread(new Runnable() {
@@ -212,7 +252,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             });
         }
-        /*if(isMultiplayer){
+        if(isMultiplayer){
             getMultiPlayerActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -221,9 +261,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     toast.show();
                 }
             });
-        }*/
-
-
+        }
     }
 
     /*
@@ -242,20 +280,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return this.gameOver;
     }
 
-    public void setGameExit(Boolean b) {
-        this.gameExit = b;
-    }
-
-    public boolean isGameExit() {
-        return this.gameExit;
-    }
-
     public void setGamePause(Boolean b) {
         this.gamePause = b;
     }
 
     public boolean isGamePause() {
         return this.gamePause;
+    }
+
+    public void setGameWon(Boolean b) {
+        this.gameWon = b;
+    }
+
+    public boolean isGameWon() {
+        return this.gameWon;
+    }
+
+    public void setGameLost(Boolean b) {
+        this.gameLost = b;
+    }
+
+    public boolean isGameLost() {
+        return this.gameLost;
+    }
+
+    public void setOpponentExit(Boolean b) {
+        this.opponentExit = b;
+    }
+
+    public boolean isOpponentExit() {
+        return this.opponentExit;
     }
 
     public SinglePlayerActivity getSinglePlayerActivity() {

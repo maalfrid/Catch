@@ -5,9 +5,11 @@ import android.media.MediaPlayer;
 import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.content.Intent;
 //Quick game
@@ -91,8 +93,14 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     //temp
     int myScore = 0;
 
-    // Background music
+    // Music
     MediaPlayer backgroundMusic;
+    MediaPlayer buttonSound;
+
+    // Broadcast vars
+    private int opponentScore;
+    private int opponentLife;
+    private int isGameOver;
 
 
     @Override
@@ -112,22 +120,32 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             System.out.println("-------Button Id--" + id);
         }
 
-        // Background music
-        this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
-        this.backgroundMusic.setLooping(true);
-        this.backgroundMusic.setVolume(1, 1);
+        this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
+        this.buttonSound.setVolume(1, 1);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        this.backgroundMusic.start();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         this.backgroundMusic.release();
+        this.buttonSound.release();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+        this.backgroundMusic.setLooping(true);
+        this.backgroundMusic.setVolume(1, 1);
+
+        this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
+        this.buttonSound.setVolume(1, 1);
     }
 
     @Override
@@ -135,14 +153,15 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         super.onStop();
         startActivity(new Intent(this, MenuActivity.class));
         this.backgroundMusic.release();
+        this.buttonSound.release();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        /*this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
-        this.backgroundMusic.setLooping(true);
-        this.backgroundMusic.setVolume(1, 1);*/
+    public void backgroundMusicOn() {
+        this.backgroundMusic.start();
+    }
+
+    public void backgroundMusicOff() {
+        this.backgroundMusic.pause();
     }
 
 
@@ -156,7 +175,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
     //Clickable buttons
     final static int[] CLICKABLEs = {
-            R.id.button_sign_in, R.id.button_sign_out, R.id.button_quick_game
+            R.id.button_sign_in, R.id.button_sign_out, R.id.button_quick_game, R.id.btn_mpgGoBack
     };
 
 
@@ -164,15 +183,22 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_sign_in:
+                this.buttonSound.start();
                 // start the sign-in flow
                 Log.d(TAG, "-----------Sign-in button clicked");
                 startSignInIntent();
                 break;
             case R.id.button_sign_out:
+                this.buttonSound.start();
                 signOut();
                 break;
             case R.id.button_quick_game:
+                this.buttonSound.start();
                 startQuickGame();
+                break;
+            case R.id.btn_mpgGoBack:
+                this.buttonSound.start();
+                startActivity(new Intent(this, MenuActivity.class));
                 break;
         }
 
@@ -264,6 +290,12 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                 Log.d(TAG, "--------Starting game (waiting room returned OK).");
                 //start game here startGame(true);
                 startGame();
+                //getResources().getIdentifier(fname, "raw", getPackageName());
+
+                this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+                this.backgroundMusic.setLooping(true);
+                this.backgroundMusic.setVolume(1, 1);
+                this.backgroundMusic.start();
             }
         }
         Log.d(TAG, "------------if statement failed in onActivityResult");
@@ -458,9 +490,6 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
     void startGame() {
         setContentView(new GameView(this, this));
-        // Background music
-
-        //broadcastScore(false);
     }
 
 
@@ -481,7 +510,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     };
 
     // Broadcast my score to everybody else
-    void broadcastScore(int myScore, int myLives, int isGameOver) {
+    void broadcast(int myScore, int myLives, int isGameOver) {
 
         if (myLives == 0) {
             isGameOver = 1;
@@ -508,29 +537,17 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         }
     }
 
-    private int opponentScore;
-    private int opponentLife;
-    private int isGameOver;
-
     public int getOpponentScore() {
         return this.opponentScore;
     }
 
-    public void setOpponentScore(int score) {
-        this.opponentScore = score;
-    }
+    public void setOpponentScore(int score) { this.opponentScore = score; }
 
-    public int getOpponentLife() {
-        return this.opponentLife;
-    }
+    public int getOpponentLife() { return this.opponentLife; }
 
-    public void setOpponentLife(int lives) {
-        this.opponentLife = lives;
-    }
+    public void setOpponentLife(int lives) { this.opponentLife = lives; }
 
-    public int getIsGameOver() {
-        return this.isGameOver;
-    }
+    public int getIsGameOver() { return this.isGameOver; }
 
     public void setIsGameOver(int isGameOver) {
         this.isGameOver = isGameOver;
@@ -542,4 +559,5 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
+
 }
