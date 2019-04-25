@@ -16,6 +16,9 @@ public class MenuItem {
     private int width, height;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private float textSize;
+    private String textColor;
+    private String textShadow;
 
     //Constructor for images
     public MenuItem(Bitmap bmp) {
@@ -25,8 +28,11 @@ public class MenuItem {
     }
 
     //Constructor for text
-    public MenuItem(String text, float textSize, int textColor, Context context) {
-        setText(text, textSize, textColor, context);
+    public MenuItem(String text, float textSize, String textColor, String textShadow, Context context) {
+        this.textSize = textSize;
+        this.textColor = textColor;
+        this.textShadow = textShadow;
+        setText(text, textSize, textColor, textShadow, context);
         this.width = bmp.getWidth();
         this.height = bmp.getHeight();
     }
@@ -78,16 +84,16 @@ public class MenuItem {
         this.bmp = bmp;
     }
 
-    public void setText(String text, float textSize, int textColor, Context context) {
+    public void setText(String text, float textSize, String textColor, String textShadow, Context context) {
         Typeface regular = ResourcesCompat.getFont(context, R.font.frecklefaceregular);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setTypeface(regular);
-        paint.setTextSize(40.0f);
-        paint.setColor(Color.parseColor("#f1c131"));
-        paint.setShadowLayer(1, -2, -2, Color.parseColor("#0f4414"));
-        float baseline = -paint.ascent(); // ascent() is negative
-        int width = (int) (paint.measureText(text) + 0.0f); // round
-        int height = (int) (baseline + paint.descent() + 0.0f);
+        paint.setTextSize(textSize);
+        paint.setColor(Color.parseColor(textColor));
+        paint.setShadowLayer(1, -3, -3, Color.parseColor(textShadow));
+        float baseline = -paint.ascent();
+        int width = (int) (paint.measureText(text));
+        int height = (int) (baseline + paint.descent());
         Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(image);
         canvas.drawText(text, 0, baseline, paint);
@@ -104,10 +110,8 @@ public class MenuItem {
     }
 
     //TODO: separate lines and larger text?
-    //TODO: different colour for the other player?
-    public void updateScoreLife(int score, int lives, Context context) {
-        String s = "Score: " + score + " | Lives: " + lives;
-        setText(s, 20.0f, Color.parseColor("#f1c131"), context);
+    public void updateScoreLife(String scoreLife, Context context) {
+        setText(scoreLife, this.textSize, this.textColor, this.textShadow, context);
     }
 
 }
