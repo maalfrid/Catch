@@ -136,24 +136,28 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        if(mRealTimeMultiplayerClient==null){
-            findViewById(R.id.button_quick_game).setVisibility(View.INVISIBLE);
-            findViewById(R.id.button_sign_out).setVisibility(View.INVISIBLE);
+        if(!this.inGame){
+            if(mRealTimeMultiplayerClient==null){
+                findViewById(R.id.button_quick_game).setVisibility(View.INVISIBLE);
+                findViewById(R.id.button_sign_out).setVisibility(View.INVISIBLE);
+            }
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
         if(!this.inGame) {
             this.buttonSound.release();
-        }
-        if(this.inGame) this.backgroundMusic.release();
 
-        // TODO @Abhinav: Causes error.
-        /*if(mRealTimeMultiplayerClient!=null){
-            findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
-        }*/
+            // TODO @Abhinav: Causes error.
+            if(mRealTimeMultiplayerClient!=null){
+                findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
+            }
+        }
+
+        if(this.inGame) this.backgroundMusic.release();
     }
 
     @Override
@@ -172,13 +176,11 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
             // sign in silently when app resumes
             // TODO: Only call following code if not in a game session
-            //signInSilently();
-        /*if(mRealTimeMultiplayerClient!=null){
-            findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
-        }*/
+            signInSilently();
+            if(mRealTimeMultiplayerClient!=null){
+                findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
+            }
         }
-
-
     }
 
     @Override
