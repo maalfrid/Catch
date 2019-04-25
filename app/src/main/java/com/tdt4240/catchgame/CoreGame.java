@@ -179,7 +179,6 @@ public class CoreGame {
             case MotionEvent.ACTION_MOVE:
                 if (characterSprite.isTouched()) {
                     characterSprite.setCharacterPositionX((int) motionEvent.getX());
-                    //TODO: Fix touch track of sprite
                 }
                 break;
 
