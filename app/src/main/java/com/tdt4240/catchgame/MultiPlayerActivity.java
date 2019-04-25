@@ -22,7 +22,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.games.Game;
 import com.google.android.gms.games.GamesCallbackStatusCodes;
+import com.google.android.gms.games.GamesActivityResultCodes;
 import com.google.android.gms.games.Player;
 import com.google.android.gms.games.PlayersClient;
 import com.google.android.gms.games.multiplayer.realtime.RealTimeMessage;
@@ -225,6 +227,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         final int MIN_OPPONENTS = 1, MAX_OPPONENTS = 1;
         Bundle autoMatchCriteria = RoomConfig.createAutoMatchCriteria(MIN_OPPONENTS, MAX_OPPONENTS, 0);
         switchToScreen(R.id.screen_wait);
+        findViewById(R.id.btn_mpgGoBack).setVisibility(View.INVISIBLE);
         keepScreenOn();
         //resetGameVars();
 
@@ -343,6 +346,13 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                 this.backgroundMusic.setVolume(1, 1);
                 this.backgroundMusic.start();
             }
+        } else if (resultCode == GamesActivityResultCodes.RESULT_LEFT_ROOM){
+            leaveRoom();
+        } else if (resultCode == Activity.RESULT_CANCELED){
+            // Dialog was cancelled (user pressed back key, for instance). In our game,
+            // this means leaving the room too. In more elaborate games, this could mean
+            // something else (like minimizing the waiting room UI).
+            leaveRoom();
         }
         Log.d(TAG, "------------if statement failed in onActivityResult");
         super.onActivityResult(requestCode, resultCode, intent);
@@ -399,6 +409,13 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                         Log.d(TAG, "-----------show waiting room failed");
                     }
                 });
+    }
+
+    void leaveRoom(){
+        Log.d(TAG, "----------Leaving room");
+        mRoomConfig = null;
+        mRoomId = null;
+        switchToScreen(R.id.view_play);
     }
 
     private RoomStatusUpdateCallback mRoomStatusUpdateCallback = new RoomStatusUpdateCallback() {
