@@ -281,6 +281,7 @@ public class CoreGame {
     public void applyNegativeGameChange(int objectType, long updateTime){
         // 1: Beetle
         // 2: Starbeetle
+        // 3: Ladybug
         //if (objectType == ObjectType.BEETLE) {
         if (objectType == 1) {
             fallingObjectFactory.setObjectScale(0,0.1);
@@ -292,11 +293,10 @@ public class CoreGame {
             fallingObjectFactory.setOnlyBad(true);
             setStarBeetleDuration(updateTime + 10000);
             gameChangeMessage(ObjectType.STARBEETLE);
+        } else if (objectType == 3) {
+            gameChangeMessage(ObjectType.LADYBUG);
         }
-
         this.multiPowerupReceived = 0;
-
-
     }
 
 
