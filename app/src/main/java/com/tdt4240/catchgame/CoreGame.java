@@ -66,7 +66,7 @@ public class CoreGame {
         this.objectsOnScreen = new ArrayList<>();
         this.fallingObjectFactory = new FallingObjectFactory();
         this.setGameDifficulty(difficulty);
-        this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_monkey3), 0.25));
+        this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_monkey3), 0.18));
         if(gameview.isMultiplayer){setMultiGameOver(0);}
     }
 

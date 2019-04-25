@@ -88,9 +88,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.start();
         background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
         //menu items
-        this.txt_score_self = new MenuItem("Your score:  | Lives: ", 50.0f, "#f1c131", "#0f4414", this.context);
+        this.txt_score_self = new MenuItem("Your Score:  | Lives: ", 45.0f, "#f1c131", "#0f4414", this.context);
         if (this.isMultiplayer) {
-            this.txt_score_opponent = new MenuItem("Opponent: ", 40.0f, "#f16131", "#0f4414", this.context);
+            this.txt_score_opponent = new MenuItem("Opponent Score: ", 40.0f, "#f16131", "#0f4414", this.context);
         }
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_exit), 0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_on), 0.15));
@@ -189,12 +189,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void updateScoreOpponent() {
         int score = getMultiPlayerActivity().getOpponentScore();
-        this.txt_score_opponent.updateScoreLife("Opponent: " + score, this.context);
+        this.txt_score_opponent.updateScoreLife("Opponent Score: " + score, this.context);
     }
 
     public void updateScoreSelf(int score, int lives) {
         this.txt_score_self.updateScoreLife("Your Score: " + score + " | Lives: " + lives, this.context);
-
     }
 
     public boolean onTouchEvent(MotionEvent motionEvent) {
