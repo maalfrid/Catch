@@ -22,6 +22,7 @@ public class CoreGame {
     private String easy = "easy";
     private String medium = "medium";
     private String hard = "hard";
+    private String deathMatch = "deathMatch";
 
     private long timeLastSpawn = 0;
     private int objectsSpawned = 0;
@@ -59,8 +60,8 @@ public class CoreGame {
     private void setupGame(String difficulty) {
         this.objectsOnScreen = new ArrayList<>();
         this.fallingObjectFactory = new FallingObjectFactory();
-        this.setGameDifficulty(difficulty);
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_monkey3), 0.18));
+        this.setGameDifficulty(difficulty);
         if(gameview.isMultiplayer){setMultiGameOver(0);}
     }
 
@@ -79,6 +80,13 @@ public class CoreGame {
             this.baseFrequency = 1000;
             this.baseSpeed = 15;
             this.fractionGood = 5;
+        }
+        if (difficulty.equals(deathMatch)){
+            this.baseFrequency = 750;
+            this.baseSpeed = 20;
+            this.fractionGood = 5;
+            this.characterSprite.setLife(1);
+
         }
         this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
     }

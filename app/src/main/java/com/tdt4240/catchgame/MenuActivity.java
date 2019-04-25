@@ -38,7 +38,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     final static int[] CLICKABLES = {R.id.btn_play, R.id.btn_rules, R.id.btn_score,
             R.id.btn_settings, R.id.btn_background, R.id.btn_avatar, R.id.switch_sound,
-            R.id.switch_background_music, R.id.btn_easy, R.id.btn_medium, R.id.btn_hard,
+            R.id.switch_background_music, R.id.btn_easy, R.id.btn_medium, R.id.btn_hard, R.id.btn_hard2,
             R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack
     };
 
@@ -82,6 +82,13 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 intentHard.putExtra(difficulty, "hard");
                 intentHard.putExtra("gametype", "single");
                 startActivity(intentHard);
+                break;
+            case R.id.btn_hard2:
+                this.buttonSound.start();
+                Intent intentHard2 = new Intent(v.getContext(), SinglePlayerActivity.class);
+                intentHard2.putExtra(difficulty, "deathMatch");
+                intentHard2.putExtra("gametype", "single");
+                startActivity(intentHard2);
                 break;
             case R.id.btn_play_single:
                 this.buttonSound.start();

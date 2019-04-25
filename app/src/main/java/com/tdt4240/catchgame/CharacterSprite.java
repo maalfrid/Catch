@@ -58,6 +58,10 @@ public class CharacterSprite {
         this.lives++;
     }
 
+    public void setLife(int lives){
+        this.lives = lives;
+    }
+
     public int getCharacterPositionY() {
         return characterPositionY;
     }

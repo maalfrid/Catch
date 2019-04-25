@@ -286,6 +286,11 @@
             style="@style/MenuButton"
             android:background="@drawable/button_hard" />
 
+        <Button
+            android:id="@+id/btn_hard2"
+            style="@style/MenuButton"
+            android:background="@drawable/button_hard" />
+
     </LinearLayout>
 
     <!-- PLAY MULTI-PLAYER VIEW (CREATE / JOIN ROOM -->
