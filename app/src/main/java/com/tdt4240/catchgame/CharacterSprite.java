@@ -14,6 +14,8 @@ public class CharacterSprite {
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private int score;
     private int lives;
+    private boolean immune = false;
+    private boolean vulnerable = false;
 
 
     public CharacterSprite(Bitmap bmp) {
@@ -81,13 +83,18 @@ public class CharacterSprite {
     }
 
     public void removeScore(int score) {
-        this.score -= score;
+        if (!immune) {
+            if (vulnerable) {
+                this.score -= (score * 2);
+            } else {
+                this.score -= score;
+            }
+        }
     }
 
     public void addScore(int score) {
         this.score += score;
     }
-
 
     public boolean isTouched() {
         return isTouched;
@@ -102,5 +109,14 @@ public class CharacterSprite {
             setTouched(false);
         }
     }
+
+    public void setImmune(boolean immune){
+        this.immune = immune;
+    }
+
+    public void setVulnerable(boolean vulnerable){
+        this.vulnerable = vulnerable;
+    }
+
 
 }

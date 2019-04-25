@@ -13,6 +13,8 @@ public class PowerUp extends FallingObject {
         } else if (objectType == ObjectType.LADYBUG) {
             characterSprite.addLife();
         } else if (objectType == ObjectType.STARBEETLE) {
+        } else if (objectType == ObjectType.GREENBEETLE){
+            characterSprite.setImmune(true);
         }
         characterSprite.addScore(this.objectScore);
         setSound("powerup");
@@ -30,12 +32,15 @@ public class PowerUp extends FallingObject {
             coreGame.getFallingObjectFactory().setObjectScale(1,0.05);
             coreGame.setBeetleDuration(updateTime + 10000);
             coreGame.setMultiPowerupSent(1);
-        } else if (objectType == ObjectType.LADYBUG) {
-            coreGame.setMultiPowerupSent(3);
         } else if (objectType == ObjectType.STARBEETLE) {
             coreGame.getFallingObjectFactory().setOnlyGood(true);
             coreGame.setStarBeetleDuration(updateTime + 10000);
             coreGame.setMultiPowerupSent(2);
+        } else if (objectType == ObjectType.LADYBUG) {
+            coreGame.setMultiPowerupSent(3);
+        } else if (objectType == ObjectType.GREENBEETLE){
+            coreGame.setGreenBeetleDuration(updateTime + 10000);
+            coreGame.setMultiPowerupSent(4);
         }
     }
 
@@ -47,8 +52,13 @@ public class PowerUp extends FallingObject {
         else if(objectType == ObjectType.LADYBUG) {
             return "Ladybug!\nYou get one extra life";
         }
-        else {
+        else if (objectType == ObjectType.STARBEETLE){
             return "Starbeetle!\nOnly good objects falling";
+        } else if (objectType == ObjectType.GREENBEETLE){
+            return "Green beetle! You are immune to bad objects!";
+        }
+        else {
+            return "";
         }
     }
 
