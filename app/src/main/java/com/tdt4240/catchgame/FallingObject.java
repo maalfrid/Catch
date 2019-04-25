@@ -71,16 +71,18 @@ public abstract class FallingObject {
         int objectTopLeft = objectPositionX;
         int objectTopRight = objectPositionX + objectWidth;
         int objectBottom = objectPositionY + objectHeight;
+        int characterTop = characterSprite.getCharacterPositionY();
         int characterBottom = characterSprite.getCharacterPositionY() + characterSprite.getCharacterHeight();
         int characterTopLeft = characterSprite.getCharacterPositionX();
         int characterTopRight = characterSprite.getCharacterPositionX() + characterSprite.getCharacterWidth();
 
-        if (objectBottom >= characterSprite.getCharacterPositionY()) {
+        if (objectBottom >= characterTop) {
             if (objectBottom >= characterBottom) {
                 this.touchedFloor();
             } else if ((objectTopLeft >= characterTopLeft && objectTopLeft <= characterTopRight)
                     || (objectTopRight >= characterTopLeft && objectTopRight <= characterTopRight)
-                    || (objectTopLeft >= characterTopLeft && objectTopRight <= characterTopRight)) {
+                    || (objectTopLeft >= characterTopLeft && objectTopRight <= characterTopRight)
+                    || (characterTopLeft >= objectTopLeft && characterTopRight <= objectTopRight)) {
                 this.wasEaten();
             }
             applyObjectEffect(characterSprite);
