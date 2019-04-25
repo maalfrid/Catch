@@ -158,10 +158,11 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         this.buttonSound.setVolume(1, 1);
 
         // sign in silently when app resumes
-        signInSilently();
-        if(mRealTimeMultiplayerClient!=null){
+        // TODO: Only call following code if not in a game session
+        //signInSilently();
+        /*if(mRealTimeMultiplayerClient!=null){
             findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
-        }
+        }*/
     }
 
     @Override
