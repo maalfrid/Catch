@@ -128,6 +128,10 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
+        if(mRealTimeMultiplayerClient==null){
+            findViewById(R.id.button_quick_game).setVisibility(View.INVISIBLE);
+            findViewById(R.id.button_sign_out).setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -135,6 +139,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         super.onPause();
         this.backgroundMusic.release();
         this.buttonSound.release();
+        if(mRealTimeMultiplayerClient!=null){
+            findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -150,6 +157,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
         // sign in silently when app resumes
         signInSilently();
+        if(mRealTimeMultiplayerClient!=null){
+            findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -305,6 +315,8 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                 Log.d(TAG, "--------------- try statement");
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Log.d(TAG, "--------------- account " + account);
+                findViewById(R.id.button_quick_game).setVisibility(View.VISIBLE);
+                findViewById(R.id.button_sign_out).setVisibility(View.VISIBLE);
                 onConnected(account);
             } catch (ApiException apiException) {
                 String message = apiException.getMessage();
