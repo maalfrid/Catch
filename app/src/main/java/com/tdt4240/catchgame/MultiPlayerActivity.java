@@ -269,6 +269,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                     public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
                         if(task.isSuccessful()){
                             Log.d(TAG, "------------signInsilently() success");
+                            isSignedIn(true);
                             onConnected(task.getResult());
                         } else {
                             Log.d(TAG, "------------signInsilently() Faieled");
@@ -276,6 +277,14 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                         }
                     }
                 });
+    }
+
+    public void isSignedIn(boolean isSignedIn){
+        if(isSignedIn == true){
+            findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
+            findViewById(R.id.button_quick_game).setVisibility(View.VISIBLE);
+            findViewById(R.id.button_sign_out).setVisibility(View.VISIBLE);
+        }
     }
 
     private void signOut() {
