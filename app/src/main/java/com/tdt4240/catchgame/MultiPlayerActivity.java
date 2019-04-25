@@ -147,6 +147,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
         this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
         this.buttonSound.setVolume(1, 1);
+
+        // sign in silently when app resumes
+        signInSilently();
     }
 
     @Override
@@ -191,6 +194,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                 break;
             case R.id.button_sign_out:
                 this.buttonSound.start();
+                startActivity(new Intent(this, MenuActivity.class));
                 signOut();
                 break;
             case R.id.button_quick_game:
@@ -244,20 +248,49 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         startActivityForResult(mGoogleSignInClient.getSignInIntent(), RC_SIGN_IN);
     }
 
-    private void signOut() {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this,
-                        new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, " ----------Signed out successfully");
-                                } else {
-                                    Log.d(TAG, " ----------Signed out failed");
-                                }
-                            }
-                        });
+    public void signInSilently(){
+        Log.d(TAG, "---------signInsilently()");
+        mGoogleSignInClient.silentSignIn().addOnCompleteListener(this,
+                new OnCompleteListener<GoogleSignInAccount>() {
+                    @Override
+                    public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                        if(task.isSuccessful()){
+                            Log.d(TAG, "------------signInsilently() success");
+                            onConnected(task.getResult());
+                        } else {
+                            Log.d(TAG, "------------signInsilently() Faieled");
+                            //onDisconnected();
+                        }
+                    }
+                });
     }
+
+    private void signOut() {
+        Log.d(TAG, "----------signout()");
+
+        mGoogleSignInClient.signOut().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Log.d(TAG, "--------signout(): success");
+                        } else {
+                            Log.d(TAG, "-------signout() failed");
+                        }
+                        mRealTimeMultiplayerClient = null;
+                        //switchToScreen(R.id.view_main_menu);
+                        //startActivity(new Intent(this, MenuActivity.class));
+                        //onDisconnected();
+                    }
+                });
+    }
+
+    /* public void onDisconnected(){
+        Log.d(TAG, "onDisconnected()");
+
+        mRealTimeMultiplayerClient = null;
+        //witchToScreen(R.id.view_main_menu);
+    } */
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -302,18 +335,6 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         Log.d(TAG, "------------if statement failed in onActivityResult");
         super.onActivityResult(requestCode, resultCode, intent);
     }
-
-    // Handle the result of the "Select players UI" we launched when the user clicked the
-    // "Invite friends" button. We react by creating a room with those players.
-
-    /*private void handleSelectPlayersResult(int response, Intent data) {
-        if(response != Activity.RESULT_OK) {
-            Log.w(TAG, "-------------Select players UI canceled, " + response);
-            return;
-        }
-        Log.d(TAG, "Select players UI succeeded");
-
-    } */
 
 
     // The currently signed in account, used to check the account has changed outside of this activity when resuming.
@@ -367,17 +388,6 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                     }
                 });
     }
-
-    /*private void handleSignInResult(Task<GoogleSignInAccount> completedTask){
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-            //Signed in successfully, show authenticated UI.
-            Log.d(TAG, "--------Account:"+ account);
-        } catch(ApiException e){
-            Log.w(TAG, "-----------signInResult:failed code=" + e.getStatusCode());
-        }
-    } */
 
     private RoomStatusUpdateCallback mRoomStatusUpdateCallback = new RoomStatusUpdateCallback() {
         // Called when we are connected to the room. We're not ready to play yet! (maybe not everybody
