@@ -76,9 +76,9 @@ public class CoreGame {
             this.fractionGood = 6;
         }
         if (difficulty.equals(hard)) {
-            this.baseFrequency = 1000;
-            this.baseSpeed = 15;
-            this.fractionGood = 5;
+            this.baseFrequency = 500;
+            this.baseSpeed = 25;
+            this.fractionGood = 3;
         }
         this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
     }
