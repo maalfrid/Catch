@@ -84,6 +84,7 @@ public class MenuItem {
         paint.setTypeface(regular);
         paint.setTextSize(40.0f);
         paint.setColor(Color.parseColor("#f1c131"));
+        paint.setShadowLayer(1, -2, -2, Color.parseColor("#0f4414"));
         float baseline = -paint.ascent(); // ascent() is negative
         int width = (int) (paint.measureText(text) + 0.0f); // round
         int height = (int) (baseline + paint.descent() + 0.0f);
