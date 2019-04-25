@@ -46,6 +46,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +58,6 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
 
     final static String TAG = "Catch";
-
 
     // Request code used to invoke sign in user interactions.
     private static final int RC_SIGN_IN = 9001;
@@ -72,7 +72,6 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
     // Client used to interact with the real time multi player system.
     private RealTimeMultiplayerClient mRealTimeMultiplayerClient = null;
-
 
     //Room Id where the currently active game is taking place; null if we're not playing
     String mRoomId = null;
@@ -92,12 +91,10 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     // Message buffer for sending messages
     byte[] mMsgBuf = new byte[5];
 
-    //temp
-    int myScore = 0;
-
     // Music
-    MediaPlayer backgroundMusic;
-    MediaPlayer buttonSound;
+    private MediaPlayer backgroundMusic;
+    private MediaPlayer buttonSound;
+    private boolean inGame;
 
     // Broadcast vars
     private int opponentScore;
@@ -112,19 +109,28 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_multi_player);
         findViewById(R.id.view_signIn).setVisibility(View.VISIBLE);
 
-        //GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
+        // GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
 
         // Create the client used to sign in
         mGoogleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
 
-        //Set up a click listener for everything
+        // Set up a click listener for everything
         for (int id : CLICKABLEs) {
             findViewById(id).setOnClickListener(this);
             System.out.println("-------Button Id--" + id);
         }
 
+        // Enabled in quickGame()
+        this.inGame = false;
+
+        // Button sound
         this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
         this.buttonSound.setVolume(1, 1);
+
+        // Background sound
+        this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+        this.backgroundMusic.setVolume(1, 1);
+        this.backgroundMusic.setLooping(true);
     }
 
     @Override
@@ -139,30 +145,40 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        this.backgroundMusic.release();
-        this.buttonSound.release();
-        if(mRealTimeMultiplayerClient!=null){
-            findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
+        if(!this.inGame) {
+            this.buttonSound.release();
         }
+        if(this.inGame) this.backgroundMusic.release();
+
+        // TODO @Abhinav: Causes error.
+        /*if(mRealTimeMultiplayerClient!=null){
+            findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
+        }*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
-        this.backgroundMusic.setLooping(true);
-        this.backgroundMusic.setVolume(1, 1);
+        if(this.inGame){
+            this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+            this.backgroundMusic.setLooping(true);
+            this.backgroundMusic.setVolume(1, 1);
+        }
 
-        this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
-        this.buttonSound.setVolume(1, 1);
+        if(!this.inGame){
+            this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
+            this.buttonSound.setVolume(1, 1);
 
-        // sign in silently when app resumes
-        // TODO: Only call following code if not in a game session
-        //signInSilently();
+            // sign in silently when app resumes
+            // TODO: Only call following code if not in a game session
+            //signInSilently();
         /*if(mRealTimeMultiplayerClient!=null){
             findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
         }*/
+        }
+
+
     }
 
     @Override
@@ -350,11 +366,6 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                 //start game here startGame(true);
                 startGame();
                 //getResources().getIdentifier(fname, "raw", getPackageName());
-
-                this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
-                this.backgroundMusic.setLooping(true);
-                this.backgroundMusic.setVolume(1, 1);
-                this.backgroundMusic.start();
             }
         } else if (resultCode == GamesActivityResultCodes.RESULT_LEFT_ROOM){
             leaveRoom();
@@ -539,6 +550,8 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     };
 
     void startGame() {
+        this.inGame = true;
+        this.backgroundMusic.start();
         setContentView(new GameView(this, this));
     }
 
