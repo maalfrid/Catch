@@ -1,11 +1,7 @@
 package com.tdt4240.catchgame;
 
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;

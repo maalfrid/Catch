@@ -17,8 +17,6 @@ public class CoreGame {
     private boolean soundOn;
     private SoundEffects soundEffects;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private String difficulty;
-    private String gametype;
 
     //TODO: change this
     private String easy = "easy";
@@ -32,9 +30,6 @@ public class CoreGame {
     private int baseSpeed;
     private int fractionGood;
 
-
-    private boolean onlyGood = false;
-    private boolean onlyBad = false;
     private long starBeetleDuration;
     private long beetleDuration;
 
@@ -44,22 +39,21 @@ public class CoreGame {
 
 
     //for multiplayer
-    private static int pScore;
     private int multiGameOver;
     private int multiPowerupSent;
     private int multiPowerupReceived;
 
 
-    public CoreGame(String gameType, String difficulty, Context context, GameView gameview) {
+    /*
+     * --------- CREATE AND SETUP THE GAME ---------
+     * */
+
+    public CoreGame(String difficulty, Context context, GameView gameview) {
         this.gameview = gameview;
         this.context = context;
-        this.gametype = gameType;
         this.soundEffects = new SoundEffects();
         this.soundOn = true;
-
         this.setupGame(difficulty);
-
-        pScore = characterSprite.getScore();
     }
 
     private void setupGame(String difficulty) {
@@ -70,6 +64,25 @@ public class CoreGame {
         if(gameview.isMultiplayer){setMultiGameOver(0);}
     }
 
+    private void setGameDifficulty(String difficulty) {
+        if (difficulty.equals(easy)) {
+            this.baseFrequency = 2000;
+            this.baseSpeed = 5;
+            this.fractionGood = 7;
+        }
+        if (difficulty.equals(medium)) {
+            this.baseFrequency = 1500;
+            this.baseSpeed = 10;
+            this.fractionGood = 6;
+        }
+        if (difficulty.equals(hard)) {
+            this.baseFrequency = 1000;
+            this.baseSpeed = 15;
+            this.fractionGood = 5;
+        }
+        this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
+    }
+
     /*
      * --------- DRAW, UPDATE, ONTOUCH ---------
      * */
@@ -77,7 +90,6 @@ public class CoreGame {
 
     public void draw(Canvas canvas) {
         characterSprite.draw(canvas);
-
         for (int i = 0; i < objectsOnScreen.size(); i++) {
             objectsOnScreen.get(i).draw(canvas);
         }
@@ -94,38 +106,8 @@ public class CoreGame {
         if (this.gameview.isMultiplayer) { broadcast(); }
         if(this.multiPowerupReceived != 0){ applyNegativeGameChange(this.multiPowerupReceived, updateTime);}
 
-
-        for (int i = 0; i < objectsOnScreen.size(); i++) {
-            FallingObject currentObject = objectsOnScreen.get(i);
-            currentObject.update();
-            currentObject.detectCollision(characterSprite);
-            if (currentObject.isEaten()){
-                currentObject.applyGameChange(this, updateTime);
-                if(!currentObject.gameChangeMessage().equals("")){this.gameview.popup(currentObject.gameChangeMessage());}
-            }
-            if (currentObject.collisionDetected()) {
-                soundEffects.playSound(currentObject.getSound());
-                removeObject(currentObject);
-            }
-            if (starBeetleDuration <= updateTime){
-                fallingObjectFactory.setOnlyBad(false);
-                fallingObjectFactory.setOnlyGood(false);
-            }
-            if (beetleDuration <= updateTime){
-                this.fallingObjectFactory.setObjectScale(0, 0.15);
-                this.fallingObjectFactory.setObjectScale(1, 0.1);
-            }
-        }
-
-        int timeSinceSpawn = (int) (updateTime - timeLastSpawn);
-        if (timeSinceSpawn >= baseFrequency) {
-            spawnObject(createObject());
-            timeLastSpawn = updateTime;
-            objectsSpawned++;
-            if (objectsSpawned % 5 == 0) {
-                speedUp();
-            }
-        }
+        checkObjectsOnScreen(updateTime);
+        spawnNewObject(updateTime);
     }
 
 
@@ -133,55 +115,14 @@ public class CoreGame {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 characterSprite.isBeingTouched((int) motionEvent.getX(), (int) motionEvent.getY());
-
-                // Update - Sound on /off
-                if (gameview.btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())) {
-                    soundOn = !soundOn;
-                    if (soundOn) {
-                        gameview.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_on), 0.15));
-                        if(this.gameview.isMultiplayer){gameview.getMultiPlayerActivity().backgroundMusicOn();}
-                        if(!this.gameview.isMultiplayer){gameview.getSinglePlayerActivity().backgroundMusicOn();}
-                        soundEffects.volumeOn();
-                    } else {
-                        gameview.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_off), 0.15));
-                        if(this.gameview.isMultiplayer){gameview.getMultiPlayerActivity().backgroundMusicOff();}
-                        if(!this.gameview.isMultiplayer){gameview.getSinglePlayerActivity().backgroundMusicOff();}
-                        soundEffects.volumeOff();
-                    }
-                }
-
-                // Update when exit button pressed
-                if (gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && !gameview.isMultiplayer) {
-                    gameview.setGamePause(true);
-                }
-                if (gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isMultiplayer) {
-                    gameview.setGamePause(true);
-                }
-
-                // Update for response in game exit / game over
-                if (gameview.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) {
-                    if(gameview.isMultiplayer){
-                        setMultiGameOver(1);
-                        sendBroadcast();
-                    }
-                    gameview.gameExit();
-                }
-                if (gameview.btn_no.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) { gameview.setGamePause(false); }
-                if (gameview.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameOver()) { finishGame(); }
-
-                if(this.gameview.isMultiplayer){
-                    if (gameview.txt_gameWin.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameWon()) { finishGame(); }
-                    if (gameview.txt_gameLost.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameLost()) { finishGame(); }
-                    if (gameview.txt_opponentExit.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isOpponentExit()) { finishGame(); }
-                }
-
+                checkSound(motionEvent);
+                checkExitGame(motionEvent);
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (characterSprite.isTouched()) {
                     characterSprite.setCharacterPositionX((int) motionEvent.getX());
                 }
                 break;
-
             case MotionEvent.ACTION_UP:
                 if (characterSprite.isTouched()) {
                     characterSprite.setTouched(false);
@@ -200,7 +141,19 @@ public class CoreGame {
         return fallingObjectFactory.getFallingObject();
     }
 
-    public void spawnObject(FallingObject fallingObject) {
+    public void spawnNewObject(long updateTime){
+        int timeSinceSpawn = (int) (updateTime - timeLastSpawn);
+        if (timeSinceSpawn >= baseFrequency) {
+            placeObject(createObject());
+            timeLastSpawn = updateTime;
+            objectsSpawned++;
+            if (objectsSpawned % 5 == 0) {
+                speedUp();
+            }
+        }
+    }
+
+    public void placeObject(FallingObject fallingObject) {
         fallingObject.setObjectPositionX(getRandomXPosition(fallingObject));
         fallingObject.setObjectSpeed(getRandomSpeed());
         objectsOnScreen.add(fallingObject);
@@ -215,16 +168,33 @@ public class CoreGame {
     }
 
     public void speedUp() {
-        if (baseFrequency >= 50) {
-            if (this.baseFrequency <= 75) {
+        if (baseFrequency >= 200) {
+            if (this.baseFrequency <= 250) {
                 this.baseFrequency -= 5;
-            } else if (this.baseFrequency <= 150) {
+            } else if (this.baseFrequency <= 500) {
                 this.baseFrequency -= 25;
             } else {
                 this.baseFrequency -= 50;
             }
         }
         this.baseSpeed += 0.5;
+    }
+
+    private void checkObjectsOnScreen(long updateTime){
+        for (int i = 0; i < objectsOnScreen.size(); i++) {
+            FallingObject currentObject = objectsOnScreen.get(i);
+            currentObject.update();
+            currentObject.detectCollision(characterSprite);
+            if (currentObject.isEaten()){
+                currentObject.applyGameChange(this, updateTime);
+                if(!currentObject.gameChangeMessage().equals("")){this.gameview.popup(currentObject.gameChangeMessage());}
+            }
+            if (currentObject.collisionDetected()) {
+                soundEffects.playSound(currentObject.getSound());
+                removeObject(currentObject);
+            }
+            checkPowerUpEffect(updateTime);
+        }
     }
 
     /*
@@ -263,6 +233,22 @@ public class CoreGame {
         if(getMultiPowerupSent() != 0){ setMultiPowerupSent(0);}
     }
 
+    /*
+     * --------- MULTIPLAYER METHODS FOR POWERUPS ---------
+     * Handle how powerups taken by the opponent affect the player.
+     * */
+
+    public void checkPowerUpEffect(long updateTime){
+        if (starBeetleDuration <= updateTime){
+            fallingObjectFactory.setOnlyBad(false);
+            fallingObjectFactory.setOnlyGood(false);
+        }
+        if (beetleDuration <= updateTime){
+            this.fallingObjectFactory.setObjectScale(0, 0.15);
+            this.fallingObjectFactory.setObjectScale(1, 0.1);
+        }
+    }
+
     public void gameChangeMessage(ObjectType objectType){
         String msg = "";
         if(objectType == ObjectType.BEETLE) {
@@ -280,27 +266,70 @@ public class CoreGame {
     public void applyNegativeGameChange(int objectType, long updateTime){
         // 1: Beetle
         // 2: Starbeetle
-        //if (objectType == ObjectType.BEETLE) {
+        // 3: Ladybug
         if (objectType == 1) {
             fallingObjectFactory.setObjectScale(0,0.1);
             fallingObjectFactory.setObjectScale(1,0.25);
             setBeetleDuration(updateTime + 10000);
             gameChangeMessage(ObjectType.BEETLE);
-        //} else if (objectType == ObjectType.STARBEETLE) {
         } else if (objectType == 2) {
             fallingObjectFactory.setOnlyBad(true);
             setStarBeetleDuration(updateTime + 10000);
             gameChangeMessage(ObjectType.STARBEETLE);
+        } else if (objectType == 3) {
+            gameChangeMessage(ObjectType.LADYBUG);
         }
-
         this.multiPowerupReceived = 0;
-
-
     }
 
+    /*
+     * --------- CONTROLLER FOR BUTTON CLICKS IN GAME ---------
+     * Handle how powerups taken by the opponent affect the player.
+     * */
 
 
+    private void checkSound(MotionEvent motionEvent){
+        if (gameview.btn_sound.isTouched(motionEvent.getX(), motionEvent.getY())) {
+            soundOn = !soundOn;
+            if (soundOn) {
+                gameview.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_on), 0.15));
+                if(this.gameview.isMultiplayer){gameview.getMultiPlayerActivity().backgroundMusicOn();}
+                if(!this.gameview.isMultiplayer){gameview.getSinglePlayerActivity().backgroundMusicOn();}
+                soundEffects.volumeOn();
+            } else {
+                gameview.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_off), 0.15));
+                if(this.gameview.isMultiplayer){gameview.getMultiPlayerActivity().backgroundMusicOff();}
+                if(!this.gameview.isMultiplayer){gameview.getSinglePlayerActivity().backgroundMusicOff();}
+                soundEffects.volumeOff();
+            }
+        }
+    }
 
+    private void checkExitGame(MotionEvent motionEvent){
+        if (gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && !gameview.isMultiplayer) {
+            gameview.setGamePause(true);
+        }
+        if (gameview.btn_exit.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isMultiplayer) {
+            gameview.setGamePause(true);
+        }
+
+        // Update for response in game exit / game over
+        if (gameview.btn_yes.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) {
+            if(gameview.isMultiplayer){
+                setMultiGameOver(1);
+                sendBroadcast();
+            }
+            gameview.gameExit();
+        }
+        if (gameview.btn_no.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) { gameview.setGamePause(false); }
+        if (gameview.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameOver()) { finishGame(); }
+
+        if(this.gameview.isMultiplayer){
+            if (gameview.txt_gameWin.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameWon()) { finishGame(); }
+            if (gameview.txt_gameLost.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameLost()) { finishGame(); }
+            if (gameview.txt_opponentExit.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isOpponentExit()) { finishGame(); }
+        }
+    }
 
     /*
      * --------- GETTERS AND SETTERS ---------
@@ -312,30 +341,6 @@ public class CoreGame {
 
     public FallingObjectFactory getFallingObjectFactory(){
         return this.fallingObjectFactory;
-    }
-
-    public int getRandomSpeed() {
-        return (int) ((Math.random() + 1) * baseSpeed);
-    }
-
-    private void setGameDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-        if (difficulty.equals(easy)) {
-            this.baseFrequency = 2000;
-            this.baseSpeed = 5;
-            this.fractionGood = 7;
-        }
-        if (difficulty.equals(medium)) {
-            this.baseFrequency = 1500;
-            this.baseSpeed = 10;
-            this.fractionGood = 6;
-        }
-        if (difficulty.equals(hard)) {
-            this.baseFrequency = 1000;
-            this.baseSpeed = 15;
-            this.fractionGood = 5;
-        }
-        this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
     }
 
     public void setStarBeetleDuration(long starBeetleDuration) {
@@ -366,6 +371,10 @@ public class CoreGame {
     /*
      * --------- HELP METHODS ---------
      * */
+
+    public int getRandomSpeed() {
+        return (int) ((Math.random() + 1) * baseSpeed);
+    }
 
     public void finishGame(){
         if (!gameview.isMultiplayer) { gameview.getSinglePlayerActivity().finish();}

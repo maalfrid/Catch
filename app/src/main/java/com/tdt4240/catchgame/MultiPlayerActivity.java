@@ -186,10 +186,6 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         return "easy";
     }
 
-    public String getGametype() {
-        return "multi";
-    }
-
     //Clickable buttons
     final static int[] CLICKABLEs = {
             R.id.button_sign_in, R.id.button_sign_out, R.id.button_quick_game, R.id.btn_mpgGoBack
