@@ -32,6 +32,7 @@ public class CoreGame {
 
     private long starBeetleDuration;
     private long beetleDuration;
+    private long greenBeetleDuration;
 
     private CharacterSprite characterSprite;
     private FallingObjectFactory fallingObjectFactory;
@@ -247,6 +248,10 @@ public class CoreGame {
             this.fallingObjectFactory.setObjectScale(0, 0.15);
             this.fallingObjectFactory.setObjectScale(1, 0.1);
         }
+        if (greenBeetleDuration <= updateTime){
+            this.characterSprite.setVulnerable(false);
+            this.characterSprite.setImmune(false);
+        }
     }
 
     public void gameChangeMessage(ObjectType objectType){
@@ -259,6 +264,8 @@ public class CoreGame {
         }
         else if(objectType == ObjectType.STARBEETLE) {
             msg = "Your opponent caught a starbeetle!\nOnly bad objects for 10 seconds";
+        } else if(objectType == ObjectType.GREENBEETLE) {
+            msg = "Your opponent caught a green beetle!\nYou are vulnerable for 10 seconds";
         }
         this.gameview.popup(msg);
     }
@@ -267,6 +274,7 @@ public class CoreGame {
         // 1: Beetle
         // 2: Starbeetle
         // 3: Ladybug
+        // 4: GreenBeetle
         if (objectType == 1) {
             fallingObjectFactory.setObjectScale(0,0.1);
             fallingObjectFactory.setObjectScale(1,0.25);
@@ -278,6 +286,10 @@ public class CoreGame {
             gameChangeMessage(ObjectType.STARBEETLE);
         } else if (objectType == 3) {
             gameChangeMessage(ObjectType.LADYBUG);
+        } else if (objectType == 4){
+            characterSprite.setVulnerable(true);
+            setGreenBeetleDuration(updateTime + 10000);
+            gameChangeMessage(ObjectType.GREENBEETLE);
         }
         this.multiPowerupReceived = 0;
     }
@@ -349,6 +361,10 @@ public class CoreGame {
 
     public void setBeetleDuration(long beetleDuration) {
         this.beetleDuration = beetleDuration;
+    }
+
+    public void setGreenBeetleDuration(long greenBeetleDuration) {
+        this.greenBeetleDuration = greenBeetleDuration;
     }
 
     public void setMultiGameOver(int b){
