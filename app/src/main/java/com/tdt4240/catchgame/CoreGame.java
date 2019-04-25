@@ -193,8 +193,8 @@ public class CoreGame {
                 soundEffects.playSound(currentObject.getSound());
                 removeObject(currentObject);
             }
-            checkPowerUpEffect(updateTime);
         }
+        checkPowerUpEffect(updateTime);
     }
 
     /*
