@@ -4,14 +4,9 @@ import android.graphics.Bitmap;
 
 public class PowerUp extends FallingObject {
 
-    private int multiPowerup;
-
     public PowerUp(Bitmap bitmap, ObjectType object) {
         super(bitmap, object);
     }
-
-    //TODO: Implement powerup-logic for single and multiplayer in this class, based on the restructure of the code and endless-mode.
-
     @Override
     public void applyObjectEatenEffect(CharacterSprite characterSprite) {
         if (objectType == ObjectType.BEETLE) {

@@ -1,6 +1,5 @@
 package com.tdt4240.catchgame;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -110,10 +109,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             this.txt_gameLost.setPos(screenWidth / 2 - txt_gameLost.getWidth() / 2, screenHeight / 2 - txt_gameLost.getHeight() / 2);
             this.txt_opponentExit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_opponentquit), 1.0));
             this.txt_opponentExit.setPos(screenWidth / 2 - txt_opponentExit.getWidth() / 2, screenHeight / 2 - txt_opponentExit.getHeight() / 2);
-            coreGame = new CoreGame(multiPlayerActivity.getGametype(), multiPlayerActivity.getDifficulty(), this.context, this);
+            coreGame = new CoreGame(multiPlayerActivity.getDifficulty(), this.context, this);
         }
         if (!isMultiplayer) {
-            coreGame = new CoreGame(singlePlayerActivity.getGametype(), singlePlayerActivity.getDifficulty(), this.context, this);
+            coreGame = new CoreGame(singlePlayerActivity.getDifficulty(), this.context, this);
         }
 
     }

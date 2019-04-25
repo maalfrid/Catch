@@ -48,7 +48,7 @@ public class CoreGame {
      * --------- CREATE AND SETUP THE GAME ---------
      * */
 
-    public CoreGame(String gameType, String difficulty, Context context, GameView gameview) {
+    public CoreGame(String difficulty, Context context, GameView gameview) {
         this.gameview = gameview;
         this.context = context;
         this.soundEffects = new SoundEffects();
@@ -267,13 +267,11 @@ public class CoreGame {
         // 1: Beetle
         // 2: Starbeetle
         // 3: Ladybug
-        //if (objectType == ObjectType.BEETLE) {
         if (objectType == 1) {
             fallingObjectFactory.setObjectScale(0,0.1);
             fallingObjectFactory.setObjectScale(1,0.25);
             setBeetleDuration(updateTime + 10000);
             gameChangeMessage(ObjectType.BEETLE);
-            //} else if (objectType == ObjectType.STARBEETLE) {
         } else if (objectType == 2) {
             fallingObjectFactory.setOnlyBad(true);
             setStarBeetleDuration(updateTime + 10000);
