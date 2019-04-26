@@ -32,6 +32,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     //menu items
     public MenuItem txt_score_self;
     public MenuItem txt_score_opponent;
+    public MenuItem txt_lives_self;
+    public MenuItem txt_lives_opponent;
+    public MenuItem txt_you;
+    public MenuItem txt_opponent;
     public MenuItem btn_exit;
     public MenuItem btn_sound;
 
@@ -87,9 +91,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.start();
         background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
         //menu items
-        this.txt_score_self = new MenuItem("Your Score:  | Lives: ", 45.0f, "#f1c131", "#0f4414", this.context);
+        this.txt_you = new MenuItem("You", 45.0f, "#f1c131", "#0f4414", this.context);
+        this.txt_score_self = new MenuItem("SP: ", 45.0f, "#f1c131", "#0f4414", this.context);
+        this.txt_lives_self = new MenuItem("HP: ", 50.0f, "#f1c131", "#0f4414", this.context);
         if (this.isMultiplayer) {
-            this.txt_score_opponent = new MenuItem("Opponent Score: ", 40.0f, "#f16131", "#0f4414", this.context);
+            this.txt_opponent = new MenuItem("Opponent", 45.0f, "#f16131", "#0f4414", this.context);
+            this.txt_score_opponent = new MenuItem("SP: ", 45.0f, "#f16131", "#0f4414", this.context);
+            this.txt_lives_opponent = new MenuItem("HP: ", 50.0f, "#f16131", "#0f4414", this.context);
         }
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_exit), 0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_on), 0.15));
@@ -141,16 +149,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (canvas != null) {
             canvas.drawBitmap(background, 0, 0, null);
 
+            //TODO: gamestate method
+            // TODO: menu items method
+
             if (!isGamePause() & !isGameOver()) {
                 coreGame.draw(canvas);
             }
-
-            this.txt_score_self.draw(canvas, screenWidth / 2 - txt_score_self.getWidth() / 2, 0);
-            if (this.isMultiplayer) {
-                this.txt_score_opponent.draw(canvas, screenWidth / 2 - txt_score_opponent.getWidth() / 2, txt_score_self.getHeight());
-            }
             btn_exit.draw(canvas, 0, 0);
             btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
+
+            this.txt_you.draw(canvas,btn_exit.getWidth(), 0);
+            this.txt_score_self.draw(canvas, btn_exit.getWidth(), txt_you.getHeight());
+            this.txt_lives_self.draw(canvas, 0, btn_exit.getHeight());
+            if (this.isMultiplayer) {
+                txt_opponent.draw(canvas,screenWidth - btn_sound.getWidth() -  txt_opponent.getWidth(), 0);
+                this.txt_score_opponent.draw(canvas, screenWidth - btn_sound.getWidth() - txt_score_opponent.getWidth(), txt_opponent.getHeight());
+                this.txt_lives_opponent.draw(canvas, screenWidth - txt_lives_opponent.getWidth(), btn_sound.getHeight());
+            }
 
             if (isGameOver()) {
                 txt_gameOver.draw(canvas, txt_gameOver.getPosX(), txt_gameOver.getPosY());
@@ -188,11 +203,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void updateScoreOpponent() {
         int score = getMultiPlayerActivity().getOpponentScore();
-        this.txt_score_opponent.updateScoreLife("Opponent Score: " + score, this.context);
+        int lives = getMultiPlayerActivity().getOpponentLife();
+        this.txt_score_opponent.updateScoreLife("SP: " + score, this.context);
+        this.txt_lives_opponent.updateScoreLife("HP: "+ lives, this.context);
     }
 
     public void updateScoreSelf(int score, int lives) {
-        this.txt_score_self.updateScoreLife("Your Score: " + score + " | Lives: " + lives, this.context);
+        this.txt_score_self.updateScoreLife("SP: " + score, this.context);
+        this.txt_lives_opponent.updateScoreLife("HP: " + lives, this.context);
     }
 
     public boolean onTouchEvent(MotionEvent motionEvent) {
