@@ -53,7 +53,9 @@ public class CharacterSprite {
     }
 
     public void removeLife() {
-        this.lives--;
+        if (!immune) {
+            this.lives--;
+        }
     }
 
     public void addLife() {
