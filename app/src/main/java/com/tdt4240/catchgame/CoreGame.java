@@ -9,6 +9,7 @@ import android.graphics.Matrix;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CoreGame {
 
@@ -30,9 +31,8 @@ public class CoreGame {
     private int baseSpeed;
     private int fractionGood;
 
-    private long starBeetleDuration;
-    private long beetleDuration;
-    private long greenBeetleDuration;
+
+    private HashMap<ObjectType, Long> powerupDurations;
 
     private CharacterSprite characterSprite;
     private FallingObjectFactory fallingObjectFactory;
@@ -60,6 +60,7 @@ public class CoreGame {
     private void setupGame(String difficulty) {
         this.objectsOnScreen = new ArrayList<>();
         this.fallingObjectFactory = new FallingObjectFactory();
+        this.mapPowerUpDurations();
         this.setGameDifficulty(difficulty);
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_monkey3), 0.18));
         if(gameview.isMultiplayer){setMultiGameOver(0);}
@@ -82,6 +83,14 @@ public class CoreGame {
             this.fractionGood = 5;
         }
         this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
+    }
+
+    private void mapPowerUpDurations(){
+        long currentTime = System.currentTimeMillis();
+        powerupDurations = new HashMap<>();
+        powerupDurations.put(ObjectType.LIGHTNINGBEETLE, currentTime);
+        powerupDurations.put(ObjectType.STARBEETLE, currentTime);
+        powerupDurations.put(ObjectType.GREENBEETLE, currentTime);
     }
 
     /*
@@ -240,17 +249,17 @@ public class CoreGame {
      * */
 
     public void checkPowerUpEffect(long updateTime){
-        if (starBeetleDuration <= updateTime){
+        if (powerupDurations.get(ObjectType.STARBEETLE) <= updateTime){
             fallingObjectFactory.setOnlyBad(false);
             fallingObjectFactory.setOnlyGood(false);
         }
-        if (beetleDuration <= updateTime){
+        if (powerupDurations.get(ObjectType.LIGHTNINGBEETLE) <= updateTime){
             this.fallingObjectFactory.setObjectScale(0, 0.15);
             this.fallingObjectFactory.setObjectScale(1, 0.1);
             this.fallingObjectFactory.setLargeBad(false);
             this.fallingObjectFactory.setLargeGood(false);
         }
-        if (greenBeetleDuration <= updateTime){
+        if (powerupDurations.get(ObjectType.GREENBEETLE) <= updateTime){
             this.characterSprite.setVulnerable(false);
             this.characterSprite.setImmune(false);
         }
@@ -258,7 +267,7 @@ public class CoreGame {
 
     public void gameChangeMessage(ObjectType objectType){
         String msg = "";
-        if(objectType == ObjectType.BEETLE) {
+        if(objectType == ObjectType.LIGHTNINGBEETLE) {
             msg =  "Your opponent caught a beetle!\nSmall good objects, large bad objects for 10 seconds";
         }
         else if(objectType == ObjectType.LADYBUG) {
@@ -282,7 +291,7 @@ public class CoreGame {
             fallingObjectFactory.setObjectScale(1,0.25);
             fallingObjectFactory.setLargeBad(true);
             setBeetleDuration(updateTime + 10000);
-            gameChangeMessage(ObjectType.BEETLE);
+            gameChangeMessage(ObjectType.LIGHTNINGBEETLE);
         } else if (objectType == 2) {
             fallingObjectFactory.setOnlyBad(true);
             setStarBeetleDuration(updateTime + 10000);
@@ -359,15 +368,15 @@ public class CoreGame {
     }
 
     public void setStarBeetleDuration(long starBeetleDuration) {
-        this.starBeetleDuration = starBeetleDuration;
+        powerupDurations.put(ObjectType.STARBEETLE, starBeetleDuration);
     }
 
-    public void setBeetleDuration(long beetleDuration) {
-        this.beetleDuration = beetleDuration;
+    public void setBeetleDuration(long lightningBeetleDuration) {
+        powerupDurations.put(ObjectType.LIGHTNINGBEETLE, lightningBeetleDuration);
     }
 
     public void setGreenBeetleDuration(long greenBeetleDuration) {
-        this.greenBeetleDuration = greenBeetleDuration;
+        powerupDurations.put(ObjectType.GREENBEETLE, greenBeetleDuration);
     }
 
     public void setMultiGameOver(int b){

@@ -20,7 +20,7 @@ public enum ObjectType {
     SNAKE(3, R.drawable.obj_bad_snake),
     SPIDER(2, R.drawable.obj_bad_spider),
 
-    BEETLE(3, R.drawable.obj_powerup_beetle),
+    LIGHTNINGBEETLE(3, R.drawable.obj_powerup_beetle),
     LADYBUG(1, R.drawable.obj_powerup_ladybug),
     STARBEETLE(2, R.drawable.obj_powerup_starbeetle),
     GREENBEETLE(4, R.drawable.obj_powerup_greenbeetle);
@@ -40,7 +40,7 @@ public enum ObjectType {
             SNAKE, SPIDER
     };
     private static ObjectType[] POWERUP = new ObjectType[]{
-            BEETLE, LADYBUG, STARBEETLE, GREENBEETLE
+            LIGHTNINGBEETLE, LADYBUG, STARBEETLE, GREENBEETLE
     };
 
     public static ObjectType randomGood() {

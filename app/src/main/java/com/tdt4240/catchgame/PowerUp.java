@@ -9,7 +9,7 @@ public class PowerUp extends FallingObject {
     }
     @Override
     public void applyObjectEatenEffect(CharacterSprite characterSprite) {
-        if (objectType == ObjectType.BEETLE) {
+        if (objectType == ObjectType.LIGHTNINGBEETLE) {
         } else if (objectType == ObjectType.LADYBUG) {
             characterSprite.addLife();
         } else if (objectType == ObjectType.STARBEETLE) {
@@ -27,7 +27,7 @@ public class PowerUp extends FallingObject {
 
     @Override
     public void applyGameChange(CoreGame coreGame, long updateTime){
-        if (objectType == ObjectType.BEETLE) {
+        if (objectType == ObjectType.LIGHTNINGBEETLE) {
             coreGame.getFallingObjectFactory().setObjectScale(0,0.25);
             coreGame.getFallingObjectFactory().setObjectScale(1,0.05);
             coreGame.getFallingObjectFactory().setLargeGood(true);
@@ -47,7 +47,7 @@ public class PowerUp extends FallingObject {
 
     @Override
     public String gameChangeMessage(){
-        if(objectType == ObjectType.BEETLE) {
+        if(objectType == ObjectType.LIGHTNINGBEETLE) {
             return "Beetle!\nLarge good objects, small bad objects";
         }
         else if(objectType == ObjectType.LADYBUG) {
