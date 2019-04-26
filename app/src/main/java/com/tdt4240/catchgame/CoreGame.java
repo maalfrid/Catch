@@ -28,7 +28,7 @@ public class CoreGame {
     private int objectsSpawned = 0;
 
     private int baseFrequency;
-    private int baseSpeed;
+    private float baseSpeed;
     private int fractionGood;
 
 
@@ -178,7 +178,10 @@ public class CoreGame {
     }
 
     public void speedUp() {
-        if (baseFrequency >= 200) {
+        System.out.println("Frenquency is now " + baseFrequency);
+        System.out.println("Speed is now " + baseSpeed);
+        this.baseSpeed += 0.5;
+        if (baseFrequency >= 205) {
             if (this.baseFrequency <= 250) {
                 this.baseFrequency -= 5;
             } else if (this.baseFrequency <= 500) {
@@ -187,7 +190,6 @@ public class CoreGame {
                 this.baseFrequency -= 50;
             }
         }
-        this.baseSpeed += 0.5;
     }
 
     private void checkObjectsOnScreen(long updateTime){
@@ -367,8 +369,8 @@ public class CoreGame {
         return this.fallingObjectFactory;
     }
 
-    public void setPowerupDuration(ObjectType powerupType, long powerupDuration){
-        powerupDurations.put(powerupType, powerupDuration);
+    public void setPowerupDuration(ObjectType powerupType, long powerupEndTime){
+        powerupDurations.put(powerupType, powerupEndTime);
     }
 
     public void setMultiGameOver(int b){
@@ -393,7 +395,7 @@ public class CoreGame {
      * */
 
     public int getRandomSpeed() {
-        return (int) ((Math.random() + 1) * baseSpeed);
+        return (int) ((Math.random() + 1) * this.baseSpeed);
     }
 
     public void finishGame(){
