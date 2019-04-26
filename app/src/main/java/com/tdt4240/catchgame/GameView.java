@@ -153,7 +153,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
             drawMenuBar(canvas);
             drawState(canvas);
-            coreGame.getActivePowerups();
+            drawActivePowerups(canvas);
         }
     }
 
@@ -191,36 +191,38 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     // Draw power-ups
-    public void drawActivePowerups(){
-    }
-
-    public Bitmap drawGreenBeetleSelf(Bitmap bmp){
-        // Call draw method in gameview
-
-    }
-
-    public void getGreenBeetleSelf(){
-
-    }
-
-    public void drawLightningBeetleSelf(Bitmap bmp, Canvas canvas){
-        canvas.drawBitmap(bmp, 0, 0, null);
-    }
-
-    public void drawStarBeetleSelf(Bitmap bmp, Canvas canvas){
-        canvas.drawBitmap(bmp, 0, 0, null);
-    }
-
-    public void drawGreenBeetleOpponent(Bitmap bmp, Canvas canvas){
-        canvas.drawBitmap(bmp, 0, 0, null);
-    }
-
-    public void drawLightningBeetleOpponent(Bitmap bmp, Canvas canvas){
-        canvas.drawBitmap(bmp, 0, 0, null);
-    }
-
-    public void drawStarBeetleOpponent(Bitmap bmp, Canvas canvas){
-        canvas.drawBitmap(bmp, 0, 0, null);
+    public void drawActivePowerups(Canvas canvas){
+        // TODO: Add position to the power-ups
+        if(this.coreGame.getCharacterSprite().isImmune()){
+            // You have caught a power-up
+            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.GREENBEETLE, 0.08);
+            canvas.drawBitmap(bmp, 0, 0, null);
+        }
+        if(this.coreGame.getCharacterSprite().isVulnerable()){
+            // Opponent caught a power-up
+            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.GREENBEETLE, 0.08);
+            canvas.drawBitmap(bmp, 0, 0, null);
+        }
+        if(this.coreGame.getFallingObjectFactory().isLargeBad()){
+            // Opponent caught a power-up
+            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.BEETLE, 0.08);
+            canvas.drawBitmap(bmp, 0, 0, null);
+        }
+        if(this.coreGame.getFallingObjectFactory().isLargeGood()){
+            // You caught a power-up
+            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.BEETLE, 0.08);
+            canvas.drawBitmap(bmp, 0, 0, null);
+        }
+        if(this.coreGame.getFallingObjectFactory().isOnlyBad()){
+            // Opponent caught a power-up
+            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.STARBEETLE, 0.08);
+            canvas.drawBitmap(bmp, 0, 0, null);
+        }
+        if(this.coreGame.getFallingObjectFactory().isOnlyGood()){
+            // You caught a power-up
+            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.STARBEETLE, 0.08);
+            canvas.drawBitmap(bmp, 0, 0, null);
+        }
     }
 
     // Draw scores, lives

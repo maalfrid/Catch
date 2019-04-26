@@ -198,34 +198,6 @@ public class CoreGame {
         checkPowerUpEffect(updateTime);
     }
 
-    public void getActivePowerups(){
-        if(this.characterSprite.isImmune()){
-            // You have caught a power-up
-           Bitmap bmp = this.fallingObjectFactory.getObjectImage(ObjectType.GREENBEETLE, 0.08);
-           // Call draw method in game view
-        }
-        if(this.characterSprite.isVulnerable()){
-            // Opponent caught a power-up
-            Bitmap bmp = this.fallingObjectFactory.getObjectImage(ObjectType.GREENBEETLE, 0.08);
-        }
-        if(this.fallingObjectFactory.isLargeBad()){
-            // Opponent caught a power-up
-            Bitmap bmp = this.fallingObjectFactory.getObjectImage(ObjectType.BEETLE, 0.08);
-        }
-        if(this.fallingObjectFactory.isLargeGood()){
-            // You caught a power-up
-            Bitmap bmp = this.fallingObjectFactory.getObjectImage(ObjectType.BEETLE, 0.08);
-        }
-        if(this.fallingObjectFactory.isOnlyBad()){
-            // Opponent caught a power-up
-            Bitmap bmp = this.fallingObjectFactory.getObjectImage(ObjectType.STARBEETLE, 0.08);
-        }
-        if(this.fallingObjectFactory.isOnlyGood()){
-            // You caught a power-up
-            Bitmap bmp = this.fallingObjectFactory.getObjectImage(ObjectType.STARBEETLE, 0.08);
-        }
-    }
-
     /*
      * --------- MULTIPLAYER METHODS ---------
      * Broadcast score to other player
@@ -412,6 +384,10 @@ public class CoreGame {
 
     public int getMultiPowerupSent(){
         return this.multiPowerupSent;
+    }
+
+    public CharacterSprite getCharacterSprite(){
+        return this.characterSprite;
     }
 
 
