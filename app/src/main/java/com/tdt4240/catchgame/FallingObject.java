@@ -9,7 +9,7 @@ public abstract class FallingObject {
     private Bitmap objectImage;
     private int objectPositionX, objectPositionY;
     private int objectWidth, objectHeight;
-    private int objectSpeed;
+    private float objectSpeed;
     protected int objectScore;
     protected ObjectType objectType;
     private boolean isEaten = false;

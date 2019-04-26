@@ -9,7 +9,7 @@ public class PowerUp extends FallingObject {
     }
     @Override
     public void applyObjectEatenEffect(CharacterSprite characterSprite) {
-        if (objectType == ObjectType.BEETLE) {
+        if (objectType == ObjectType.LIGHTNINGBEETLE) {
         } else if (objectType == ObjectType.LADYBUG) {
             characterSprite.addLife();
         } else if (objectType == ObjectType.STARBEETLE) {
@@ -27,26 +27,27 @@ public class PowerUp extends FallingObject {
 
     @Override
     public void applyGameChange(CoreGame coreGame, long updateTime){
-        if (objectType == ObjectType.BEETLE) {
+        if (objectType == ObjectType.LIGHTNINGBEETLE) {
             coreGame.getFallingObjectFactory().setObjectScale(0,0.25);
             coreGame.getFallingObjectFactory().setObjectScale(1,0.05);
-            coreGame.setBeetleDuration(updateTime + 10000);
+            coreGame.getFallingObjectFactory().setLargeGood(true);
+            coreGame.setPowerupDuration(objectType,updateTime + 10000);
             coreGame.setMultiPowerupSent(1);
         } else if (objectType == ObjectType.STARBEETLE) {
             coreGame.getFallingObjectFactory().setOnlyGood(true);
-            coreGame.setStarBeetleDuration(updateTime + 10000);
+            coreGame.setPowerupDuration(objectType,updateTime + 10000);
             coreGame.setMultiPowerupSent(2);
         } else if (objectType == ObjectType.LADYBUG) {
             coreGame.setMultiPowerupSent(3);
         } else if (objectType == ObjectType.GREENBEETLE){
-            coreGame.setGreenBeetleDuration(updateTime + 10000);
+            coreGame.setPowerupDuration(objectType,updateTime + 10000);
             coreGame.setMultiPowerupSent(4);
         }
     }
 
     @Override
     public String gameChangeMessage(){
-        if(objectType == ObjectType.BEETLE) {
+        if(objectType == ObjectType.LIGHTNINGBEETLE) {
             return "Beetle!\nLarge good objects, small bad objects";
         }
         else if(objectType == ObjectType.LADYBUG) {
