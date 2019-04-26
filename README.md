@@ -129,8 +129,7 @@ The effect of a power-up is active from you catch it and in 10 seconds.
 #### If your opponent catches a... 
 - <img src="https://user-images.githubusercontent.com/16878457/56754609-c4b8b600-678d-11e9-9f56-61eb2e18645d.png" alt="" width="30"/> - Bad objects are getting bigger, good objects are getting smaller
 - <img src="https://user-images.githubusercontent.com/16878457/56754606-c4201f80-678d-11e9-801b-f01728fa297b.png" alt="" width="30"/> - You only get bad falling objects
-- <img src="https://user-images.githubusercontent.com/16878457/56754608-c4201f80-678d-11e9-92e6-66526fc99071.png" alt="" width="30"/> - ?
-- <img src="https://user-images.githubusercontent.com/16878457/56754607-c4201f80-678d-11e9-8a1c-cde9ab043006.png" alt="" width="30"/> - ?
+- <img src="https://user-images.githubusercontent.com/16878457/56754607-c4201f80-678d-11e9-8a1c-cde9ab043006.png" alt="" width="30"/> - You loose double score when catching bad objects
 
 <a name="built-with"></a>
 # 3 Built With
