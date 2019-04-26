@@ -1,3 +1,48 @@
 <resources>
     <string name="app_name">CatchGame</string>
+    <string name="highscore">Highscore</string>
+    <string name="settings">Settings</string>
+    <string name="rules">Rules</string>
+    <string name="play">Play</string>
+    <string name="background">Background</string>
+    <string name="background_music">Background music</string>
+    <string name="sound_effect">Sound effect</string>
+    <string name="avatar">Avatar</string>
+    <string name="sound">Sound</string>
+    <string name="txt_highscore">TXT_HIGHSCORE</string>
+    <string name="txt_rules">TXT_RULES</string>
+    <string name="button">Button</string>
+    <string name="rules_text">Rules_Text</string>
+    <string name="background_sound_on_off">Background sound on/off</string>
+    <string name="rules_for_catch_game">Rules for Catch game</string>
+
+    <string name="good_objects_subheader">Catch the good food</string>
+    <string name="good_objects_description">
+        The monkey is hungry! To feed him, try to catch the good food.
+        The monkey likes all kinds of fruits and will reward you with points if you eat them.
+        But be carefull, the monkey will punish you if the fruit hits the ground,by removing one life.
+    </string>
+
+    <string name="bad_objects_subheader">Avoid the bad objects</string>
+    <string name="bad_objects_description">
+        The monkey hates scary creatures, like spiders and snakes!
+        Try to avoid them to keep the monkey happy.
+        If you catch one of them, he will punish you by take some points from you.
+
+    </string>
+
+    <string name="powerups_objects_subheader">Catch the power-ups</string>
+    <string name="powerups_description">
+        Once in a while a bug will appear on the screen.
+        The monkey think bugs are interesting, but are unsure about what happens if he eats one.
+        The only thing he know is that the bugs will affect him in a positive way – try to eat them!
+    </string>
+
+    <string name="sound_on_off">Sound on/off</string>
+    <!-- Multiplayer -->
+    <string name="sign_out">Sign Out</string>
+    <string name="quick_game">Quick game</string>
+    <string name="please_wait">Please Wait</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
 </resources>

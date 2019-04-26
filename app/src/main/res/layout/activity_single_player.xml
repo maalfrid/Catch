@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlayMenuActivity">
+    android:background="@drawable/bg_play"
+    tools:context=".SinglePlayerActivity">
 
 </android.support.constraint.ConstraintLayout>

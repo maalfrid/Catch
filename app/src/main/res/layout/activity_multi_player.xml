@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_play"
+    tools:context=".MultiPlayerActivity"
+    android:visibility="visible">
+
+    <Button
+        android:id="@+id/btn_mpgGoBack"
+        style="@style/BackButton"
+        android:background="@drawable/button_back" />
+
+    <LinearLayout
+        android:id="@+id/view_signIn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/CenterScreen"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_sign_in"
+            android:background="@drawable/button_sign_in"
+            style="@style/MenuButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_quick_game"
+            android:background="@drawable/button_quickplay"
+            style="@style/MenuButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <Button
+            android:id="@+id/button_sign_out"
+            android:background="@drawable/button_sign_out"
+            style="@style/MenuButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/screen_wait"
+        style="@style/CenterScreen">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/txt_pleasewait"
+        />
+
+    </LinearLayout>
+
+
+</FrameLayout>
