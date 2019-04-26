@@ -14,6 +14,7 @@ public class CharacterSprite {
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private int score;
     private int lives;
+
     private boolean immune = false;
     private boolean vulnerable = false;
 
@@ -119,6 +120,10 @@ public class CharacterSprite {
     public void setVulnerable(boolean vulnerable){
         this.vulnerable = vulnerable;
     }
+
+    public boolean isImmune() { return this.immune; }
+
+    public boolean isVulnerable() { return this.vulnerable; }
 
 
 }

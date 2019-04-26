@@ -389,6 +389,10 @@ public class CoreGame {
         return this.multiPowerupSent;
     }
 
+    public CharacterSprite getCharacterSprite(){
+        return this.characterSprite;
+    }
+
 
     /*
      * --------- HELP METHODS ---------
