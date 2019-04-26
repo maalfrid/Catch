@@ -18,6 +18,8 @@ public class FallingObjectFactory {
     private HashMap<ScaledObject, Bitmap> objectImages;
     private ArrayList<Integer> fallingObjectFraction;
     private List<Double> objectScale;
+
+
     private boolean onlyBad = false;
     private boolean onlyGood = false;
     private boolean largeGood = false;
@@ -99,6 +101,22 @@ public class FallingObjectFactory {
     }
     public void setLargeBad(boolean largeBad){
         this.largeBad = largeBad;
+    }
+
+    public boolean isOnlyBad() {
+        return this.onlyBad;
+    }
+
+    public boolean isOnlyGood() {
+        return this.onlyGood;
+    }
+
+    public boolean isLargeGood() {
+        return this.largeGood;
+    }
+
+    public boolean isLargeBad() {
+        return this.largeBad;
     }
 
     public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
