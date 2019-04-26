@@ -122,7 +122,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (!isMultiplayer) {
             coreGame = new CoreGame(singlePlayerActivity.getDifficulty(), this.context, this);
         }
-
     }
 
     @Override
@@ -149,45 +148,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (canvas != null) {
             canvas.drawBitmap(background, 0, 0, null);
 
-            //TODO: gamestate method
-            // TODO: menu items method
-
             if (!isGamePause() & !isGameOver()) {
                 coreGame.draw(canvas);
             }
-            btn_exit.draw(canvas, 0, 0);
-            btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
-
-            this.txt_you.draw(canvas,btn_exit.getWidth(), 0);
-            this.txt_score_self.draw(canvas, btn_exit.getWidth(), txt_you.getHeight());
-            this.txt_lives_self.draw(canvas, 0, btn_exit.getHeight());
-            if (this.isMultiplayer) {
-                txt_opponent.draw(canvas,screenWidth - btn_sound.getWidth() -  txt_opponent.getWidth(), 0);
-                this.txt_score_opponent.draw(canvas, screenWidth - btn_sound.getWidth() - txt_score_opponent.getWidth(), txt_opponent.getHeight());
-                this.txt_lives_opponent.draw(canvas, screenWidth - txt_lives_opponent.getWidth(), btn_sound.getHeight());
-            }
-
-            if (isGameOver()) {
-                txt_gameOver.draw(canvas, txt_gameOver.getPosX(), txt_gameOver.getPosY());
-            }
-
-            if (isGamePause()) {
-                txt_gameQuit.draw(canvas, txt_gameQuit.getPosX(), txt_gameQuit.getPosY());
-                btn_yes.draw(canvas, btn_yes.getPosX(), btn_yes.getPosY());
-                btn_no.draw(canvas, btn_no.getPosX(), btn_no.getPosY());
-            }
-
-            if (isGameWon()) {
-                txt_gameWin.draw(canvas, txt_gameWin.getPosX(), txt_gameWin.getPosY());
-            }
-
-            if (isGameLost()) {
-                txt_gameLost.draw(canvas, txt_gameLost.getPosX(), txt_gameLost.getPosY());
-            }
-
-            if (isOpponentExit()) {
-                txt_opponentExit.draw(canvas, txt_opponentExit.getPosX(), txt_opponentExit.getPosY());
-            }
+            drawMenuBar(canvas);
+            drawState(canvas);
+            coreGame.getActivePowerups();
         }
     }
 
@@ -201,6 +167,63 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        coreGame.onTouch(motionEvent);
+        return true;
+    }
+
+    /*
+    * GAME MENU / SCORING VIEW
+    * */
+
+    public void drawMenuBar(Canvas canvas){
+        btn_exit.draw(canvas, 0, 0);
+        btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
+
+        this.txt_you.draw(canvas,btn_exit.getWidth(), 0);
+        this.txt_score_self.draw(canvas, btn_exit.getWidth(), txt_you.getHeight());
+        this.txt_lives_self.draw(canvas, 0, btn_exit.getHeight());
+        if (this.isMultiplayer) {
+            txt_opponent.draw(canvas,screenWidth - btn_sound.getWidth() -  txt_opponent.getWidth(), 0);
+            this.txt_score_opponent.draw(canvas, screenWidth - btn_sound.getWidth() - txt_score_opponent.getWidth(), txt_opponent.getHeight());
+            this.txt_lives_opponent.draw(canvas, screenWidth - txt_lives_opponent.getWidth(), btn_sound.getHeight());
+        }
+    }
+
+    // Draw power-ups
+    public void drawActivePowerups(){
+    }
+
+    public Bitmap drawGreenBeetleSelf(Bitmap bmp){
+        // Call draw method in gameview
+
+    }
+
+    public void getGreenBeetleSelf(){
+
+    }
+
+    public void drawLightningBeetleSelf(Bitmap bmp, Canvas canvas){
+        canvas.drawBitmap(bmp, 0, 0, null);
+    }
+
+    public void drawStarBeetleSelf(Bitmap bmp, Canvas canvas){
+        canvas.drawBitmap(bmp, 0, 0, null);
+    }
+
+    public void drawGreenBeetleOpponent(Bitmap bmp, Canvas canvas){
+        canvas.drawBitmap(bmp, 0, 0, null);
+    }
+
+    public void drawLightningBeetleOpponent(Bitmap bmp, Canvas canvas){
+        canvas.drawBitmap(bmp, 0, 0, null);
+    }
+
+    public void drawStarBeetleOpponent(Bitmap bmp, Canvas canvas){
+        canvas.drawBitmap(bmp, 0, 0, null);
+    }
+
+    // Draw scores, lives
     public void updateScoreOpponent() {
         int score = getMultiPlayerActivity().getOpponentScore();
         int lives = getMultiPlayerActivity().getOpponentLife();
@@ -213,14 +236,33 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.txt_lives_opponent.updateScoreLife("HP: " + lives, this.context);
     }
 
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        coreGame.onTouch(motionEvent);
-        return true;
-    }
-
     /*
      * --------- HANDLING GAME EXIT / GAME OVER---------
      * */
+
+    public void drawState(Canvas canvas){
+        if (isGameOver()) {
+            txt_gameOver.draw(canvas, txt_gameOver.getPosX(), txt_gameOver.getPosY());
+        }
+
+        if (isGamePause()) {
+            txt_gameQuit.draw(canvas, txt_gameQuit.getPosX(), txt_gameQuit.getPosY());
+            btn_yes.draw(canvas, btn_yes.getPosX(), btn_yes.getPosY());
+            btn_no.draw(canvas, btn_no.getPosX(), btn_no.getPosY());
+        }
+
+        if (isGameWon()) {
+            txt_gameWin.draw(canvas, txt_gameWin.getPosX(), txt_gameWin.getPosY());
+        }
+
+        if (isGameLost()) {
+            txt_gameLost.draw(canvas, txt_gameLost.getPosX(), txt_gameLost.getPosY());
+        }
+
+        if (isOpponentExit()) {
+            txt_opponentExit.draw(canvas, txt_opponentExit.getPosX(), txt_opponentExit.getPosY());
+        }
+    }
 
 
     // When the player says yes to quit the game
@@ -339,6 +381,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /*
      * --------- HELP METHODS ---------
      * */
+
 
     public Bitmap getResizedBitmapBG(Bitmap bmp, double scaleFactorWidth, double scaleFactorHeight) {
         int width = bmp.getWidth();
