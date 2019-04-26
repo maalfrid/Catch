@@ -290,17 +290,17 @@ public class CoreGame {
             fallingObjectFactory.setObjectScale(0,0.1);
             fallingObjectFactory.setObjectScale(1,0.25);
             fallingObjectFactory.setLargeBad(true);
-            setBeetleDuration(updateTime + 10000);
+            setPowerupDuration(ObjectType.LIGHTNINGBEETLE, updateTime + 10000);
             gameChangeMessage(ObjectType.LIGHTNINGBEETLE);
         } else if (objectType == 2) {
             fallingObjectFactory.setOnlyBad(true);
-            setStarBeetleDuration(updateTime + 10000);
+            setPowerupDuration(ObjectType.STARBEETLE, updateTime + 10000);
             gameChangeMessage(ObjectType.STARBEETLE);
         } else if (objectType == 3) {
             gameChangeMessage(ObjectType.LADYBUG);
         } else if (objectType == 4){
             characterSprite.setVulnerable(true);
-            setGreenBeetleDuration(updateTime + 10000);
+            setPowerupDuration(ObjectType.GREENBEETLE, updateTime + 10000);
             gameChangeMessage(ObjectType.GREENBEETLE);
         }
         this.multiPowerupReceived = 0;
@@ -367,16 +367,8 @@ public class CoreGame {
         return this.fallingObjectFactory;
     }
 
-    public void setStarBeetleDuration(long starBeetleDuration) {
-        powerupDurations.put(ObjectType.STARBEETLE, starBeetleDuration);
-    }
-
-    public void setBeetleDuration(long lightningBeetleDuration) {
-        powerupDurations.put(ObjectType.LIGHTNINGBEETLE, lightningBeetleDuration);
-    }
-
-    public void setGreenBeetleDuration(long greenBeetleDuration) {
-        powerupDurations.put(ObjectType.GREENBEETLE, greenBeetleDuration);
+    public void setPowerupDuration(ObjectType powerupType, long powerupDuration){
+        powerupDurations.put(powerupType, powerupDuration);
     }
 
     public void setMultiGameOver(int b){

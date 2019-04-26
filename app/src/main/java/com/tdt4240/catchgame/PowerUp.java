@@ -31,16 +31,16 @@ public class PowerUp extends FallingObject {
             coreGame.getFallingObjectFactory().setObjectScale(0,0.25);
             coreGame.getFallingObjectFactory().setObjectScale(1,0.05);
             coreGame.getFallingObjectFactory().setLargeGood(true);
-            coreGame.setBeetleDuration(updateTime + 10000);
+            coreGame.setPowerupDuration(objectType,updateTime + 10000);
             coreGame.setMultiPowerupSent(1);
         } else if (objectType == ObjectType.STARBEETLE) {
             coreGame.getFallingObjectFactory().setOnlyGood(true);
-            coreGame.setStarBeetleDuration(updateTime + 10000);
+            coreGame.setPowerupDuration(objectType,updateTime + 10000);
             coreGame.setMultiPowerupSent(2);
         } else if (objectType == ObjectType.LADYBUG) {
             coreGame.setMultiPowerupSent(3);
         } else if (objectType == ObjectType.GREENBEETLE){
-            coreGame.setGreenBeetleDuration(updateTime + 10000);
+            coreGame.setPowerupDuration(objectType,updateTime + 10000);
             coreGame.setMultiPowerupSent(4);
         }
     }
