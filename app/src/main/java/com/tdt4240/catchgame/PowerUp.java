@@ -30,6 +30,7 @@ public class PowerUp extends FallingObject {
         if (objectType == ObjectType.BEETLE) {
             coreGame.getFallingObjectFactory().setObjectScale(0,0.25);
             coreGame.getFallingObjectFactory().setObjectScale(1,0.05);
+            coreGame.getFallingObjectFactory().setLargeGood(true);
             coreGame.setBeetleDuration(updateTime + 10000);
             coreGame.setMultiPowerupSent(1);
         } else if (objectType == ObjectType.STARBEETLE) {

@@ -247,6 +247,8 @@ public class CoreGame {
         if (beetleDuration <= updateTime){
             this.fallingObjectFactory.setObjectScale(0, 0.15);
             this.fallingObjectFactory.setObjectScale(1, 0.1);
+            this.fallingObjectFactory.setLargeBad(false);
+            this.fallingObjectFactory.setLargeGood(false);
         }
         if (greenBeetleDuration <= updateTime){
             this.characterSprite.setVulnerable(false);
@@ -278,6 +280,7 @@ public class CoreGame {
         if (objectType == 1) {
             fallingObjectFactory.setObjectScale(0,0.1);
             fallingObjectFactory.setObjectScale(1,0.25);
+            fallingObjectFactory.setLargeBad(true);
             setBeetleDuration(updateTime + 10000);
             gameChangeMessage(ObjectType.BEETLE);
         } else if (objectType == 2) {
