@@ -36,6 +36,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public MenuItem txt_lives_opponent;
     public MenuItem txt_you;
     public MenuItem txt_opponent;
+    public MenuItem txt_pipe; //TODO: Add line in middle
     public MenuItem btn_exit;
     public MenuItem btn_sound;
 
@@ -92,12 +93,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
         //menu items
         this.txt_you = new MenuItem("You", 45.0f, "#f1c131", "#0f4414", this.context);
-        this.txt_score_self = new MenuItem("SP: ", 45.0f, "#f1c131", "#0f4414", this.context);
-        this.txt_lives_self = new MenuItem("HP: ", 50.0f, "#f1c131", "#0f4414", this.context);
+        this.txt_score_self = new MenuItem("0", 45.0f, "#f1c131", "#0f4414", this.context);
+        this.txt_lives_self = new MenuItem("0", 80.0f, "#f1c131", "#0f4414", this.context);
         if (this.isMultiplayer) {
             this.txt_opponent = new MenuItem("Opponent", 45.0f, "#f16131", "#0f4414", this.context);
-            this.txt_score_opponent = new MenuItem("SP: ", 45.0f, "#f16131", "#0f4414", this.context);
-            this.txt_lives_opponent = new MenuItem("HP: ", 50.0f, "#f16131", "#0f4414", this.context);
+            this.txt_score_opponent = new MenuItem("0: ", 45.0f, "#f16131", "#0f4414", this.context);
+            this.txt_lives_opponent = new MenuItem("0", 80.0f, "#f16131", "#0f4414", this.context);
         }
         this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_exit), 0.15));
         this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_on), 0.15));
@@ -180,48 +181,51 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         btn_exit.draw(canvas, 0, 0);
         btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
 
-        this.txt_you.draw(canvas,btn_exit.getWidth(), 0);
-        this.txt_score_self.draw(canvas, btn_exit.getWidth(), txt_you.getHeight());
-        this.txt_lives_self.draw(canvas, 0, btn_exit.getHeight());
+        this.txt_you.draw(canvas,(screenWidth/2.0f - btn_exit.getWidth())/2.0f + 1.0f*txt_you.getWidth(), 0);
+        this.txt_score_self.draw(canvas, txt_you.getPosX() + txt_score_self.getWidth()/2.0f, txt_you.getHeight());
+        this.txt_lives_self.draw(canvas, 0.5f*txt_lives_self.getWidth(), btn_exit.getHeight());
         if (this.isMultiplayer) {
-            txt_opponent.draw(canvas,screenWidth - btn_sound.getWidth() -  txt_opponent.getWidth(), 0);
-            this.txt_score_opponent.draw(canvas, screenWidth - btn_sound.getWidth() - txt_score_opponent.getWidth(), txt_opponent.getHeight());
-            this.txt_lives_opponent.draw(canvas, screenWidth - txt_lives_opponent.getWidth(), btn_sound.getHeight());
+            txt_opponent.draw(canvas,(1.5f*screenWidth - btn_sound.getWidth())/2.0f - 0.5f*this.txt_opponent.getWidth(), 0);
+            this.txt_score_opponent.draw(canvas, (1.5f*screenWidth - btn_sound.getWidth())/2.0f - 0.5f*this.txt_score_opponent.getWidth(), txt_opponent.getHeight());
+            this.txt_lives_opponent.draw(canvas, screenWidth - 1.5f*txt_lives_opponent.getWidth(), btn_sound.getHeight());
         }
     }
 
     // Draw power-ups
     public void drawActivePowerups(Canvas canvas){
-        // TODO: Add position to the power-ups
+        // -- Catched power-ups by you:
+        float heightSelf = this.txt_lives_self.getPosY();
+        float heightOpponent = this.txt_lives_opponent.getPosY();
         if(this.coreGame.getCharacterSprite().isImmune()){
             // You have caught a power-up
             Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.GREENBEETLE, 0.08);
-            canvas.drawBitmap(bmp, 0, 0, null);
-        }
-        if(this.coreGame.getCharacterSprite().isVulnerable()){
-            // Opponent caught a power-up
-            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.GREENBEETLE, 0.08);
-            canvas.drawBitmap(bmp, 0, 0, null);
-        }
-        if(this.coreGame.getFallingObjectFactory().isLargeBad()){
-            // Opponent caught a power-up
-            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.BEETLE, 0.08);
-            canvas.drawBitmap(bmp, 0, 0, null);
+            canvas.drawBitmap(bmp, btn_exit.getWidth(), heightSelf, null);
         }
         if(this.coreGame.getFallingObjectFactory().isLargeGood()){
             // You caught a power-up
-            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.BEETLE, 0.08);
-            canvas.drawBitmap(bmp, 0, 0, null);
-        }
-        if(this.coreGame.getFallingObjectFactory().isOnlyBad()){
-            // Opponent caught a power-up
-            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.STARBEETLE, 0.08);
-            canvas.drawBitmap(bmp, 0, 0, null);
+            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.LIGHTNINGBEETLE, 0.08);
+            canvas.drawBitmap(bmp, btn_exit.getWidth() + bmp.getWidth(), heightSelf, null);
         }
         if(this.coreGame.getFallingObjectFactory().isOnlyGood()){
             // You caught a power-up
             Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.STARBEETLE, 0.08);
-            canvas.drawBitmap(bmp, 0, 0, null);
+            canvas.drawBitmap(bmp, btn_exit.getWidth() + 2*bmp.getWidth(), heightSelf, null);
+        }
+        // -- Catched power-ups by opponent:
+        if(this.coreGame.getCharacterSprite().isVulnerable()){
+            // Opponent caught a power-up
+            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.GREENBEETLE, 0.08);
+            canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 2*bmp.getWidth(), heightOpponent, null);
+        }
+        if(this.coreGame.getFallingObjectFactory().isLargeBad()){
+            // Opponent caught a power-up
+            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.LIGHTNINGBEETLE, 0.08);
+            canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 3*bmp.getWidth(), heightOpponent, null);
+        }
+        if(this.coreGame.getFallingObjectFactory().isOnlyBad()){
+            // Opponent caught a power-up
+            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.STARBEETLE, 0.08);
+            canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 4*bmp.getWidth(), heightOpponent, null);
         }
     }
 
@@ -229,13 +233,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void updateScoreOpponent() {
         int score = getMultiPlayerActivity().getOpponentScore();
         int lives = getMultiPlayerActivity().getOpponentLife();
-        this.txt_score_opponent.updateScoreLife("SP: " + score, this.context);
-        this.txt_lives_opponent.updateScoreLife("HP: "+ lives, this.context);
+        this.txt_lives_opponent.updateScoreLife(""+ lives, this.context);
+        this.txt_score_opponent.updateScoreLife("" + score, this.context);
     }
 
     public void updateScoreSelf(int score, int lives) {
-        this.txt_score_self.updateScoreLife("SP: " + score, this.context);
-        this.txt_lives_opponent.updateScoreLife("HP: " + lives, this.context);
+        this.txt_score_self.updateScoreLife("" + score, this.context);
+        this.txt_lives_self.updateScoreLife("" + lives, this.context);
     }
 
     /*
