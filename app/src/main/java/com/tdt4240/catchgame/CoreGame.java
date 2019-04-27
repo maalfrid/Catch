@@ -31,11 +31,9 @@ public class CoreGame {
     private float baseSpeed;
     private int fractionGood;
 
-
     private HashMap<ObjectType, Long> powerupDurations;
 
     private CharacterSprite characterSprite;
-    private FallingObjectFactory fallingObjectFactory;
     private ArrayList<FallingObject> objectsOnScreen;
 
 
@@ -43,7 +41,6 @@ public class CoreGame {
     private int multiGameOver;
     private int multiPowerupSent;
     private int multiPowerupReceived;
-
 
     /*
      * --------- CREATE AND SETUP THE GAME ---------
@@ -59,7 +56,6 @@ public class CoreGame {
 
     private void setupGame(String difficulty) {
         this.objectsOnScreen = new ArrayList<>();
-        this.fallingObjectFactory = new FallingObjectFactory();
         this.mapPowerUpDurations();
         this.setGameDifficulty(difficulty);
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_monkey3), 0.18));
@@ -82,7 +78,7 @@ public class CoreGame {
             this.baseSpeed = 15;
             this.fractionGood = 5;
         }
-        this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
+        FallingObjectFactory.getInstance().setFallingObjectFraction(this.fractionGood);
     }
 
     private void mapPowerUpDurations(){
@@ -148,7 +144,7 @@ public class CoreGame {
      * */
 
     public FallingObject createObject() {
-        return fallingObjectFactory.getFallingObject();
+        return FallingObjectFactory.getInstance().getFallingObject();
     }
 
     public void spawnNewObject(long updateTime){
@@ -252,14 +248,14 @@ public class CoreGame {
 
     public void checkPowerUpEffect(long updateTime){
         if (powerupDurations.get(ObjectType.STARBEETLE) <= updateTime){
-            fallingObjectFactory.setOnlyBad(false);
-            fallingObjectFactory.setOnlyGood(false);
+            FallingObjectFactory.getInstance().setOnlyBad(false);
+            FallingObjectFactory.getInstance().setOnlyGood(false);
         }
         if (powerupDurations.get(ObjectType.LIGHTNINGBEETLE) <= updateTime){
-            this.fallingObjectFactory.setObjectScale(0, 0.15);
-            this.fallingObjectFactory.setObjectScale(1, 0.1);
-            this.fallingObjectFactory.setLargeBad(false);
-            this.fallingObjectFactory.setLargeGood(false);
+            FallingObjectFactory.getInstance().setObjectScale(0, 0.15);
+            FallingObjectFactory.getInstance().setObjectScale(1, 0.1);
+            FallingObjectFactory.getInstance().setLargeBad(false);
+            FallingObjectFactory.getInstance().setLargeGood(false);
         }
         if (powerupDurations.get(ObjectType.GREENBEETLE) <= updateTime){
             this.characterSprite.setVulnerable(false);
@@ -269,16 +265,19 @@ public class CoreGame {
 
     public void gameChangeMessage(ObjectType objectType){
         String msg = "";
-        if(objectType == ObjectType.LIGHTNINGBEETLE) {
-            msg =  "Your opponent caught a beetle!\nSmall good objects, large bad objects for 10 seconds";
-        }
-        else if(objectType == ObjectType.LADYBUG) {
-            msg = "Your opponent caught a ladybug\n and got one extra life";
-        }
-        else if(objectType == ObjectType.STARBEETLE) {
-            msg = "Your opponent caught a starbeetle!\nOnly bad objects for 10 seconds";
-        } else if(objectType == ObjectType.GREENBEETLE) {
-            msg = "Your opponent caught a green beetle!\nYou are vulnerable for 10 seconds";
+        switch (objectType) {
+            case LIGHTNINGBEETLE:
+                msg = "Your opponent caught a beetle!\nSmall good objects, large bad objects for 10 seconds";
+                break;
+            case LADYBUG:
+                msg = "Your opponent caught a ladybug\n and got one extra life";
+                break;
+            case STARBEETLE:
+                msg = "Your opponent caught a starbeetle!\nOnly bad objects for 10 seconds";
+                break;
+            case GREENBEETLE:
+                msg = "Your opponent caught a green beetle!\nYou are vulnerable for 10 seconds";
+                break;
         }
         this.gameview.popup(msg);
     }
@@ -288,22 +287,27 @@ public class CoreGame {
         // 2: Starbeetle
         // 3: Ladybug
         // 4: GreenBeetle
-        if (objectType == 1) {
-            fallingObjectFactory.setObjectScale(0,0.1);
-            fallingObjectFactory.setObjectScale(1,0.25);
-            fallingObjectFactory.setLargeBad(true);
-            setPowerupDuration(ObjectType.LIGHTNINGBEETLE, updateTime + 10000);
-            gameChangeMessage(ObjectType.LIGHTNINGBEETLE);
-        } else if (objectType == 2) {
-            fallingObjectFactory.setOnlyBad(true);
-            setPowerupDuration(ObjectType.STARBEETLE, updateTime + 10000);
-            gameChangeMessage(ObjectType.STARBEETLE);
-        } else if (objectType == 3) {
-            gameChangeMessage(ObjectType.LADYBUG);
-        } else if (objectType == 4){
-            characterSprite.setVulnerable(true);
-            setPowerupDuration(ObjectType.GREENBEETLE, updateTime + 10000);
-            gameChangeMessage(ObjectType.GREENBEETLE);
+        switch (objectType) {
+            case 1:
+                FallingObjectFactory.getInstance().setObjectScale(0, 0.1);
+                FallingObjectFactory.getInstance().setObjectScale(1, 0.25);
+                FallingObjectFactory.getInstance().setLargeBad(true);
+                setPowerupDuration(ObjectType.LIGHTNINGBEETLE, updateTime + 10000);
+                gameChangeMessage(ObjectType.LIGHTNINGBEETLE);
+                break;
+            case 2:
+                FallingObjectFactory.getInstance().setOnlyBad(true);
+                setPowerupDuration(ObjectType.STARBEETLE, updateTime + 10000);
+                gameChangeMessage(ObjectType.STARBEETLE);
+                break;
+            case 3:
+                gameChangeMessage(ObjectType.LADYBUG);
+                break;
+            case 4:
+                characterSprite.setVulnerable(true);
+                setPowerupDuration(ObjectType.GREENBEETLE, updateTime + 10000);
+                gameChangeMessage(ObjectType.GREENBEETLE);
+                break;
         }
         this.multiPowerupReceived = 0;
     }
@@ -363,10 +367,6 @@ public class CoreGame {
 
     public static Context getContext() {
         return context;
-    }
-
-    public FallingObjectFactory getFallingObjectFactory(){
-        return this.fallingObjectFactory;
     }
 
     public void setPowerupDuration(ObjectType powerupType, long powerupEndTime){

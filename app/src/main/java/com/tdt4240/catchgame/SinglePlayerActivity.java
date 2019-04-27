@@ -10,7 +10,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private String difficulty;
     MediaPlayer backgroundMusic;
 
-
     public SinglePlayerActivity() {
     }
 
@@ -22,8 +21,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
         this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setLooping(true);
         this.backgroundMusic.setVolume(1, 1);
-
-
     }
 
     @Override

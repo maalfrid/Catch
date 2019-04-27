@@ -11,7 +11,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class FallingObjectFactory {
+public final class FallingObjectFactory {
+
+    private static final FallingObjectFactory INSTANCE = new FallingObjectFactory();
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
@@ -25,7 +27,7 @@ public class FallingObjectFactory {
     private boolean largeGood = false;
     private boolean largeBad = false;
 
-    public FallingObjectFactory() {
+    private FallingObjectFactory() {
         objectImages = new HashMap<>();
         this.fallingObjectFraction = new ArrayList<>();
         this.objectScale = Arrays.asList(0.15, 0.1, 0.15);
@@ -129,6 +131,10 @@ public class FallingObjectFactory {
         Bitmap resizedBitmap = Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
         bmp.recycle();
         return resizedBitmap;
+    }
+
+    public static FallingObjectFactory getInstance(){
+        return INSTANCE;
     }
 
 }

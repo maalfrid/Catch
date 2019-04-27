@@ -9,12 +9,17 @@ public class PowerUp extends FallingObject {
     }
     @Override
     public void applyObjectEatenEffect(CharacterSprite characterSprite) {
-        if (objectType == ObjectType.LIGHTNINGBEETLE) {
-        } else if (objectType == ObjectType.LADYBUG) {
-            characterSprite.addLife();
-        } else if (objectType == ObjectType.STARBEETLE) {
-        } else if (objectType == ObjectType.GREENBEETLE){
-            characterSprite.setImmune(true);
+        switch (objectType) {
+            case LIGHTNINGBEETLE:
+                break;
+            case LADYBUG:
+                characterSprite.addLife();
+                break;
+            case STARBEETLE:
+                break;
+            case GREENBEETLE:
+                characterSprite.setImmune(true);
+                break;
         }
         characterSprite.addScore(this.objectScore);
         setSound("powerup");
@@ -27,39 +32,42 @@ public class PowerUp extends FallingObject {
 
     @Override
     public void applyGameChange(CoreGame coreGame, long updateTime){
-        if (objectType == ObjectType.LIGHTNINGBEETLE) {
-            coreGame.getFallingObjectFactory().setObjectScale(0,0.25);
-            coreGame.getFallingObjectFactory().setObjectScale(1,0.05);
-            coreGame.getFallingObjectFactory().setLargeGood(true);
-            coreGame.setPowerupDuration(objectType,updateTime + 10000);
-            coreGame.setMultiPowerupSent(1);
-        } else if (objectType == ObjectType.STARBEETLE) {
-            coreGame.getFallingObjectFactory().setOnlyGood(true);
-            coreGame.setPowerupDuration(objectType,updateTime + 10000);
-            coreGame.setMultiPowerupSent(2);
-        } else if (objectType == ObjectType.LADYBUG) {
-            coreGame.setMultiPowerupSent(3);
-        } else if (objectType == ObjectType.GREENBEETLE){
-            coreGame.setPowerupDuration(objectType,updateTime + 10000);
-            coreGame.setMultiPowerupSent(4);
+        switch (objectType) {
+            case LIGHTNINGBEETLE:
+                FallingObjectFactory.getInstance().setObjectScale(0, 0.25);
+                FallingObjectFactory.getInstance().setObjectScale(1, 0.05);
+                FallingObjectFactory.getInstance().setLargeGood(true);
+                coreGame.setPowerupDuration(objectType, updateTime + 10000);
+                coreGame.setMultiPowerupSent(1);
+                break;
+            case STARBEETLE:
+                FallingObjectFactory.getInstance().setOnlyGood(true);
+                coreGame.setPowerupDuration(objectType, updateTime + 10000);
+                coreGame.setMultiPowerupSent(2);
+                break;
+            case LADYBUG:
+                coreGame.setMultiPowerupSent(3);
+                break;
+            case GREENBEETLE:
+                coreGame.setPowerupDuration(objectType, updateTime + 10000);
+                coreGame.setMultiPowerupSent(4);
+                break;
         }
     }
 
     @Override
     public String gameChangeMessage(){
-        if(objectType == ObjectType.LIGHTNINGBEETLE) {
-            return "Beetle!\nLarge good objects, small bad objects";
-        }
-        else if(objectType == ObjectType.LADYBUG) {
-            return "Ladybug!\nYou get one extra life";
-        }
-        else if (objectType == ObjectType.STARBEETLE){
-            return "Starbeetle!\nOnly good objects falling";
-        } else if (objectType == ObjectType.GREENBEETLE){
-            return "Green beetle! You are immune to bad objects!";
-        }
-        else {
-            return "";
+        switch (objectType) {
+            case LIGHTNINGBEETLE:
+                return "Beetle!\nLarge good objects, small bad objects";
+            case LADYBUG:
+                return "Ladybug!\nYou get one extra life";
+            case STARBEETLE:
+                return "Starbeetle!\nOnly good objects falling";
+            case GREENBEETLE:
+                return "Green beetle! You are immune to bad objects!";
+            default:
+                return "";
         }
     }
 
