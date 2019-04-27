@@ -563,12 +563,16 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             byte[] buf = realTimeMessage.getMessageData();
             String sender = realTimeMessage.getSenderParticipantId();
             Log.d(TAG, "-----------Message received: " + (char) buf[0] + " Score : " + (int) buf[1] + "Lives : " + (int) buf[2] + " isGameover: " + (int) buf[3] + " Powerup: "+ (int) buf[4]);
-            setOpponentScore(buf[1]);
+            setOpponentScore(calculateActualScore(buf[5], buf[6]));
             setOpponentLife(buf[2]);
             setIsGameOver(buf[3]);
             setPowerup(buf[4]);
         }
     };
+
+    private int calculateActualScore(byte byte1, byte byte2){
+        return byte1 + (byte2 * 256);
+    }
 
     // Broadcast my score to everybody else
     void broadcast(int myScore, int myLives, int isGameOver, int powerup) {
@@ -586,6 +590,8 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         mMsgBuf[2] = (byte) myLives;
         mMsgBuf[3] = (byte) isGameOver; //1: True, 0: False
         mMsgBuf[4] = (byte) powerup;
+        mMsgBuf[5] = (byte) (myScore % 256);
+        mMsgBuf[6] = (byte) (myScore / 256);
 
         //send to every participant
         for (Participant p : mParticipants) {
