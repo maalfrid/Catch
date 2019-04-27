@@ -89,7 +89,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     String mMyId = null;
 
     // Message buffer for sending messages
-    byte[] mMsgBuf = new byte[5];
+    byte[] mMsgBuf = new byte[7];
 
     // Music
     private MediaPlayer backgroundMusic;
@@ -571,7 +571,13 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     };
 
     private int calculateActualScore(byte byte1, byte byte2){
-        return byte1 + (byte2 * 256);
+        int actualScore = byte1 + (byte2 * 128);
+        if (actualScore < 0) {
+            return actualScore * -1 ;
+        }
+        else {
+            return actualScore;
+        }
     }
 
     // Broadcast my score to everybody else
@@ -590,8 +596,8 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         mMsgBuf[2] = (byte) myLives;
         mMsgBuf[3] = (byte) isGameOver; //1: True, 0: False
         mMsgBuf[4] = (byte) powerup;
-        mMsgBuf[5] = (byte) (myScore % 256);
-        mMsgBuf[6] = (byte) (myScore / 256);
+        mMsgBuf[5] = (byte) (myScore % 128);
+        mMsgBuf[6] = (byte) (myScore / 128);
 
         //send to every participant
         for (Participant p : mParticipants) {
