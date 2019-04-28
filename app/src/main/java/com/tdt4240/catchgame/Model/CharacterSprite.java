@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CharacterSprite {
+    private Sprites sprite;
     private Map<Integer, Bitmap> characterSpriteImages;
     private Bitmap characterSpriteImage;
     private int characterPositionX, characterPositionY;
@@ -22,12 +23,14 @@ public class CharacterSprite {
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private int score;
     private int lives;
+    private long lastAnimationChange = System.currentTimeMillis();
 
     private boolean immune = false;
     private boolean vulnerable = false;
 
 
     public CharacterSprite(Sprites sprite) {
+        this.sprite = sprite;
         loadImages(sprite);
         characterSpriteImage = characterSpriteImages.get(sprite.defaultImageID);
         characterWidth = characterSpriteImage.getWidth();
@@ -44,7 +47,18 @@ public class CharacterSprite {
     }
 
     public void update() {
-        //TODO: ANIMASJON GOES HERE
+        long updateTime = System.currentTimeMillis();
+        if (updateTime >= lastAnimationChange + 500){
+            if (characterSpriteImage == characterSpriteImages.get(sprite.defaultImageID)) {
+                setCharacterSpriteImage(sprite.catchImageID);
+            }
+            else if (characterSpriteImage == characterSpriteImages.get(sprite.catchImageID)) {
+                setCharacterSpriteImage(sprite.defaultImageID);
+            }
+            else if (characterSpriteImage == characterSpriteImages.get(sprite.deadImageID)){
+                setCharacterSpriteImage(sprite.catchImageID);
+            }
+        }
     }
 
     public int getCharacterWidth() {
@@ -130,8 +144,14 @@ public class CharacterSprite {
         characterSpriteImages.put(sprite.deadImageID, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.getContext().getResources(), sprite.deadImageID), 0.18));
     }
 
+    public Sprites getCharacterSprite(){
+        return this.sprite;
+    }
+
     public void setCharacterSpriteImage(int imageID){
+        long updateTime = System.currentTimeMillis();
         this.characterSpriteImage = characterSpriteImages.get(imageID);
+        lastAnimationChange = updateTime;
     }
 
     public void setImmune(boolean immune){

@@ -67,7 +67,7 @@ public class CoreGame {
         this.objectsOnScreen = new ArrayList<>();
         this.mapPowerUpDurations();
         this.setGameDifficulty(difficulty);
-        this.characterSprite = new CharacterSprite(Sprites.MONKEY);
+        this.characterSprite = new CharacterSprite(Sprites.GNU);
         if(gameview.isMultiplayer){setMultiGameOver(0);}
     }
 
