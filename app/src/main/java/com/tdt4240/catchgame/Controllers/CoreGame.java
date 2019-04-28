@@ -13,6 +13,7 @@ import com.tdt4240.catchgame.Model.FallingObject;
 import com.tdt4240.catchgame.Model.FallingObjectFactory;
 import com.tdt4240.catchgame.Model.ObjectType;
 import com.tdt4240.catchgame.Model.SoundEffects;
+import com.tdt4240.catchgame.Model.Sprites;
 import com.tdt4240.catchgame.R;
 import com.tdt4240.catchgame.View.GameView;
 
@@ -66,7 +67,7 @@ public class CoreGame {
         this.objectsOnScreen = new ArrayList<>();
         this.mapPowerUpDurations();
         this.setGameDifficulty(difficulty);
-        this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_monkey3), 0.18));
+        this.characterSprite = new CharacterSprite(Sprites.MONKEY);
         if(gameview.isMultiplayer){setMultiGameOver(0);}
     }
 
