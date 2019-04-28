@@ -1,4 +1,4 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Model;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -35,6 +35,7 @@ public class CharacterSprite {
     }
 
     public void update() {
+        //TODO: ANIMASJON GOES HERE
     }
 
     public int getCharacterWidth() {

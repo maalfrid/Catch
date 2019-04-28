@@ -1,7 +1,9 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Model;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+
+import com.tdt4240.catchgame.Controllers.CoreGame;
 
 
 public abstract class FallingObject {

@@ -1,4 +1,4 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.View;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,6 +11,14 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
+
+import com.tdt4240.catchgame.Controllers.CoreGame;
+import com.tdt4240.catchgame.MainThread;
+import com.tdt4240.catchgame.Model.FallingObjectFactory;
+import com.tdt4240.catchgame.Model.ObjectType;
+import com.tdt4240.catchgame.Controllers.MultiPlayerActivity;
+import com.tdt4240.catchgame.R;
+import com.tdt4240.catchgame.Controllers.SinglePlayerActivity;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 

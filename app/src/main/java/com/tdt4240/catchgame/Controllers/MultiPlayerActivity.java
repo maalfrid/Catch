@@ -1,15 +1,12 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Controllers;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
-import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.content.Intent;
 //Quick game
@@ -22,8 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.games.Game;
-import com.google.android.gms.games.GamesCallbackStatusCodes;
 import com.google.android.gms.games.GamesActivityResultCodes;
 import com.google.android.gms.games.Player;
 import com.google.android.gms.games.PlayersClient;
@@ -41,12 +36,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.games.RealTimeMultiplayerClient;
 import com.google.android.gms.games.multiplayer.Participant;
 import com.google.android.gms.games.Games;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.tdt4240.catchgame.R;
+import com.tdt4240.catchgame.View.GameView;
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -581,7 +574,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     }
 
     // Broadcast my score to everybody else
-    void broadcast(int myScore, int myLives, int isGameOver, int powerup) {
+    public void broadcast(int myScore, int myLives, int isGameOver, int powerup) {
 
         if (myLives == 0) {
             isGameOver = 1;

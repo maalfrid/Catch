@@ -1,4 +1,4 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Controllers;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -7,6 +7,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.view.MotionEvent;
+
+import com.tdt4240.catchgame.Model.CharacterSprite;
+import com.tdt4240.catchgame.Model.FallingObject;
+import com.tdt4240.catchgame.Model.FallingObjectFactory;
+import com.tdt4240.catchgame.Model.ObjectType;
+import com.tdt4240.catchgame.Model.SoundEffects;
+import com.tdt4240.catchgame.R;
+import com.tdt4240.catchgame.View.GameView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

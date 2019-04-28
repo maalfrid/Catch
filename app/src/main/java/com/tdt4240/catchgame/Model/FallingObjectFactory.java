@@ -1,10 +1,12 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Model;
 
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+
+import com.tdt4240.catchgame.Controllers.CoreGame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,7 +82,7 @@ public final class FallingObjectFactory {
     public Bitmap getObjectImage(ObjectType object, double scale) {
         ScaledObject ImageKey = new ScaledObject(object, scale);
         if (!objectImages.containsKey(ImageKey)) {
-            objectImages.put(ImageKey, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), object.objectResourceId), scale));
+            objectImages.put(ImageKey, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.getContext().getResources(), object.objectResourceId), scale));
         }
         return objectImages.get(ImageKey);
     }

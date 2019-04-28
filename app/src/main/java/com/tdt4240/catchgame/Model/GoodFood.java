@@ -1,22 +1,22 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Model;
 
 import android.graphics.Bitmap;
 
-public class BadFood extends FallingObject {
+public class GoodFood extends FallingObject {
 
-
-    public BadFood(Bitmap bitmap, ObjectType object) {
+    public GoodFood(Bitmap bitmap, ObjectType object) {
         super(bitmap, object);
     }
 
     @Override
     public void applyObjectEatenEffect(CharacterSprite characterSprite) {
-        characterSprite.removeScore(this.objectScore);
-        setSound("cough");
+        characterSprite.addScore(this.objectScore);
+        setSound("bite");
     }
 
     @Override
     public void applyObjectOnFloorEffect(CharacterSprite characterSprite) {
+        characterSprite.removeLife();
         setSound("smack");
     }
 }

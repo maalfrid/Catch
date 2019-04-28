@@ -1,9 +1,12 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Controllers;
 
 import android.media.MediaPlayer;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.tdt4240.catchgame.R;
+import com.tdt4240.catchgame.View.GameView;
 
 public class SinglePlayerActivity extends AppCompatActivity {
 

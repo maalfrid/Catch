@@ -3,6 +3,8 @@ package com.tdt4240.catchgame;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
+import com.tdt4240.catchgame.View.GameView;
+
 public class MainThread extends Thread {
     private final SurfaceHolder surfaceHolder;
     private GameView gameView;

@@ -1,6 +1,8 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Model;
 
 import android.graphics.Bitmap;
+
+import com.tdt4240.catchgame.Controllers.CoreGame;
 
 public class PowerUp extends FallingObject {
 

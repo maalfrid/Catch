@@ -1,10 +1,12 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Controllers;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.tdt4240.catchgame.R;
 
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
