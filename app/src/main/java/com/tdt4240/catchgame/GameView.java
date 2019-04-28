@@ -274,36 +274,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     // When the player says yes to quit the game
-    public void gameExit() {
-        setRunning(false);
-        if (!isMultiplayer) {
-            singlePlayerActivity.finish();
-        }
-        if (isMultiplayer) {
-            multiPlayerActivity.finish();
-        }
-    }
-
-    // When the player has lost 3 lives
-    public void gameOver() {
-        setRunning(false);
-        setGameOver(true);
-    }
-
-    public void gameWon() {
-        setRunning(false);
-        setGameWon(true);
-    }
-
-    public void gameLost() {
-        setRunning(false);
-        setGameLost(true);
-    }
-
-    public void opponentExit() {
-        setRunning(false);
-        setOpponentExit(true);
-    }
 
 
     public void popup(final String msg) {
@@ -333,11 +303,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * --------- GETTERS AND SETTERS ---------
      * */
 
-    public void setRunning(Boolean b) {
+    public void setRunning(boolean b) {
         thread.setRunning(b);
     }
 
-    public void setGameOver(Boolean b) {
+    public void setGameOver(boolean b) {
         this.gameOver = b;
     }
 
@@ -345,7 +315,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return this.gameOver;
     }
 
-    public void setGamePause(Boolean b) {
+    public void setGamePause(boolean b) {
         this.gamePause = b;
     }
 
@@ -353,7 +323,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return this.gamePause;
     }
 
-    public void setGameWon(Boolean b) {
+    public void setGameWon(boolean b) {
         this.gameWon = b;
     }
 
@@ -361,7 +331,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return this.gameWon;
     }
 
-    public void setGameLost(Boolean b) {
+    public void setGameLost(boolean b) {
         this.gameLost = b;
     }
 
@@ -369,7 +339,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return this.gameLost;
     }
 
-    public void setOpponentExit(Boolean b) {
+    public void setOpponentExit(boolean b) {
         this.opponentExit = b;
     }
 

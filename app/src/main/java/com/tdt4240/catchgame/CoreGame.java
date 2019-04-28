@@ -104,8 +104,8 @@ public class CoreGame {
     public void update() {
         long updateTime = System.currentTimeMillis();
         characterSprite.update();
-        if (characterSprite.getLives() == 0 && !this.gameview.isMultiplayer) { gameview.gameOver(); }
-        if (characterSprite.getLives() == 0 && this.gameview.isMultiplayer) { gameview.gameLost(); }
+        if (characterSprite.getLives() == 0 && !this.gameview.isMultiplayer) { gameOver(); }
+        if (characterSprite.getLives() == 0 && this.gameview.isMultiplayer) { gameLost(); }
 
         gameview.updateScoreSelf(characterSprite.getScore(), characterSprite.getLives());
 
@@ -218,12 +218,12 @@ public class CoreGame {
     public void receiveBroadcast(){
         // If opponent lost the game
         if(gameview.getMultiPlayerActivity().getIsGameOver() == 1 && gameview.getMultiPlayerActivity().getOpponentLife() <= 0) {
-            gameview.gameWon();
+            gameWon();
         }
 
         // If opponent exits in the middle of the game
         if (gameview.getMultiPlayerActivity().getIsGameOver() == 1 && (gameview.getMultiPlayerActivity().getOpponentLife() > 0)) {
-            gameview.opponentExit();
+            opponentExit();
         }
 
         // Get powerup value
@@ -312,6 +312,37 @@ public class CoreGame {
         this.multiPowerupReceived = 0;
     }
 
+    public void gameExit() {
+        this.gameview.setRunning(false);
+        if (!this.gameview.isMultiplayer) {
+            this.gameview.getSinglePlayerActivity().finish();
+        }
+        if (this.gameview.isMultiplayer) {
+            this.gameview.getMultiPlayerActivity().finish();
+        }
+    }
+
+    // When the player has lost 3 lives
+    public void gameOver() {
+        this.gameview.setRunning(false);
+        this.gameview.setGameOver(true);
+    }
+
+    public void gameWon() {
+        this.gameview.setRunning(false);
+        this.gameview.setGameWon(true);
+    }
+
+    public void gameLost() {
+        this.gameview.setRunning(false);
+        this.gameview.setGameLost(true);
+    }
+
+    public void opponentExit() {
+        this.gameview.setRunning(false);
+        this.gameview.setOpponentExit(true);
+    }
+
     /*
      * --------- CONTROLLER FOR BUTTON CLICKS IN GAME ---------
      * Handle how powerups taken by the opponent affect the player.
@@ -349,7 +380,7 @@ public class CoreGame {
                 setMultiGameOver(1);
                 sendBroadcast();
             }
-            gameview.gameExit();
+            gameExit();
         }
         if (gameview.btn_no.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) { gameview.setGamePause(false); }
         if (gameview.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameOver()) { finishGame(); }
