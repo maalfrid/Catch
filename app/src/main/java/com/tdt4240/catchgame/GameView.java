@@ -195,37 +195,39 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void drawActivePowerups(Canvas canvas){
         // -- Catched power-ups by you:
         float heightSelf = this.txt_lives_self.getPosY();
-        float heightOpponent = this.txt_lives_opponent.getPosY();
         if(this.coreGame.getCharacterSprite().isImmune()){
             // You have caught a power-up
-            Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.GREENBEETLE, 0.08);
+            Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.GREENBEETLE, 0.1);
             canvas.drawBitmap(bmp, btn_exit.getWidth(), heightSelf, null);
         }
         if(FallingObjectFactory.getInstance().isLargeGood()){
             // You caught a power-up
-            Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.LIGHTNINGBEETLE, 0.08);
+            Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.LIGHTNINGBEETLE, 0.1);
             canvas.drawBitmap(bmp, btn_exit.getWidth() + bmp.getWidth(), heightSelf, null);
         }
         if(FallingObjectFactory.getInstance().isOnlyGood()){
             // You caught a power-up
-            Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.STARBEETLE, 0.08);
+            Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.STARBEETLE, 0.1);
             canvas.drawBitmap(bmp, btn_exit.getWidth() + 2*bmp.getWidth(), heightSelf, null);
         }
         // -- Catched power-ups by opponent:
-        if(this.coreGame.getCharacterSprite().isVulnerable()){
-            // Opponent caught a power-up
-            Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.GREENBEETLE, 0.08);
-            canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 2*bmp.getWidth(), heightOpponent, null);
-        }
-        if(FallingObjectFactory.getInstance().isLargeBad()){
-            // Opponent caught a power-up
-            Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.LIGHTNINGBEETLE, 0.08);
-            canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 3*bmp.getWidth(), heightOpponent, null);
-        }
-        if(FallingObjectFactory.getInstance().isOnlyBad()){
-            // Opponent caught a power-up
-            Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.STARBEETLE, 0.08);
-            canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 4*bmp.getWidth(), heightOpponent, null);
+        if (isMultiplayer) {
+            float heightOpponent = this.txt_lives_opponent.getPosY();
+            if (this.coreGame.getCharacterSprite().isVulnerable()) {
+                // Opponent caught a power-up
+                Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.GREENBEETLE, 0.1);
+                canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 2 * bmp.getWidth(), heightOpponent, null);
+            }
+            if (FallingObjectFactory.getInstance().isLargeBad()) {
+                // Opponent caught a power-up
+                Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.LIGHTNINGBEETLE, 0.1);
+                canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 3 * bmp.getWidth(), heightOpponent, null);
+            }
+            if (FallingObjectFactory.getInstance().isOnlyBad()) {
+                // Opponent caught a power-up
+                Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.STARBEETLE, 0.1);
+                canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 4 * bmp.getWidth(), heightOpponent, null);
+            }
         }
     }
 
