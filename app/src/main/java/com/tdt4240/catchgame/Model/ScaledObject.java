@@ -1,4 +1,4 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Model;
 
 import java.util.Objects;
 

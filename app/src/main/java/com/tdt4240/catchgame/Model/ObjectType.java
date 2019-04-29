@@ -1,4 +1,6 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Model;
+
+import com.tdt4240.catchgame.R;
 
 import java.util.Random;
 

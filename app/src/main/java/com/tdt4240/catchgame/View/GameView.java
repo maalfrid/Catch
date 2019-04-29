@@ -1,4 +1,4 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.View;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,6 +11,14 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
+
+import com.tdt4240.catchgame.Controllers.CoreGame;
+import com.tdt4240.catchgame.MainThread;
+import com.tdt4240.catchgame.Model.FallingObjectFactory;
+import com.tdt4240.catchgame.Model.ObjectType;
+import com.tdt4240.catchgame.Controllers.MultiPlayerActivity;
+import com.tdt4240.catchgame.R;
+import com.tdt4240.catchgame.Controllers.SinglePlayerActivity;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -195,37 +203,39 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void drawActivePowerups(Canvas canvas){
         // -- Catched power-ups by you:
         float heightSelf = this.txt_lives_self.getPosY();
-        float heightOpponent = this.txt_lives_opponent.getPosY();
         if(this.coreGame.getCharacterSprite().isImmune()){
             // You have caught a power-up
-            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.GREENBEETLE, 0.08);
+            Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.GREENBEETLE, 0.1);
             canvas.drawBitmap(bmp, btn_exit.getWidth(), heightSelf, null);
         }
-        if(this.coreGame.getFallingObjectFactory().isLargeGood()){
+        if(FallingObjectFactory.getInstance().isLargeGood()){
             // You caught a power-up
-            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.LIGHTNINGBEETLE, 0.08);
+            Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.LIGHTNINGBEETLE, 0.1);
             canvas.drawBitmap(bmp, btn_exit.getWidth() + bmp.getWidth(), heightSelf, null);
         }
-        if(this.coreGame.getFallingObjectFactory().isOnlyGood()){
+        if(FallingObjectFactory.getInstance().isOnlyGood()){
             // You caught a power-up
-            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.STARBEETLE, 0.08);
+            Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.STARBEETLE, 0.1);
             canvas.drawBitmap(bmp, btn_exit.getWidth() + 2*bmp.getWidth(), heightSelf, null);
         }
         // -- Catched power-ups by opponent:
-        if(this.coreGame.getCharacterSprite().isVulnerable()){
-            // Opponent caught a power-up
-            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.GREENBEETLE, 0.08);
-            canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 2*bmp.getWidth(), heightOpponent, null);
-        }
-        if(this.coreGame.getFallingObjectFactory().isLargeBad()){
-            // Opponent caught a power-up
-            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.LIGHTNINGBEETLE, 0.08);
-            canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 3*bmp.getWidth(), heightOpponent, null);
-        }
-        if(this.coreGame.getFallingObjectFactory().isOnlyBad()){
-            // Opponent caught a power-up
-            Bitmap bmp = this.coreGame.getFallingObjectFactory().getObjectImage(ObjectType.STARBEETLE, 0.08);
-            canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 4*bmp.getWidth(), heightOpponent, null);
+        if (isMultiplayer) {
+            float heightOpponent = this.txt_lives_opponent.getPosY();
+            if (this.coreGame.getCharacterSprite().isVulnerable()) {
+                // Opponent caught a power-up
+                Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.GREENBEETLE, 0.1);
+                canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 2 * bmp.getWidth(), heightOpponent, null);
+            }
+            if (FallingObjectFactory.getInstance().isLargeBad()) {
+                // Opponent caught a power-up
+                Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.LIGHTNINGBEETLE, 0.1);
+                canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 3 * bmp.getWidth(), heightOpponent, null);
+            }
+            if (FallingObjectFactory.getInstance().isOnlyBad()) {
+                // Opponent caught a power-up
+                Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.STARBEETLE, 0.1);
+                canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 4 * bmp.getWidth(), heightOpponent, null);
+            }
         }
     }
 
@@ -272,36 +282,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     // When the player says yes to quit the game
-    public void gameExit() {
-        setRunning(false);
-        if (!isMultiplayer) {
-            singlePlayerActivity.finish();
-        }
-        if (isMultiplayer) {
-            multiPlayerActivity.finish();
-        }
-    }
-
-    // When the player has lost 3 lives
-    public void gameOver() {
-        setRunning(false);
-        setGameOver(true);
-    }
-
-    public void gameWon() {
-        setRunning(false);
-        setGameWon(true);
-    }
-
-    public void gameLost() {
-        setRunning(false);
-        setGameLost(true);
-    }
-
-    public void opponentExit() {
-        setRunning(false);
-        setOpponentExit(true);
-    }
 
 
     public void popup(final String msg) {
@@ -331,11 +311,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * --------- GETTERS AND SETTERS ---------
      * */
 
-    public void setRunning(Boolean b) {
+    public void setRunning(boolean b) {
         thread.setRunning(b);
     }
 
-    public void setGameOver(Boolean b) {
+    public void setGameOver(boolean b) {
         this.gameOver = b;
     }
 
@@ -343,7 +323,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return this.gameOver;
     }
 
-    public void setGamePause(Boolean b) {
+    public void setGamePause(boolean b) {
         this.gamePause = b;
     }
 
@@ -351,7 +331,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return this.gamePause;
     }
 
-    public void setGameWon(Boolean b) {
+    public void setGameWon(boolean b) {
         this.gameWon = b;
     }
 
@@ -359,7 +339,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return this.gameWon;
     }
 
-    public void setGameLost(Boolean b) {
+    public void setGameLost(boolean b) {
         this.gameLost = b;
     }
 
@@ -367,7 +347,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return this.gameLost;
     }
 
-    public void setOpponentExit(Boolean b) {
+    public void setOpponentExit(boolean b) {
         this.opponentExit = b;
     }
 
