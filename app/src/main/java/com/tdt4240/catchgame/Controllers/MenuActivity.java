@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.tdt4240.catchgame.Model.Sprites;
 import com.tdt4240.catchgame.R;
 
 
@@ -13,6 +14,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     private String difficulty = "difficulty";
     MediaPlayer buttonSound;
+    //private Enum character;
 
     public MenuActivity() {
         super();
@@ -41,7 +43,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     final static int[] CLICKABLES = {R.id.btn_play, R.id.btn_rules, R.id.btn_score,
             R.id.btn_settings, R.id.btn_background, R.id.btn_avatar, R.id.switch_sound,
             R.id.switch_background_music, R.id.btn_easy, R.id.btn_medium, R.id.btn_hard,
-            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack
+            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack, R.id.btn_avatar_crocodile, R.id.btn_avatar_gnu, R.id.btn_avatar_monkey
     };
 
     @Override
@@ -110,6 +112,28 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 }
                 SwitchScreen(mLastScreen);
+                break;
+//choice of character
+            case R.id.btn_avatar_crocodile:
+                this.buttonSound.start();
+                Intent intentAvatarCrocodile= new Intent(v.getContext(), CoreGame.class);
+                //send string to next activity
+                intentAvatarCrocodile.putExtra("avatar", Sprites.CROCODILE);
+                startActivity(intentAvatarCrocodile);
+                break;
+            case R.id.btn_avatar_gnu:
+                this.buttonSound.start();
+                Intent intentAvatarGnu= new Intent(v.getContext(), CoreGame.class);
+                //send string to next activity
+                intentAvatarGnu.putExtra("avatar", Sprites.GNU);
+                startActivity(intentAvatarGnu);
+                break;
+            case R.id.btn_avatar_monkey:
+                this.buttonSound.start();
+                Intent intentAvatarMonkey= new Intent(v.getContext(), CoreGame.class);
+                //send string to next activity
+                intentAvatarMonkey.putExtra("avatar", Sprites.MONKEY);
+                startActivity(intentAvatarMonkey);
                 break;
         }
     }

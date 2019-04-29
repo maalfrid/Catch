@@ -21,6 +21,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
+
         this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setLooping(true);
         this.backgroundMusic.setVolume(1, 1);

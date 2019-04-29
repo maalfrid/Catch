@@ -60,36 +60,6 @@
 
     </LinearLayout>
 
-    <!-- SETTINGS VIEW -->
-    <LinearLayout
-        android:id="@+id/view_settings_menu"
-        style="@style/CenterScreen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/btn_background"
-            style="@style/MenuButton"
-            android:background="@drawable/txt_background" />
-
-        <Button
-            android:id="@+id/btn_avatar"
-            style="@style/MenuButton"
-            android:background="@drawable/txt_avatar" />
-
-        <Switch
-            android:id="@+id/switch_sound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/txt_sound" />
-
-        <Switch
-            android:id="@+id/switch_background_music"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/txt_music" />
-
-    </LinearLayout>
 
     <!-- RULES VIEW -->
     <LinearLayout
@@ -109,9 +79,9 @@
 
         <TextView
             style="@style/TextHeaders"
-            app:fontFamily="@font/frecklefaceregular"
+            android:layout_width="387dp"
             android:text="@string/good_objects_subheader"
-            />
+            app:fontFamily="@font/frecklefaceregular" />
 
         <LinearLayout
             style="@style/LinearRowLayout">
@@ -243,6 +213,12 @@
             style="@style/TextDescription"
             android:gravity="center_horizontal"
             android:text="@string/powerups_description" />
+
+        <Button
+            android:id="@+id/crocbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sprites_crocodile1" />
     </LinearLayout>
 
     <!-- PLAY GAME VIEW -->
@@ -285,6 +261,73 @@
             android:id="@+id/btn_hard"
             style="@style/MenuButton"
             android:background="@drawable/button_hard" />
+
+    </LinearLayout>
+
+    <!-- SETTINGS VIEW -->
+    <LinearLayout
+        android:id="@+id/view_settings_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_menu"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_background"
+            android:layout_marginTop="80dp"
+            style="@style/MenuButton"
+            android:layout_width="256dp"
+            android:layout_height="82dp"
+            android:background="@drawable/txt_background" />
+
+        <Button
+            android:id="@+id/btn_avatar"
+            style="@style/MenuButton"
+            android:layout_width="311dp"
+            android:layout_height="87dp"
+            android:background="@drawable/txt_avatar" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <Button
+            android:id="@+id/btn_avatar_crocodile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="120dp"
+            android:background="@drawable/sprites_crocodile1"
+            android:onClick="onClick" />
+
+        <Button
+            android:id="@+id/btn_avatar_gnu"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/sprites_gnu1"
+            android:onClick="onClick" />
+
+        <Button
+            android:id="@+id/btn_avatar_monkey"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/sprites_monkey1"
+            android:onClick="onClick" />
+
+    </LinearLayout>
+        <Switch
+            android:id="@+id/switch_sound"
+            android:layout_width="322dp"
+            android:layout_height="111dp"
+            android:background="@drawable/txt_sound" />
+
+        <Switch
+            android:id="@+id/switch_background_music"
+            android:layout_width="321dp"
+            android:layout_height="122dp"
+            android:background="@drawable/txt_music" />
 
     </LinearLayout>
 
