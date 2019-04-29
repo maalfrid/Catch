@@ -157,11 +157,11 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
 
-        if(this.inGame){
+       /* if(this.inGame){
             this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
             this.backgroundMusic.setLooping(true);
             this.backgroundMusic.setVolume(1, 1);
-        }
+        }*/
 
         if(!this.inGame){
             this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
