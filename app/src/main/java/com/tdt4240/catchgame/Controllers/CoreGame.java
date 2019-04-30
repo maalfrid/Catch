@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.os.Bundle;
 import android.view.MotionEvent;
 
 import com.tdt4240.catchgame.Model.CharacterSprite;
@@ -17,6 +18,7 @@ import com.tdt4240.catchgame.Model.Sprites;
 import com.tdt4240.catchgame.R;
 import com.tdt4240.catchgame.View.GameView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -55,11 +57,12 @@ public class CoreGame {
      * --------- CREATE AND SETUP THE GAME ---------
      * */
 
-    public CoreGame(String difficulty, Context context, GameView gameview) {
+    public CoreGame(String difficulty, String avatar, Context context, GameView gameview) {
         this.gameview = gameview;
         this.context = context;
         this.soundEffects = new SoundEffects();
         this.soundOn = true;
+        this.characterSprite = new CharacterSprite(Sprites.valueOf(avatar));
         this.setupGame(difficulty);
     }
 
@@ -67,9 +70,10 @@ public class CoreGame {
         this.objectsOnScreen = new ArrayList<>();
         this.mapPowerUpDurations();
         this.setGameDifficulty(difficulty);
-        this.characterSprite = new CharacterSprite(Sprites.GNU);
+
         if(gameview.isMultiplayer){setMultiGameOver(0);}
     }
+
 
     private void setGameDifficulty(String difficulty) {
         if (difficulty.equals(easy)) {
