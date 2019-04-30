@@ -14,6 +14,7 @@ import com.tdt4240.catchgame.R;
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String difficulty = "difficulty";
+    private String avatar = Sprites.GNU.toString();
     MediaPlayer buttonSound;
 
     public MenuActivity() {
@@ -71,6 +72,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 //send string to next activity
                 intentEasy.putExtra(difficulty, "easy");
                 intentEasy.putExtra("gametype", "single");
+                intentEasy.putExtra("avatar", this.avatar);
                 startActivity(intentEasy);
                 break;
             case R.id.btn_medium:
@@ -78,6 +80,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intentMedium = new Intent(v.getContext(), SinglePlayerActivity.class);
                 intentMedium.putExtra(difficulty, "medium");
                 intentMedium.putExtra("gametype", "single");
+                intentMedium.putExtra("avatar", this.avatar);
+                System.out.println("chosen avatar:" + this.avatar);
                 startActivity(intentMedium);
                 break;
             case R.id.btn_hard:
@@ -85,6 +89,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intentHard = new Intent(v.getContext(), SinglePlayerActivity.class);
                 intentHard.putExtra(difficulty, "hard");
                 intentHard.putExtra("gametype", "single");
+                intentHard.putExtra("avatar", this.avatar);
                 startActivity(intentHard);
                 break;
             case R.id.btn_play_single:
@@ -100,6 +105,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 // just do the same as for singleplayer
                 Intent intentMulti = new Intent(v.getContext(), MultiPlayerActivity.class);
                 intentMulti.putExtra("gametype", "multi");
+                intentMulti.putExtra("avatar", this.avatar);
                 startActivity(intentMulti);
                 break;
             /*case R.id.button_sign_in:
@@ -116,25 +122,18 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 //choice of character
             case R.id.btn_avatar_crocodile:
                 this.buttonSound.start();
-                //Intent intentAvatarCrocodile= new Intent(v.getContext(), SinglePlayerActivity.class);
-                Intent intent = new Intent("intentAvatarCrocodile").putExtra("avatar", Sprites.CROCODILE);
-                //send string to next activity
-                //intentAvatarCrocodile.putExtra("avatar", Sprites.CROCODILE);
-                LocalBroadcastManager.getInstance(MenuActivity.this).sendBroadcast(intent);
-
+                this.avatar = Sprites.CROCODILE.toString();
+                System.out.println("Chosen Crocodile");
                 break;
             case R.id.btn_avatar_gnu:
                 this.buttonSound.start();
-                Intent intentAvatarGnu= new Intent(v.getContext(), SinglePlayerActivity.class);
-                //send string to next activity
-                intentAvatarGnu.putExtra("avatar", Sprites.GNU);
+                this.avatar = Sprites.GNU.toString();
+                System.out.println("Chosen GNU");
                 break;
             case R.id.btn_avatar_monkey:
                 this.buttonSound.start();
-                //this.character = Sprites.MONKEY;
-                Intent intentAvatarMonkey= new Intent(v.getContext(), SinglePlayerActivity.class);
-                //send string to next activity
-                intentAvatarMonkey.putExtra("avatar", Sprites.MONKEY);
+                this.avatar = Sprites.MONKEY.toString();
+                System.out.println("Chosen Monkey");
                 break;
         }
     }

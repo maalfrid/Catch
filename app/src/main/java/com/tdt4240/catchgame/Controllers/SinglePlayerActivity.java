@@ -5,11 +5,6 @@ import android.media.MediaPlayer;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.content.BroadcastReceiver;
-import android.content.IntentFilter;
-
-import com.tdt4240.catchgame.Model.Sprites;
 import com.tdt4240.catchgame.R;
 import com.tdt4240.catchgame.View.GameView;
 
@@ -26,16 +21,11 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter("intentAvatarCrocodile"));
 
-        /*if(getIntent().hasExtra("avatar")){
-            this.avatar = getIntent().getStringExtra("avatar");
-        }
-        if(getIntent().getStringExtra("avatar") == null){
-            this.avatar = Sprites.MONKEY.toString();
-        }*/
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
+        this.avatar = getIntent().getStringExtra("avatar");
+        System.out.println(this.avatar);
 
         this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setLooping(true);
@@ -44,13 +34,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
 
     }
-    //help method to receive intent without starting the activity
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            avatar = intent.getStringExtra("avatar");
-        }
-    };
 
     @Override
     protected void onStart() {

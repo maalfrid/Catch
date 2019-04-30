@@ -2,7 +2,8 @@ package com.tdt4240.catchgame.Model;
 
 import com.tdt4240.catchgame.R;
 
-public enum Sprites {
+
+public enum Sprites{
 
     //TODO: Fix crocodile image height.
     // NAME(DefaultImage, CatchImage, DeadImage)
