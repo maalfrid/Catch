@@ -45,7 +45,7 @@
         <item name="android:layout_marginTop">20dp</item>
     </style>
 
-    <!-- Multi Player -->
+    <!-- Rules view -->
     <style name="TextHeaders" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -53,8 +53,15 @@
         <item name="android:textSize">38sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display2</item>
         <item name="android:textColor">@color/colorYellow</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:visibility">visible</item>
+
+        <!-- TODO: Fix shadows -->
+        <!-- Shadows, not working
+        <item name= "android:shadowColor">@color/colorDarkGreen</item>
+        <item name= "android:shadowDx">10dp</item>
+        <item name= "android:shadowDy">2dp</item>
+        <item name= "android:shadowRadius">3dp</item> -->
+
     </style>
 
     <style name="TextDescription" parent="android:Widget.TextView">
@@ -66,8 +73,7 @@
         <item name="android:paddingBottom">5dp</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display1</item>
-        <item name="android:textColor">@color/colorDarkGreen</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:visibility">visible</item>
     </style>
 
@@ -79,7 +85,7 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display1</item>
-        <item name="android:textColor">@color/colorYellow</item>
+        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textStyle">bold</item>
         <item name="android:visibility">visible</item>
     </style>
@@ -123,9 +129,5 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/BlurbColor</item>
     </style>
-
-
-    <!-- Colors -->
-    <color name="BlurbColor">#a0a0a0</color>
 
 </resources>

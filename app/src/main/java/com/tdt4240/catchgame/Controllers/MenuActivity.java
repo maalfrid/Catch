@@ -41,7 +41,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     final static int[] CLICKABLES = {R.id.btn_play, R.id.btn_rules, R.id.btn_score,
             R.id.btn_settings, R.id.btn_background, R.id.btn_avatar, R.id.switch_sound,
             R.id.switch_background_music, R.id.btn_easy, R.id.btn_medium, R.id.btn_hard,
-            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack
+            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack, R.id.btn_goToPowerups
     };
 
     @Override
@@ -62,6 +62,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_settings:
                 this.buttonSound.start();
                 SwitchScreen(R.id.view_settings_menu);
+                break;
+            case R.id.btn_goToPowerups:
+                this.buttonSound.start();
+                SwitchScreen(R.id.view_powerups);
                 break;
             case R.id.btn_easy:
                 this.buttonSound.start();

@@ -5,4 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorDarkGreen">#0f4414</color>
     <color name="colorYellow">#f1c131</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="BlurbColor">#a0a0a0</color>
+
 </resources>

@@ -107,55 +107,65 @@
             android:background="@drawable/button_rules"
             android:contentDescription="@string/txt_rules" />
 
+        <!-- RULES VIEW - good objects-->
         <TextView
             style="@style/TextHeaders"
-            app:fontFamily="@font/frecklefaceregular"
             android:text="@string/good_objects_subheader"
-            />
+            app:fontFamily="@font/frecklefaceregular" />
 
         <LinearLayout
             style="@style/LinearRowLayout">
             <ImageView
                 style="@style/ImageRow"
-                android:background="@drawable/obj_good_strawberry"/>
-            <ImageView
-                style="@style/ImageRow"
                 android:background="@drawable/obj_good_pineapple" />
             <ImageView
                 style="@style/ImageRow"
-                android:background="@drawable/obj_good_cherry"/>
-            <ImageView
-                style="@style/ImageRow"
-                android:background="@drawable/obj_good_orange" />
-
+                android:background="@drawable/obj_good_grapes" />
             <TextView
                 style="@style/TextPoints"
                 app:fontFamily="@font/frecklefaceregular"
                 android:text="= 1, " />
+
             <ImageView
                 style="@style/ImageRow"
                 android:background="@drawable/obj_good_banana" />
             <ImageView
                 style="@style/ImageRow"
-                android:background="@drawable/obj_good_grapes" />
+                android:background="@drawable/obj_good_cherry"/>
             <ImageView
                 style="@style/ImageRow"
                 android:background="@drawable/obj_good_lemon" />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_good_orange" />
+            <TextView
+                style="@style/TextPoints"
+                app:fontFamily="@font/frecklefaceregular"
+                android:text="= 2, " />
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_good_strawberry"/>
+            <TextView
+                style="@style/TextPoints"
+                app:fontFamily="@font/frecklefaceregular"
+                android:text="= 3, " />
+
             <ImageView
                 style="@style/ImageRow"
                 android:background="@drawable/obj_good_apple" />
             <TextView
                 style="@style/TextPoints"
                 app:fontFamily="@font/frecklefaceregular"
-                android:text="= 2" />
+                android:text="= 5" />
         </LinearLayout>
 
         <TextView
-            app:fontFamily="@font/frecklefaceregular"
             style="@style/TextDescription"
             android:gravity="center_horizontal"
-            android:text="@string/good_objects_description"/>
+            android:text="@string/good_objects_description"
+            app:fontFamily="@font/frecklefaceregular" />
 
+        <!-- RULES VIEW - bad objects-->
         <TextView
             style="@style/TextHeaders"
             app:fontFamily="@font/frecklefaceregular"
@@ -198,51 +208,53 @@
             android:gravity="center_horizontal"
             android:text="@string/bad_objects_description" />
 
+        <!-- RULES VIEW -  powerups-->
         <TextView
             style="@style/TextHeaders"
             app:fontFamily="@font/frecklefaceregular"
             android:text="@string/powerups_objects_subheader" />
-
-        <LinearLayout
-            style="@style/LinearRowLayout">
-            <ImageView
-                style="@style/ImageRow"
-                android:background="@drawable/obj_powerup_ladybug" />
-            <ImageView
-                style="@style/ImageRow"
-                android:background="@drawable/obj_powerup_ladybug" />
-            <TextView
-                style="@style/TextPoints"
-                app:fontFamily="@font/frecklefaceregular"
-                android:text="= 1, " />
-            <ImageView
-                style="@style/ImageRow"
-                android:background="@drawable/obj_powerup_starbeetle" />
-            <ImageView
-                style="@style/ImageRow"
-                android:background="@drawable/obj_powerup_starbeetle" />
-            <TextView
-                style="@style/TextPoints"
-                app:fontFamily="@font/frecklefaceregular"
-                android:text="= 2, " />
-            <ImageView
-                style="@style/ImageRow"
-                android:background="@drawable/obj_powerup_beetle" />
-            <ImageView
-                style="@style/ImageRow"
-                android:background="@drawable/obj_powerup_beetle" />
-
-            <TextView
-                style="@style/TextPoints"
-                android:text="= 3 "
-                app:fontFamily="@font/frecklefaceregular" />
-        </LinearLayout>
 
         <TextView
             app:fontFamily="@font/frecklefaceregular"
             style="@style/TextDescription"
             android:gravity="center_horizontal"
             android:text="@string/powerups_description" />
+        <LinearLayout
+            style="@style/LinearRowLayout">
+
+            <Button
+                style="@style/ImageRow"
+                android:id="@+id/btn_goToPowerups"
+                android:background="@drawable/obj_powerup_ladybug"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!-- RULES VIEW - POWERUPS-->
+    <LinearLayout
+        android:id="@+id/view_powerups"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/bg_menu">
+
+        <ImageView
+            android:layout_marginTop="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_rules"
+            android:contentDescription="@string/txt_rules" />
+
+        <TextView
+            style="@style/TextHeaders"
+            app:fontFamily="@font/frecklefaceregular"
+            android:text="@string/powerups_mainmenu_subheader" />
+
+        <TextView
+            app:fontFamily="@font/frecklefaceregular"
+            style="@style/TextDescription"
+            android:gravity="center_horizontal"
+            android:text="@string/powerups_menu_description" />
     </LinearLayout>
 
     <!-- PLAY GAME VIEW -->
