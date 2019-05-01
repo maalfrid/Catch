@@ -67,11 +67,7 @@ public class CoreGame {
         this.objectsOnScreen = new ArrayList<>();
         this.mapPowerUpDurations();
         this.setGameDifficulty(difficulty);
-<<<<<<< HEAD:app/src/main/java/com/tdt4240/catchgame/CoreGame.java
-        this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_crocodile2), 0.18));
-=======
         this.characterSprite = new CharacterSprite(Sprites.GNU);
->>>>>>> 8e7c5a3e5d95ed85813c1f6ff0cf351187d3d8e2:app/src/main/java/com/tdt4240/catchgame/Controllers/CoreGame.java
         if(gameview.isMultiplayer){setMultiGameOver(0);}
     }
 
