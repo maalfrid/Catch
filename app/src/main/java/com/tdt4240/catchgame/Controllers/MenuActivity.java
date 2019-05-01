@@ -17,6 +17,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     MediaPlayer buttonSound;
     private boolean backgroundSoundOn = true;
     private boolean soundOn = true;
+    private String background = "bg_play";
 
     public MenuActivity() {
         super();
@@ -45,7 +46,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     final static int[] CLICKABLES = {R.id.btn_play, R.id.btn_rules, R.id.btn_score,
             R.id.btn_settings, R.id.btn_background, R.id.btn_avatar, R.id.switch_sound,
             R.id.switch_background_music, R.id.btn_easy, R.id.btn_medium, R.id.btn_hard,
-            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack, R.id.btn_avatar_crocodile, R.id.btn_avatar_gnu, R.id.btn_avatar_monkey, R.id.btn_avatar_raccoon, R.id.switch_background_music, R.id.switch_sound
+            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack, R.id.btn_avatar_crocodile,
+            R.id.btn_avatar_gnu, R.id.btn_avatar_monkey, R.id.btn_avatar_raccoon,
+            R.id.switch_background_music, R.id.switch_sound, R.id.btn_background_menu, R.id.btn_background_play
+
+
     };
 
     @Override
@@ -76,6 +81,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 intentEasy.putExtra("avatar", this.avatar);
                 intentEasy.putExtra(backgroundSound, this.backgroundSoundOn);
                 intentEasy.putExtra("sound", this.soundOn);
+                intentEasy.putExtra("background", this.background);
                 startActivity(intentEasy);
                 break;
             case R.id.btn_medium:
@@ -87,6 +93,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 intentMedium.putExtra(backgroundSound, this.backgroundSoundOn);
                 System.out.println(this.backgroundSoundOn);
                 intentMedium.putExtra("sound", this.soundOn);
+                intentMedium.putExtra("background", this.background);
                 //System.out.println("chosen avatar:" + this.avatar);
                 startActivity(intentMedium);
                 break;
@@ -98,6 +105,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 intentHard.putExtra("avatar", this.avatar);
                 intentHard.putExtra(backgroundSound, this.backgroundSoundOn);
                 intentHard.putExtra("sound", this.soundOn);
+                intentHard.putExtra("background", this.background);
                 startActivity(intentHard);
                 break;
             case R.id.btn_play_single:
@@ -116,6 +124,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 intentMulti.putExtra("avatar", this.avatar);
                 intentMulti.putExtra(backgroundSound, this.backgroundSoundOn);
                 intentMulti.putExtra("sound", this.soundOn);
+                intentMulti.putExtra("background", this.background);
                 startActivity(intentMulti);
                 break;
             /*case R.id.button_sign_in:
@@ -154,9 +163,18 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 this.buttonSound.start();
                 this.backgroundSoundOn = !backgroundSoundOn;
                 System.out.println(this.backgroundSoundOn);
+                break;
             case R.id.switch_sound:
                 this.buttonSound.start();
                 this.soundOn = !soundOn;
+                break;
+            case R.id.btn_background_menu:
+                this.buttonSound.start();
+                this.background = "bg_menu";
+                break;
+            case R.id.btn_background_play:
+                this.buttonSound.start();
+                this.background = "bg_play";
 
         }
     }

@@ -280,6 +280,28 @@
             android:layout_height="82dp"
             android:background="@drawable/txt_background" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+            <Button
+                android:id="@+id/btn_background_play"
+                android:layout_width="50dp"
+                android:layout_marginLeft="150dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_play"
+                android:onClick="onClick"/>
+
+            <Button
+                android:id="@+id/btn_background_menu"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_menu"
+                android:layout_marginLeft="20dp"
+                android:onClick="onClick"
+                />
+
+        </LinearLayout>
         <Button
             android:id="@+id/btn_avatar"
             style="@style/MenuButton"

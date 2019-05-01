@@ -15,6 +15,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     MediaPlayer backgroundMusic;
     private String avatar;
     private boolean backgroundsoundOn;
+    private String background;
 
 
     public SinglePlayerActivity() {
@@ -27,7 +28,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
         this.avatar = getIntent().getStringExtra("avatar");
-        //System.out.println(this.avatar);
+        this.background = getIntent().getStringExtra("background");
         this.backgroundsoundOn = getIntent().getExtras().getBoolean("backgroundSound");
         this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setLooping(true);
@@ -48,6 +49,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     public boolean getBackgroundsoundOn(){
         return this.backgroundsoundOn;
+    }
+    public String getBackground(){
+        return this.background;
     }
 
     public String getAvatar(){ return this.avatar;}

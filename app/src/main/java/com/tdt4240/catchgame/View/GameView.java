@@ -82,6 +82,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gameLost = false;
         this.opponentExit = false;
         this.isMultiplayer = true;
+      //  this.background = singlePlayerActivity.getBackground();
     }
 
 
@@ -99,6 +100,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(true);
         thread.start();
         background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
+
         //menu items
         this.txt_you = new MenuItem("You", 45.0f, "#f1c131", "#0f4414", this.context);
         this.txt_score_self = new MenuItem("0", 45.0f, "#f1c131", "#0f4414", this.context);
