@@ -322,14 +322,16 @@
             android:layout_width="322dp"
             android:layout_height="111dp"
             android:checked="true"
-            android:background="@drawable/txt_sound" />
+            android:background="@drawable/txt_sound"
+            android:onClick="onClick"/>
 
         <Switch
             android:id="@+id/switch_background_music"
             android:layout_width="321dp"
             android:layout_height="122dp"
             android:checked="true"
-            android:background="@drawable/txt_music" />
+            android:background="@drawable/txt_music"
+            android:onClick="onClick"/>
 
     </LinearLayout>
 

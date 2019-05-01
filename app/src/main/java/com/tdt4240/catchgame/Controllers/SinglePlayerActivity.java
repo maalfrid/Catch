@@ -27,13 +27,11 @@ public class SinglePlayerActivity extends AppCompatActivity {
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
         this.avatar = getIntent().getStringExtra("avatar");
-        System.out.println(this.avatar);
+        //System.out.println(this.avatar);
         this.backgroundsoundOn = getIntent().getExtras().getBoolean("backgroundSound");
         this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setLooping(true);
         this.backgroundMusic.setVolume(1, 1);
-
-
     }
 
     @Override

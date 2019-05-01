@@ -85,6 +85,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 intentMedium.putExtra("gametype", "single");
                 intentMedium.putExtra("avatar", this.avatar);
                 intentMedium.putExtra(backgroundSound, this.backgroundSoundOn);
+                System.out.println(this.backgroundSoundOn);
                 intentMedium.putExtra("sound", this.soundOn);
                 //System.out.println("chosen avatar:" + this.avatar);
                 startActivity(intentMedium);
@@ -147,6 +148,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.switch_background_music:
                 this.buttonSound.start();
                 this.backgroundSoundOn = !backgroundSoundOn;
+                System.out.println(this.backgroundSoundOn);
             case R.id.switch_sound:
                 this.buttonSound.start();
                 this.soundOn = !soundOn;
