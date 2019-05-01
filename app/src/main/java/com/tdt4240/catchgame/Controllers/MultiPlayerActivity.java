@@ -1,15 +1,12 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Controllers;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
-import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.content.Intent;
 //Quick game
@@ -22,8 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.games.Game;
-import com.google.android.gms.games.GamesCallbackStatusCodes;
 import com.google.android.gms.games.GamesActivityResultCodes;
 import com.google.android.gms.games.Player;
 import com.google.android.gms.games.PlayersClient;
@@ -41,9 +36,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.games.RealTimeMultiplayerClient;
 import com.google.android.gms.games.multiplayer.Participant;
 import com.google.android.gms.games.Games;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.tdt4240.catchgame.R;
+import com.tdt4240.catchgame.View.GameView;
 
 
 import java.util.ArrayList;
@@ -58,7 +52,6 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
     final static String TAG = "Catch";
 
-
     // Request code used to invoke sign in user interactions.
     private static final int RC_SIGN_IN = 9001;
 
@@ -72,7 +65,6 @@ public class MultiPlayerActivity extends AppCompatActivity implements
 
     // Client used to interact with the real time multi player system.
     private RealTimeMultiplayerClient mRealTimeMultiplayerClient = null;
-
 
     //Room Id where the currently active game is taking place; null if we're not playing
     String mRoomId = null;
@@ -90,14 +82,12 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     String mMyId = null;
 
     // Message buffer for sending messages
-    byte[] mMsgBuf = new byte[5];
-
-    //temp
-    int myScore = 0;
+    byte[] mMsgBuf = new byte[7];
 
     // Music
-    MediaPlayer backgroundMusic;
-    MediaPlayer buttonSound;
+    private MediaPlayer backgroundMusic;
+    private MediaPlayer buttonSound;
+    private boolean inGame;
 
     // Broadcast vars
     private int opponentScore;
@@ -112,57 +102,78 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_multi_player);
         findViewById(R.id.view_signIn).setVisibility(View.VISIBLE);
 
-        //GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
+        // GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
 
         // Create the client used to sign in
         mGoogleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
 
-        //Set up a click listener for everything
+        // Set up a click listener for everything
         for (int id : CLICKABLEs) {
             findViewById(id).setOnClickListener(this);
             System.out.println("-------Button Id--" + id);
         }
 
+        // Enabled in quickGame()
+        this.inGame = false;
+
+        // Button sound
         this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
         this.buttonSound.setVolume(1, 1);
+
+        // Background sound
+        this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+        this.backgroundMusic.setVolume(1, 1);
+        this.backgroundMusic.setLooping(true);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(mRealTimeMultiplayerClient==null){
-            findViewById(R.id.button_quick_game).setVisibility(View.INVISIBLE);
-            findViewById(R.id.button_sign_out).setVisibility(View.INVISIBLE);
+        if(!this.inGame){
+            if(mRealTimeMultiplayerClient==null){
+                findViewById(R.id.button_quick_game).setVisibility(View.INVISIBLE);
+                findViewById(R.id.button_sign_out).setVisibility(View.INVISIBLE);
+            }
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        this.backgroundMusic.release();
-        this.buttonSound.release();
-        if(mRealTimeMultiplayerClient!=null){
-            findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
+
+        if(!this.inGame) {
+            this.buttonSound.release();
+
+            // TODO @Abhinav: Causes error.
+            if(mRealTimeMultiplayerClient!=null){
+                findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
+            }
         }
+
+        if(this.inGame) this.backgroundMusic.release();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
-        this.backgroundMusic.setLooping(true);
-        this.backgroundMusic.setVolume(1, 1);
-
-        this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
-        this.buttonSound.setVolume(1, 1);
-
-        // sign in silently when app resumes
-        // TODO: Only call following code if not in a game session
-        //signInSilently();
-        /*if(mRealTimeMultiplayerClient!=null){
-            findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
+       /* if(this.inGame){
+            this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
+            this.backgroundMusic.setLooping(true);
+            this.backgroundMusic.setVolume(1, 1);
         }*/
+
+        if(!this.inGame){
+            this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
+            this.buttonSound.setVolume(1, 1);
+
+            // sign in silently when app resumes
+            // TODO: Only call following code if not in a game session
+            signInSilently();
+            if(mRealTimeMultiplayerClient!=null){
+                findViewById(R.id.button_sign_in).setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     @Override
@@ -346,11 +357,6 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                 //start game here startGame(true);
                 startGame();
                 //getResources().getIdentifier(fname, "raw", getPackageName());
-
-                this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
-                this.backgroundMusic.setLooping(true);
-                this.backgroundMusic.setVolume(1, 1);
-                this.backgroundMusic.start();
             }
         } else if (resultCode == GamesActivityResultCodes.RESULT_LEFT_ROOM){
             leaveRoom();
@@ -535,6 +541,8 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     };
 
     void startGame() {
+        this.inGame = true;
+        this.backgroundMusic.start();
         setContentView(new GameView(this, this));
     }
 
@@ -548,15 +556,25 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             byte[] buf = realTimeMessage.getMessageData();
             String sender = realTimeMessage.getSenderParticipantId();
             Log.d(TAG, "-----------Message received: " + (char) buf[0] + " Score : " + (int) buf[1] + "Lives : " + (int) buf[2] + " isGameover: " + (int) buf[3] + " Powerup: "+ (int) buf[4]);
-            setOpponentScore(buf[1]);
+            setOpponentScore(calculateActualScore(buf[5], buf[6]));
             setOpponentLife(buf[2]);
             setIsGameOver(buf[3]);
             setPowerup(buf[4]);
         }
     };
 
+    private int calculateActualScore(byte byte1, byte byte2){
+        int actualScore = byte1 + (byte2 * 128);
+        if (actualScore < 0) {
+            return actualScore * -1 ;
+        }
+        else {
+            return actualScore;
+        }
+    }
+
     // Broadcast my score to everybody else
-    void broadcast(int myScore, int myLives, int isGameOver, int powerup) {
+    public void broadcast(int myScore, int myLives, int isGameOver, int powerup) {
 
         if (myLives == 0) {
             isGameOver = 1;
@@ -571,6 +589,8 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         mMsgBuf[2] = (byte) myLives;
         mMsgBuf[3] = (byte) isGameOver; //1: True, 0: False
         mMsgBuf[4] = (byte) powerup;
+        mMsgBuf[5] = (byte) (myScore % 128);
+        mMsgBuf[6] = (byte) (myScore / 128);
 
         //send to every participant
         for (Participant p : mParticipants) {

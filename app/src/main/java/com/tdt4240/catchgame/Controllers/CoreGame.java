@@ -1,4 +1,4 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Controllers;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,7 +8,17 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.view.MotionEvent;
 
+import com.tdt4240.catchgame.Model.CharacterSprite;
+import com.tdt4240.catchgame.Model.FallingObject;
+import com.tdt4240.catchgame.Model.FallingObjectFactory;
+import com.tdt4240.catchgame.Model.ObjectType;
+import com.tdt4240.catchgame.Model.SoundEffects;
+import com.tdt4240.catchgame.Model.Sprites;
+import com.tdt4240.catchgame.R;
+import com.tdt4240.catchgame.View.GameView;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CoreGame {
 
@@ -27,14 +37,12 @@ public class CoreGame {
     private int objectsSpawned = 0;
 
     private int baseFrequency;
-    private int baseSpeed;
+    private float baseSpeed;
     private int fractionGood;
 
-    private long starBeetleDuration;
-    private long beetleDuration;
+    private HashMap<ObjectType, Long> powerupDurations;
 
     private CharacterSprite characterSprite;
-    private FallingObjectFactory fallingObjectFactory;
     private ArrayList<FallingObject> objectsOnScreen;
 
 
@@ -42,7 +50,6 @@ public class CoreGame {
     private int multiGameOver;
     private int multiPowerupSent;
     private int multiPowerupReceived;
-
 
     /*
      * --------- CREATE AND SETUP THE GAME ---------
@@ -58,9 +65,13 @@ public class CoreGame {
 
     private void setupGame(String difficulty) {
         this.objectsOnScreen = new ArrayList<>();
-        this.fallingObjectFactory = new FallingObjectFactory();
+        this.mapPowerUpDurations();
         this.setGameDifficulty(difficulty);
+<<<<<<< HEAD:app/src/main/java/com/tdt4240/catchgame/CoreGame.java
         this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_crocodile2), 0.18));
+=======
+        this.characterSprite = new CharacterSprite(Sprites.GNU);
+>>>>>>> 8e7c5a3e5d95ed85813c1f6ff0cf351187d3d8e2:app/src/main/java/com/tdt4240/catchgame/Controllers/CoreGame.java
         if(gameview.isMultiplayer){setMultiGameOver(0);}
     }
 
@@ -80,7 +91,15 @@ public class CoreGame {
             this.baseSpeed = 15;
             this.fractionGood = 5;
         }
-        this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
+        FallingObjectFactory.getInstance().setFallingObjectFraction(this.fractionGood);
+    }
+
+    private void mapPowerUpDurations(){
+        long currentTime = System.currentTimeMillis();
+        powerupDurations = new HashMap<>();
+        powerupDurations.put(ObjectType.LIGHTNINGBEETLE, currentTime);
+        powerupDurations.put(ObjectType.STARBEETLE, currentTime);
+        powerupDurations.put(ObjectType.GREENBEETLE, currentTime);
     }
 
     /*
@@ -98,8 +117,8 @@ public class CoreGame {
     public void update() {
         long updateTime = System.currentTimeMillis();
         characterSprite.update();
-        if (characterSprite.getLives() == 0 && !this.gameview.isMultiplayer) { gameview.gameOver(); }
-        if (characterSprite.getLives() == 0 && this.gameview.isMultiplayer) { gameview.gameLost(); }
+        if (characterSprite.getLives() == 0 && !this.gameview.isMultiplayer) { gameOver(); }
+        if (characterSprite.getLives() == 0 && this.gameview.isMultiplayer) { gameLost(); }
 
         gameview.updateScoreSelf(characterSprite.getScore(), characterSprite.getLives());
 
@@ -138,7 +157,7 @@ public class CoreGame {
      * */
 
     public FallingObject createObject() {
-        return fallingObjectFactory.getFallingObject();
+        return FallingObjectFactory.getInstance().getFallingObject();
     }
 
     public void spawnNewObject(long updateTime){
@@ -168,7 +187,10 @@ public class CoreGame {
     }
 
     public void speedUp() {
-        if (baseFrequency >= 200) {
+        System.out.println("Frenquency is now " + baseFrequency);
+        System.out.println("Speed is now " + baseSpeed);
+        this.baseSpeed += 0.5;
+        if (baseFrequency >= 205) {
             if (this.baseFrequency <= 250) {
                 this.baseFrequency -= 5;
             } else if (this.baseFrequency <= 500) {
@@ -177,7 +199,6 @@ public class CoreGame {
                 this.baseFrequency -= 50;
             }
         }
-        this.baseSpeed += 0.5;
     }
 
     private void checkObjectsOnScreen(long updateTime){
@@ -210,12 +231,12 @@ public class CoreGame {
     public void receiveBroadcast(){
         // If opponent lost the game
         if(gameview.getMultiPlayerActivity().getIsGameOver() == 1 && gameview.getMultiPlayerActivity().getOpponentLife() <= 0) {
-            gameview.gameWon();
+            gameWon();
         }
 
         // If opponent exits in the middle of the game
         if (gameview.getMultiPlayerActivity().getIsGameOver() == 1 && (gameview.getMultiPlayerActivity().getOpponentLife() > 0)) {
-            gameview.opponentExit();
+            opponentExit();
         }
 
         // Get powerup value
@@ -239,26 +260,37 @@ public class CoreGame {
      * */
 
     public void checkPowerUpEffect(long updateTime){
-        if (starBeetleDuration <= updateTime){
-            fallingObjectFactory.setOnlyBad(false);
-            fallingObjectFactory.setOnlyGood(false);
+        if (powerupDurations.get(ObjectType.STARBEETLE) <= updateTime){
+            FallingObjectFactory.getInstance().setOnlyBad(false);
+            FallingObjectFactory.getInstance().setOnlyGood(false);
         }
-        if (beetleDuration <= updateTime){
-            this.fallingObjectFactory.setObjectScale(0, 0.15);
-            this.fallingObjectFactory.setObjectScale(1, 0.1);
+        if (powerupDurations.get(ObjectType.LIGHTNINGBEETLE) <= updateTime){
+            FallingObjectFactory.getInstance().setObjectScale(0, 0.15);
+            FallingObjectFactory.getInstance().setObjectScale(1, 0.1);
+            FallingObjectFactory.getInstance().setLargeBad(false);
+            FallingObjectFactory.getInstance().setLargeGood(false);
+        }
+        if (powerupDurations.get(ObjectType.GREENBEETLE) <= updateTime){
+            this.characterSprite.setVulnerable(false);
+            this.characterSprite.setImmune(false);
         }
     }
 
     public void gameChangeMessage(ObjectType objectType){
         String msg = "";
-        if(objectType == ObjectType.BEETLE) {
-            msg =  "Your opponent caught a beetle!\nSmall good objects, large bad objects for 10 seconds";
-        }
-        else if(objectType == ObjectType.LADYBUG) {
-            msg = "Your opponent caught a ladybug\n and got one extra life";
-        }
-        else if(objectType == ObjectType.STARBEETLE) {
-            msg = "Your opponent caught a starbeetle!\nOnly bad objects for 10 seconds";
+        switch (objectType) {
+            case LIGHTNINGBEETLE:
+                msg = "Your opponent caught a beetle!\nSmall good objects, large bad objects for 10 seconds";
+                break;
+            case LADYBUG:
+                msg = "Your opponent caught a ladybug\n and got one extra life";
+                break;
+            case STARBEETLE:
+                msg = "Your opponent caught a starbeetle!\nOnly bad objects for 10 seconds";
+                break;
+            case GREENBEETLE:
+                msg = "Your opponent caught a green beetle!\nYou are vulnerable for 10 seconds";
+                break;
         }
         this.gameview.popup(msg);
     }
@@ -267,19 +299,61 @@ public class CoreGame {
         // 1: Beetle
         // 2: Starbeetle
         // 3: Ladybug
-        if (objectType == 1) {
-            fallingObjectFactory.setObjectScale(0,0.1);
-            fallingObjectFactory.setObjectScale(1,0.25);
-            setBeetleDuration(updateTime + 10000);
-            gameChangeMessage(ObjectType.BEETLE);
-        } else if (objectType == 2) {
-            fallingObjectFactory.setOnlyBad(true);
-            setStarBeetleDuration(updateTime + 10000);
-            gameChangeMessage(ObjectType.STARBEETLE);
-        } else if (objectType == 3) {
-            gameChangeMessage(ObjectType.LADYBUG);
+        // 4: GreenBeetle
+        switch (objectType) {
+            case 1:
+                FallingObjectFactory.getInstance().setObjectScale(0, 0.1);
+                FallingObjectFactory.getInstance().setObjectScale(1, 0.25);
+                FallingObjectFactory.getInstance().setLargeBad(true);
+                setPowerupDuration(ObjectType.LIGHTNINGBEETLE, updateTime + 10000);
+                gameChangeMessage(ObjectType.LIGHTNINGBEETLE);
+                break;
+            case 2:
+                FallingObjectFactory.getInstance().setOnlyBad(true);
+                setPowerupDuration(ObjectType.STARBEETLE, updateTime + 10000);
+                gameChangeMessage(ObjectType.STARBEETLE);
+                break;
+            case 3:
+                gameChangeMessage(ObjectType.LADYBUG);
+                break;
+            case 4:
+                characterSprite.setVulnerable(true);
+                setPowerupDuration(ObjectType.GREENBEETLE, updateTime + 10000);
+                gameChangeMessage(ObjectType.GREENBEETLE);
+                break;
         }
         this.multiPowerupReceived = 0;
+    }
+
+    public void gameExit() {
+        this.gameview.setRunning(false);
+        if (!this.gameview.isMultiplayer) {
+            this.gameview.getSinglePlayerActivity().finish();
+        }
+        if (this.gameview.isMultiplayer) {
+            this.gameview.getMultiPlayerActivity().finish();
+        }
+    }
+
+    // When the player has lost 3 lives
+    public void gameOver() {
+        this.gameview.setRunning(false);
+        this.gameview.setGameOver(true);
+    }
+
+    public void gameWon() {
+        this.gameview.setRunning(false);
+        this.gameview.setGameWon(true);
+    }
+
+    public void gameLost() {
+        this.gameview.setRunning(false);
+        this.gameview.setGameLost(true);
+    }
+
+    public void opponentExit() {
+        this.gameview.setRunning(false);
+        this.gameview.setOpponentExit(true);
     }
 
     /*
@@ -319,7 +393,7 @@ public class CoreGame {
                 setMultiGameOver(1);
                 sendBroadcast();
             }
-            gameview.gameExit();
+            gameExit();
         }
         if (gameview.btn_no.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) { gameview.setGamePause(false); }
         if (gameview.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameOver()) { finishGame(); }
@@ -339,16 +413,8 @@ public class CoreGame {
         return context;
     }
 
-    public FallingObjectFactory getFallingObjectFactory(){
-        return this.fallingObjectFactory;
-    }
-
-    public void setStarBeetleDuration(long starBeetleDuration) {
-        this.starBeetleDuration = starBeetleDuration;
-    }
-
-    public void setBeetleDuration(long beetleDuration) {
-        this.beetleDuration = beetleDuration;
+    public void setPowerupDuration(ObjectType powerupType, long powerupEndTime){
+        powerupDurations.put(powerupType, powerupEndTime);
     }
 
     public void setMultiGameOver(int b){
@@ -367,13 +433,17 @@ public class CoreGame {
         return this.multiPowerupSent;
     }
 
+    public CharacterSprite getCharacterSprite(){
+        return this.characterSprite;
+    }
+
 
     /*
      * --------- HELP METHODS ---------
      * */
 
     public int getRandomSpeed() {
-        return (int) ((Math.random() + 1) * baseSpeed);
+        return (int) ((Math.random() + 1) * this.baseSpeed);
     }
 
     public void finishGame(){

@@ -1,4 +1,4 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.View;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
+
+import com.tdt4240.catchgame.R;
 
 public class MenuItem {
 

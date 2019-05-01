@@ -1,7 +1,9 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Model;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+
+import com.tdt4240.catchgame.Controllers.CoreGame;
 
 
 public abstract class FallingObject {
@@ -9,7 +11,7 @@ public abstract class FallingObject {
     private Bitmap objectImage;
     private int objectPositionX, objectPositionY;
     private int objectWidth, objectHeight;
-    private int objectSpeed;
+    private float objectSpeed;
     protected int objectScore;
     protected ObjectType objectType;
     private boolean isEaten = false;
