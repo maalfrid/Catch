@@ -294,7 +294,7 @@
 
         <Button
             android:id="@+id/btn_avatar_crocodile"
-            android:layout_width="50dp"
+            android:layout_width="60dp"
             android:layout_height="50dp"
             android:layout_marginLeft="120dp"
             android:background="@drawable/sprites_crocodile1"
@@ -321,12 +321,14 @@
             android:id="@+id/switch_sound"
             android:layout_width="322dp"
             android:layout_height="111dp"
+            android:checked="true"
             android:background="@drawable/txt_sound" />
 
         <Switch
             android:id="@+id/switch_background_music"
             android:layout_width="321dp"
             android:layout_height="122dp"
+            android:checked="true"
             android:background="@drawable/txt_music" />
 
     </LinearLayout>

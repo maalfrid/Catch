@@ -13,7 +13,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     private String difficulty;
     MediaPlayer backgroundMusic;
-    public String avatar;
+    private String avatar;
+    private boolean backgroundsoundOn;
+
 
     public SinglePlayerActivity() {
     }
@@ -26,11 +28,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
         this.difficulty = getIntent().getStringExtra("difficulty");
         this.avatar = getIntent().getStringExtra("avatar");
         System.out.println(this.avatar);
-
+        this.backgroundsoundOn = getIntent().getExtras().getBoolean("backgroundSound");
         this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setLooping(true);
         this.backgroundMusic.setVolume(1, 1);
-
 
 
     }
@@ -38,11 +39,17 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        this.backgroundMusic.start();
+        if(this.backgroundsoundOn){
+            this.backgroundMusic.start();
+        }
     }
 
     public String getDifficulty() {
         return this.difficulty;
+    }
+
+    public boolean getBackgroundsoundOn(){
+        return this.backgroundsoundOn;
     }
 
     public String getAvatar(){ return this.avatar;}
@@ -50,7 +57,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        this.backgroundMusic.release();
+        if(this.backgroundsoundOn){
+            this.backgroundMusic.release();
+        }
+
     }
 
     @Override
@@ -66,7 +76,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         startActivity(new Intent(this, MenuActivity.class));
-        this.backgroundMusic.release();
+        if(this.backgroundsoundOn){
+            this.backgroundMusic.release();
+        }
+
     }
 
     public void backgroundMusicOn() {

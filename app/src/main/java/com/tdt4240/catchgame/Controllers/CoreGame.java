@@ -57,11 +57,11 @@ public class CoreGame {
      * --------- CREATE AND SETUP THE GAME ---------
      * */
 
-    public CoreGame(String difficulty, String avatar, Context context, GameView gameview) {
+    public CoreGame(String difficulty, String avatar, boolean backgroundsoundOn, Context context, GameView gameview) {
         this.gameview = gameview;
         this.context = context;
         this.soundEffects = new SoundEffects();
-        this.soundOn = true;
+        this.soundOn = backgroundsoundOn;
         this.characterSprite = new CharacterSprite(Sprites.valueOf(avatar));
         this.setupGame(difficulty);
     }

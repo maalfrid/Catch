@@ -198,6 +198,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         return "easy";
     }
     public String getAvatar(){ return Sprites.GNU.toString(); }
+    public boolean getBackgroundSoundOn(){
+        return true;
+    }
 
     //Clickable buttons
     final static int[] CLICKABLEs = {
