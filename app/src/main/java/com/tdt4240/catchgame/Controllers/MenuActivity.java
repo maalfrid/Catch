@@ -5,6 +5,8 @@ import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.tdt4240.catchgame.Model.Backgrounds;
 import com.tdt4240.catchgame.Model.Sprites;
 import com.tdt4240.catchgame.R;
 
@@ -170,11 +172,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_background_menu:
                 this.buttonSound.start();
-                this.background = "bg_menu";
+                this.background = Backgrounds.BLUE.toString();
                 break;
             case R.id.btn_background_play:
                 this.buttonSound.start();
-                this.background = "bg_play";
+                this.background = Backgrounds.GREEN.toString();
 
         }
     }

@@ -83,7 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gameLost = false;
         this.opponentExit = false;
         this.isMultiplayer = true;
-      //  this.background = singlePlayerActivity.getBackground();
+        this.background = scaleBackground(Backgrounds.valueOf(singlePlayerActivity.getBackground()));
     }
 
 
@@ -100,7 +100,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
-        background = scaleBackground(Backgrounds.valueOf(singlePlayerActivity.getBackground()));
         //menu items
         this.txt_you = new MenuItem("You", 45.0f, "#f1c131", "#0f4414", this.context);
         this.txt_score_self = new MenuItem("0", 45.0f, "#f1c131", "#0f4414", this.context);
@@ -131,6 +130,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             coreGame = new CoreGame(multiPlayerActivity.getDifficulty(), multiPlayerActivity.getAvatar(), multiPlayerActivity.getBackgroundSoundOn(), this.context, this);
         }
         if (!isMultiplayer) {
+            this.background = scaleBackground(Backgrounds.valueOf(singlePlayerActivity.getBackground()));
             coreGame = new CoreGame(singlePlayerActivity.getDifficulty(), singlePlayerActivity.getAvatar(), singlePlayerActivity.getBackgroundsoundOn(), this.context, this);
         }
     }
