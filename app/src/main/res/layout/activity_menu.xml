@@ -296,7 +296,7 @@
             android:id="@+id/btn_avatar_crocodile"
             android:layout_width="60dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="120dp"
+            android:layout_marginLeft="70dp"
             android:background="@drawable/sprites_crocodile1"
             android:onClick="onClick" />
 
@@ -314,6 +314,14 @@
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/sprites_monkey1"
+            android:onClick="onClick" />
+
+        <Button
+            android:id="@+id/btn_avatar_raccoon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/sprites_raccoon1"
             android:onClick="onClick" />
 
     </LinearLayout>

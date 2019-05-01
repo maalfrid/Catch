@@ -13,7 +13,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     private String difficulty = "difficulty";
     private String backgroundSound = "backgroundSound";
-    private String avatar = Sprites.GNU.toString();
+    private String avatar = Sprites.MONKEY.toString();
     MediaPlayer buttonSound;
     private boolean backgroundSoundOn = true;
     private boolean soundOn = true;
@@ -45,7 +45,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     final static int[] CLICKABLES = {R.id.btn_play, R.id.btn_rules, R.id.btn_score,
             R.id.btn_settings, R.id.btn_background, R.id.btn_avatar, R.id.switch_sound,
             R.id.switch_background_music, R.id.btn_easy, R.id.btn_medium, R.id.btn_hard,
-            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack, R.id.btn_avatar_crocodile, R.id.btn_avatar_gnu, R.id.btn_avatar_monkey, R.id.switch_background_music, R.id.switch_sound
+            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack, R.id.btn_avatar_crocodile, R.id.btn_avatar_gnu, R.id.btn_avatar_monkey, R.id.btn_avatar_raccoon, R.id.switch_background_music, R.id.switch_sound
     };
 
     @Override
@@ -144,6 +144,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 this.buttonSound.start();
                 this.avatar = Sprites.MONKEY.toString();
                 System.out.println("Chosen Monkey");
+                break;
+            case R.id.btn_avatar_raccoon:
+                this.buttonSound.start();
+                this.avatar = Sprites.RACCOON.toString();
+                System.out.println("Chosen Raccoon");
                 break;
             case R.id.switch_background_music:
                 this.buttonSound.start();
