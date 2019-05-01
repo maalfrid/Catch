@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.tdt4240.catchgame.Controllers.CoreGame;
 import com.tdt4240.catchgame.MainThread;
+import com.tdt4240.catchgame.Model.Backgrounds;
 import com.tdt4240.catchgame.Model.FallingObjectFactory;
 import com.tdt4240.catchgame.Model.ObjectType;
 import com.tdt4240.catchgame.Controllers.MultiPlayerActivity;
@@ -99,8 +100,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
-        background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
-
+        background = scaleBackground(Backgrounds.valueOf(singlePlayerActivity.getBackground()));
         //menu items
         this.txt_you = new MenuItem("You", 45.0f, "#f1c131", "#0f4414", this.context);
         this.txt_score_self = new MenuItem("0", 45.0f, "#f1c131", "#0f4414", this.context);
@@ -369,7 +369,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /*
      * --------- HELP METHODS ---------
      * */
+    public Bitmap scaleBackground(Backgrounds background){
+        return getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), background.defaultImageID), 1, 1);
 
+    }
 
     public Bitmap getResizedBitmapBG(Bitmap bmp, double scaleFactorWidth, double scaleFactorHeight) {
         int width = bmp.getWidth();
