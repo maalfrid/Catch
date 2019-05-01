@@ -43,10 +43,24 @@
 
     <!-- Powerups view -->
     <!-- TODO: Add description and image of the different powerups -->
-    <string name="powerups_mainmenu_subheader">Title</string>
-    <string name="powerups_menu_description">
-        Description
-    </string>
+    <string name="powerups">Power-ups</string>
+    <string name="powerups_you_catch">If you catch a...</string>
+    <string name="powerups_you_catch_description">If you catch a...</string>
+    <string name="powerups_opponent_catch">If your opponent catches a...</string>
+    <string name="powerups_time">The effect of a power-up is active in 10 seconds after you eat it!</string>
+    <string name="powerups_you_ladybug">= Extra life</string>
+    <string name="powerups_you_starbeetle">= Big good objects, small bad objects</string>
+    <string name="powerups_you_greenbeetle">= You don\'t loose lives or points</string>
+    <string name="powerups_you_beetle">= Only get good falling objects</string>
+    <string name="powerups_opponent_starbeetle">= Big bad objects, small good objects</string>
+    <string name="powerups_opponent_beetle">= Only get bad falling objects</string>
+    <string name="powerups_opponent_greenbeetle">= Bad objects gets twice as bad</string>
+
+
+
+
+
+
 
     <string name="sound_on_off">Sound on/off</string>
     <!-- Multiplayer -->

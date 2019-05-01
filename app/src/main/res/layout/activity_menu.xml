@@ -96,136 +96,137 @@
         android:id="@+id/view_rules"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/bg_menu">
+        android:background="@drawable/bg_menu"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/txt_rules"
-            android:layout_marginTop="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
             android:background="@drawable/button_rules"
             android:contentDescription="@string/txt_rules" />
 
         <!-- RULES VIEW - good objects-->
         <TextView
             style="@style/TextHeaders"
-            android:text="@string/good_objects_subheader"
-            app:fontFamily="@font/frecklefaceregular" />
+            android:text="@string/good_objects_subheader" />
 
-        <LinearLayout
-            style="@style/LinearRowLayout">
+        <LinearLayout style="@style/LinearRowLayout">
+
             <ImageView
                 style="@style/ImageRow"
                 android:background="@drawable/obj_good_pineapple" />
+
             <ImageView
                 style="@style/ImageRow"
                 android:background="@drawable/obj_good_grapes" />
+
             <TextView
                 style="@style/TextPoints"
-                app:fontFamily="@font/frecklefaceregular"
                 android:text="= 1, " />
 
             <ImageView
                 style="@style/ImageRow"
                 android:background="@drawable/obj_good_banana" />
+
             <ImageView
                 style="@style/ImageRow"
-                android:background="@drawable/obj_good_cherry"/>
+                android:background="@drawable/obj_good_cherry" />
+
             <ImageView
                 style="@style/ImageRow"
                 android:background="@drawable/obj_good_lemon" />
+
             <ImageView
                 style="@style/ImageRow"
                 android:background="@drawable/obj_good_orange" />
+
             <TextView
                 style="@style/TextPoints"
-                app:fontFamily="@font/frecklefaceregular"
                 android:text="= 2, " />
+
             <ImageView
                 style="@style/ImageRow"
-                android:background="@drawable/obj_good_strawberry"/>
+                android:background="@drawable/obj_good_strawberry" />
+
             <TextView
                 style="@style/TextPoints"
-                app:fontFamily="@font/frecklefaceregular"
                 android:text="= 3, " />
 
             <ImageView
                 style="@style/ImageRow"
                 android:background="@drawable/obj_good_apple" />
+
             <TextView
                 style="@style/TextPoints"
-                app:fontFamily="@font/frecklefaceregular"
                 android:text="= 5" />
         </LinearLayout>
 
         <TextView
             style="@style/TextDescription"
-            android:gravity="center_horizontal"
-            android:text="@string/good_objects_description"
-            app:fontFamily="@font/frecklefaceregular" />
+            android:text="@string/good_objects_description" />
 
         <!-- RULES VIEW - bad objects-->
         <TextView
             style="@style/TextHeaders"
-            app:fontFamily="@font/frecklefaceregular"
             android:text="@string/bad_objects_subheader" />
 
-        <LinearLayout
-            style="@style/LinearRowLayout">
+        <LinearLayout style="@style/LinearRowLayout">
+
             <ImageView
                 style="@style/ImageRowSnake"
                 android:background="@drawable/obj_bad_snake" />
+
             <ImageView
                 style="@style/ImageRowSnake"
                 android:background="@drawable/obj_bad_snake" />
+
             <ImageView
                 style="@style/ImageRowSnake"
                 android:background="@drawable/obj_bad_snake" />
+
             <TextView
                 style="@style/TextPoints"
-                app:fontFamily="@font/frecklefaceregular"
                 android:text="= -3, " />
+
             <ImageView
                 style="@style/ImageRow"
                 android:background="@drawable/obj_bad_spider" />
+
             <ImageView
                 style="@style/ImageRow"
                 android:background="@drawable/obj_bad_spider" />
+
             <ImageView
                 style="@style/ImageRow"
                 android:background="@drawable/obj_bad_spider" />
+
             <TextView
                 style="@style/TextPoints"
-                app:fontFamily="@font/frecklefaceregular"
                 android:text="= -2" />
 
         </LinearLayout>
 
         <TextView
-            app:fontFamily="@font/frecklefaceregular"
             style="@style/TextDescription"
-            android:gravity="center_horizontal"
             android:text="@string/bad_objects_description" />
 
         <!-- RULES VIEW -  powerups-->
         <TextView
             style="@style/TextHeaders"
-            app:fontFamily="@font/frecklefaceregular"
             android:text="@string/powerups_objects_subheader" />
 
         <TextView
-            app:fontFamily="@font/frecklefaceregular"
             style="@style/TextDescription"
-            android:gravity="center_horizontal"
             android:text="@string/powerups_description" />
-        <LinearLayout
-            style="@style/LinearRowLayout">
+
+        <LinearLayout style="@style/LinearRowLayout">
 
             <Button
-                style="@style/ImageRow"
                 android:id="@+id/btn_goToPowerups"
-                android:background="@drawable/obj_powerup_ladybug"/>
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_ladybug" />
         </LinearLayout>
     </LinearLayout>
 
@@ -235,26 +236,113 @@
         android:id="@+id/view_powerups"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/bg_menu">
+        android:background="@drawable/bg_menu"
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_marginTop="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
             android:background="@drawable/button_rules"
             android:contentDescription="@string/txt_rules" />
 
         <TextView
             style="@style/TextHeaders"
-            app:fontFamily="@font/frecklefaceregular"
-            android:text="@string/powerups_mainmenu_subheader" />
+            android:text="@string/powerups"/>
 
         <TextView
-            app:fontFamily="@font/frecklefaceregular"
             style="@style/TextDescription"
-            android:gravity="center_horizontal"
-            android:text="@string/powerups_menu_description" />
+            android:text="@string/powerups_time" />
+
+        <TextView
+            style="@style/TextSubHeaders"
+            android:text="@string/powerups_you_catch"
+            android:textColor="@color/colorYellow"
+            android:shadowColor="@color/colorDarkGreen"
+            />
+
+        <LinearLayout style="@style/LinearRowLayout">
+
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_starbeetle" />
+
+            <TextView
+                style="@style/TextPowerups"
+                android:text="@string/powerups_you_starbeetle" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearRowLayout">
+
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_beetle" />
+
+            <TextView
+                style="@style/TextPowerups"
+                android:text="@string/powerups_you_beetle" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearRowLayout">
+
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_greenbeetle" />
+            <TextView
+                style="@style/TextPowerups"
+                android:text="@string/powerups_you_greenbeetle" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearRowLayout">
+
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_ladybug" />
+
+            <TextView
+                style="@style/TextPowerups"
+                android:text="@string/powerups_you_ladybug" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/TextSubHeaders"
+            android:text="@string/powerups_opponent_catch"
+            android:textColor="@color/colorYellow"
+            android:shadowColor="@color/colorDarkGreen"
+            />
+
+        <LinearLayout style="@style/LinearRowLayout">
+
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_starbeetle" />
+
+            <TextView
+                style="@style/TextPowerups"
+                android:text="@string/powerups_opponent_starbeetle" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearRowLayout">
+
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_beetle" />
+
+            <TextView
+                style="@style/TextPowerups"
+                android:text="@string/powerups_opponent_beetle" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearRowLayout">
+
+            <ImageView
+                style="@style/ImageRow"
+                android:background="@drawable/obj_powerup_greenbeetle" />
+
+            <TextView
+                style="@style/TextPowerups"
+                android:text="@string/powerups_opponent_greenbeetle" />
+        </LinearLayout>
     </LinearLayout>
 
     <!-- PLAY GAME VIEW -->
@@ -302,7 +390,7 @@
 
     <!-- PLAY MULTI-PLAYER VIEW (CREATE / JOIN ROOM -->
     <!-- TODO: VIEW FOR JOINING ROOM -->
-   <!-- <LinearLayout
+    <!-- <LinearLayout
         android:id="@+id/view_play_multi"
         style="@style/CenterScreen"
         android:layout_width="match_parent"
