@@ -8,6 +8,8 @@ import android.view.View;
 
 import com.tdt4240.catchgame.R;
 
+import java.util.Timer;
+
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -17,16 +19,14 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     public MenuActivity() {
         super();
     }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         SwitchScreen(R.id.view_main_menu);
+
         this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
         this.buttonSound.setVolume(1, 1);
-
 
         // Click listener for all clickable elements
         for (int id : CLICKABLES) {
@@ -132,7 +132,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     final static int[] SCREENS = {
             R.id.view_main_menu, R.id.view_highscore, R.id.view_play,
-            R.id.view_play_single, R.id.view_rules, R.id.view_settings_menu, R.id.view_powerups, R.id.btn_goBack
+            R.id.view_play_single, R.id.view_rules, R.id.view_settings_menu,
+            R.id.view_loading, R.id.view_powerups, R.id.btn_goBack
     };
     int mCurScreen = -1;
     int mLastScreen = -1;
@@ -147,6 +148,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         mLastScreen = mCurScreen;
         mCurScreen = screenId;
     }
+
 
     @Override
     protected void onStart() {

@@ -42,7 +42,6 @@
 
 
     <!-- Powerups view -->
-    <!-- TODO: Add description and image of the different powerups -->
     <string name="powerups">Power-ups</string>
     <string name="powerups_you_catch">If you catch a...</string>
     <string name="powerups_you_catch_description">If you catch a...</string>
@@ -56,7 +55,8 @@
     <string name="powerups_opponent_beetle">= Only get bad falling objects</string>
     <string name="powerups_opponent_greenbeetle">= Bad objects gets twice as bad</string>
 
-
+    <!-- Loading view -->
+    <string name="loading_header">Loading game...</string>
 
 
 
