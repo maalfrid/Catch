@@ -221,12 +221,17 @@
             style="@style/TextDescription"
             android:text="@string/powerups_description" />
 
-        <LinearLayout style="@style/LinearRowLayout">
+        <LinearLayout
+            style="@style/LinearRowLayout"
+            android:layout_height="60dp"
+            android:layout_width="match_parent">
 
             <Button
                 android:id="@+id/btn_goToPowerups"
                 style="@style/ImageRow"
-                android:background="@drawable/obj_powerup_ladybug" />
+                android:background="@drawable/obj_powerup_ladybug"
+                android:layout_height="60dp"
+                android:layout_width="60dp"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -252,14 +257,15 @@
 
         <TextView
             style="@style/TextDescription"
-            android:text="@string/powerups_time" />
+            android:text="@string/powerups_time"
+            android:textSize="18sp"/>
+
 
         <TextView
             style="@style/TextSubHeaders"
             android:text="@string/powerups_you_catch"
             android:textColor="@color/colorYellow"
-            android:shadowColor="@color/colorDarkGreen"
-            />
+            android:shadowColor="@color/colorDarkGreen" />
 
         <LinearLayout style="@style/LinearRowLayout">
 
@@ -343,6 +349,7 @@
                 style="@style/TextPowerups"
                 android:text="@string/powerups_opponent_greenbeetle" />
         </LinearLayout>
+
     </LinearLayout>
 
     <!-- PLAY GAME VIEW -->
