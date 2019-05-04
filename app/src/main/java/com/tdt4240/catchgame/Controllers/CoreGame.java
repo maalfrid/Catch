@@ -157,8 +157,9 @@ public class CoreGame {
     }
 
     public void spawnNewObject(long updateTime){
-        int timeSinceSpawn = (int) (updateTime - timeLastSpawn);
+        long timeSinceSpawn = updateTime - timeLastSpawn;
         if (timeSinceSpawn >= baseFrequency) {
+            System.out.println("Kommer vi hit?");
             placeObject(createObject());
             timeLastSpawn = updateTime;
             objectsSpawned++;
