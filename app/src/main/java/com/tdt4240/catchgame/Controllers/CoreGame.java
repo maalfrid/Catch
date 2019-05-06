@@ -157,7 +157,7 @@ public class CoreGame {
     }
 
     public void spawnNewObject(long updateTime){
-        int timeSinceSpawn = (int) (updateTime - timeLastSpawn);
+        long timeSinceSpawn = updateTime - timeLastSpawn;
         if (timeSinceSpawn >= baseFrequency) {
             placeObject(createObject());
             timeLastSpawn = updateTime;
