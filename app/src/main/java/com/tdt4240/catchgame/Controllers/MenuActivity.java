@@ -17,11 +17,12 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     private String difficulty = "difficulty";
     private String backgroundSound = "backgroundSound";
+    private String soundEffects = "soundEffects";
     private String background = Backgrounds.GREEN.toString();
     private String avatar = Sprites.MONKEY.toString();
     MediaPlayer buttonSound;
     private boolean backgroundSoundOn = true;
-    private boolean soundOn = true;
+    private boolean soundEffectsOn = true;
 
     public MenuActivity() {
         super();
@@ -86,7 +87,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 intentEasy.putExtra("gametype", "single");
                 intentEasy.putExtra("avatar", this.avatar);
                 intentEasy.putExtra(backgroundSound, this.backgroundSoundOn);
-                intentEasy.putExtra("sound", this.soundOn);
+                intentEasy.putExtra(soundEffects, this.soundEffectsOn);
                 intentEasy.putExtra("background", this.background);
                 startActivity(intentEasy);
                 break;
@@ -97,8 +98,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 intentMedium.putExtra("gametype", "single");
                 intentMedium.putExtra("avatar", this.avatar);
                 intentMedium.putExtra(backgroundSound, this.backgroundSoundOn);
+                intentMedium.putExtra(soundEffects, this.soundEffectsOn);
                 System.out.println(this.backgroundSoundOn);
-                intentMedium.putExtra("sound", this.soundOn);
                 intentMedium.putExtra("background", this.background);
                 //System.out.println("chosen avatar:" + this.avatar);
                 startActivity(intentMedium);
@@ -110,7 +111,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 intentHard.putExtra("gametype", "single");
                 intentHard.putExtra("avatar", this.avatar);
                 intentHard.putExtra(backgroundSound, this.backgroundSoundOn);
-                intentHard.putExtra("sound", this.soundOn);
+                intentHard.putExtra(soundEffects, this.soundEffectsOn);
                 intentHard.putExtra("background", this.background);
                 startActivity(intentHard);
                 break;
@@ -129,7 +130,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 intentMulti.putExtra("gametype", "multi");
                 intentMulti.putExtra("avatar", this.avatar);
                 intentMulti.putExtra(backgroundSound, this.backgroundSoundOn);
-                intentMulti.putExtra("sound", this.soundOn);
+                intentMulti.putExtra(soundEffects, this.soundEffectsOn);
                 intentMulti.putExtra("background", this.background);
                 startActivity(intentMulti);
                 break;
@@ -180,7 +181,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.switch_sound:
                 this.buttonSound.start();
-                this.soundOn = !soundOn;
+                this.soundEffectsOn = !soundEffectsOn;
                 break;
             case R.id.btn_background_menu:
                 this.buttonSound.start();

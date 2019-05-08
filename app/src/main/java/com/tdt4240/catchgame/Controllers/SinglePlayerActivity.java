@@ -17,6 +17,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     MediaPlayer backgroundMusic;
     private String avatar;
     private boolean backgroundsoundOn;
+    private boolean soundEffectsOn;
     private String background;
 
 
@@ -34,6 +35,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         this.avatar = getIntent().getStringExtra("avatar");
        // this.background = getIntent().getStringExtra("background");
         this.backgroundsoundOn = getIntent().getExtras().getBoolean("backgroundSound");
+        this.soundEffectsOn = getIntent().getExtras().getBoolean("soundEffects");
         this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setLooping(true);
         this.backgroundMusic.setVolume(1, 1);
@@ -54,6 +56,11 @@ public class SinglePlayerActivity extends AppCompatActivity {
     public boolean getBackgroundsoundOn(){
         return this.backgroundsoundOn;
     }
+
+    public boolean getSoundEffectsOn(){
+        return this.soundEffectsOn;
+    }
+
     public String getBackground(){
         return this.background;
     }
@@ -64,7 +71,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if(this.backgroundsoundOn){
-            this.backgroundMusic.release();
+            //this.backgroundMusic.release();
         }
 
     }
@@ -82,9 +89,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         startActivity(new Intent(this, MenuActivity.class));
-        if(this.backgroundsoundOn){
-            this.backgroundMusic.release();
-        }
+        //if(this.backgroundsoundOn){
+         this.backgroundMusic.release();
+        //}
 
     }
 

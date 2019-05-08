@@ -28,6 +28,9 @@ public class CoreGame {
     private GameView gameview;
     private boolean soundOn;
     private SoundEffects soundEffects;
+    private boolean backgroundSoundOn;
+    private boolean soundEffectsOn;
+
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
     //TODO: change this
@@ -57,11 +60,13 @@ public class CoreGame {
      * --------- CREATE AND SETUP THE GAME ---------
      * */
 
-    public CoreGame(String difficulty, String avatar, boolean backgroundsoundOn, Context context, GameView gameview) {
+    public CoreGame(String difficulty, String avatar, boolean backgroundSoundOn, boolean soundEffectsOn, Context context, GameView gameview) {
         this.gameview = gameview;
         this.context = context;
         this.soundEffects = new SoundEffects();
-        this.soundOn = backgroundsoundOn;
+        this.backgroundSoundOn = backgroundSoundOn;
+        this.soundEffectsOn = soundEffectsOn;
+        this.soundOn = this.backgroundSoundOn || this.soundEffectsOn;
         this.characterSprite = new CharacterSprite(Sprites.valueOf(avatar));
         this.setupGame(difficulty);
     }
@@ -70,6 +75,14 @@ public class CoreGame {
         this.objectsOnScreen = new ArrayList<>();
         this.mapPowerUpDurations();
         this.setGameDifficulty(difficulty);
+
+        if(!this.soundOn){
+            gameview.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_off), 0.15));
+        }
+
+        if(!this.soundEffectsOn){
+            soundEffects.volumeOff();
+        }
 
         if(gameview.isMultiplayer){setMultiGameOver(0);}
     }
