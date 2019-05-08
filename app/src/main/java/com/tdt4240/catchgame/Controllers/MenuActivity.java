@@ -10,8 +10,6 @@ import com.tdt4240.catchgame.Model.Backgrounds;
 import com.tdt4240.catchgame.Model.Sprites;
 import com.tdt4240.catchgame.R;
 
-import java.util.Timer;
-
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,7 +28,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        SwitchScreen(R.id.view_main_menu);
+        int startScreen = R.id.view_main_menu;
+        SwitchScreen(startScreen);
+
+
+
 
         this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
         this.buttonSound.setVolume(1, 1);
@@ -39,6 +41,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         for (int id : CLICKABLES) {
             findViewById(id).setOnClickListener(this);
         }
+
     }
 
     /*
@@ -150,6 +153,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                     SwitchScreen(R.id.view_main_menu);
                     break;
                 }
+                if (mCurScreen == R.id.view_main_menu){
+                    SwitchScreen(R.id.view_main_menu);
+                    break;
+                }
                 SwitchScreen(mLastScreen);
                 break;
 //choice of character
@@ -200,20 +207,25 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     final static int[] SCREENS = {
             R.id.view_main_menu, R.id.view_highscore, R.id.view_play,
             R.id.view_play_single, R.id.view_rules, R.id.view_settings_menu,
-            R.id.view_loading, R.id.view_powerups, R.id.btn_goBack
+            R.id.view_powerups, R.id.btn_goBack
     };
     int mCurScreen = -1;
     int mLastScreen = -1;
 
     public void SwitchScreen(int screenId) {
         for (int id : SCREENS) {
+
             findViewById(id).setVisibility(screenId == id ? View.VISIBLE : View.GONE);
+
         }
         if (screenId != R.id.view_main_menu)
-            findViewById(R.id.btn_goBack).setVisibility(View.VISIBLE);
+
+
+        findViewById(R.id.btn_goBack).setVisibility(View.VISIBLE);
 
         mLastScreen = mCurScreen;
         mCurScreen = screenId;
+
     }
 
 
