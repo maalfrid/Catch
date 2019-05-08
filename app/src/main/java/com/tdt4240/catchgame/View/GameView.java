@@ -25,7 +25,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private final MainThread thread;
     private CoreGame coreGame;
-    private Bitmap background;
+    private Bitmap background = scaleBackground(Backgrounds.GREEN);
     private Context context;
     private SinglePlayerActivity singlePlayerActivity;
     private MultiPlayerActivity multiPlayerActivity;
