@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.tdt4240.catchgame.Controllers.CoreGame;
 import com.tdt4240.catchgame.MainThread;
+import com.tdt4240.catchgame.Model.Backgrounds;
 import com.tdt4240.catchgame.Model.FallingObjectFactory;
 import com.tdt4240.catchgame.Model.ObjectType;
 import com.tdt4240.catchgame.Controllers.MultiPlayerActivity;
@@ -67,6 +68,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gameOver = false;
         this.gamePause = false;
         this.isMultiplayer = false;
+        this.background = scaleBackground(Backgrounds.valueOf(singlePlayerActivity.getBackground()));
     }
 
     public GameView(Context context, MultiPlayerActivity multiPlayerActivity) {
@@ -82,6 +84,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gameLost = false;
         this.opponentExit = false;
         this.isMultiplayer = true;
+        this.background = scaleBackground(Backgrounds.valueOf(multiPlayerActivity.getBackground()));
     }
 
 
@@ -98,7 +101,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
-        background = getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), R.drawable.bg_play), 1, 1);
         //menu items
         this.txt_you = new MenuItem("You", 45.0f, "#f1c131", "#0f4414", this.context);
         this.txt_score_self = new MenuItem("0", 45.0f, "#f1c131", "#0f4414", this.context);
@@ -126,10 +128,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             this.txt_gameLost.setPos(screenWidth / 2 - txt_gameLost.getWidth() / 2, screenHeight / 2 - txt_gameLost.getHeight() / 2);
             this.txt_opponentExit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_opponentquit), 1.0));
             this.txt_opponentExit.setPos(screenWidth / 2 - txt_opponentExit.getWidth() / 2, screenHeight / 2 - txt_opponentExit.getHeight() / 2);
-            coreGame = new CoreGame(multiPlayerActivity.getDifficulty(), this.context, this);
+            coreGame = new CoreGame(multiPlayerActivity.getDifficulty(), multiPlayerActivity.getAvatar(), multiPlayerActivity.getBackgroundSoundOn(), this.context, this);
         }
         if (!isMultiplayer) {
-            coreGame = new CoreGame(singlePlayerActivity.getDifficulty(), this.context, this);
+            this.background = scaleBackground(Backgrounds.valueOf(singlePlayerActivity.getBackground()));
+            coreGame = new CoreGame(singlePlayerActivity.getDifficulty(), singlePlayerActivity.getAvatar(), singlePlayerActivity.getBackgroundsoundOn(), this.context, this);
         }
     }
 
@@ -367,7 +370,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /*
      * --------- HELP METHODS ---------
      * */
+    public Bitmap scaleBackground(Backgrounds background){
+        return getResizedBitmapBG(BitmapFactory.decodeResource(getResources(), background.defaultImageID), 1, 1);
 
+    }
 
     public Bitmap getResizedBitmapBG(Bitmap bmp, double scaleFactorWidth, double scaleFactorHeight) {
         int width = bmp.getWidth();
