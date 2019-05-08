@@ -83,7 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gameLost = false;
         this.opponentExit = false;
         this.isMultiplayer = true;
-        this.background = scaleBackground(Backgrounds.valueOf(singlePlayerActivity.getBackground()));
+        this.background = scaleBackground(Backgrounds.valueOf(multiPlayerActivity.getBackground()));
     }
 
 

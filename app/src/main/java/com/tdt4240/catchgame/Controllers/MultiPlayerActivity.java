@@ -36,6 +36,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.games.RealTimeMultiplayerClient;
 import com.google.android.gms.games.multiplayer.Participant;
 import com.google.android.gms.games.Games;
+import com.tdt4240.catchgame.Model.Backgrounds;
 import com.tdt4240.catchgame.Model.Sprites;
 import com.tdt4240.catchgame.R;
 import com.tdt4240.catchgame.View.GameView;
@@ -545,6 +546,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
                 mRealTimeMultiplayerClient.sendUnreliableMessage(mMsgBuf, mRoomId, p.getParticipantId());
             }
         }
+    }
+    public String getBackground(){
+        return Backgrounds.BLUE.toString();
     }
 
     public int getOpponentScore() { return this.opponentScore; }
