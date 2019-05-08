@@ -74,6 +74,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     // Message buffer for sending messages
     byte[] mMsgBuf = new byte[7];
 
+    private String background;
+    private String avatar;
+
     // Music
     private MediaPlayer backgroundMusic;
     private MediaPlayer buttonSound;
@@ -108,6 +111,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setVolume(1, 1);
         this.backgroundMusic.setLooping(true);
+
+        this.background = getIntent().getStringExtra("background");
+        this.avatar = getIntent().getStringExtra("avatar");
     }
 
     @Override
@@ -168,9 +174,15 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     public String getDifficulty() {
         return "easy";
     }
-    public String getAvatar(){ return Sprites.GNU.toString(); }
+
     public boolean getBackgroundSoundOn(){
         return true;
+    }
+    public String getBackground(){
+        return this.background;
+    }
+    public String getAvatar(){
+        return this.avatar;
     }
 
     //Clickable buttons
@@ -547,9 +559,7 @@ public class MultiPlayerActivity extends AppCompatActivity implements
             }
         }
     }
-    public String getBackground(){
-        return Backgrounds.BLUE.toString();
-    }
+
 
     public int getOpponentScore() { return this.opponentScore; }
 
