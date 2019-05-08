@@ -25,7 +25,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private final MainThread thread;
     private CoreGame coreGame;
-    private Bitmap background = scaleBackground(Backgrounds.GREEN);
+    private Bitmap background;
     private Context context;
     private SinglePlayerActivity singlePlayerActivity;
     private MultiPlayerActivity multiPlayerActivity;
@@ -68,6 +68,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.gameOver = false;
         this.gamePause = false;
         this.isMultiplayer = false;
+        this.background = scaleBackground(Backgrounds.valueOf(singlePlayerActivity.getBackground()));
     }
 
     public GameView(Context context, MultiPlayerActivity multiPlayerActivity) {

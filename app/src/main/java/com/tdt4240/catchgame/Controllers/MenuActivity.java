@@ -17,11 +17,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     private String difficulty = "difficulty";
     private String backgroundSound = "backgroundSound";
+    private String background = Backgrounds.GREEN.toString();
     private String avatar = Sprites.MONKEY.toString();
     MediaPlayer buttonSound;
     private boolean backgroundSoundOn = true;
     private boolean soundOn = true;
-    private String background = "bg_play";
 
     public MenuActivity() {
         super();

@@ -5,6 +5,8 @@ import android.media.MediaPlayer;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.tdt4240.catchgame.Model.Backgrounds;
 import com.tdt4240.catchgame.R;
 import com.tdt4240.catchgame.View.GameView;
 
@@ -24,11 +26,13 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.background = getIntent().getStringExtra("background");
+
 
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
         this.avatar = getIntent().getStringExtra("avatar");
-        this.background = getIntent().getStringExtra("background");
+       // this.background = getIntent().getStringExtra("background");
         this.backgroundsoundOn = getIntent().getExtras().getBoolean("backgroundSound");
         this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setLooping(true);
