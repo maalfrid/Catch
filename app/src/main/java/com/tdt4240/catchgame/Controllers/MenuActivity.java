@@ -10,6 +10,8 @@ import com.tdt4240.catchgame.Model.Backgrounds;
 import com.tdt4240.catchgame.Model.Sprites;
 import com.tdt4240.catchgame.R;
 
+import java.util.Timer;
+
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,16 +26,14 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     public MenuActivity() {
         super();
     }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         SwitchScreen(R.id.view_main_menu);
+
         this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
         this.buttonSound.setVolume(1, 1);
-
 
         // Click listener for all clickable elements
         for (int id : CLICKABLES) {
@@ -50,7 +50,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             R.id.switch_background_music, R.id.btn_easy, R.id.btn_medium, R.id.btn_hard,
             R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack, R.id.btn_avatar_crocodile,
             R.id.btn_avatar_gnu, R.id.btn_avatar_monkey, R.id.btn_avatar_raccoon,
-            R.id.switch_background_music, R.id.switch_sound, R.id.btn_background_menu, R.id.btn_background_play
+            R.id.switch_background_music, R.id.switch_sound, R.id.btn_background_menu, R.id.btn_background_play, R.id.btn_goToPowerups
 
 
     };
@@ -73,6 +73,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_settings:
                 this.buttonSound.start();
                 SwitchScreen(R.id.view_settings_menu);
+                break;
+            case R.id.btn_goToPowerups:
+                this.buttonSound.start();
+                SwitchScreen(R.id.view_powerups);
                 break;
             case R.id.btn_easy:
                 this.buttonSound.start();
@@ -138,6 +142,14 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                     SwitchScreen(R.id.view_main_menu);
                     break;
                 }
+                if (mCurScreen == R.id.view_powerups){
+                    SwitchScreen(R.id.view_rules);
+                    break;
+                }
+                if (mCurScreen == R.id.view_rules){
+                    SwitchScreen(R.id.view_main_menu);
+                    break;
+                }
                 SwitchScreen(mLastScreen);
                 break;
 //choice of character
@@ -187,7 +199,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     final static int[] SCREENS = {
             R.id.view_main_menu, R.id.view_highscore, R.id.view_play,
-            R.id.view_play_single, R.id.view_rules, R.id.view_settings_menu, R.id.btn_goBack
+            R.id.view_play_single, R.id.view_rules, R.id.view_settings_menu,
+            R.id.view_loading, R.id.view_powerups, R.id.btn_goBack
     };
     int mCurScreen = -1;
     int mLastScreen = -1;
@@ -202,6 +215,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         mLastScreen = mCurScreen;
         mCurScreen = screenId;
     }
+
 
     @Override
     protected void onStart() {

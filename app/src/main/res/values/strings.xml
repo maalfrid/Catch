@@ -11,32 +11,56 @@
     <string name="sound">Sound</string>
     <string name="txt_highscore">TXT_HIGHSCORE</string>
     <string name="txt_rules">TXT_RULES</string>
+
     <string name="button">Button</string>
     <string name="rules_text">Rules_Text</string>
     <string name="background_sound_on_off">Background sound on/off</string>
     <string name="rules_for_catch_game">Rules for Catch game</string>
 
+    <!-- Rules view -->
+
     <string name="good_objects_subheader">Catch the good food</string>
     <string name="good_objects_description">
         The monkey is hungry! To feed him, try to catch the good food.
         The monkey likes all kinds of fruits and will reward you with points if you eat them.
-        But be carefull, the monkey will punish you if the fruit hits the ground,by removing one life.
+        But be carefull, the monkey will punish you if the fruit hits the ground, by removing one life.
     </string>
 
     <string name="bad_objects_subheader">Avoid the bad objects</string>
     <string name="bad_objects_description">
         The monkey hates scary creatures, like spiders and snakes!
         Try to avoid them to keep the monkey happy.
-        If you catch one of them, he will punish you by take some points from you.
-
+        If you catch one of them, he will punish you by taking some points from you.
     </string>
 
     <string name="powerups_objects_subheader">Catch the power-ups</string>
     <string name="powerups_description">
         Once in a while a bug will appear on the screen.
-        The monkey think bugs are interesting, but are unsure about what happens if he eats one.
-        The only thing he know is that the bugs will affect him in a positive way – try to eat them!
+        The monkey knows that the bugs will affect him in a positive way – try to eat them!
+        Touch this ladybug to read more about the power-ups.
     </string>
+
+
+    <!-- Powerups view -->
+    <string name="powerups">Power-ups</string>
+    <string name="powerups_you_catch">If you catch a...</string>
+    <string name="powerups_you_catch_description">If you catch a...</string>
+    <string name="powerups_opponent_catch">If your opponent catches a...</string>
+    <string name="powerups_time">The effect of a power-up is active in 10 seconds after you eat it!</string>
+    <string name="powerups_you_ladybug">= Extra life</string>
+    <string name="powerups_you_starbeetle">= Big good objects, small bad objects</string>
+    <string name="powerups_you_greenbeetle">= You don\'t loose lives or points</string>
+    <string name="powerups_you_beetle">= Only get good falling objects</string>
+    <string name="powerups_opponent_starbeetle">= Big bad objects, small good objects</string>
+    <string name="powerups_opponent_beetle">= Only get bad falling objects</string>
+    <string name="powerups_opponent_greenbeetle">= Bad objects gets twice as bad</string>
+
+    <!-- Loading view -->
+    <string name="loading_header">Loading game...</string>
+
+
+
+
 
     <string name="sound_on_off">Sound on/off</string>
     <!-- Multiplayer -->
