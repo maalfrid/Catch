@@ -80,6 +80,8 @@ public class MultiPlayerActivity extends AppCompatActivity implements
     // Music
     private MediaPlayer backgroundMusic;
     private MediaPlayer buttonSound;
+    private boolean soundEffectsOn;
+    private boolean backgroundsoundOn;
     private boolean inGame;
 
     // Broadcast vars
@@ -111,6 +113,9 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setVolume(1, 1);
         this.backgroundMusic.setLooping(true);
+
+        this.backgroundsoundOn = getIntent().getExtras().getBoolean("backgroundSound");
+        this.soundEffectsOn = getIntent().getExtras().getBoolean("soundEffects");
 
         this.background = getIntent().getStringExtra("background");
         this.avatar = getIntent().getStringExtra("avatar");
@@ -170,14 +175,20 @@ public class MultiPlayerActivity extends AppCompatActivity implements
         this.backgroundMusic.pause();
     }
 
+    public boolean getSoundEffectsOn(){
+        return this.soundEffectsOn;
+    }
+
+    public boolean getBackgroundSoundOn(){
+        return this.backgroundsoundOn;
+    }
+
 
     public String getDifficulty() {
         return "easy";
     }
 
-    public boolean getBackgroundSoundOn(){
-        return true;
-    }
+
     public String getBackground(){
         return this.background;
     }
