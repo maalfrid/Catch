@@ -20,6 +20,8 @@
         <TextView
             android:layout_marginTop="250dp"
             style="@style/TextHeaders"
+            android:textColor="@color/colorYellow"
+            android:shadowColor="@color/colorDarkGreen"
             android:text="@string/loading_header"/>
 
         <ProgressBar

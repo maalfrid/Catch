@@ -235,8 +235,8 @@
         <TextView
             style="@style/TextSubHeaders"
             android:text="@string/powerups_you_catch"
-            android:textColor="@color/colorYellow"
-            android:shadowColor="@color/colorDarkGreen" />
+            android:textColor="@color/colorDarkGreen"
+            android:shadowColor="@color/colorYellow" />
 
         <LinearLayout style="@style/LinearRowLayout">
 
@@ -284,8 +284,8 @@
         <TextView
             style="@style/TextSubHeaders"
             android:text="@string/powerups_opponent_catch"
-            android:textColor="@color/colorYellow"
-            android:shadowColor="@color/colorDarkGreen"
+            android:textColor="@color/colorDarkGreen"
+            android:shadowColor="@color/colorYellow"
             />
 
         <LinearLayout style="@style/LinearRowLayout">
@@ -380,7 +380,8 @@
             android:layout_marginTop="80dp"
             style="@style/MenuButton"
             android:layout_width="256dp"
-            android:layout_height="82dp"
+            android:layout_height="90dp"
+            android:layout_marginLeft="50dp"
             android:background="@drawable/txt_background" />
 
         <LinearLayout
@@ -409,7 +410,7 @@
             android:id="@+id/btn_avatar"
             style="@style/MenuButton"
             android:layout_width="311dp"
-            android:layout_height="87dp"
+            android:layout_height="90dp"
             android:background="@drawable/txt_avatar" />
 
 
@@ -419,7 +420,7 @@
 
         <Button
             android:id="@+id/btn_avatar_crocodile"
-            android:layout_width="60dp"
+            android:layout_width="70dp"
             android:layout_height="50dp"
             android:layout_marginLeft="70dp"
             android:background="@drawable/sprites_crocodile1"
@@ -428,7 +429,7 @@
         <Button
             android:id="@+id/btn_avatar_gnu"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/sprites_gnu1"
             android:onClick="onClick" />
@@ -436,7 +437,7 @@
         <Button
             android:id="@+id/btn_avatar_monkey"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/sprites_monkey1"
             android:onClick="onClick" />
@@ -444,7 +445,7 @@
         <Button
             android:id="@+id/btn_avatar_raccoon"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/sprites_raccoon1"
             android:onClick="onClick" />
@@ -453,7 +454,7 @@
         <Switch
             android:id="@+id/switch_sound"
             android:layout_width="322dp"
-            android:layout_height="111dp"
+            android:layout_height="90dp"
             android:checked="true"
             android:background="@drawable/txt_sound"
             android:onClick="onClick"/>
@@ -461,7 +462,7 @@
         <Switch
             android:id="@+id/switch_background_music"
             android:layout_width="321dp"
-            android:layout_height="122dp"
+            android:layout_height="90dp"
             android:checked="true"
             android:background="@drawable/txt_music"
             android:onClick="onClick"/>
