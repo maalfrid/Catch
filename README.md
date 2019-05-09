@@ -59,7 +59,7 @@ CATCH is an intuitive and easily accessible mobile game that gets you hooked fro
 <img src="https://user-images.githubusercontent.com/16878457/55806189-1865a700-5ae0-11e9-982e-ddd0938614ae.png" alt="" width="100"/>
 
 - Press next
-- Choose a version of the Android mobile operating system having an API level 21 or later versions (e.g. Pie)
+- Choose a version of the Android mobile operating system having an API level 24 or later versions
   * Press the Download button for the chosen version
 - Press next
 - Press finish
