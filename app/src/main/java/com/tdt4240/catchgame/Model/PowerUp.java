@@ -6,7 +6,7 @@ import com.tdt4240.catchgame.Controllers.CoreGame;
 
 public class PowerUp extends FallingObject {
 
-    public PowerUp(Bitmap bitmap, ObjectType object) {
+    protected PowerUp(Bitmap bitmap, ObjectType object) {
         super(bitmap, object);
     }
     @Override

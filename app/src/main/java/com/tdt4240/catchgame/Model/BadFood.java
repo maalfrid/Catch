@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 public class BadFood extends FallingObject {
 
 
-    public BadFood(Bitmap bitmap, ObjectType object) {
+    protected BadFood(Bitmap bitmap, ObjectType object) {
         super(bitmap, object);
     }
 

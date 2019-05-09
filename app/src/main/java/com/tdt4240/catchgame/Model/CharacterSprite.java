@@ -166,7 +166,7 @@ public class CharacterSprite {
 
     public boolean isVulnerable() { return this.vulnerable; }
 
-    public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
+    private Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
         int width = bmp.getWidth();
         int height = bmp.getHeight();
         double newWidth = screenWidth * scaleFactorWidth;
