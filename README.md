@@ -16,7 +16,7 @@ CATCH is an intuitive and easily accessible mobile game that gets you hooked fro
 
 <a name="prerequisites"></a>
 ## 1.1 Prerequisites
-- An Android device or emulator supporting google play games services with API version 21 or later versions
+- An Android device or emulator supporting google play games services with API version 24 or later versions 
 - Create a user in the [Google Play Games](https://play.google.com/store/apps/details?id=com.google.android.play.games&hl=en) app in order to play multiplayer
 - In order to test the multiplayer game, you must be added as a tester on the [Google Developer Console](https://console.developers.google.com) by one of the contributors of Catch
 - In multiplayer mode, you need to be connected to the internet
