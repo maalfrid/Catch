@@ -46,7 +46,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public MenuItem txt_lives_opponent;
     public MenuItem txt_you;
     public MenuItem txt_opponent;
-    public MenuItem txt_pipe; //TODO: Add line in middle
     public MenuItem btn_exit;
     public MenuItem btn_sound;
 
@@ -102,36 +101,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
-        //menu items
-        this.txt_you = new MenuItem("You", 45.0f, "#f1c131", "#0f4414", this.context);
-        this.txt_score_self = new MenuItem("0", 45.0f, "#f1c131", "#0f4414", this.context);
-        this.txt_lives_self = new MenuItem("0", 80.0f, "#f1c131", "#0f4414", this.context);
-        if (this.isMultiplayer) {
-            this.txt_opponent = new MenuItem("Opponent", 45.0f, "#f16131", "#0f4414", this.context);
-            this.txt_score_opponent = new MenuItem("0: ", 45.0f, "#f16131", "#0f4414", this.context);
-            this.txt_lives_opponent = new MenuItem("0", 80.0f, "#f16131", "#0f4414", this.context);
-        }
-        this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_exit), 0.15));
-        this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_on), 0.15));
-        //game over/exit items
-        this.txt_gameQuit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(), R.drawable.txt_quit), 1.0));
-        this.txt_gameQuit.setPos(screenWidth / 2 - txt_gameQuit.getWidth() / 2, screenHeight / 2 - txt_gameQuit.getHeight() / 2);
-        this.btn_yes = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(), R.drawable.button_yes), 1.0));
-        this.btn_yes.setPos(txt_gameQuit.getPosX(), txt_gameQuit.getPosY() + txt_gameQuit.getHeight());
-        this.btn_no = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(), R.drawable.button_no), 1.0));
-        this.btn_no.setPos(txt_gameQuit.getPosX(), txt_gameQuit.getPosY() + txt_gameQuit.getHeight() + btn_no.getHeight());
-        this.txt_gameOver = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_gameover), 1.0));
-        this.txt_gameOver.setPos(screenWidth / 2 - txt_gameOver.getWidth() / 2, screenHeight / 2 - txt_gameOver.getHeight() / 2);
+        generateScoreLine();
+        setIngameMenuButtons();
         if (isMultiplayer) {
-            this.txt_gameWin = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_youwon), 1.0));
-            this.txt_gameWin.setPos(screenWidth / 2 - txt_gameWin.getWidth() / 2, screenHeight / 2 - txt_gameWin.getHeight() / 2);
-            this.txt_gameLost = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_youlost), 1.0));
-            this.txt_gameLost.setPos(screenWidth / 2 - txt_gameLost.getWidth() / 2, screenHeight / 2 - txt_gameLost.getHeight() / 2);
-            this.txt_opponentExit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_opponentquit), 1.0));
-            this.txt_opponentExit.setPos(screenWidth / 2 - txt_opponentExit.getWidth() / 2, screenHeight / 2 - txt_opponentExit.getHeight() / 2);
             coreGame = new CoreGame(multiPlayerActivity.getDifficulty(), multiPlayerActivity.getAvatar(), multiPlayerActivity.getBackgroundSoundOn(), multiPlayerActivity.getSoundEffectsOn(), this.context, this);
-        }
-        if (!isMultiplayer) {
+        } else {
             this.background = scaleBackground(Backgrounds.valueOf(singlePlayerActivity.getBackground()));
             coreGame = new CoreGame(singlePlayerActivity.getDifficulty(), singlePlayerActivity.getAvatar(), singlePlayerActivity.getBackgroundsoundOn(), singlePlayerActivity.getSoundEffectsOn(), this.context, this);
         }
@@ -170,7 +144,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-
     public void update() {
         if (!isGamePause() && !isGameOver()) {
             coreGame.update();
@@ -189,6 +162,40 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     * GAME MENU / SCORING VIEW
     * */
 
+
+    private void generateScoreLine(){
+        this.txt_you = new MenuItem("You", 45.0f, "#f1c131", "#0f4414", this.context);
+        this.txt_score_self = new MenuItem("0", 45.0f, "#f1c131", "#0f4414", this.context);
+        this.txt_lives_self = new MenuItem("0", 80.0f, "#f1c131", "#0f4414", this.context);
+        if (this.isMultiplayer) {
+            this.txt_opponent = new MenuItem("Opponent", 45.0f, "#f16131", "#0f4414", this.context);
+            this.txt_score_opponent = new MenuItem("0: ", 45.0f, "#f16131", "#0f4414", this.context);
+            this.txt_lives_opponent = new MenuItem("0", 80.0f, "#f16131", "#0f4414", this.context);
+        }
+    }
+
+    private void setIngameMenuButtons(){
+        this.btn_exit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_exit), 0.15));
+        this.btn_sound = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_on), 0.15));
+        //game over/exit items
+        this.txt_gameQuit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(), R.drawable.txt_quit), 1.0));
+        this.txt_gameQuit.setPos(screenWidth/2 - txt_gameQuit.getWidth()/2, screenHeight / 2 - txt_gameQuit.getHeight() / 2);
+        this.btn_yes = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(), R.drawable.button_yes), 1.0));
+        this.btn_yes.setPos(txt_gameQuit.getPosX(), txt_gameQuit.getPosY() + txt_gameQuit.getHeight());
+        this.btn_no = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(getResources(), R.drawable.button_no), 1.0));
+        this.btn_no.setPos(txt_gameQuit.getPosX(), txt_gameQuit.getPosY() + txt_gameQuit.getHeight() + btn_no.getHeight());
+        this.txt_gameOver = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_gameover), 1.0));
+        this.txt_gameOver.setPos(screenWidth / 2 - txt_gameOver.getWidth() / 2, screenHeight / 2 - txt_gameOver.getHeight() / 2);
+        if (isMultiplayer) {
+            this.txt_gameWin = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_youwon), 1.0));
+            this.txt_gameWin.setPos(screenWidth / 2 - txt_gameWin.getWidth() / 2, screenHeight / 2 - txt_gameWin.getHeight() / 2);
+            this.txt_gameLost = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_youlost), 1.0));
+            this.txt_gameLost.setPos(screenWidth / 2 - txt_gameLost.getWidth() / 2, screenHeight / 2 - txt_gameLost.getHeight() / 2);
+            this.txt_opponentExit = new MenuItem(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.txt_opponentquit), 1.0));
+            this.txt_opponentExit.setPos(screenWidth / 2 - txt_opponentExit.getWidth() / 2, screenHeight / 2 - txt_opponentExit.getHeight() / 2);
+        }
+    }
+
     public void drawMenuBar(Canvas canvas){
         btn_exit.draw(canvas, 0, 0);
         btn_sound.draw(canvas, screenWidth - btn_sound.getWidth(), 0);
@@ -205,38 +212,30 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     // Draw power-ups
     public void drawActivePowerups(Canvas canvas){
-        // -- Catched power-ups by you:
         float heightSelf = this.txt_lives_self.getPosY();
         if(this.coreGame.getCharacterSprite().isImmune()){
-            // You have caught a power-up
             Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.GREENBEETLE, 0.1);
             canvas.drawBitmap(bmp, btn_exit.getWidth(), heightSelf, null);
         }
         if(FallingObjectFactory.getInstance().isLargeGood()){
-            // You caught a power-up
             Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.LIGHTNINGBEETLE, 0.1);
             canvas.drawBitmap(bmp, btn_exit.getWidth() + bmp.getWidth(), heightSelf, null);
         }
         if(FallingObjectFactory.getInstance().isOnlyGood()){
-            // You caught a power-up
             Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.STARBEETLE, 0.1);
             canvas.drawBitmap(bmp, btn_exit.getWidth() + 2*bmp.getWidth(), heightSelf, null);
         }
-        // -- Catched power-ups by opponent:
         if (isMultiplayer) {
             float heightOpponent = this.txt_lives_opponent.getPosY();
             if (this.coreGame.getCharacterSprite().isVulnerable()) {
-                // Opponent caught a power-up
                 Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.GREENBEETLE, 0.1);
                 canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 2 * bmp.getWidth(), heightOpponent, null);
             }
             if (FallingObjectFactory.getInstance().isLargeBad()) {
-                // Opponent caught a power-up
                 Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.LIGHTNINGBEETLE, 0.1);
                 canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 3 * bmp.getWidth(), heightOpponent, null);
             }
             if (FallingObjectFactory.getInstance().isOnlyBad()) {
-                // Opponent caught a power-up
                 Bitmap bmp = FallingObjectFactory.getInstance().getObjectImage(ObjectType.STARBEETLE, 0.1);
                 canvas.drawBitmap(bmp, screenWidth - this.txt_lives_opponent.getWidth() - 4 * bmp.getWidth(), heightOpponent, null);
             }
