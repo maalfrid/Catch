@@ -1,4 +1,4 @@
-package com.tdt4240.catchgame.View;
+package com.tdt4240.catchgame.Model;
 
 import android.content.Context;
 import android.content.res.Resources;

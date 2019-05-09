@@ -16,6 +16,7 @@ import com.tdt4240.catchgame.Controllers.CoreGame;
 import com.tdt4240.catchgame.MainThread;
 import com.tdt4240.catchgame.Model.Backgrounds;
 import com.tdt4240.catchgame.Model.FallingObjectFactory;
+import com.tdt4240.catchgame.Model.MenuItem;
 import com.tdt4240.catchgame.Model.ObjectType;
 import com.tdt4240.catchgame.Controllers.MultiPlayerActivity;
 import com.tdt4240.catchgame.R;
