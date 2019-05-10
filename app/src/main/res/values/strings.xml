@@ -21,23 +21,21 @@
 
     <string name="good_objects_subheader">Catch the good food</string>
     <string name="good_objects_description">
-        The monkey is hungry! To feed him, catch the good food.
-        The monkey likes all kinds of fruits and will reward you with points if you eat them.
-        But be careful, you will lose one life if a fruit hits the ground.
+        Catch the falling fruit to increase your score.
+        But be careful!
+        If you drop one of them, you will lose a life.
     </string>
 
     <string name="bad_objects_subheader">Avoid the bad objects</string>
     <string name="bad_objects_description">
-        The monkey hates scary creatures, like spiders and snakes!
-        Try to avoid them to keep the monkey happy.
-        If you touch one of them, you will lose points.
+        Spiders and snakes will bite! Try to avoid them.
+        If you touch one, your score will decrease.
     </string>
 
     <string name="powerups_objects_subheader">Catch the power-ups</string>
     <string name="powerups_description">
-        Once in a while a bug will appear on the screen.
-        The monkey knows that the bugs will affect him in a positive way – try to eat them!
-        Touch this ladybug to read more about the power-ups.
+        Bugs are power-ups and will affect you in a positive way!
+        Touch the ladybug to read more about the power-ups.
     </string>
 
 
