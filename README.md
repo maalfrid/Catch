@@ -1,5 +1,5 @@
-<img src="https://github.com/maalfrid/Catch/blob/dev/app/src/main/res/drawable/txt_title.png" alt="" width="600"/>
-CATCH is an intuitive and easily accessible mobile game that gets you hooked from the first game. Control your sprite by touch, catch the good objects falling down and be rewarded, but by all means avoid the bad objects or you will be punished!  
+<img src="https://github.com/maalfrid/Catch/blob/master/app/src/main/res/drawable/txt_title.png" alt="" width="600"/>
+CATCH is an intuitive and easily accessible mobile game that gets you hooked from the first minute. Control your sprite by touch, catch the good objects falling down and be rewarded, but by all means avoid the bad objects or you will be punished!  
 
 # Outline
 - [1 Getting Started](#getting-started)
@@ -16,7 +16,7 @@ CATCH is an intuitive and easily accessible mobile game that gets you hooked fro
 
 <a name="prerequisites"></a>
 ## 1.1 Prerequisites
-- An Android device or emulator supporting google play games services with API version 21 or later versions
+- An Android device or emulator supporting Google Play Games Services with API version 24 or later versions 
 - Create a user in the [Google Play Games](https://play.google.com/store/apps/details?id=com.google.android.play.games&hl=en) app in order to play multiplayer
 - In order to test the multiplayer game, you must be added as a tester on the [Google Developer Console](https://console.developers.google.com) by one of the contributors of Catch
 - In multiplayer mode, you need to be connected to the internet
@@ -40,8 +40,8 @@ CATCH is an intuitive and easily accessible mobile game that gets you hooked fro
 <img src="https://user-images.githubusercontent.com/16878457/55806258-37fccf80-5ae0-11e9-869b-7032bdc3ffd4.png" alt="" width="250"/>
 
 - Further instructions for running the app: 
-  * Go to [this section](#installing_device) if you have a device.
-  * Go to [this section](#installing_emulator) if you don't have a device.
+  * Go to [this section](#installing_device) if you have a device
+  * Go to [this section](#installing_emulator) if you don't have a device
 
 <a name="installing_device"></a>
 ### 1.2.1 With Device
@@ -52,14 +52,15 @@ CATCH is an intuitive and easily accessible mobile game that gets you hooked fro
 
 <a name="installing_emulator"></a>
 ### 1.2.2 With Emulator
+_Disclaimer: We do not recommend you to test the game with an emulator as the game is supposed to be played with touch when moving your avatar._
 - Create a new device: <br />
 <img src="https://user-images.githubusercontent.com/16878457/55806203-20254b80-5ae0-11e9-90b4-1c0a10dfccc5.png" alt="" width="500"/>
 
-- Choose one of the devices with a play store symbol (e.g. NEXUS 5X): <br />
+- Choose one of the devices with a play store symbol: <br />
 <img src="https://user-images.githubusercontent.com/16878457/55806189-1865a700-5ae0-11e9-982e-ddd0938614ae.png" alt="" width="100"/>
 
 - Press next
-- Choose a version of the Android mobile operating system having an API level 21 or later versions (e.g. Pie)
+- Choose a version of the Android mobile operating system having an API level 24 or later versions
   * Press the Download button for the chosen version
 - Press next
 - Press finish
@@ -76,7 +77,7 @@ CATCH is an intuitive and easily accessible mobile game that gets you hooked fro
 - Choose Singleplayer
 - Choose difficulty - Easy, Medium or Hard
 - Move the player by touch!
-  * Catch good objects and power-ups, but avoid bad objects.
+  * Catch good objects and power-ups, but avoid bad objects
   * The scoring system is described [here](#play-scoring)
 
 ![playguide-spg](https://user-images.githubusercontent.com/16878457/56753679-5d9a0200-678b-11e9-8d80-5d04aa662a3c.gif)
@@ -84,7 +85,7 @@ CATCH is an intuitive and easily accessible mobile game that gets you hooked fro
 <a name="play-multi"></a>
 ## 2.2 Play Multiplayer
 - In the landing page, press Play and further Multiplayer
-- Sign in to your google play games account
+- Sign in to your Google Play Games account
 - Choose Quick game:
   * Wait until your opponent joines the quick game
   * When the opponent has joined, the game will start automatically
@@ -93,7 +94,7 @@ CATCH is an intuitive and easily accessible mobile game that gets you hooked fro
 
 <a name="play-scoring"></a>
 ## 2.3 Scoring system
-There are good objects, bad objects and power-ups objects following down in the Catch game. A description of their scoring or behavior follows. 
+There are good objects, bad objects and power-ups objects following down in the Catch game. A description of their scoring or behavior follows. A player loses the game if he/she has no lives left.  
 
 ### Good objects
 
@@ -124,12 +125,12 @@ The effect of a power-up is active from you catch it and in 10 seconds.
 - <img src="https://user-images.githubusercontent.com/16878457/56754609-c4b8b600-678d-11e9-9f56-61eb2e18645d.png" alt="" width="30"/> - Good objects are getting bigger, bad objects are getting smaller
 - <img src="https://user-images.githubusercontent.com/16878457/56754606-c4201f80-678d-11e9-801b-f01728fa297b.png" alt="" width="30"/> - You only get good falling objects
 - <img src="https://user-images.githubusercontent.com/16878457/56754608-c4201f80-678d-11e9-92e6-66526fc99071.png" alt="" width="30"/> - You get an extra life
-- <img src="https://user-images.githubusercontent.com/16878457/56754607-c4201f80-678d-11e9-8a1c-cde9ab043006.png" alt="" width="30"/> - You don't loose lives of missing good objects, and don't loose points of catching bad objects
+- <img src="https://user-images.githubusercontent.com/16878457/56754607-c4201f80-678d-11e9-8a1c-cde9ab043006.png" alt="" width="30"/> - You don't lose lives of missing good objects, and don't lose points of catching bad objects
 
 #### If your opponent catches a... 
 - <img src="https://user-images.githubusercontent.com/16878457/56754609-c4b8b600-678d-11e9-9f56-61eb2e18645d.png" alt="" width="30"/> - Bad objects are getting bigger, good objects are getting smaller
 - <img src="https://user-images.githubusercontent.com/16878457/56754606-c4201f80-678d-11e9-801b-f01728fa297b.png" alt="" width="30"/> - You only get bad falling objects
-- <img src="https://user-images.githubusercontent.com/16878457/56754607-c4201f80-678d-11e9-8a1c-cde9ab043006.png" alt="" width="30"/> - You loose double score when catching bad objects
+- <img src="https://user-images.githubusercontent.com/16878457/56754607-c4201f80-678d-11e9-8a1c-cde9ab043006.png" alt="" width="30"/> - You lose double score when catching bad objects
 
 <a name="built-with"></a>
 # 3 Built With
