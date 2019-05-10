@@ -1,4 +1,4 @@
-<img src="https://github.com/maalfrid/Catch/blob/dev/app/src/main/res/drawable/txt_title.png" alt="" width="600"/>
+<img src="https://github.com/maalfrid/Catch/blob/master/app/src/main/res/drawable/txt_title.png" alt="" width="600"/>
 CATCH is an intuitive and easily accessible mobile game that gets you hooked from the first minute. Control your sprite by touch, catch the good objects falling down and be rewarded, but by all means avoid the bad objects or you will be punished!  
 
 # Outline
