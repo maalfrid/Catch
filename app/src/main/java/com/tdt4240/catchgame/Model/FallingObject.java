@@ -47,7 +47,7 @@ public abstract class FallingObject {
         return this.sound;
     }
 
-    public void setSound(String sound) {
+    protected void setSound(String sound) {
         this.sound = sound;
     }
 
@@ -59,12 +59,12 @@ public abstract class FallingObject {
         return this.objectScore;
     }
 
-    public void wasEaten() {
+    private void wasEaten() {
         System.out.println("Object eaten, get score " + this.getScore());
         this.isEaten = true;
     }
 
-    public void touchedFloor() {
+    private void touchedFloor() {
         this.touchedFloor = true;
         System.out.println("Object dropped, get score " + this.getScore());
     }
@@ -91,7 +91,7 @@ public abstract class FallingObject {
         }
     }
 
-    public void applyObjectEffect(CharacterSprite characterSprite) {
+    private void applyObjectEffect(CharacterSprite characterSprite) {
         if (this.isEaten) {
             this.applyObjectEatenEffect(characterSprite);
         } else if (this.touchedFloor) {

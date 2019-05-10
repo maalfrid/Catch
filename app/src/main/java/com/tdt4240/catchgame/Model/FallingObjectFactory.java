@@ -50,7 +50,7 @@ public final class FallingObjectFactory {
         }
     }
 
-    public int getFallingObjectType() {
+    private int getFallingObjectType() {
         int id = (int) ((Math.random()) * (fallingObjectFraction.size() - 1));
         return fallingObjectFraction.get(id);
     }
@@ -123,7 +123,7 @@ public final class FallingObjectFactory {
         return this.largeBad;
     }
 
-    public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
+    private Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
         int width = bmp.getWidth();
         int height = bmp.getHeight();
         double newWidth = screenWidth * scaleFactorWidth;
