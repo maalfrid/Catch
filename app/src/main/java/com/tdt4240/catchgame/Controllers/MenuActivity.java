@@ -1,4 +1,4 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Controllers;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -6,30 +6,43 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.tdt4240.catchgame.Model.Backgrounds;
+import com.tdt4240.catchgame.Model.Sprites;
+import com.tdt4240.catchgame.R;
+
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String difficulty = "difficulty";
+    private String backgroundSound = "backgroundSound";
+    private String soundEffects = "soundEffects";
+    private String background = Backgrounds.GREEN.toString();
+    private String avatar = Sprites.MONKEY.toString();
     MediaPlayer buttonSound;
+    private boolean backgroundSoundOn = true;
+    private boolean soundEffectsOn = true;
 
     public MenuActivity() {
         super();
     }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        SwitchScreen(R.id.view_main_menu);
+        int startScreen = R.id.view_main_menu;
+        SwitchScreen(startScreen);
+
+
+
+
         this.buttonSound = MediaPlayer.create(this, R.raw.buttonclick);
         this.buttonSound.setVolume(1, 1);
-
 
         // Click listener for all clickable elements
         for (int id : CLICKABLES) {
             findViewById(id).setOnClickListener(this);
         }
+
     }
 
     /*
@@ -39,7 +52,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     final static int[] CLICKABLES = {R.id.btn_play, R.id.btn_rules, R.id.btn_score,
             R.id.btn_settings, R.id.btn_background, R.id.btn_avatar, R.id.switch_sound,
             R.id.switch_background_music, R.id.btn_easy, R.id.btn_medium, R.id.btn_hard,
-            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack
+            R.id.btn_play_single, R.id.btn_play_multi, R.id.btn_goBack, R.id.btn_avatar_crocodile,
+            R.id.btn_avatar_gnu, R.id.btn_avatar_monkey, R.id.btn_avatar_raccoon,
+            R.id.switch_background_music, R.id.switch_sound, R.id.btn_background_menu, R.id.btn_background_play, R.id.btn_goToPowerups
+
+
     };
 
     @Override
@@ -61,12 +78,20 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 this.buttonSound.start();
                 SwitchScreen(R.id.view_settings_menu);
                 break;
+            case R.id.btn_goToPowerups:
+                this.buttonSound.start();
+                SwitchScreen(R.id.view_powerups);
+                break;
             case R.id.btn_easy:
                 this.buttonSound.start();
                 Intent intentEasy = new Intent(v.getContext(), SinglePlayerActivity.class);
                 //send string to next activity
                 intentEasy.putExtra(difficulty, "easy");
                 intentEasy.putExtra("gametype", "single");
+                intentEasy.putExtra("avatar", this.avatar);
+                intentEasy.putExtra(backgroundSound, this.backgroundSoundOn);
+                intentEasy.putExtra(soundEffects, this.soundEffectsOn);
+                intentEasy.putExtra("background", this.background);
                 startActivity(intentEasy);
                 break;
             case R.id.btn_medium:
@@ -74,6 +99,12 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intentMedium = new Intent(v.getContext(), SinglePlayerActivity.class);
                 intentMedium.putExtra(difficulty, "medium");
                 intentMedium.putExtra("gametype", "single");
+                intentMedium.putExtra("avatar", this.avatar);
+                intentMedium.putExtra(backgroundSound, this.backgroundSoundOn);
+                intentMedium.putExtra(soundEffects, this.soundEffectsOn);
+                System.out.println(this.backgroundSoundOn);
+                intentMedium.putExtra("background", this.background);
+                //System.out.println("chosen avatar:" + this.avatar);
                 startActivity(intentMedium);
                 break;
             case R.id.btn_hard:
@@ -81,6 +112,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intentHard = new Intent(v.getContext(), SinglePlayerActivity.class);
                 intentHard.putExtra(difficulty, "hard");
                 intentHard.putExtra("gametype", "single");
+                intentHard.putExtra("avatar", this.avatar);
+                intentHard.putExtra(backgroundSound, this.backgroundSoundOn);
+                intentHard.putExtra(soundEffects, this.soundEffectsOn);
+                intentHard.putExtra("background", this.background);
                 startActivity(intentHard);
                 break;
             case R.id.btn_play_single:
@@ -96,6 +131,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 // just do the same as for singleplayer
                 Intent intentMulti = new Intent(v.getContext(), MultiPlayerActivity.class);
                 intentMulti.putExtra("gametype", "multi");
+                intentMulti.putExtra("avatar", this.avatar);
+                intentMulti.putExtra(backgroundSound, this.backgroundSoundOn);
+                intentMulti.putExtra(soundEffects, this.soundEffectsOn);
+                intentMulti.putExtra("background", this.background);
                 startActivity(intentMulti);
                 break;
             /*case R.id.button_sign_in:
@@ -107,8 +146,58 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                     SwitchScreen(R.id.view_main_menu);
                     break;
                 }
+                if (mCurScreen == R.id.view_powerups){
+                    SwitchScreen(R.id.view_rules);
+                    break;
+                }
+                if (mCurScreen == R.id.view_rules){
+                    SwitchScreen(R.id.view_main_menu);
+                    break;
+                }
+                if (mCurScreen == R.id.view_main_menu){
+                    SwitchScreen(R.id.view_main_menu);
+                    break;
+                }
                 SwitchScreen(mLastScreen);
                 break;
+//choice of character
+            case R.id.btn_avatar_crocodile:
+                this.buttonSound.start();
+                this.avatar = Sprites.CROCODILE.toString();
+                System.out.println("Chosen Crocodile");
+                break;
+            case R.id.btn_avatar_gnu:
+                this.buttonSound.start();
+                this.avatar = Sprites.GNU.toString();
+                System.out.println("Chosen GNU");
+                break;
+            case R.id.btn_avatar_monkey:
+                this.buttonSound.start();
+                this.avatar = Sprites.MONKEY.toString();
+                System.out.println("Chosen Monkey");
+                break;
+            case R.id.btn_avatar_raccoon:
+                this.buttonSound.start();
+                this.avatar = Sprites.RACCOON.toString();
+                System.out.println("Chosen Raccoon");
+                break;
+            case R.id.switch_background_music:
+                this.buttonSound.start();
+                this.backgroundSoundOn = !backgroundSoundOn;
+                System.out.println(this.backgroundSoundOn);
+                break;
+            case R.id.switch_sound:
+                this.buttonSound.start();
+                this.soundEffectsOn = !soundEffectsOn;
+                break;
+            case R.id.btn_background_menu:
+                this.buttonSound.start();
+                this.background = Backgrounds.BLUE.toString();
+                break;
+            case R.id.btn_background_play:
+                this.buttonSound.start();
+                this.background = Backgrounds.GREEN.toString();
+
         }
     }
 
@@ -118,21 +207,28 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     final static int[] SCREENS = {
             R.id.view_main_menu, R.id.view_highscore, R.id.view_play,
-            R.id.view_play_single, R.id.view_rules, R.id.view_settings_menu, R.id.btn_goBack
+            R.id.view_play_single, R.id.view_rules, R.id.view_settings_menu,
+            R.id.view_powerups, R.id.btn_goBack
     };
     int mCurScreen = -1;
     int mLastScreen = -1;
 
     public void SwitchScreen(int screenId) {
         for (int id : SCREENS) {
+
             findViewById(id).setVisibility(screenId == id ? View.VISIBLE : View.GONE);
+
         }
         if (screenId != R.id.view_main_menu)
-            findViewById(R.id.btn_goBack).setVisibility(View.VISIBLE);
+
+
+        findViewById(R.id.btn_goBack).setVisibility(View.VISIBLE);
 
         mLastScreen = mCurScreen;
         mCurScreen = screenId;
+
     }
+
 
     @Override
     protected void onStart() {

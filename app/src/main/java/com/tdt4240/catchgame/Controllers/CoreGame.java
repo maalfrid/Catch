@@ -1,4 +1,4 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Controllers;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -7,6 +7,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.view.MotionEvent;
+
+import com.tdt4240.catchgame.Model.CharacterSprite;
+import com.tdt4240.catchgame.Model.FallingObject;
+import com.tdt4240.catchgame.Model.FallingObjectFactory;
+import com.tdt4240.catchgame.Model.ObjectType;
+import com.tdt4240.catchgame.Model.SoundEffects;
+import com.tdt4240.catchgame.Model.Sprites;
+import com.tdt4240.catchgame.R;
+import com.tdt4240.catchgame.View.GameView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,29 +26,32 @@ public class CoreGame {
     private GameView gameview;
     private boolean soundOn;
     private SoundEffects soundEffects;
+    private boolean backgroundSoundOn;
+    private boolean soundEffectsOn;
+
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-    //TODO: change this
+
+    // -----  Game difficulty variables ----- //
     private String easy = "easy";
     private String medium = "medium";
     private String hard = "hard";
-
-    private long timeLastSpawn = 0;
-    private int objectsSpawned = 0;
 
     private int baseFrequency;
     private float baseSpeed;
     private int fractionGood;
 
 
+    // -----  Object variables ----- //
+    private long timeLastSpawn = 0;
+    private int objectsSpawned = 0;
     private HashMap<ObjectType, Long> powerupDurations;
 
     private CharacterSprite characterSprite;
-    private FallingObjectFactory fallingObjectFactory;
     private ArrayList<FallingObject> objectsOnScreen;
 
 
-    //for multiplayer
+    // -----  Multiplayer variables ----- //
     private int multiGameOver;
     private int multiPowerupSent;
     private int multiPowerupReceived;
@@ -49,20 +61,31 @@ public class CoreGame {
      * --------- CREATE AND SETUP THE GAME ---------
      * */
 
-    public CoreGame(String difficulty, Context context, GameView gameview) {
+    public CoreGame(String difficulty, String avatar, boolean backgroundSoundOn, boolean soundEffectsOn, Context context, GameView gameview) {
         this.gameview = gameview;
         this.context = context;
-        this.soundEffects = new SoundEffects();
-        this.soundOn = true;
+        setupSound(backgroundSoundOn, soundEffectsOn);
+        this.characterSprite = new CharacterSprite(Sprites.valueOf(avatar));
         this.setupGame(difficulty);
+    }
+
+    private void setupSound(boolean backgroundSoundOn, boolean soundEffectsOn){
+        this.soundEffects = new SoundEffects();
+        this.backgroundSoundOn = backgroundSoundOn;
+        this.soundEffectsOn = soundEffectsOn;
+        this.soundOn = this.backgroundSoundOn || this.soundEffectsOn;
     }
 
     private void setupGame(String difficulty) {
         this.objectsOnScreen = new ArrayList<>();
-        this.fallingObjectFactory = new FallingObjectFactory();
         this.mapPowerUpDurations();
         this.setGameDifficulty(difficulty);
-        this.characterSprite = new CharacterSprite(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites_monkey3), 0.18));
+        if(!this.soundOn){
+            gameview.btn_sound.setImage(getResizedBitmapObject(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_sound_off), 0.15));
+        }
+        if(!this.soundEffectsOn){
+            soundEffects.volumeOff();
+        }
         if(gameview.isMultiplayer){setMultiGameOver(0);}
     }
 
@@ -82,7 +105,7 @@ public class CoreGame {
             this.baseSpeed = 15;
             this.fractionGood = 5;
         }
-        this.fallingObjectFactory.setFallingObjectFraction(this.fractionGood);
+        FallingObjectFactory.getInstance().setFallingObjectFraction(this.fractionGood);
     }
 
     private void mapPowerUpDurations(){
@@ -92,6 +115,7 @@ public class CoreGame {
         powerupDurations.put(ObjectType.STARBEETLE, currentTime);
         powerupDurations.put(ObjectType.GREENBEETLE, currentTime);
     }
+
 
     /*
      * --------- DRAW, UPDATE, ONTOUCH ---------
@@ -108,8 +132,8 @@ public class CoreGame {
     public void update() {
         long updateTime = System.currentTimeMillis();
         characterSprite.update();
-        if (characterSprite.getLives() == 0 && !this.gameview.isMultiplayer) { gameview.gameOver(); }
-        if (characterSprite.getLives() == 0 && this.gameview.isMultiplayer) { gameview.gameLost(); }
+        if (characterSprite.getLives() == 0 && !this.gameview.isMultiplayer) { gameOver(); }
+        if (characterSprite.getLives() == 0 && this.gameview.isMultiplayer) { gameLost(); }
 
         gameview.updateScoreSelf(characterSprite.getScore(), characterSprite.getLives());
 
@@ -144,15 +168,18 @@ public class CoreGame {
 
     /*
      * --------- OBJECT METHODS ---------
-     * Calls the factory to generate an object, handles objects presence on the screen.
+     * Calls the factory to generate an object, handles objects presence on the screen (random
+     * position, speed based on difficulty), increases falling speed and spawn frequency as the
+     * game progresses. Also handles result of collision-detection with floor or sprite that
+     * affects the game rather than the player.
      * */
 
-    public FallingObject createObject() {
-        return fallingObjectFactory.getFallingObject();
+    private FallingObject createObject() {
+        return FallingObjectFactory.getInstance().getFallingObject();
     }
 
-    public void spawnNewObject(long updateTime){
-        int timeSinceSpawn = (int) (updateTime - timeLastSpawn);
+    private void spawnNewObject(long updateTime){
+        long timeSinceSpawn = updateTime - timeLastSpawn;
         if (timeSinceSpawn >= baseFrequency) {
             placeObject(createObject());
             timeLastSpawn = updateTime;
@@ -163,21 +190,21 @@ public class CoreGame {
         }
     }
 
-    public void placeObject(FallingObject fallingObject) {
+    private void placeObject(FallingObject fallingObject) {
         fallingObject.setObjectPositionX(getRandomXPosition(fallingObject));
         fallingObject.setObjectSpeed(getRandomSpeed());
         objectsOnScreen.add(fallingObject);
     }
 
-    public void removeObject(FallingObject fallingObject) {
+    private void removeObject(FallingObject fallingObject) {
         objectsOnScreen.remove(fallingObject);
     }
 
-    public int getRandomXPosition(FallingObject fallingObject) {
+    private int getRandomXPosition(FallingObject fallingObject) {
         return (int) (Math.random() * (screenWidth - fallingObject.getObjectWidth()));
     }
 
-    public void speedUp() {
+    private void speedUp() {
         System.out.println("Frenquency is now " + baseFrequency);
         System.out.println("Speed is now " + baseSpeed);
         this.baseSpeed += 0.5;
@@ -209,25 +236,44 @@ public class CoreGame {
         checkPowerUpEffect(updateTime);
     }
 
+    private void checkPowerUpEffect(long updateTime){
+        if (powerupDurations.get(ObjectType.STARBEETLE) <= updateTime){
+            FallingObjectFactory.getInstance().setOnlyBad(false);
+            FallingObjectFactory.getInstance().setOnlyGood(false);
+        }
+        if (powerupDurations.get(ObjectType.LIGHTNINGBEETLE) <= updateTime){
+            FallingObjectFactory.getInstance().setObjectScale(0, 0.15);
+            FallingObjectFactory.getInstance().setObjectScale(1, 0.1);
+            FallingObjectFactory.getInstance().setLargeBad(false);
+            FallingObjectFactory.getInstance().setLargeGood(false);
+        }
+        if (powerupDurations.get(ObjectType.GREENBEETLE) <= updateTime){
+            this.characterSprite.setVulnerable(false);
+            this.characterSprite.setImmune(false);
+        }
+    }
+
+
     /*
      * --------- MULTIPLAYER METHODS ---------
-     * Broadcast score to other player
+     * Broadcast and receives information to and from the other player's game. Score, active
+     * power-ups, lives, and if the opponent quit/lost the game.
      * */
 
-    public void broadcast(){
+    private void broadcast(){
         sendBroadcast();
         receiveBroadcast();
     }
 
-    public void receiveBroadcast(){
+    private void receiveBroadcast(){
         // If opponent lost the game
         if(gameview.getMultiPlayerActivity().getIsGameOver() == 1 && gameview.getMultiPlayerActivity().getOpponentLife() <= 0) {
-            gameview.gameWon();
+            gameWon();
         }
 
         // If opponent exits in the middle of the game
         if (gameview.getMultiPlayerActivity().getIsGameOver() == 1 && (gameview.getMultiPlayerActivity().getOpponentLife() > 0)) {
-            gameview.opponentExit();
+            opponentExit();
         }
 
         // Get powerup value
@@ -235,7 +281,7 @@ public class CoreGame {
 
     }
 
-    public void sendBroadcast(){
+    private void sendBroadcast(){
         if(characterSprite.getLives() == 0){
             gameview.getMultiPlayerActivity().broadcast(characterSprite.getScore(), -1, getMultiGameOver(), getMultiPowerupSent());
         }
@@ -246,71 +292,99 @@ public class CoreGame {
     }
 
     /*
-     * --------- MULTIPLAYER METHODS FOR POWERUPS ---------
-     * Handle how powerups taken by the opponent affect the player.
+     * --------- MULTIPLAYER METHODS FOR POWER-UPS ---------
+     * Handle how power-ups taken by the opponent affect the player. Changes are applied to the game
+     * when a broadcast is received, in addition a pop-up message is displayed on the screen.
      * */
 
-    public void checkPowerUpEffect(long updateTime){
-        if (powerupDurations.get(ObjectType.STARBEETLE) <= updateTime){
-            fallingObjectFactory.setOnlyBad(false);
-            fallingObjectFactory.setOnlyGood(false);
-        }
-        if (powerupDurations.get(ObjectType.LIGHTNINGBEETLE) <= updateTime){
-            this.fallingObjectFactory.setObjectScale(0, 0.15);
-            this.fallingObjectFactory.setObjectScale(1, 0.1);
-            this.fallingObjectFactory.setLargeBad(false);
-            this.fallingObjectFactory.setLargeGood(false);
-        }
-        if (powerupDurations.get(ObjectType.GREENBEETLE) <= updateTime){
-            this.characterSprite.setVulnerable(false);
-            this.characterSprite.setImmune(false);
-        }
-    }
-
-    public void gameChangeMessage(ObjectType objectType){
+    private void gameChangeMessage(ObjectType objectType){
         String msg = "";
-        if(objectType == ObjectType.LIGHTNINGBEETLE) {
-            msg =  "Your opponent caught a beetle!\nSmall good objects, large bad objects for 10 seconds";
-        }
-        else if(objectType == ObjectType.LADYBUG) {
-            msg = "Your opponent caught a ladybug\n and got one extra life";
-        }
-        else if(objectType == ObjectType.STARBEETLE) {
-            msg = "Your opponent caught a starbeetle!\nOnly bad objects for 10 seconds";
-        } else if(objectType == ObjectType.GREENBEETLE) {
-            msg = "Your opponent caught a green beetle!\nYou are vulnerable for 10 seconds";
+        switch (objectType) {
+            case LIGHTNINGBEETLE:
+                msg = "Your opponent caught a beetle!\nSmall good objects, large bad objects for 10 seconds";
+                break;
+            case LADYBUG:
+                msg = "Your opponent caught a ladybug\n and got one extra life";
+                break;
+            case STARBEETLE:
+                msg = "Your opponent caught a starbeetle!\nOnly bad objects for 10 seconds";
+                break;
+            case GREENBEETLE:
+                msg = "Your opponent caught a green beetle!\nYou are vulnerable for 10 seconds";
+                break;
         }
         this.gameview.popup(msg);
     }
 
-    public void applyNegativeGameChange(int objectType, long updateTime){
-        // 1: Beetle
-        // 2: Starbeetle
-        // 3: Ladybug
-        // 4: GreenBeetle
-        if (objectType == 1) {
-            fallingObjectFactory.setObjectScale(0,0.1);
-            fallingObjectFactory.setObjectScale(1,0.25);
-            fallingObjectFactory.setLargeBad(true);
-            setPowerupDuration(ObjectType.LIGHTNINGBEETLE, updateTime + 10000);
-            gameChangeMessage(ObjectType.LIGHTNINGBEETLE);
-        } else if (objectType == 2) {
-            fallingObjectFactory.setOnlyBad(true);
-            setPowerupDuration(ObjectType.STARBEETLE, updateTime + 10000);
-            gameChangeMessage(ObjectType.STARBEETLE);
-        } else if (objectType == 3) {
-            gameChangeMessage(ObjectType.LADYBUG);
-        } else if (objectType == 4){
-            characterSprite.setVulnerable(true);
-            setPowerupDuration(ObjectType.GREENBEETLE, updateTime + 10000);
-            gameChangeMessage(ObjectType.GREENBEETLE);
+    private void applyNegativeGameChange(int objectType, long updateTime){
+        // 1: Beetle, 2: Starbeetle, 3: Ladybug, 4: GreenBeetle
+        switch (objectType) {
+            case 1:
+                FallingObjectFactory.getInstance().setObjectScale(0, 0.1);
+                FallingObjectFactory.getInstance().setObjectScale(1, 0.25);
+                FallingObjectFactory.getInstance().setLargeBad(true);
+                setPowerupDuration(ObjectType.LIGHTNINGBEETLE, updateTime + 10000);
+                gameChangeMessage(ObjectType.LIGHTNINGBEETLE);
+                break;
+            case 2:
+                FallingObjectFactory.getInstance().setOnlyBad(true);
+                setPowerupDuration(ObjectType.STARBEETLE, updateTime + 10000);
+                gameChangeMessage(ObjectType.STARBEETLE);
+                break;
+            case 3:
+                gameChangeMessage(ObjectType.LADYBUG);
+                break;
+            case 4:
+                characterSprite.setVulnerable(true);
+                setPowerupDuration(ObjectType.GREENBEETLE, updateTime + 10000);
+                gameChangeMessage(ObjectType.GREENBEETLE);
+                break;
         }
         this.multiPowerupReceived = 0;
     }
 
+    public void setPowerupDuration(ObjectType powerupType, long powerupEndTime){
+        powerupDurations.put(powerupType, powerupEndTime);
+    }
+
+    /*
+     * --------- GAME STATES ---------
+     * Methods to set the state of the game.
+     * */
+
+    private void gameExit() {
+        this.gameview.setRunning(false);
+        if (!this.gameview.isMultiplayer) {
+            this.gameview.getSinglePlayerActivity().finish();
+        }
+        if (this.gameview.isMultiplayer) {
+            this.gameview.getMultiPlayerActivity().finish();
+        }
+    }
+
+    private void gameOver() {
+        this.gameview.setRunning(false);
+        this.gameview.setGameOver(true);
+    }
+
+    private void gameWon() {
+        this.gameview.setRunning(false);
+        this.gameview.setGameWon(true);
+    }
+
+    private void gameLost() {
+        this.gameview.setRunning(false);
+        this.gameview.setGameLost(true);
+    }
+
+    private void opponentExit() {
+        this.gameview.setRunning(false);
+        this.gameview.setOpponentExit(true);
+    }
+
     /*
      * --------- CONTROLLER FOR BUTTON CLICKS IN GAME ---------
-     * Handle how powerups taken by the opponent affect the player.
+     * Controls sound and exit-buttons while in game.
      * */
 
 
@@ -345,7 +419,7 @@ public class CoreGame {
                 setMultiGameOver(1);
                 sendBroadcast();
             }
-            gameview.gameExit();
+            gameExit();
         }
         if (gameview.btn_no.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGamePause()) { gameview.setGamePause(false); }
         if (gameview.txt_gameOver.isTouched(motionEvent.getX(), motionEvent.getY()) && gameview.isGameOver()) { finishGame(); }
@@ -363,14 +437,6 @@ public class CoreGame {
 
     public static Context getContext() {
         return context;
-    }
-
-    public FallingObjectFactory getFallingObjectFactory(){
-        return this.fallingObjectFactory;
-    }
-
-    public void setPowerupDuration(ObjectType powerupType, long powerupEndTime){
-        powerupDurations.put(powerupType, powerupEndTime);
     }
 
     public void setMultiGameOver(int b){
@@ -398,16 +464,16 @@ public class CoreGame {
      * --------- HELP METHODS ---------
      * */
 
-    public int getRandomSpeed() {
+    private int getRandomSpeed() {
         return (int) ((Math.random() + 1) * this.baseSpeed);
     }
 
-    public void finishGame(){
+    private void finishGame(){
         if (!gameview.isMultiplayer) { gameview.getSinglePlayerActivity().finish();}
         if (gameview.isMultiplayer) { gameview.getMultiPlayerActivity().finish(); }
     }
 
-    public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
+    private Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
         int width = bmp.getWidth();
         int height = bmp.getHeight();
         double newWidth = screenWidth * scaleFactorWidth;

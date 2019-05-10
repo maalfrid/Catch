@@ -1,10 +1,10 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Model;
 
 import android.graphics.Bitmap;
 
 public class GoodFood extends FallingObject {
 
-    public GoodFood(Bitmap bitmap, ObjectType object) {
+    protected GoodFood(Bitmap bitmap, ObjectType object) {
         super(bitmap, object);
     }
 

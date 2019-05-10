@@ -1,14 +1,22 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Controllers;
 
 import android.media.MediaPlayer;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.tdt4240.catchgame.R;
+import com.tdt4240.catchgame.View.GameView;
+
+
 public class SinglePlayerActivity extends AppCompatActivity {
 
     private String difficulty;
     MediaPlayer backgroundMusic;
+    private String avatar;
+    private boolean backgroundsoundOn;
+    private boolean soundEffectsOn;
+    private String background;
 
 
     public SinglePlayerActivity() {
@@ -17,29 +25,46 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.background = getIntent().getStringExtra("background");
         setContentView(new GameView(this, this));
         this.difficulty = getIntent().getStringExtra("difficulty");
+        this.avatar = getIntent().getStringExtra("avatar");
+        this.backgroundsoundOn = getIntent().getExtras().getBoolean("backgroundSound");
+        this.soundEffectsOn = getIntent().getExtras().getBoolean("soundEffects");
         this.backgroundMusic = MediaPlayer.create(this, R.raw.test_song);
         this.backgroundMusic.setLooping(true);
         this.backgroundMusic.setVolume(1, 1);
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        this.backgroundMusic.start();
+        if(this.backgroundsoundOn){
+            this.backgroundMusic.start();
+        }
     }
 
     public String getDifficulty() {
         return this.difficulty;
     }
 
+    public boolean getBackgroundsoundOn(){
+        return this.backgroundsoundOn;
+    }
+
+    public boolean getSoundEffectsOn(){
+        return this.soundEffectsOn;
+    }
+
+    public String getBackground(){
+        return this.background;
+    }
+
+    public String getAvatar(){ return this.avatar;}
+
     @Override
     protected void onPause() {
         super.onPause();
-        this.backgroundMusic.release();
     }
 
     @Override
@@ -55,7 +80,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         startActivity(new Intent(this, MenuActivity.class));
-        this.backgroundMusic.release();
+         this.backgroundMusic.release();
+
     }
 
     public void backgroundMusicOn() {

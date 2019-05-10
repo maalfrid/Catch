@@ -1,4 +1,4 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Model;
 
 
 import android.content.res.Resources;
@@ -6,12 +6,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
+import com.tdt4240.catchgame.Controllers.CoreGame;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class FallingObjectFactory {
+public final class FallingObjectFactory {
+
+    private static final FallingObjectFactory INSTANCE = new FallingObjectFactory();
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
@@ -25,7 +29,7 @@ public class FallingObjectFactory {
     private boolean largeGood = false;
     private boolean largeBad = false;
 
-    public FallingObjectFactory() {
+    private FallingObjectFactory() {
         objectImages = new HashMap<>();
         this.fallingObjectFraction = new ArrayList<>();
         this.objectScale = Arrays.asList(0.15, 0.1, 0.15);
@@ -46,7 +50,7 @@ public class FallingObjectFactory {
         }
     }
 
-    public int getFallingObjectType() {
+    private int getFallingObjectType() {
         int id = (int) ((Math.random()) * (fallingObjectFraction.size() - 1));
         return fallingObjectFraction.get(id);
     }
@@ -78,7 +82,7 @@ public class FallingObjectFactory {
     public Bitmap getObjectImage(ObjectType object, double scale) {
         ScaledObject ImageKey = new ScaledObject(object, scale);
         if (!objectImages.containsKey(ImageKey)) {
-            objectImages.put(ImageKey, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.context.getResources(), object.objectResourceId), scale));
+            objectImages.put(ImageKey, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.getContext().getResources(), object.objectResourceId), scale));
         }
         return objectImages.get(ImageKey);
     }
@@ -119,7 +123,7 @@ public class FallingObjectFactory {
         return this.largeBad;
     }
 
-    public Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
+    private Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
         int width = bmp.getWidth();
         int height = bmp.getHeight();
         double newWidth = screenWidth * scaleFactorWidth;
@@ -129,6 +133,10 @@ public class FallingObjectFactory {
         Bitmap resizedBitmap = Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
         bmp.recycle();
         return resizedBitmap;
+    }
+
+    public static FallingObjectFactory getInstance(){
+        return INSTANCE;
     }
 
 }

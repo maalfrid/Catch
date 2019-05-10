@@ -1,9 +1,12 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Model;
 
 import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
+
+import com.tdt4240.catchgame.Controllers.CoreGame;
+import com.tdt4240.catchgame.R;
 
 import java.util.HashMap;
 

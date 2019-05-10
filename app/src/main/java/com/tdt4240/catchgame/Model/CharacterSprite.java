@@ -1,10 +1,19 @@
-package com.tdt4240.catchgame;
+package com.tdt4240.catchgame.Model;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
+
+import com.tdt4240.catchgame.Controllers.CoreGame;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CharacterSprite {
+    private Sprites sprite;
+    private Map<Integer, Bitmap> characterSpriteImages;
     private Bitmap characterSpriteImage;
     private int characterPositionX, characterPositionY;
     private int characterWidth, characterHeight;
@@ -14,13 +23,16 @@ public class CharacterSprite {
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private int score;
     private int lives;
+    private long lastAnimationChange = System.currentTimeMillis();
 
     private boolean immune = false;
     private boolean vulnerable = false;
 
 
-    public CharacterSprite(Bitmap bmp) {
-        characterSpriteImage = bmp;
+    public CharacterSprite(Sprites sprite) {
+        this.sprite = sprite;
+        loadImages(sprite);
+        characterSpriteImage = characterSpriteImages.get(sprite.defaultImageID);
         characterWidth = characterSpriteImage.getWidth();
         characterHeight = characterSpriteImage.getHeight();
         characterPositionX = (screenWidth - characterWidth) / 2;
@@ -35,6 +47,18 @@ public class CharacterSprite {
     }
 
     public void update() {
+        long updateTime = System.currentTimeMillis();
+        if (updateTime >= lastAnimationChange + 500){
+            if (characterSpriteImage == characterSpriteImages.get(sprite.defaultImageID)) {
+                setCharacterSpriteImage(sprite.catchImageID);
+            }
+            else if (characterSpriteImage == characterSpriteImages.get(sprite.catchImageID)) {
+                setCharacterSpriteImage(sprite.defaultImageID);
+            }
+            else if (characterSpriteImage == characterSpriteImages.get(sprite.deadImageID)){
+                setCharacterSpriteImage(sprite.catchImageID);
+            }
+        }
     }
 
     public int getCharacterWidth() {
@@ -113,6 +137,23 @@ public class CharacterSprite {
         }
     }
 
+    private void loadImages(Sprites sprite){
+        characterSpriteImages = new HashMap<>();
+        characterSpriteImages.put(sprite.defaultImageID, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.getContext().getResources(), sprite.defaultImageID), 0.18));
+        characterSpriteImages.put(sprite.catchImageID, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.getContext().getResources(), sprite.catchImageID), 0.18));
+        characterSpriteImages.put(sprite.deadImageID, getResizedBitmapObject(BitmapFactory.decodeResource(CoreGame.getContext().getResources(), sprite.deadImageID), 0.18));
+    }
+
+    public Sprites getCharacterSprite(){
+        return this.sprite;
+    }
+
+    public void setCharacterSpriteImage(int imageID){
+        long updateTime = System.currentTimeMillis();
+        this.characterSpriteImage = characterSpriteImages.get(imageID);
+        lastAnimationChange = updateTime;
+    }
+
     public void setImmune(boolean immune){
         this.immune = immune;
     }
@@ -124,6 +165,19 @@ public class CharacterSprite {
     public boolean isImmune() { return this.immune; }
 
     public boolean isVulnerable() { return this.vulnerable; }
+
+    private Bitmap getResizedBitmapObject(Bitmap bmp, double scaleFactorWidth) {
+        int width = bmp.getWidth();
+        int height = bmp.getHeight();
+        double newWidth = screenWidth * scaleFactorWidth;
+        float scale = ((float) newWidth) / width;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scale, scale);
+        Bitmap resizedBitmap =
+                Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
+        bmp.recycle();
+        return resizedBitmap;
+    }
 
 
 }

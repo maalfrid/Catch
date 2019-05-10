@@ -3,6 +3,8 @@ package com.tdt4240.catchgame;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
+import com.tdt4240.catchgame.View.GameView;
+
 public class MainThread extends Thread {
     private final SurfaceHolder surfaceHolder;
     private GameView gameView;
@@ -46,11 +48,12 @@ public class MainThread extends Thread {
 
             timeMillis = (System.nanoTime() - startTime) / 1000000;
             waitTime = targetTime - timeMillis;
-
-            try {
-                Thread.sleep(waitTime);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (waitTime > 0) {
+                try {
+                    Thread.sleep(waitTime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 

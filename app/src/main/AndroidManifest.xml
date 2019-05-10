@@ -20,16 +20,24 @@
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
 
-        <activity android:name=".MultiPlayerActivity"
+        <activity android:name=".Controllers.MultiPlayerActivity"
             android:label="@string/app_name"></activity>
-        <activity android:name=".SinglePlayerActivity" />
-        <activity android:name=".MenuActivity">
+        <activity android:name=".Controllers.SinglePlayerActivity" />
+
+        <activity android:name=".Controllers.Loading">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Controllers.MenuActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
